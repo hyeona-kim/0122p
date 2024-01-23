@@ -131,7 +131,7 @@
 		$.ajax({
 			url: "courseMain",
 			type: "post",
-			data:"listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+			data:"listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage}),
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
