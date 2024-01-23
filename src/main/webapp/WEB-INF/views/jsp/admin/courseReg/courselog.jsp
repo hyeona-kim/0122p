@@ -341,7 +341,7 @@ table tfoot ol.page {
 			$.ajax({
 				url: "courseMain",
 				type: "post",
-				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(${param.cPage})
+				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -371,7 +371,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -382,7 +382,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -395,7 +395,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -566,7 +566,7 @@ table tfoot ol.page {
 				url: "searchCourse",
 				type: "post",
 				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(str),
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
