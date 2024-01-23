@@ -1,5 +1,7 @@
 package com.ict.project.util;
 
+import java.beans.JavaBean;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ict.project.service.CourseTypeService;
@@ -9,9 +11,9 @@ import com.ict.project.service.TimeService;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.StaffVO;
-import com.ict.project.vo.SuggestionVO;
 import com.ict.project.vo.TimeVO;
 
+@JavaBean
 public class LmsBean {
 	@Autowired
 	TimeService t_Service;
@@ -49,6 +51,7 @@ public class LmsBean {
 	public CourseTypeVO searchCourseType(String ct_idx) {
 		CourseTypeVO cvo= null;
 		CourseTypeVO[] ar = ct_Service.getList();
+		System.out.println(ar.length);
 		for(CourseTypeVO vo : ar) {
 			if(vo.getCt_idx().equals(ct_idx)) {
 				cvo = vo;
