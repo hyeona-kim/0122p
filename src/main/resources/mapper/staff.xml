@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.StaffMapper">
+	<!-- 교직원 목록을 반환하는 기능 
+		 삭제되지 않은 교직원만 반환-->
+	<select id="all" resultType="com.ict.project.vo.StaffVO">
+		select * from staff_t
+		where status = 0
+	</select>
+	
+	<!-- 관리자 모드로 로그인하는 기능 -->
+	<select id="login_admin" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
+		select * from staff_t 
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx=9
+	</select>
+	
+	<!-- 강사 모드로 로그인하는 기능 -->
+	<select id="login_teacher" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
+		select * from staff_t 
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx between 0 and 9
+	</select>
+	
+	<!-- 교직원 추가하기 전 교수코드 중복 확인을 위해 검색하는 기능 -->
+	<select id="search_sfCode" resultType="String">
+		select sf_code from staff_t
+		where sf_code not in ("", "tcnull") and status = 0;
+	</select>
+	
+	<!-- 교직원 추가하는 기능 -->
+	<insert id="add" parameterType="com.ict.project.vo.StaffVO">
+		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, rt_idx, status, sf_code, sf_mgr)
+		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{rt_idx}, 0, #{sf_code}, #{rt_idx})
+	</insert>
+
+	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">
+		select * from staff_t where sf_name like concat('%',#{str},'%')
+	</select>
+
+	<!-- 교직원 삭제하는 기능 -->
+	<update id="del" parameterType="String">
+		update staff_t
+		set status = 1
+		where sf_idx = #{idx}
+	</update>
+
+</mapper>

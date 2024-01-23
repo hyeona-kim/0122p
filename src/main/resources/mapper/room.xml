@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.RoomMapper">
+	<select id="all" resultType="com.ict.project.vo.RoomVO">
+		select * from room_t
+	</select>
+	
+	 <select id="key" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM room_t WHERE r_idx = #{r_idx}	
+    </select>
+
+    <insert id="add" parameterType="com.ict.project.vo.RoomVO">
+           INSERT INTO room_t (r_idx, r_name, r_sep, r_status)
+           VALUES (#{r_idx}, #{r_name}, #{r_sep}, #{r_status})
+    </insert>
+    <update id="update" parameterType="com.ict.project.vo.RoomVO">
+           UPDATE room_t
+           SET r_name = #{r_name}, r_sep = #{r_sep}, r_status = #{r_status}
+           WHERE r_idx = #{r_idx}    
+    </update>
+    
+    <select id="search" resultType="com.ict.project.vo.RoomVO" parameterType="String">
+		select * from room_t where r_name like concat('%',#{r_name},'%')
+	</select>
+</mapper>
