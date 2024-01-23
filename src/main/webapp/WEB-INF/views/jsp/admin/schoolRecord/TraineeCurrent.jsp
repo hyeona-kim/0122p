@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
 table tfoot ol.page {
 	    list-style:none;
@@ -180,7 +180,7 @@ table tfoot ol.page {
 						<td>${vo2.c_round_num }</td>
 						<td>${vo2.c_peo_num}</td>
 						<td>
-						<input type="button" onclick="javascript:location.href='Controller?type=traineecurrentbt1'" value="과정별 훈련생 현황">
+						<input type="button" onclick="javascript:location.href='traineecurrentbt1'" value="과정별 훈련생 현황">
 						<input type="button" value="면접평가 결과표">
 						</td>
 					</tr>
@@ -202,13 +202,13 @@ table tfoot ol.page {
 		});
 		
 		function paging(str) {
-			location.href="Controller?type=traincurrent&cPage="+str
+			location.href="traincurrent?cPage="+str
 		}
 	</script>
 </body>
 </c:if>
 <c:if test="${tvo ne null}">
-	<c:redirect url="Controller">
+	<c:redirect url="index">
 	</c:redirect>
 </c:if>
 </html>

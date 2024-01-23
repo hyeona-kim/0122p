@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 table tfoot ol.page {
@@ -215,7 +215,7 @@ table tfoot ol.page {
 	} */
 		
     function paging(str) {
-        location.href="Controller?type=traincurrent&cPage="+str
+        location.href="traincurrent?cPage="+str
      }
 		
 		

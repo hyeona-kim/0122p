@@ -17,7 +17,7 @@ public class UploadService {
     public TrainuploadVO[] getList(String begin, String end) {
         TrainuploadVO[] ar = null;
 
-        List<TrainuploadVO> list = u_mapper.getList(begin, end);
+        List<TrainuploadVO> list = u_mapper.getlist(begin, end);
         if(list != null && list.size() > 0){
             ar = new TrainuploadVO[list.size()];
             list.toArray(ar);

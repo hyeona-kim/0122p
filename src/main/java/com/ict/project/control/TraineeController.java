@@ -4,8 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +32,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 
@@ -50,34 +57,44 @@ public class TraineeController {
 	@Autowired
 	ConfirmService cu_Service;
 
-     @RequestMapping("traincurrent")
-    public String traincurrent(String cPage) {
-        Paging page = new Paging();
-		
+	private String editor_img =	"/editor_img";
+	private String upload_file = "/upload_file";
+
+
+ /* 과정별 훈련생 현황 메뉴 */
+	@RequestMapping("traincurrent")
+	public ModelAndView traincurrent(String cPage) {
+		ModelAndView mv = new ModelAndView();
+		Paging page = new Paging();
+
 		page.setTotalRecord(tc_Service.getCount());
-		
+
 		if(cPage == null)
 			page.setNowPage(1);
-		else {
+		else{
 			int nowPage = Integer.parseInt(cPage);
 			page.setNowPage(nowPage);
-			
 		}
-		
+
 		CourseVO[] ar = tc_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
-		request.setAttribute("page", page);
-		request.setAttribute("ar", ar);
-		
-		return "jsp/admin/schoolRecord/TraineeCurrent";
-    }
-    
-    @RequestMapping("trainupload")
-    public String trainupload(String cPage) {
-        Paging page = new Paging(5,5);
-		
+
+		mv.addObject("page", page);
+		mv.addObject("ar", ar);
+
+		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent");
+
+		return mv;
+	}
+	
+	
+/* 훈련생 확인 서류 등록 메뉴 */
+	@RequestMapping("trainupload")
+	public ModelAndView trainupload(String cPage){
+		ModelAndView mv = new ModelAndView();
+		Paging page = new Paging(5,5);
+
 		page.setTotalRecord(u_Service.getCount());
-		
+
 		if(cPage == null || cPage.length()==0 )
 			page.setNowPage(1);
 		else {
@@ -85,13 +102,18 @@ public class TraineeController {
 			page.setNowPage(nowPage);
 		}
 		TrainuploadVO[] ar = u_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
-		request.setAttribute("page", page);
-		request.setAttribute("ar", ar);
-		
-		return "jsp/admin/schoolRecord/trainupload";
-    }
 
+		mv.addObject("page", page);
+		mv.addObject("ar", ar);
+
+		mv.setViewName("jsp/admin/schoolRecord/trainupload");
+
+		return mv;
+
+	}
+
+		
+/* 훈련생 서류 파일 등록 */
     @RequestMapping("uploadwrite")
     public String requestMethodName(TrainuploadVO tvo,MultipartFile file){
         String viewPath = null;
@@ -103,7 +125,7 @@ public class TraineeController {
 			viewPath = "redirect:trainupload";
 			try {
 				
-				String realPath = application.getRealPath("/ictedu_upload");
+				String realPath = application.getRealPath("/upload_file");
                 String fname = null;
                 String oname = null;
 				if(file.getSize()>0){
@@ -127,7 +149,55 @@ public class TraineeController {
 
 		return viewPath;
     }
+/* 
+	@RequestMapping("trainuploadedit")
+    public ModelAndView edit(TrainuploadVO tvo , String cPage){
+        ModelAndView mv = new ModelAndView();
 
+        String c_type = request.getContentType();
+
+        if(c_type.startsWith("app")){
+            
+		    TrainuploadVO vo2 =u_Service.getUpload(tvo.getTn_idx());
+		
+		    mv.addObject("vo",vo2);
+		
+        }else if(c_type.startsWith("multipart")){
+            MultipartFile f = tvo.getFile();
+			
+			if(f != null && f.getSize() >0 ) {
+				
+				String realPath = application.getRealPath(upload_file);
+				
+				String fname = f.getOriginalFilename();
+				tvo.setOri_name(fname);
+				
+				fname = FileRenameUtil.checkSameFileName(fname, realPath);
+				
+				try {
+					f.transferTo(new File(realPath, fname));
+					tvo.setFile_name(fname);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        }
+        tvo.setIp(request.getRemoteAddr());
+
+        u_Service.edit(tvo);
+
+        mv.setViewName("redirect:/TrainuploadEdit?tn_idx="+tvo.getTn_idx()+"&cPage="+cPage);
+
+
+        
+    }
+        return mv;
+    }
+
+*/
+
+
+	/* 훈련생 확인 서류 수정 */
     @RequestMapping("trainuploadedit")
     public ModelAndView trainuploadedit(TrainuploadVO tvo, MultipartFile file) {
         ModelAndView mv = new ModelAndView();
@@ -156,20 +226,25 @@ public class TraineeController {
 			tvo.setFile_name(fname);
 			tvo.setOri_name(oname);
             int cnt = u_Service.edit(tvo);
-            viewPath ="redirect:trainupload?tn_idx="+tvo.getTn_idx();
+            viewPath ="redirect:trainupload";
 		}
 
         mv.setViewName(viewPath);
 		return mv;
     }
+	
+
+	/* 훈련생 확인 서류 삭제 */
     @RequestMapping("trainuploaddel")
-    public ModelAndView requestMethodName(String tn_idx ) {
+    public ModelAndView trainuploaddel(String tn_idx ) {
         ModelAndView mv = new ModelAndView();
 		
 		int cnt = u_Service.delete(tn_idx);
 		mv.setViewName("redirect:trainupload");
         return mv;
     }
+
+
     @RequestMapping("trainconfirm")
     public ModelAndView trainconfirm(String cPage) {
         ModelAndView mv = new ModelAndView();
@@ -192,6 +267,8 @@ public class TraineeController {
 		mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
         return mv;
     }
+
+
     @RequestMapping("confirm")
     public ModelAndView confirm() {
         ModelAndView mv = new ModelAndView();
@@ -214,9 +291,10 @@ public class TraineeController {
 
 		return mv;
     }
+	
     @RequestMapping("traindownload")
-    public String traindownload(String fname) {
-		String realPath = application.getRealPath("/ictedu_upload/"+fname);
+    public ResponseEntity<Resource> traindownload(String fname) {
+		String realPath = application.getRealPath("/upload_file/"+fname);
 		
 		File f = new File(realPath);
 		
@@ -236,6 +314,9 @@ public class TraineeController {
 				
 				response.setContentType("application/x-msdownload");
 				response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(),"8859_1"));
+				
+				fis = new FileInputStream(f);
+				bis = new BufferedInputStream(fis);
 				
 				sos = response.getOutputStream();
 				bos = new BufferedOutputStream(sos);
@@ -288,5 +369,13 @@ public class TraineeController {
         mv.setViewName( "jsp/admin/schoolRecord/traineecurrentbt1");
 		return mv;
     }
+
+
+	
+	
+
+
+
+
     
 }

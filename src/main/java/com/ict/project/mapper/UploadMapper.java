@@ -6,7 +6,7 @@ import com.ict.project.vo.TrainuploadVO;
 
 public interface UploadMapper {
     int count();
-    List<TrainuploadVO> getList(String begin,String end);
+    List<TrainuploadVO> getlist(String begin,String end);
     int add(TrainuploadVO vo);
     TrainuploadVO getUpload(String tn_idx);    
     TrainuploadVO view(String tn_idx);   
