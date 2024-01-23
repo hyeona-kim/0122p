@@ -6,8 +6,7 @@
 
    <h2>과정타입 등록/수정</h2>
    
-  <form action="Controller" method="post" name="fm">
-     <input type="hidden" name="type"  value="addCourseType"/>
+  <form action="addCourseType" method="post" name="fm">
          <table id="t1">
             <colgroup>
                <col width="80px"/>

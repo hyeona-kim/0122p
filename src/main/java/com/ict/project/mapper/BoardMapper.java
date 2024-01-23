@@ -11,4 +11,5 @@ public interface BoardMapper {
     int count();
     List<BoardVO> search(String subject,String begin, String end);
     int reCount(String subject);
+    BoardVO getBoard(String bd_idx);
 }

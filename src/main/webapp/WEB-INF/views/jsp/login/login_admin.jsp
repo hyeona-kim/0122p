@@ -99,8 +99,18 @@
 						<p class="m-t">Copyright &copy; 한국ict인재개발원 All Rights Reserved.</p>
 					</div>
 				</td>
+				
 			</tr>
+			<c:if test="${login eq fail}">
+				<c:set var="login" value="${login}"/>
+			</c:if>
 		</table>
 	</div>
+	<script>
+		let value = '${login}';
+		if(value == "fail"){
+			alert("로그인실패");
+		}
+	</script>
 </body>
 </html>

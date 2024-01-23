@@ -6,8 +6,7 @@
 	
     
 		<h2 id="hd">강의실관리</h2>
-		<form action="Controller" method="post" name="rm">
-         <input type="hidden" name="type"  value="addRoom"/>
+		<form action="addRoom" method="post" name="rm">
 		<table id="t1">
 			<thead>
 				<tr bgcolor="lightgray">

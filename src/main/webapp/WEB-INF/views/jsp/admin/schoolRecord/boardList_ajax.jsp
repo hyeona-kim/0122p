@@ -24,8 +24,7 @@
                               <c:if test="${bvo.bd_notice eq '1'}">
                                  <span id="notice">공지</span>
                               </c:if>
-                              <a href="javascript:viewContent('${bvo.bd_subject}','${bvo.bd_write_date}'
-                                                      ,'${bvo.bd_hit}','${bvo.bd_content}')">
+                              <a href="javascript:viewContent('${bvo.bd_idx}')">
                                  ${bvo.bd_subject}
                               </a>
                            </td>                              
@@ -51,7 +50,7 @@
                               <%-- startPage가 5보다 같거나 클 경우
                                   이전page로 돌아가는 버튼 활성화 후 생성 --%>
                               <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-                                 <li><a href="Controller?type=boardList&cPage=${page.startPage-page.pagePerBlock }">&lt;</a></li>
+                                 <li><a href="boardList?cPage=${page.startPage-page.pagePerBlock }">&lt;</a></li>
                               </c:if>
                               <%-- ========== 이전버튼 만드는 부분 끝 ========== --%>
                               
@@ -73,7 +72,7 @@
                               <%-- endPage가 마지막 끝나는 page보다 작을 경우
                                   다음page로 가는 버튼 활성화 후 생성 --%>
                               <c:if test="${page.endPage < page.totalPage }">
-                                 <li><a href="Controller?type=boardList&cPage= ${page.startPage + page.pagePerBlock }">&gt;</a></li>
+                                 <li><a href="boardList?cPage= ${page.startPage + page.pagePerBlock }">&gt;</a></li>
                               </c:if>
                               <%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우
                                   다음page로 가는 버튼 비활성화 후 생성 --%>

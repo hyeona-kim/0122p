@@ -1,8 +1,14 @@
 package com.ict.project.control;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,14 +24,21 @@ import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.StaffVO;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
 public class CourseController {
     @Autowired
     HttpServletRequest request;
+	@Autowired
+	HttpServletResponse response;
     @Autowired
     HttpSession session;
     @Autowired
@@ -53,30 +66,59 @@ public class CourseController {
     }
 
     @RequestMapping("addCourse")
-    public String addCourse( CourseVO cvo,String listSelect) {
-        
+    public String addCourse( CourseVO cvo) {
         c_Service.addCourse(cvo);
               
-        return "redirect:course?listSelect="+listSelect;
+        return "redirect:course?listSelect=1&cPage=1";
     }
      @RequestMapping("delCourse")
     public String delCourse(String c_idx,String cPage) {
-		
+		if(cPage == null)
+			cPage = "1";
 		int cnt = c_Service.deleteCourse(c_idx);
 		
-		return "redirect:course?listSelect=1";
+		return "redirect:course?listSelect=1&cPage="+cPage;
     }
     
     @RequestMapping("editCourse")
-    public String editCourse(CourseVO cvo,String edit) {
-       if(edit == null) {
-        CourseVO vo = c_Service.getCourse(cvo.getC_idx());
-        request.setAttribute("edit_cvo", vo);
-        return "/jsp/admin/courseReg/editCourse_ajax";
+    public ModelAndView editCourse(CourseVO cvo,String edit) {
+		ModelAndView mv = new ModelAndView();
+		
+        if(edit == null) {
+			CourseVO vo = c_Service.getCourse(cvo.getC_idx());
+			request.setAttribute("edit_cvo", vo);
+			CourseTypeVO[] ct_ar = ct_Service.getList();
+			RoomVO[] r_ar = r_Service.getList();
+			StaffVO[] s_ar = s_Service.getList();
+			
+			mv.addObject("c_ar", ct_ar);
+			mv.addObject("r_ar", r_ar);
+			mv.addObject("s_ar", s_ar);
+			mv.addObject("r_idx",vo.getR_idx());
+			mv.addObject("sf_idx",vo.getSf_idx());
+			mv.addObject("ct_idx",vo.getCt_idx());
+			
+			if(vo.getC_day().contains("월"))
+				mv.addObject("monday",true);
+			if(vo.getC_day().contains("화"))	
+				mv.addObject("tuesday",true);
+			if(vo.getC_day().contains("수"))	
+				mv.addObject("wednesday",true);
+			if(vo.getC_day().contains("목"))	
+				mv.addObject("thursday",true);
+			if(vo.getC_day().contains("금"))	
+				mv.addObject("friday",true);
+			if(vo.getC_day().contains("토"))	
+				mv.addObject("saturday",true);
+			if(vo.getC_day().contains("일"))	
+				mv.addObject("sunday",true);
+
+			mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
         }else{
-            c_Service.editCourse(cvo);
-            return "redirect:course?listSelect=1&cPage=1";
+            int cnt =c_Service.editCourse(cvo);
+            mv.setViewName("redirect:course?listSelect=1&cPage=1");
         }
+		return mv;
     }
     
     @RequestMapping("viewCourse")
@@ -157,13 +199,15 @@ public class CourseController {
 				
 			}
 		}
-		mv.setViewName("redirect:course?listSelect="+listSelect);
+		mv.setViewName("redirect:course?listSelect=1&cPage=1");
         return mv;
     }
     @RequestMapping("courseMain")
     public ModelAndView courseMain(String listSelect, String cPage) {
         ModelAndView mv = new ModelAndView();
-		
+		if(cPage == null){
+			cPage = "1";
+		}
 		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
 		Paging page = new Paging();
 		page.setTotalRecord(c_Service.getCount());
@@ -191,7 +235,7 @@ public class CourseController {
 		String[] r_status = use;
 		RoomVO vo = new RoomVO();
 		
-		if(r_name != null && !r_name.equals("")) {
+		if(r_name != null && r_name.length>0) {
 			for(int i = 0; i < r_name.length;i++) {
 				if(r_name[i] != null && !r_name[i].isEmpty()) {
 					vo.setR_name(r_name[i]);
@@ -203,33 +247,20 @@ public class CourseController {
 				
 			}
 		}
-		return "redirect:course&listSelect="+listSelect;
+		return "redirect:course?listSelect=1&cPage=1";
     }
     @RequestMapping("c_dialog")
-    public ModelAndView c_dialog(String select) {
+    public ModelAndView c_dialog(String select,String c_idx) {
         ModelAndView mv = new ModelAndView();
-        Object obj3 = request.getAttribute("c_ar");
-		Object obj4 = request.getAttribute("r_ar");
 		
+	
+		CourseTypeVO[] ct_ar = ct_Service.getList();
+		RoomVO[] r_ar = r_Service.getList();
 
-		CourseTypeVO[] c_ar = null;
-		if(obj3 == null)
-			c_ar = ct_Service.getList();
-		else
-			c_ar = (CourseTypeVO[]) obj3;
-		
-		request.setAttribute("c_ar", c_ar);
-		
-		RoomVO[] r_ar = null;
-		if(obj4 == null)
-			r_ar = r_Service.getList();
-		else
-			r_ar = (RoomVO[])obj4;
-		
-		request.setAttribute("r_ar", r_ar);
-		
 		StaffVO[] s_ar = s_Service.getList();
-		request.setAttribute("s_ar", s_ar);
+		mv.addObject("c_ar", ct_ar);
+		mv.addObject("r_ar", r_ar);
+		mv.addObject("s_ar", s_ar);
 		
 		if(select.equals("addCourse"))
 			mv.setViewName("/jsp/admin/courseReg/addCourse_ajax");
@@ -239,8 +270,60 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addRoom_ajax");
 		else if(select.equals("editCourse"))
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
+		else if(select.equals("updateSubject")){
+            mv.setViewName("/jsp/admin/courseReg/subject");
+			CourseVO cvo = c_Service.getCourse(c_idx);
+			mv.addObject("cvo",cvo);
+		}
 		
         return mv;
     }
+    @RequestMapping("downloadSubject")
+	public String download() {
+		//b_idx, cPage, file_name, bname 이 넘어온다 
+		//파일들이 위치하는 곳 
+		String realPath = application.getRealPath("sample.xls");
+		System.out.println(realPath);
+		File f = new File(realPath);
+		if(f.exists() && f.isFile()){
+			//파일이 존재 할 경우.
+			//System.out.println(realPath);
+			byte[] buf = new byte[4069];
+			int size = -1;
+			//다운로드의 필요한 스트림 준비 !
+			BufferedInputStream bis = null;
+			FileInputStream fis = null;
+			BufferedOutputStream bos  = null;
+			ServletOutputStream sos = null;
+
+			try {
+				//접속자 화면에 다운로드창 
+				response.setContentType("application/vnd.ms-excel");
+				response.setHeader("Content-Disposition", 
+							"attachment;filename="+new String("sample.xls".getBytes(),"8859_1"));
+				//스트림 초기화 
+				bis = new BufferedInputStream(fis = new FileInputStream(f));
+				bos = new BufferedOutputStream(sos= response.getOutputStream());
+				while((size= bis.read(buf))!= -1) {
+					bos.write(buf, 0, size);
+					bos.flush();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try{
+					if(fis != null)
+						fis.close();
+					if(bis != null)
+						bis.close();
+					if(sos != null)
+						sos.close();
+					if(bos != null)
+						bos.close();
+				}catch(Exception e){}
+			}
+		}
+		return null;
+	}
     
 }

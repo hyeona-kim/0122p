@@ -1,5 +1,3 @@
-<%@page import="ictedu.util.LmsBean"%>
-<%@page import="mybatis.vo.CourseVO"%>
 <%@page import="java.util.List"%>
 <%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -189,7 +187,65 @@ table tfoot ol.page {
     }
      #t1 tfoot{
      	border: none;
-     }
+    }
+	#table_h2{
+		background-color: black;
+		color: white;
+	}
+	<!-- 교과목 수정,등록하는 CSS-->
+	#subject_wrap{
+		width: 100%;
+		border: 1px solid red;
+	}
+	.subject_out{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.subject_out td, .subject_out th{
+		height: 120px;
+		border: 1px solid #ababab;
+		text-align: center;
+	}
+	.subject_out th{
+		background-color: #ededed;
+	}
+	.subject_out p{
+		font-size: 20px;
+	}
+	.subject_out select{
+		width: 60px;
+		height: 25px;
+	}
+	.subject_out #innerTable{
+		border-collapse: collapse;
+		height: 100px;
+		margin: auto;
+	}
+	.subject_out #innerTable td, .subject_out #innerTable th{
+		height: 20px;
+		border: 1px solid #ababab;
+	}
+	#subject_h2{
+		background: black;
+		color: white;
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+	}
+	#btns button{
+		height: 30px;
+		
+		border: 1px solid black;
+		background:  #00acac;
+		color: white;
+		border: 1px solid #00acac;
+		border-radius: 5px 5px;
+	}
+	#btns {
+		width: 100%;
+		margin-bottom: 20px;
+		text-align: right;
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -199,9 +255,6 @@ table tfoot ol.page {
 </head>
 <body>
 	<article id="wrap">
-
-		<jsp:include page="../../head.jsp"></jsp:include>
-
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 
 		<div id="center">
@@ -273,8 +326,11 @@ table tfoot ol.page {
 		<div id="dialog4" hidden="" title="과정수정">
 		</div>
 		
+		<div id="dialog5" hidden="" title="교과목 등록/수정">
+		</div>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 	<script>
 		let select ="";
 		let select_year = "";
@@ -283,9 +339,9 @@ table tfoot ol.page {
 		let room_length =7;
 		$(function(){
 			$.ajax({
-				url: "Controller",
+				url: "courseMain",
 				type: "post",
-				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(${param.cPage})
+				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -312,10 +368,10 @@ table tfoot ol.page {
 			$("#selectYear").on("change",function(){
 				select_year = this.value;
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -323,10 +379,10 @@ table tfoot ol.page {
 			$("#numPerPage").on("change",function(){
 				numPerPage = this.value;
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -336,10 +392,10 @@ table tfoot ol.page {
 				let value = $("#searchValue").val();
 				
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -347,14 +403,20 @@ table tfoot ol.page {
 			
 			
 			
-			
 		});
-		
+		function downSubject(){
+			$.ajax({
+				url: "downloadSubject",
+				type: "post",
+			}).done(function(result){
+				console.log("완료");
+			});
+		}
 		function set() {
 			$.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCourse")
+				data:"&select="+encodeURIComponent("addCourse")
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -369,9 +431,9 @@ table tfoot ol.page {
         }
 		function set2() {
 			$.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCourseType")
+				data:"&select="+encodeURIComponent("addCourseType")
 			}).done(function(result){
 				$("#dialog2").html(result);
 				$(".ccol").on("change input", function() {
@@ -390,9 +452,9 @@ table tfoot ol.page {
             $("#dialog3").dialog("open");
             
             $.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addRoom")
+				data:"&select="+encodeURIComponent("addRoom")
 			}).done(function(result){
 				$("#dialog3").html(result);
 				
@@ -408,11 +470,34 @@ table tfoot ol.page {
 
 			});
         }
+		function set4(c_idx) {
+            $("#dialog4").dialog("open");
+            
+            $.ajax({
+				url:"c_dialog",
+				type:"post",
+				data:"select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
+			}).done(function(result){
+				$("#dialog4").html(result);
+				
+				$("#cl").click(function(){
+					 room_length = 7;
+					 $("#dialog4").dialog( "close" );
+				});
+				
+				$(".ui-dialog-titlebar-close").click(function(){
+					 room_length = 7;
+					 $("#dialog4").dialog( "close" );
+				});
+
+			});
+        }
+
 		function editC(c_idx){
 			 $.ajax({
-					url:"Controller",
+					url:"editCourse",
 					type:"post",
-					data:"type="+encodeURIComponent("editCourse")+"&c_idx="+c_idx
+					data:"&c_idx="+c_idx
 				}).done(function(result){
 					$("#dialog4").html(result);
 					
@@ -469,7 +554,7 @@ table tfoot ol.page {
 
 		function del(c_idx){
 			if( confirm("삭제하시겠습니까?")){
-			frm.action = "Controller?type=delCourse";
+			frm.action = "delCourse";
 			document.frm.c_idx.value =c_idx; 
 			
 			document.frm.submit();
@@ -478,10 +563,10 @@ table tfoot ol.page {
 		
 		function paging(str) {
 			$.ajax({
-				url: "Controller",
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(str),
+				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -497,7 +582,7 @@ table tfoot ol.page {
 		}
 		
 		function addCourse(frm) {
-		    frm.action= "Controller?type=editCourse&edit=ok";
+		    frm.action= "editCourse?edit=ok";
 		    frm.submit();
 		}
 	</script>

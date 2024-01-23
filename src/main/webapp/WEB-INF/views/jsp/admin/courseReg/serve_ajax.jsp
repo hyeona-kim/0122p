@@ -20,33 +20,7 @@
 						<tfoot>
 							<tr>
 								<td colspan="10">
-									<ol class="page">
-				<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
-					<li class="disable">&lt;</li>
-				</c:if>	
-		
-				<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-					<c:if test="${param.select != null}">
-						<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
-					</c:if>
-				</c:if>
-	
-				<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
-					<c:if test="${vs.index eq page.nowPage }">
-						<li class="now">${vs.index }</li>
-					</c:if>
-					<c:if test="${vs.index ne page.nowPage }">
-						<li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
-					</c:if>
-				</c:forEach>
-		
-				<c:if test="${page.endPage < page.totalPage }">
-					<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
-				</c:if>
-				<c:if test="${page.endPage >= page.totalPage }">
-					<li class="disable">&gt;</li>	
-				</c:if>
-	                      		</ol>
+									${htmlCode}
 	                          </td>
 							</tr>
 						</tfoot>
@@ -59,7 +33,7 @@
 								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
 								<td>${vo2.end_date }</td>
-								<td>${vo2.ti_idx}</td>
+								<td>${vo2.c_day}</td>
 								<td>${vo2.c_round_num }</td>
 								<td>${vo2.c_peo_num}</td>
 								<td><button type="button">과정별 학습 안내서</button></td>
