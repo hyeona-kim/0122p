@@ -3,7 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 			<h2 id="hd">교육과정수정</h2>
 
-			<form action="Controller?type=editCourse" method="post">
+			<form action="editCourse" method="post">
 			<table id="table">
 			<thead>
 				<tr bgcolor="lightgray">
