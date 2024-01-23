@@ -56,7 +56,7 @@
 								<td>${num-vs.index}</td>
 								<td>${vo2.c_name}</td>
 								<td>W1805300001	</td>
-								<td>${requestScope.sf_names[vs.index]}</td>
+								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
 								<td>${vo2.end_date }</td>
 								<td>${vo2.ti_idx}</td>

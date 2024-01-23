@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +8,13 @@
 <title>Insert title here</title>
 <style>
 	header{
-		 background-color: #2e2e2e;
-      color: #fff;
-      width: 1000px;
-      height: 30px;
-      margin: 0px auto;
-      margin-bottom: 10px;
-      font-size: 20px;
+		background-color: #2e2e2e;
+      	color: #fff;
+      	width: 1000px;
+      	height: 30px;
+      	margin: 0px auto;
+      	margin-bottom: 10px;
+      	font-size: 20px;
 	}
 	
 	#wrap{
