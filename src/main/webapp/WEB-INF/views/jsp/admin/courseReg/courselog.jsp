@@ -1,7 +1,6 @@
 <%@page import="ictedu.util.LmsBean"%>
 <%@page import="mybatis.vo.CourseVO"%>
 <%@page import="java.util.List"%>
-<%@page import="mybatis.service.FactoryService"%>
 <%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -82,8 +81,6 @@ table tfoot ol.page {
 		margin-top:10px;
 		text-align: right;
 	}
-	<%-- 과정 추가하는 테이블의 css--%>
-
 	
 	#table{
 		width:100%;
@@ -128,7 +125,7 @@ table tfoot ol.page {
 		border-bottom: 1px solid black;
 	}
 	
-	
+
 	 #hd{
       background-color: #2e2e2e;
       color: #fff;
@@ -177,7 +174,7 @@ table tfoot ol.page {
    #btn>form>input:last-child:hover{
       background-color: #d1d1d1;
    }
-   <%--강의실 수정하는 css --%>
+
    #t1 {
       border-collapse: collapse;
       width: 100%;
@@ -202,7 +199,11 @@ table tfoot ol.page {
 </head>
 <body>
 	<article id="wrap">
+
+		<jsp:include page="../../head.jsp"></jsp:include>
+
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
+
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -254,7 +255,7 @@ table tfoot ol.page {
 			</div>
 		</article>
 		
-		<form name="frm" action="index" method="post">
+		<form name="frm" action="course" method="post">
 			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="c_idx" value="" />
 		</form>
