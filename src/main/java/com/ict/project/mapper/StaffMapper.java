@@ -12,6 +12,4 @@ public interface StaffMapper {
     int add(StaffVO vo);
     StaffVO search(String sf_name);
     int delete(String sf_idx);
-    StaffVO for_edit(String sf_idx);
-    int editStaff(StaffVO vo);
 }

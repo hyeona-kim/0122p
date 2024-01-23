@@ -1,5 +1,6 @@
 package com.ict.project.control;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import com.ict.project.vo.StaffVO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 public class StraffController {
-    @Autowired
+     @Autowired
     HttpServletRequest request;
     @Autowired
     HttpSession session;
@@ -57,7 +60,6 @@ public class StraffController {
 				code = String.valueOf(num);
 			}
 		}
-        svo.setSf_code(code);
         //전화번호 합쳐서 보내기.
 		s_Service.addStaff(svo);              
         return "redirect:staffList";
@@ -76,20 +78,8 @@ public class StraffController {
         return "/jsp/admin/etcList/add_ajax";
     }
     @RequestMapping("staffEditForm")
-    public ModelAndView staffEditForm(String sf_idx) {
-        ModelAndView mv = new ModelAndView();
-        StaffVO vo = s_Service.for_edit(sf_idx);
-
-        mv.addObject("vo", vo);
-        mv.setViewName("/jsp/admin/etcList/edit_ajax");
-
-        return mv;
-    }
-    
-    @RequestMapping("editStaff")
-    public String editStaff(StaffVO vo) {
-        s_Service.editStaff(vo);
-        return "redirect:staffList";
+    public String staffEditForm() {
+        return "/jsp/admin/etcList/edit_ajax";
     }
     
     
