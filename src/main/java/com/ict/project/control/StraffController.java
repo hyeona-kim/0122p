@@ -27,12 +27,12 @@ public class StraffController {
     StaffService s_Service;
 
     @RequestMapping("staffList")
-    public String staffList() {
+    public ModelAndView staffList() {
+        ModelAndView mv = new ModelAndView();
         StaffVO[] ar = s_Service.getList();
-		
-		request.setAttribute("ar",ar);
-		
-		return "/jsp/admin/etcList/staffList";
+		mv.addObject("ar",ar);
+		mv.setViewName("/jsp/admin/etcList/staffList");
+		return mv;
     }
     @RequestMapping("menu")
     public String menu(String select) {
@@ -41,23 +41,30 @@ public class StraffController {
     
     @RequestMapping("addStaff")
     public String addStaff(StaffVO svo) {
-        String code = null;     
-        if(Integer.parseInt(svo.getRt_idx()) == 1) {
+        String code = "";     
+        System.out.println(svo.getRt_idx());
+        if(svo.getRt_idx().equals(1)) {
+            System.out.println(svo.getRt_idx());
 			String[] s_ar = s_Service.searchSfCode();
 			
 			HashSet<String> set = new HashSet<String>();
-		
+            
 			for(int i=0; i<s_ar.length; i++) {
-				set.add(s_ar[i]);
+                set.add(s_ar[i]);
 			}
-	
+            
 			int num = 0;
 			while(!set.contains(code)) {
-				num = (int)Math.floor(Math.random()*999999+100000);
+                num = (int)Math.floor(Math.random()*999999+100000);
 				code = String.valueOf(num);
 			}
 		}
+        svo.setSf_code(code);
         //전화번호 합쳐서 보내기.
+        String[] ar = request.getParameterValues("sf_phone");
+        String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
+        svo.setSf_phone(phone);
+        
 		s_Service.addStaff(svo);              
         return "redirect:staffList";
     }
