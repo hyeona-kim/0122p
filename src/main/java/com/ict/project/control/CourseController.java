@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CourseController {
-     @Autowired
+    @Autowired
     HttpServletRequest request;
     @Autowired
     HttpSession session;
