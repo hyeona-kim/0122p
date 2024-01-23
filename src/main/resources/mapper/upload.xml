@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.UploadMapper">
+	<select id="count" resultType="int" >
+		select count(*) from trainupload_t
+		where status = 0
+	</select>
+	
+	<select id="getlist" parameterType="Map" resultType="com.ict.project.vo.TrainuploadVO">
+		select * from (select @RN:=@RN+1 as rnum, a.*from(select * from trainupload_t where status =0 order by tn_idx )a , 
+			(select @RN:=0) b) c where c.rnum between #{begin} and #{end}
+	</select>
+	
+	<!-- 원글 저장 -->
+	<insert id="add" parameterType="com.ict.project.vo.TrainuploadVO">
+		insert into trainupload_t(subject, content, file_name,ori_name, tn_name,status)
+		values(#{subject},#{content},#{file_name},#{ori_name},#{tn_name},0)
+	</insert>
+	
+	<!-- 원글 보기 -->
+	<select id="getUpload" parameterType="String" resultType="com.ict.project.vo.TrainuploadVO">
+		select * from trainupload_t
+		where tn_idx = #{num}
+	</select>
+	
+	<select id="view" parameterType="String" resultType="com.ict.project.vo.TrainuploadVO">
+		select * from trainupload_t
+		where tn_idx = #{idx}
+	</select>
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="com.ict.project.vo.TrainuploadVO">
+		update trainupload_t 
+		<trim prefix="SET" suffixOverrides=",">
+		subject = #{subject},
+		content = #{content},
+		<if test="file_name !=null">
+		file_name= #{file_name},
+		ori_name= #{ori_name},
+		</if>
+		</trim>
+		where tn_idx = #{tn_idx}
+	</update>
+	
+	<!-- 원글 삭제 status값을 1로 변경 -->
+	<update id="del" parameterType="String">
+		update trainupload_t
+		set status =1
+		where tn_idx = #{tn_idx}
+	</update>
+	
+</mapper>	

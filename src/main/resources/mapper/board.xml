@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.BoardMapper">
+  	
+  	<!-- 게시판 전체 목록 출력하는 기능
+  		 page객체에서 begin과 end를 받아서 Paging기법을 쓴다
+  		 status가 1인 건의사항은 삭제된 건의사항 -->
+  		 
+	<select id="all" parameterType="Map" resultType="com.ict.project.vo.BoardVO">
+	    select * from 
+	    (select @RN:=@RN+1 as rnum, a.* from (select * from board_t where bd_status = 0 order by bd_idx desc) a, (select @RN:=0) b) c
+	    where c.rnum between #{begin} and #{end}
+	</select>
+	
+	<!-- 게시판 추가하는 기능 -->
+	<insert id="add" parameterType="com.ict.project.vo.BoardVO">
+		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_file, bd_notice, bd_status)
+		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_file}, #{bd_notice}, 0)
+	</insert>
+	
+	<!-- 건의사항 답변 추가하는 기능 -->
+	<insert id="addReply" parameterType="com.ict.project.vo.BoardVO">
+		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_file, bd_notice, bd_status)
+		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_file}, #{bd_notice}, 0)
+	</insert>
+	
+	<!-- Paging객체를 생성하기 위해 totalRecord를 구하는 기능 -->
+	<select id="count" resultType="int">
+		select count(*) from board_t
+		where bd_status = 0
+	</select>
+	
+	<!-- 건의사항 검색하는 기능 -->
+	<select id="search" parameterType="Map" resultType="com.ict.project.vo.BoardVO">
+		select * from
+			(select @RN:=@RN+1 as rnum,	a.*from (select * from board_t
+			<trim prefix="where" suffixOverrides="and">
+				<if test="subject != null">bd_subject like concat ('%', #{subject}, '%') and</if>
+			</trim>) a,
+			(select @RN:=0) b) c
+		where c.rnum between #{begin} and #{end} and bd_status = 0
+	</select>
+	
+	<!-- 건의사항 검색 후 totalRecord를 다시 구하는 기능 -->
+	<select id="reCount" parameterType="String" resultType="int">
+		select count(*) from
+			(select * from board_t
+			<trim prefix="where">
+				<if test="subject != null">bd_subject like concat ('%', #{subject}, '%')</if>
+			</trim>) a
+			where bd_status = 0
+	</select>
+	
+</mapper>

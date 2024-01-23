@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.SuggestionMapper">
+  	
+  	<!-- 고충 및 건의사항 전체 목록 출력하는 기능
+  		 page객체에서 begin과 end를 받아서 Paging기법을 쓴다
+  		 status가 1인 건의사항은 삭제된 건의사항 -->
+	<select id="all" parameterType="Map" resultType="com.ict.project.vo.SuggestionVO">
+		select * from 
+			(select @RN:=@RN+1 as rnum, a.* from(select * from suggestion_t where status = 0 order by sg_idx desc) a, (select @RN:=0) b) c
+			where c.rnum between #{begin} and #{end}
+	</select>
+	
+	<!-- 고충 및 건의사항 추가하는 기능 -->
+	<insert id="add" parameterType="com.ict.project.vo.SuggestionVO">
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file, notice, status)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file}, #{notice}, 0)
+	</insert>
+	
+	<!-- 건의사항 답변 추가하는 기능 -->
+	<insert id="addReply" parameterType="com.ict.project.vo.SuggestionVO">
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file, notice, status)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file}, #{notice}, 0)
+	</insert>
+	
+	<!-- Paging객체를 생성하기 위해 totalRecord를 구하는 기능 -->
+	<select id="count" resultType="int">
+		select count(*) from suggestion_t
+		where status = 0
+	</select>
+	
+	<!-- 건의사항 검색하는 기능 -->
+	<select id="search" parameterType="Map" resultType="com.ict.project.vo.SuggestionVO">
+		select * from
+			(select @RN:=@RN+1 as rnum,	a.*from (select * from suggestion_t
+			<trim prefix="where" suffixOverrides="and">
+				<if test="subject != null">sg_subject like concat ('%', #{subject}, '%') and</if>
+			</trim>) a,
+			(select @RN:=0) b) c
+		where c.rnum between #{begin} and #{end} and status = 0
+	</select>
+	
+	<!-- 건의사항 검색 후 totalRecord를 다시 구하는 기능 -->
+	<select id="reCount" parameterType="String" resultType="int">
+		select count(*) from
+			(select * from suggestion_t
+			<trim prefix="where">
+				<if test="subject != null">sg_subject like concat ('%', #{sg_subject}, '%')</if>
+			</trim>) a
+			where status = 0
+	</select>
+</mapper>

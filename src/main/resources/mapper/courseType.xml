@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.CourseTypeMapper">
+
+	 <select id="key" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM course_type_t WHERE ct_idx = #{ct_idx}	
+    </select>
+
+    <insert id="add" parameterType="com.ict.project.vo.CourseTypeVO">
+           INSERT INTO course_type_t (ct_idx, ct_name, ct_color)
+           VALUES (#{ct_idx}, #{ct_name}, #{ct_color})
+    </insert>
+    <update id="update" parameterType="com.ict.project.vo.CourseTypeVO">
+           UPDATE course_type_t
+           SET ct_name = #{ct_name}, ct_color = #{ct_color}
+           WHERE ct_idx = #{ct_idx}    
+    </update>
+	<select id="all" resultType="com.ict.project.vo.CourseTypeVO">
+		select * from course_type_t
+	</select>
+	
+	 <select id="search" resultType="com.ict.project.vo.CourseTypeVO" parameterType="String">
+		select * from course_type_t where ct_name like concat('%',#{str},'%')
+	</select>
+</mapper>
