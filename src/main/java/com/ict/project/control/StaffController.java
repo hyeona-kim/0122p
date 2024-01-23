@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 
 
 @Controller
-public class StraffController {
+public class StaffController {
      @Autowired
     HttpServletRequest request;
     @Autowired

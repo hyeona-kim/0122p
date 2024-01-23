@@ -27,14 +27,14 @@
 									<td>${num-vs.index}</td>
 									<td>${cvo.c_name }</td>
 									<td>W1805300001</td>
-									<td>${requestScope.ct_names[vs.index]} </td>
-									<td>${requestScope.sf_names[vs.index]} </td>
+									<td>${cvo.ctvo.ct_name} </td>
+									<td>${cvo.svo.sf_name} </td>
 									<td>${cvo.start_date }</td>
 									<td>${cvo.end_date }</td>
 									<td>월화수목금</td>
 									<td>${cvo.c_round_num }</td>
 									<td>${cvo.c_peo_num }</td>
-									<td>${requestScope.r_names[vs.index]} </td>
+									<td>${cvo.rvo.r_name} </td>
 									<td>
 										<button type="button">교과목 등록/수정</button>
 										<button type="button">학습안내서 등록/수정</button>

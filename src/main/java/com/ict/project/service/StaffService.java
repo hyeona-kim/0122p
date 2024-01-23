@@ -53,9 +53,9 @@ public class StaffService {
         return ar;
     }
 
-    // 교직원 수정을 위해 1명의 정보를 검색해서 반환하는 기능
-    public StaffVO for_edit(String sf_idx) {
-        return s_mapper.for_edit(sf_idx);
+    // 교직원 1명 검색하는 기능
+    public StaffVO getStaff(String sf_idx) {
+        return s_mapper.getStaff(sf_idx);
     }
 
     // 교직원 수정하는 기능

@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- <link rel="stylesheet" type="text/css" href="../../css/header.css" /> -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 
 </head>
-<c:if test="${tvo eq null }">
+<c:if test="${sessionScope.vo ne null}">
 <body>
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
-			<jsp:include page="./leftList.jsp"></jsp:include>
+            <jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
-				<!--  여기서 표시될 테이블들 가지고오기 -->
+				
 			</div>
 		</div>
 	</article>
@@ -27,12 +27,12 @@
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
-			$("#secondmenu").addClass("selected");
+			$("#firstmenu").addClass("selected");
 		});
 	</script>
 </body>
 </c:if>
-<c:if test="${tvo ne null}">
+<c:if test="${sessionScope.vo eq null }">
 	<c:redirect url="Controller">
 	</c:redirect>
 </c:if>

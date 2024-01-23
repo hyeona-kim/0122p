@@ -55,7 +55,7 @@
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
 								<td>${vo2.c_name}</td>
-								<td>${requestScope.sf_names[vs.index]}</td>
+								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
 								<td>${vo2.end_date }</td>
 								<td>${vo2.ti_idx}</td>

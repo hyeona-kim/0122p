@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
 	table tfoot ol.page {
 	    list-style:none;
@@ -76,7 +76,7 @@
 <c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -90,7 +90,7 @@
 									<th>검색</th>
 									<td>
 										<select id="numPerPage">
-											<%-- 이값에따라 page.numPerPage값을 수정 해 주어야한다 --%>
+											
 											<option>표시개수</option>
 											<option>5</option>
 											<option>10</option>
@@ -129,9 +129,9 @@
 	$(function() {
 	
 		$.ajax({
-			url: "Controller",
+			url: "courseMain",
 			type: "post",
-			data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent(${param.cPage})
+			data:"listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage}),
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
@@ -159,9 +159,9 @@
 			select_year = this.value;
 			console.log("dd");
 			$.ajax({
-				url: "Controller",
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
@@ -170,9 +170,9 @@
 		$("#numPerPage").on("change",function(){
 			numPerPage = this.value;
 			$.ajax({
-				url: "Controller",
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
@@ -182,9 +182,9 @@
 			let value = $("#searchValue").val();
 			
 			$.ajax({
-				url: "Controller",
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
@@ -194,9 +194,9 @@
 	
 	function paging(str) {
 		$.ajax({
-			url: "Controller",
-			type: "post",
-			data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+			url:"searchCourse",
+			type:"post",
+			data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 				+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(str),
 		}).done(function(result){
 			$("#courseLog_Table").html(result);

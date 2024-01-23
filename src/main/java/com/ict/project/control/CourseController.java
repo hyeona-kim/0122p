@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CourseController {
-     @Autowired
+    @Autowired
     HttpServletRequest request;
     @Autowired
     HttpSession session;
@@ -43,11 +43,11 @@ public class CourseController {
     public String course(String listSelect) {
         String viewPath = null;
         if(listSelect.equals("1"))
-            viewPath= "/jsp/admin/courseReg/courselog.jsp";
+            viewPath= "/jsp/admin/courseReg/courselog";
         else if(listSelect.equals("2"))
-            viewPath="/jsp/admin/courseReg/serve.jsp";
+            viewPath="/jsp/admin/courseReg/serve";
         else if(listSelect.equals("3"))
-            viewPath= "/jsp/admin/courseReg/maketime.jsp";
+            viewPath= "/jsp/admin/courseReg/maketime";
         
         return viewPath;
     }
@@ -94,10 +94,20 @@ public class CourseController {
     }
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
+		if(value.trim().length()==0){
+			value= null;
+		}
+		if(year.equals("년도선택"))
+			year = null;
+		if(num.equals("표시개수"))
+			num = null;
 		ModelAndView mv = new ModelAndView();
-        request.removeAttribute("page");
-		 
 		Paging page = null;
+		if(num!=null && num.length()>0 )
+			page = new Paging(Integer.parseInt(num),5);
+		else 
+			page = new Paging();
+		
 
 		if(value == null || value.length()<1) {
 			value = null;
@@ -109,82 +119,14 @@ public class CourseController {
 		if(year == null || year.length()==0) {
 			year = null;
 		}
-
-		LmsBean bean = new LmsBean();
+		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+		page.setNowPage(Integer.parseInt(cPage));
 		
-		if(value != null && select.equals("1")) {
-			StaffVO vo = bean.searchStaff2(value);
-			value = vo.getSf_idx();
-		}else if(value != null &&select.equals("2")) {
-			CourseTypeVO vo = bean.searchCourseType2(value);
-			value = vo.getCt_idx();
-		}else if(value != null && select.equals("3")) {
-			RoomVO vo = bean.searchRoom2(value);
-			value = vo.getR_idx();
-		}
-
-		if(num!=null && num.length()>0 )
-			page = new Paging(Integer.parseInt(num),5);
-		else 
-			page = new Paging();
-
-		
-		page.setTotalRecord(c_Service.getSearchCount(select,value,year));
-
-		 
-		if(cPage == null||cPage.equals("undefined")) {
-	        page.setNowPage(1);
-		}else {
-	       int nowPage = Integer.parseInt(cPage);
-	       page.setNowPage(nowPage);
-	    }
-		
-		
-
-		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()),
-				String.valueOf(page.getEnd()));
+		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		
-		String[] ct_name = null;
-		String[] r_name = null;
-		String[] sf_name = null;
-		
-		LmsBean lb = new LmsBean();
-		
-		if(ar != null) {
-			ct_name= new String[ar.length];
-			r_name= new String[ar.length];
-			sf_name= new String[ar.length];
-			int i = 0;
-			for(CourseVO vo :ar) {
-				if(vo.getCt_idx() == null) {
-					ct_name[i] ="";
-				}else {
-					String cName = lb.searchCourseType(vo.getCt_idx()).getCt_name();
-					ct_name[i] = cName;
-				}
-				
-				if(vo.getR_idx() == null) {
-					r_name[i] ="";
-				}else {
-					String rName = lb.searchRoom(vo.getR_idx()).getR_name();
-					r_name[i] = rName;					
-				}
-				
-				if(vo.getT_idx() ==null) {
-					sf_name[i] ="";
-				}else {
-					String sName = lb.searchStaff(vo.getT_idx()).getSf_name();
-					sf_name[i] = sName;					
-				}
-                i++;
-            }
-        }   
-        mv.addObject("ct_names",ct_name);
-        mv.addObject("r_names",r_name);
-        mv.addObject("sf_names",sf_name);
+
 		
 		//비동기 통신할 jsp로 보내기
 		if(listSelect.equals("1"))
@@ -196,6 +138,7 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/makeTime_ajax");
         return mv;
 	}
+
     @RequestMapping("addCourseType")
     public ModelAndView addCourseType(String[] name,String[] text, String listSelect) {
         ModelAndView mv = new ModelAndView();
@@ -220,75 +163,15 @@ public class CourseController {
     @RequestMapping("courseMain")
     public ModelAndView courseMain(String listSelect, String cPage) {
         ModelAndView mv = new ModelAndView();
-        Object obj = request.getAttribute("page");
-		Object obj2 = request.getAttribute("ar");
-	
-		Paging page = null;
-		if(listSelect == null)
-			listSelect ="1";
 		
-		if(obj == null) {
-			page =new Paging();
-			page.setTotalRecord(c_Service.getCount());
-			if(cPage == null|| cPage.equalsIgnoreCase("undefined"))
-				page.setNowPage(1);
-			else {
-				int nowPage = Integer.parseInt(cPage);
-				page.setNowPage(nowPage);
-			}
-		}else {
-			page = (Paging)obj;
-		}
-		
+		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
+		Paging page = new Paging();
+		page.setTotalRecord(c_Service.getCount());
+		page.setNowPage(Integer.parseInt(cPage));
 		CourseVO[] ar = null;
-		if(obj2 == null)
-			ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
-		else
-			ar = (CourseVO[])obj2;
-		
-		request.setAttribute("page", page);
-		request.setAttribute("ar",ar);
-		//////////////////////////////////////////////
-		String[] ct_name = null;
-		String[] r_name = null;
-		String[] sf_name = null;
-		
-		LmsBean lb = new LmsBean();
-		
-		if(ar != null) {
-			ct_name= new String[ar.length];
-			r_name= new String[ar.length];
-			sf_name= new String[ar.length];
-			int i = 0;
-			for(CourseVO vo :ar) {
-				if(vo.getCt_idx() == null) {
-					ct_name[i] ="";
-				}else {
-					String cName = lb.searchCourseType(vo.getCt_idx()).getCt_name();
-					ct_name[i] = cName;
-				}
-				
-				if(vo.getR_idx() == null) {
-					r_name[i] ="";
-				}else {
-					String rName = lb.searchRoom(vo.getR_idx()).getR_name();
-					r_name[i] = rName;					
-				}
-				
-				if(vo.getT_idx() ==null) {
-					sf_name[i] ="";
-				}else {
-					String sName = lb.searchStaff(vo.getT_idx()).getSf_name();
-					sf_name[i] = sName;					
-				}
-				i++;
-			}
-		}
-		
-		request.setAttribute("ct_names",ct_name);
-		request.setAttribute("r_names",r_name);
-		request.setAttribute("sf_names",sf_name);
-		
+		ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
 		if(listSelect.equals("1"))
 			mv.setViewName("/jsp/admin/courseReg/courseLog_ajax");
 		else if(listSelect.equals("2"))

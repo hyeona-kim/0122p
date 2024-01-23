@@ -39,14 +39,14 @@
 		where sf_name like concat('%',#{sf_name},'%')
 	</select>
 
-	<!-- 수정을 위해 교직원 1명의 정보 검색하는 기능 -->
-	<select id="for_edit" parameterType="String" resultType="com.ict.project.vo.StaffVO">
+	<!-- 교직원 1명의 정보 검색하는 기능 -->
+	<select id="getStaff" parameterType="String" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t
 		where sf_idx = #{sf_idx}
 	</select>
 
 	<!-- 교직원 삭제하는 기능 -->
-	<update id="delete" parameterType="String">
+	<update id="del" parameterType="String">
 		update staff_t
 		set status = 1
 		where sf_idx = #{idx}

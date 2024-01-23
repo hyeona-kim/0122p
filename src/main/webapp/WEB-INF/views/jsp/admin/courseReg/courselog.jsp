@@ -1,7 +1,4 @@
-<%@page import="ictedu.util.LmsBean"%>
-<%@page import="mybatis.vo.CourseVO"%>
 <%@page import="java.util.List"%>
-<%@page import="mybatis.service.FactoryService"%>
 <%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -82,8 +79,6 @@ table tfoot ol.page {
 		margin-top:10px;
 		text-align: right;
 	}
-	<%-- 과정 추가하는 테이블의 css--%>
-
 	
 	#table{
 		width:100%;
@@ -128,7 +123,7 @@ table tfoot ol.page {
 		border-bottom: 1px solid black;
 	}
 	
-	<%-- 타입수정하는 css --%>
+
 	 #hd{
       background-color: #2e2e2e;
       color: #fff;
@@ -177,7 +172,7 @@ table tfoot ol.page {
    #btn>form>input:last-child:hover{
       background-color: #d1d1d1;
    }
-   <%--강의실 수정하는 css --%>
+
    #t1 {
       border-collapse: collapse;
       width: 100%;
@@ -195,14 +190,15 @@ table tfoot ol.page {
      }
 </style>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 </head>
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
+
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -223,7 +219,7 @@ table tfoot ol.page {
 										<th>검색</th>
 										<td>
 											<select id="numPerPage">
-												<%-- 이값에따라 page.numPerPage값을 수정 해 주어야한다 --%>
+			
 												<option value="5">표시개수</option>
 												<option>5</option>
 												<option>10</option>
@@ -254,7 +250,7 @@ table tfoot ol.page {
 			</div>
 		</article>
 		
-		<form name="frm" action="Controller" method="post">
+		<form name="frm" action="course" method="post">
 			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="c_idx" value="" />
 		</form>
@@ -274,6 +270,7 @@ table tfoot ol.page {
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 	<script>
 		let select ="";
 		let select_year = "";
@@ -282,7 +279,7 @@ table tfoot ol.page {
 		let room_length =7;
 		$(function(){
 			$.ajax({
-				url: "Controller",
+				url: "courseMain",
 				type: "post",
 				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(${param.cPage})
 			}).done(function(result){
@@ -311,9 +308,9 @@ table tfoot ol.page {
 			$("#selectYear").on("change",function(){
 				select_year = this.value;
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
@@ -322,9 +319,9 @@ table tfoot ol.page {
 			$("#numPerPage").on("change",function(){
 				numPerPage = this.value;
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
@@ -335,9 +332,9 @@ table tfoot ol.page {
 				let value = $("#searchValue").val();
 				
 				$.ajax({
-					url: "Controller",
+					url: "searchCourse",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
@@ -351,9 +348,9 @@ table tfoot ol.page {
 		
 		function set() {
 			$.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCourse")
+				data:"&select="+encodeURIComponent("addCourse")
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -368,9 +365,9 @@ table tfoot ol.page {
         }
 		function set2() {
 			$.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCourseType")
+				data:"&select="+encodeURIComponent("addCourseType")
 			}).done(function(result){
 				$("#dialog2").html(result);
 				$(".ccol").on("change input", function() {
@@ -389,9 +386,9 @@ table tfoot ol.page {
             $("#dialog3").dialog("open");
             
             $.ajax({
-				url:"Controller",
+				url:"c_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addRoom")
+				data:"&select="+encodeURIComponent("addRoom")
 			}).done(function(result){
 				$("#dialog3").html(result);
 				
@@ -409,9 +406,9 @@ table tfoot ol.page {
         }
 		function editC(c_idx){
 			 $.ajax({
-					url:"Controller",
+					url:"editCourse",
 					type:"post",
-					data:"type="+encodeURIComponent("editCourse")+"&c_idx="+c_idx
+					data:"&c_idx="+c_idx
 				}).done(function(result){
 					$("#dialog4").html(result);
 					
@@ -468,7 +465,7 @@ table tfoot ol.page {
 
 		function del(c_idx){
 			if( confirm("삭제하시겠습니까?")){
-			frm.action = "Controller?type=delCourse";
+			frm.action = "delCourse";
 			document.frm.c_idx.value =c_idx; 
 			
 			document.frm.submit();
@@ -477,9 +474,9 @@ table tfoot ol.page {
 		
 		function paging(str) {
 			$.ajax({
-				url: "Controller",
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
@@ -496,7 +493,7 @@ table tfoot ol.page {
 		}
 		
 		function addCourse(frm) {
-		    frm.action= "Controller?type=editCourse&edit=ok";
+		    frm.action= "editCourse&edit=ok";
 		    frm.submit();
 		}
 	</script>
