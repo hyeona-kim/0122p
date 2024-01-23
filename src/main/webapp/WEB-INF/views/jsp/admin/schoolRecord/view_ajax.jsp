@@ -17,13 +17,13 @@
 	</thead>
 	<tbody>
 		<tr>
-			<th colspan="3">${param.subject}</th>
+			<th colspan="3">${vo.sg_subject}</th>
 		</tr>
 		<tr>
-			<td class="left" colspan="3">작성자:***&nbsp;|&nbsp;등록일:${param.date}&nbsp;|&nbsp;조회수:${param.hit}</td>
+			<td class="left" colspan="3">작성자:***&nbsp;|&nbsp;등록일:${vo.sg_write_date}&nbsp;|&nbsp;조회수:${vo.sg_hit}</td>
 		</tr>
 		<tr>
-			<td class="left" colspan="3"><textarea rows="10" cols="100">${param.content}</textarea></td>
+			<td class="left" colspan="3"><textarea rows="10" cols="100">${vo.sg_content}</textarea></td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -39,8 +39,8 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<a href="Controller?type=suggestionList" class="sug_list_btn sug_btn">목록</a>
-				<a href="javascript:reply('${param.subject}','${param.content}')" class="sug_reply_btn sug_btn">답변</a>
+				<a href="suggestionList" class="sug_list_btn sug_btn">목록</a>
+				<a href="javascript:reply(${vo.sg_idx})" class="sug_reply_btn sug_btn">답변</a>
 				<a href="" class="sug_print_btn sug_btn">인쇄</a>
 			</td>
 		</tr>

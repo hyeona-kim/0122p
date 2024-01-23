@@ -36,7 +36,7 @@
 
 	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">
 		select * from staff_t
-		where sf_name like concat('%',#{str},'%')
+		where sf_name like concat('%',#{sf_name},'%')
 	</select>
 
 	<!-- 수정을 위해 교직원 1명의 정보 검색하는 기능 -->
@@ -53,14 +53,20 @@
 	</update>
 
 	<!-- 교직원 수정하는 기능 -->
+	<!--
+		[수정필요]
+		연락처 부분 내용 출력하고 수정해야함
+	-->
 	<update id="editStaff" parameterType="com.ict.project.vo.StaffVO">
 		update staff_t
-		set sf_name = #{sf_name},
+		<trim prefix="set" suffixOverrides=",">
+			sf_name = #{sf_name},
 			sf_job = #{sf_job},
 			sf_id = #{sf_id},
 			sf_pwd = #{sf_pwd},
 			sf_hire_date = #{sf_hire_date},
-			sf_fire_date = #{sf_fire_date}
+			<if test="sf_fire_date != null">sf_fire_date = #{sf_fire_date}</if>
+		</trim>
 		where sf_idx = #{sf_idx}
 	</update>
 

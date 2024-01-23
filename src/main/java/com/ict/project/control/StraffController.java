@@ -88,6 +88,9 @@ public class StraffController {
     
     @RequestMapping("editStaff")
     public String editStaff(StaffVO vo) {
+        if(vo.getSf_fire_date().equals("")){
+            vo.setSf_fire_date(null);
+        }
         s_Service.editStaff(vo);
         return "redirect:staffList";
     }

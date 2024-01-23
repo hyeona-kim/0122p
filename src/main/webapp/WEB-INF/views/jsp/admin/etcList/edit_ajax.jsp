@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <form action="editStaff" method="post" encType="multipart/form-data">
+	<input type="hidden" name="sf_idx" value="${vo.sf_idx}">
 	<table>
 		<colgroup>
 			<col width="15%">
@@ -39,9 +41,23 @@
 				<th>사용권한</th>
 				<td class="left">
 					<select name="rt_idx">
-						<option value="0">기본(교직원)</option>
-						<option value="1">임직원</option>
-						<option value="9">총책임자</option>
+						<c:choose>
+							<c:when test="${vo.rt_idx eq '9'}" >
+								<option value="0">기본(교직원)</option>
+								<option value="1">임직원</option>
+								<option value="9" selected>총책임자</option>
+							</c:when>
+							<c:when test="${vo.rt_idx eq '1'}" >
+								<option value="0">기본(교직원)</option>
+								<option value="1" selected>임직원</option>
+								<option value="9">총책임자</option>
+							</c:when>
+							<c:when test="${vo.rt_idx eq '0'}" >
+								<option value="0" selected>기본(교직원)</option>
+								<option value="1">임직원</option>
+								<option value="9">총책임자</option>
+							</c:when>
+						</c:choose>
 					</select>
 				</td>
 			</tr>
