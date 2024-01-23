@@ -202,9 +202,9 @@ table tfoot ol.page {
 </head>
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/head.jsp"></jsp:include>
 		<div id="center">
-			<jsp:include page="./leftList.jsp"></jsp:include>
+			<jsp:include page="${pageContext.request.contextPath }/admin/courseReg/leftList.jsp"></jsp:include>
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 					
@@ -254,7 +254,7 @@ table tfoot ol.page {
 			</div>
 		</article>
 		
-		<form name="frm" action="Controller" method="post">
+		<form name="frm" action="index" method="post">
 			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="c_idx" value="" />
 		</form>
