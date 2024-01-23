@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-<form action="Controller?type=addStaff" method="post">
+<form action="addStaff" method="post">
 	<table>
 		<colgroup>
 			<col width="15%">
