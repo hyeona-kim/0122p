@@ -1,4 +1,4 @@
-<%@page import="ictedu.util.Paging"%>
+<%@page import="com.ict.project.util.Paging"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 table tfoot ol.page {
@@ -107,37 +107,37 @@ table tfoot ol.page {
 	table#boList tbody td {
 		font-size: 13px;
 	}
-	#addForm{
+	#addForm, #board_list{
 		text-align: center;
 		margin: 0px auto;
 		padding: 10px;
 		width: 98%;
 	}
-	#addForm table caption{ text-indent: -9999px; }
+	#addForm table caption, #board_list table caption{ text-indent: -9999px; }
 	
-	#addForm table{
+	#addForm table, #board_list table{
 		width: 100%;
 		border-collapse: collapse;
 	}
-	#addForm table th{
+	#addForm table th, #board_list table th{
 		background: #eee;
 	}
 	
-	#addForm table th,#addForm table td{
+	#addForm table th,#addForm table td, #board_list table th, #board_list table td{
 		border: 1px solid #e9e9e6;
 		padding: 5px;
 	}
 	
-	#addForm .left {
+	#addForm .left, #board_list .left{
 		text-align: left;
 	}
-	#addForm th{
+	#addForm th, #board_list th{
 		width: 20px;
 	}
-	#addForm .input{
+	#addForm .input, #board_list .input{
 		width: 350px;
 	}
-	#addForm tfoot td{
+	#addForm tfoot td, #board_list tfoot td{
 		border: none;
 	}
 	#boContent table caption{ text-indent: -9999px; }
@@ -229,7 +229,7 @@ table tfoot ol.page {
 <c:if test="${tvo eq null }">
 <body>
 	<article>
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -288,24 +288,23 @@ table tfoot ol.page {
 	
 		$(function() {
 			//$().removeClass("selected");
-			<%-- 처음 게시글 클릭했을 때
-				 비동기식통신을 수행해 전체 목록을 가져온다 --%>
+			/* 처음 게시판을 클릭했을 때
+				 비동기식통신을 수행해 전체 목록을 가져온다 */
 			$.ajax({
-					url: "Controller",
+					url: "boardListAjax",
 					type: "post",
-					data: "type=boardListAjax"
 				}).done(function(result){
-					$("#addForm").html(result);
+					$("#board_list").html(result);
 				});
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#thirdmenu").addClass("selected");
 			$("#l_five").addClass("l_select");
 			
-			<%-- 목록에서 [글쓰기]버튼을 클릭했을 때 수행 --%>
+			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
 			$("#bo_add_btn").bind("click", function(){
 				$.ajax({
-					url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/addBoard_ajax.jsp",
+					url: "addBoardAjax",
 					type: "post"
 				}).done(function(result){
 					$("#addForm").html(result);
@@ -321,21 +320,21 @@ table tfoot ol.page {
 			
 		});
 		
-		<%-- 목록 아래 [page번호]를 클릭할 때 수행
+		/* 목록 아래 [page번호]를 클릭할 때 수행
 		 str를 변수로 가지고 새롭게 비동기통신을 해서
-		 테이블을 표현한다 --%>
+		 테이블을 표현한다 */
 		function paging(str) {
 			console.log(str);
 			$.ajax({
-				url: "Controller",
+				url: "boardListAjax",
 				type: "post",
-				data: "type=boardListAjax&cPage="+str
+				data: "cPage="+str
 			}).done(function(result){
-				$("#addForm").html(result);
+				$("#board_list").html(result);
 			});
 		}
 		
-		<%-- 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 --%>
+		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
 		function addBoard() {
 			// 유효성 검사 해야함
 			
@@ -343,15 +342,12 @@ table tfoot ol.page {
 		};
 		
 		
-		<%-- 글의 제목을 클릭했을 때 내용 보기 --%>
-		function viewContent(subject, date, hit, content) {
+		/* 글의 제목을 클릭했을 때 내용 보기 */
+		function viewContent(bd_idx) {
 			$.ajax({
-				url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/boardView_ajax.jsp",
+				url: "boardViewAjax",
 				type: "post",
-				data: "subject="+encodeURIComponent(subject)+
-					  "&date="+encodeURIComponent(date)+
-					  "&hit="+encodeURIComponent(hit)+
-					  "&content="+encodeURIComponent(content)
+				data: "bd_idx="+bd_idx
 			}).done(function(result){
 				$("#boContent").html(result);
 			});
@@ -363,14 +359,12 @@ table tfoot ol.page {
 				height : 600
 			});
 		};
-		<%-- 건의사항 보기화면에서 [답변]을 눌렀을때 수행 --%>
-		function reply(subject, content) {
+		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
+		function reply(idx) {
 			$.ajax({
-				url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/boardReply_ajax.jsp",
+				url: "boardReplyAjax",
 				type: "post",
-				data: "subject="+subject+
-					  "&content="+content+
-					  "&writer=${vo.sf_name}"
+				data: "bd_idx="+idx
 			}).done(function(result){
 				$("#replyForm").html(result);
 			});
@@ -384,12 +378,12 @@ table tfoot ol.page {
 		};
 		
 		
-		<%-- 답변 작성에서 [등록]을 눌렀을때 수행 --%>
+		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
 			frm.submit();
 		};
 		
-		<%-- 건의사항 목록에서 [검색]을 눌렀을때 수행 --%>
+		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
 		function searchBoard(cPage) {
 			let tag = document.getElementById("search_tag").value;
 			let value = document.getElementById("search_value").value;
