@@ -33,7 +33,7 @@
 								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
 								<td>${vo2.end_date }</td>
-								<td>${vo2.ti_idx}</td>
+								<td>${vo2.c_day}</td>
 								<td>${vo2.c_round_num }</td>
 								<td>${vo2.c_peo_num}</td>
 								<td><button type="button">과정별 학습 안내서</button></td>

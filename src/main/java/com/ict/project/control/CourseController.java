@@ -199,7 +199,7 @@ public class CourseController {
 				
 			}
 		}
-		mv.setViewName("redirect:course?listSelect="+listSelect);
+		mv.setViewName("redirect:course?listSelect=1&cPage=1");
         return mv;
     }
     @RequestMapping("courseMain")
@@ -235,7 +235,7 @@ public class CourseController {
 		String[] r_status = use;
 		RoomVO vo = new RoomVO();
 		
-		if(r_name != null && !r_name.equals("")) {
+		if(r_name != null && r_name.length>0) {
 			for(int i = 0; i < r_name.length;i++) {
 				if(r_name[i] != null && !r_name[i].isEmpty()) {
 					vo.setR_name(r_name[i]);
@@ -247,7 +247,7 @@ public class CourseController {
 				
 			}
 		}
-		return "redirect:course&listSelect="+listSelect;
+		return "redirect:course?listSelect=1&cPage=1";
     }
     @RequestMapping("c_dialog")
     public ModelAndView c_dialog(String select,String c_idx) {
