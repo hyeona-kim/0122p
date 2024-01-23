@@ -6,8 +6,9 @@ import com.ict.project.vo.CounselAddVO;
 
 public interface CounselAddMapper {
     
+    int add(CounselAddVO vo);
+    
     List<CounselAddVO> list();
 
-    int add(CounselAddVO vo);
 
 }
