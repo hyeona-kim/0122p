@@ -128,7 +128,7 @@ table tfoot ol.page {
 		border-bottom: 1px solid black;
 	}
 	
-	<%-- 타입수정하는 css --%>
+	
 	 #hd{
       background-color: #2e2e2e;
       color: #fff;
@@ -195,16 +195,16 @@ table tfoot ol.page {
      }
 </style>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
 </head>
 <body>
 	<article id="wrap">
-		<jsp:include page="${pageContext.request.contextPath }/head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
-			<jsp:include page="${pageContext.request.contextPath }/admin/courseReg/leftList.jsp"></jsp:include>
+			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 					
@@ -223,7 +223,7 @@ table tfoot ol.page {
 										<th>검색</th>
 										<td>
 											<select id="numPerPage">
-												<%-- 이값에따라 page.numPerPage값을 수정 해 주어야한다 --%>
+			
 												<option value="5">표시개수</option>
 												<option>5</option>
 												<option>10</option>
