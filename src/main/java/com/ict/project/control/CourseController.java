@@ -41,7 +41,6 @@ public class CourseController {
 
     @RequestMapping("course")
     public String course(String listSelect) {
-		System.out.println(listSelect);
         String viewPath = null;
         if(listSelect.equals("1"))
             viewPath= "/jsp/admin/courseReg/courselog";
@@ -95,7 +94,13 @@ public class CourseController {
     }
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
-		System.out.println(value);
+		if(value.trim().length()==0){
+			value= null;
+		}
+		if(year.equals("년도선택"))
+			year = null;
+		if(num.equals("표시개수"))
+			num = null;
 		ModelAndView mv = new ModelAndView();
 		Paging page = null;
 		if(num!=null && num.length()>0 )
@@ -116,7 +121,6 @@ public class CourseController {
 		}
 		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
 		page.setNowPage(Integer.parseInt(cPage));
-		System.out.println(page.getEndPage());
 		
 		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 	
@@ -134,6 +138,7 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/makeTime_ajax");
         return mv;
 	}
+
     @RequestMapping("addCourseType")
     public ModelAndView addCourseType(String[] name,String[] text, String listSelect) {
         ModelAndView mv = new ModelAndView();
@@ -158,17 +163,13 @@ public class CourseController {
     @RequestMapping("courseMain")
     public ModelAndView courseMain(String listSelect, String cPage) {
         ModelAndView mv = new ModelAndView();
-    
+		
 		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
 		Paging page = new Paging();
 		page.setTotalRecord(c_Service.getCount());
 		page.setNowPage(Integer.parseInt(cPage));
 		CourseVO[] ar = null;
 		ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
-	
-		
-		System.out.println(ar.length);
-
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		if(listSelect.equals("1"))
