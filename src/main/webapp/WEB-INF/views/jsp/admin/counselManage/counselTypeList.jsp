@@ -348,7 +348,6 @@ table tfoot ol.page {
 			$.ajax({
 				url:"addCounselFile",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCounselFile")
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -365,7 +364,7 @@ table tfoot ol.page {
 			$.ajax({
 				url:"counselAddMain",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("CounselAddMain")
+				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselAddMain")+"&c_idx="+c_idx,
 			}).done(function(result){
 				$("#dialog2").html(result);
 				$(".ccol").on("change input", function() {
@@ -380,6 +379,28 @@ table tfoot ol.page {
 			
             $("#dialog2").dialog("open");
         }
+
+        $( "#dialog" ).dialog({
+            autoOpen: false,
+            width:1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+		
+		$( "#dialog2" ).dialog({
+            autoOpen: false,
+            width: 1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
 
 		function paging(str) {
 			$.ajax({
