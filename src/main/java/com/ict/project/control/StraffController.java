@@ -42,22 +42,29 @@ public class StraffController {
     @RequestMapping("addStaff")
     public String addStaff(StaffVO svo) {
         String code = null;
+
+        // 사용권한이 교강사인 경우(rt_idx가 1) 교수코드를 생성
         if(svo.getRt_idx().equals("1")) {
 			String[] s_ar = s_Service.searchSfCode();
 			HashSet<String> set = new HashSet<String>();
             
+            // 기존에 존재하는 교수코드를 가져와서 Hashset에 저장
 			for(int i=0; i<s_ar.length; i++) {
                 set.add(s_ar[i]);
 			}
             
-			int num = 0;
-			while(!set.contains(code)) {
+			// 난수로 임의의 교수코드를 생성
+            int num = (int)Math.floor(Math.random()*999999+100000);
+            code = String.valueOf(num);
+
+            // while문을 이용해 기존의 교수코드와 중복여부 체크
+            while(set.contains("tc"+code)){
                 num = (int)Math.floor(Math.random()*999999+100000);
-				code = String.valueOf(num);
-			}
-            System.out.println(code);
+                code = String.valueOf(num);
+            }
 		}
-        svo.setSf_code(code);
+        svo.setSf_code("tc"+code);
+
         //전화번호 합쳐서 보내기.
         String[] ar = request.getParameterValues("sf_phone");
         String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
@@ -92,9 +99,34 @@ public class StraffController {
     
     @RequestMapping("editStaff")
     public String editStaff(StaffVO vo) {
-        if(vo.getSf_fire_date().equals("")){
+        // [수정필요] 퇴사일 넣었다가 지우는건 현재 구동 안됨
+        String code = null;
+        if(vo.getRt_idx().equals("1")){
+            String[] s_ar = s_Service.searchSfCode();
+			HashSet<String> set = new HashSet<String>();
+            
+            // 기존에 존재하는 교수코드를 가져와서 Hashset에 저장
+			for(int i=0; i<s_ar.length; i++) {
+                set.add(s_ar[i]);
+			}
+            
+			// 난수로 임의의 교수코드를 생성
+            int num = (int)Math.floor(Math.random()*999999+100000);
+            code = String.valueOf(num);
+
+            // while문을 이용해 기존의 교수코드와 중복여부 체크
+            while(set.contains("tc"+code)){
+                num = (int)Math.floor(Math.random()*999999+100000);
+                code = String.valueOf(num);
+            }
+        }
+        vo.setSf_code("tc"+code);
+
+        // 퇴사일을 지정하지 않았을 경우 null로 지정
+        if(vo.getSf_fire_date().equals("") || vo.getSf_fire_date() == null){
             vo.setSf_fire_date(null);
         }
+
         s_Service.editStaff(vo);
         return "redirect:staffList";
     }

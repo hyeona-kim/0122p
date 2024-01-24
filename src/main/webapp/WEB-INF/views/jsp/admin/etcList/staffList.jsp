@@ -241,9 +241,9 @@
 		 비동기통신을 이용해 dialog를 띄우는 기능 */
 		function editStaff(idx) {
 			$.ajax({
-				url: "Controller",
+				url: "staffEditForm",
 				type: "post",
-				data: "type=staffEditForm"
+				data: "sf_idx="+idx
 			}).done(function(result){
 				$("#addForm").html(result);
 			});
@@ -260,7 +260,7 @@
 			 교직원의 status를 0->1 로 변경해서 보이지 않게 한다 */
 		function delStaff(idx) {
 			if(confirm("삭제하시겠습니까?")){
-				location.href="Controller?type=delStaff&sf_idx="+idx;
+				location.href="delStaff?sf_idx="+idx;
 			}else{
 				return false;
 			}

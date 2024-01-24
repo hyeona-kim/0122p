@@ -15,21 +15,21 @@
 		<tbody>
 			<tr>
 				<th>이름</th>
-				<td class="left"><input class="input" type="text" id="sf_name" name="sf_name"/></td>
+				<td class="left"><input class="input" type="text" id="sf_name" name="sf_name" value="${vo.sf_name}"/></td>
 				<th>직급</th>
-				<td class="left"><input class="input" type="text" name="sf_job"/></td>
+				<td class="left"><input class="input" type="text" name="sf_job" value="${vo.sf_job}"/></td>
 			</tr>
 			<tr>
 				<th>아이디</th>
-				<td class="left"><input class="input" type="text" name="sf_id"/></td>
+				<td class="left"><input class="input" type="text" name="sf_id" value="${vo.sf_id}"/></td>
 				<th>암호</th>
-				<td class="left"><input class="input" type="text" name="sf_pwd"/></td>
+				<td class="left"><input class="input" type="text" name="sf_pwd" value="${vo.sf_pwd}"/></td>
 			</tr>
 			<tr>
 				<th>입사일</th>
-				<td class="left"><input class="input" type="date" name="sf_hire_date"/></td>
+				<td class="left"><input class="input" type="date" name="sf_hire_date" value="${vo.sf_hire_date}"/></td>
 				<th>퇴사일</th>
-				<td class="left"><input class="input" type="date" name="sf_fire_date"/></td>
+				<td class="left"><input class="input" type="date" name="sf_fire_date" value="${vo.sf_fire_date}"/></td>
 			</tr>
 			<tr>
 				<th>연락처</th>
