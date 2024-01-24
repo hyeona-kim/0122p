@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
 	table tfoot ol.page {
@@ -70,6 +71,37 @@
 		text-indent: -9999px;
 		height: 0;
 	}
+	#cf_h2{
+		background: black;
+		color: white;
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+		margin-bottom: 30px;
+	}
+	#cf_wrap{
+		width: 100%;
+
+	}
+	#cf_table{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#cf_table td,#cf_table th{
+		border: 1px solid #aaaaaa;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+	}
+	#cf_table thead{
+		background-color: #dedede;
+	}
+	#cf_table tfoot td{
+		border: none;
+		text-align: center;
+		padding-top: 10px;
+	}
+	
 </style>
 
 </head>
@@ -119,8 +151,12 @@
 			</div>
 		</div>
 	</div>
+	<div id="dialog" hidden="" title="교육과정등록">	
+		<!--학습 안내서를 등록하는 테이블 -->
+	</div>
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 	let select ="";
 	let select_year = "";
@@ -201,6 +237,41 @@
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
+	}
+
+	function set(c_idx){
+		console.log(c_idx);
+		//이 비동기 통신을 하면서fileVo객체를 받아온다 과정에대한 c_idx를 가지고가서 출력하고 그 과정명을h2태그에 띄어준다 
+		
+
+		$.ajax({
+			url:"course_file",
+			type:"post",
+			data:"c_idx="+encodeURIComponent(c_idx)
+		}).done(function(result){
+			$("#dialog").html(result);
+			$("#cc_cancle").click(function(){
+					$("#dialog").dialog("close");
+			});
+		});
+		$("#dialog").dialog("open");
+	}
+
+	$("#dialog").dialog({
+		autoOpen: false,
+		width:1200,
+		modal: true,
+		buttons: {
+			"닫기": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+	function send_file(){
+		let ar = document.file_frm.file;
+		ar[0].name.value = "file1";
+		console.log(ar[0].name);
+		
 	}
 	</script>
 </body>
