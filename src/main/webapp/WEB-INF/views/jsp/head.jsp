@@ -12,7 +12,7 @@
       <li class="menubar selected" id="firstmenu"><a href="menu?select=counselReceipt">상담 및 접수</a></li>
       <li class="menubar" id="secondmenu"><a href="menu?select=courseReg">과정등록</a></li>
       <li class="menubar" id="thirdmenu"><a href="menu?select=schoolRecord">학적부</a></li>
-      <li class="menubar 4"><a href="menu?select=counselManage">상담관리</a></li>
+      <li class="menubar" id="fourthmenu"><a href="menu?select=counselManage">상담관리</a></li>
       <li class="menubar 5"><a href="menu?select=trainingLog">훈련일지</a></li>
       <li class="menubar 6" id="etclist"><a href="menu?select=etcList">기타관리</a></li>
       <li class="menubar 7" id="etclist"><a href="">사전평가</a></li>
