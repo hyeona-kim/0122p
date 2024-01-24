@@ -92,6 +92,22 @@
 		font-size: 11px;
 		color: red;
 	}
+	#before, #after{
+		display: inline-block;
+		width: 25px;
+		height: 25px;
+		line-height: 20px;
+		border-radius: 12px 12px;
+		color: white;
+		font-weight: bold;
+	}
+	#before{
+		margin-right: 20px;
+		background-color:darkgray;
+	}
+	#after{
+		background-color:aquamarine;
+	}
 </style>
 
 </head>
@@ -141,18 +157,8 @@
 			</div>	
 		</div>
 		<div id="dialog" hidden title="액셀등록">
-			<h2 id="e_h2">강사/시설/교과목 엑셀등록</h2>
-			<div id="e_div"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
-			<table id="e_table">
-				<colgroup>
-					<col width="20%"/>
-					<col width="80%"/>
-				</colgroup>
-				<tr>
-					<th bgcolor="#eeeeee">첨부파일</th>
-					<td><input type="file" name="file"/></td>
-				</tr>
-			</table>
+		<div id="dialog2" hidden title="주별 시간표 보기">
+			
 		</div>
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -240,13 +246,59 @@
 			$("#courseLog_Table").html(result);
 		});
 	}
-	function set() {
+	function set(str,c_idx){
+		
 		$( "#dialog" ).dialog("open");
+
+		$.ajax({
+			url:"exelAdd",
+			type:"post",
+			data:"listSelect=3&select="+str+"&c_idx="+c_idx,
+		}).done(function(result){
+			$("#dialog").html(result);
+			if(str =="time"){
+			$("#e_h2").html("HRD시간표 액셀등록"); 
+			}
+			if(str =="SRS"){
+				$("#e_h2").html("강사/시설/교과목 엑셀등록"); 
+			}
+			$("#cc_cancle").click(function(){
+				$( "#dialog" ).dialog("close");
+			});
+		});
+
     }
 
 	$( "#dialog" ).dialog({
 		autoOpen: false,
 		width:1000,
+		modal: true,
+		buttons: {
+			"닫기": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+    });
+	function set2(c_idx){
+		$( "#dialog2" ).dialog("open");
+
+		$.ajax({
+			url:"weekTime",
+			type:"post",
+			data:"listSelect=3&c_idx="+c_idx,
+		}).done(function(result){
+			$("#dialog2").html(result);
+			$("#cc_cancle").click(function(){
+				$( "#dialog2" ).dialog("close");
+			});
+			
+		});
+
+    }
+
+	$( "#dialog2" ).dialog({
+		autoOpen: false,
+		width:1600,
 		modal: true,
 		buttons: {
 			"닫기": function() {

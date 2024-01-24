@@ -568,7 +568,6 @@ table tfoot ol.page {
 				type:"post",
 				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1"
 			}).done(function(result){
-				console.log(result);
 				$("#dialog6").html(result);
 				
 			});
