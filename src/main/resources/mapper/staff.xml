@@ -67,7 +67,8 @@
 			rt_idx = #{rt_idx},
 			sf_mgr = #{rt_idx},
 			sf_code = #{sf_code},
-			<if test="sf_fire_date != null or sf_fire_date eq ''">sf_fire_date = #{sf_fire_date}</if>
+			sf_fire_date = #{sf_fire_date},
+			sf_phone = #{sf_phone}
 		</trim>
 		where sf_idx = #{sf_idx}
 	</update>
