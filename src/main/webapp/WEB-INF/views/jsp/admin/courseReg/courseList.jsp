@@ -75,6 +75,7 @@
 							<option>훈련강사</option>
 							<option>과정타입</option>
 							<option>강의실</option>
+							
 						</select>
 						<input type="text"/>
 						<button type="button">검 색</button>

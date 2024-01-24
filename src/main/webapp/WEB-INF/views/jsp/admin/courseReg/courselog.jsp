@@ -48,7 +48,7 @@ table tfoot ol.page {
 		margin: auto;
 		margin-top: 20px;
 	}
-	#courseList_top {
+	#courseList_top, #staffList_top {
 		background: black;
 		color: white;
 		height: 40px;
@@ -61,7 +61,7 @@ table tfoot ol.page {
 		width: 100%;
 	}
 	
-	#searchCourse td, #searchCourse th, #makeCourse td, #makeCourse th{
+	#searchCourse td, #searchCourse th, #makeCourse td, #makeCourse th, #makeTime td, #makeTime th {
 		border: 1px solid #ddd;
 		height: 20px;
 		padding-left: 10px;
@@ -69,7 +69,7 @@ table tfoot ol.page {
 	#makeCourse th{
 		height: 40px;
 	}
-	#searchCourse th, #makeCourse th{background-color: #ddd;}
+	#searchCourse th, #makeCourse th, #makeTime th{background-color: #ddd;}
 	
 	#searchCourse caption, #makeCourse caption{
 		text-indent: -9999px;
@@ -261,7 +261,6 @@ table tfoot ol.page {
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
-					
 					<div id="staffWrap">
 						<div id="courseList_top">교육과정리스트</div>
 						<div id="ttop">
@@ -325,9 +324,10 @@ table tfoot ol.page {
 		
 		<div id="dialog4" hidden="" title="과정수정">
 		</div>
-		
-		<div id="dialog5" hidden="" title="교과목 등록/수정">
+
+		<div id="dialog5" hidden="" title="수정">
 		</div>
+		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
@@ -400,7 +400,21 @@ table tfoot ol.page {
 					$("#courseLog_Table").html(result);
 				});
 			});	
-			
+
+		});
+
+
+			function upskill(){
+				console.log("1");
+				$.ajax({
+					url: "upskill",
+					type: "post",
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+				}).done(function(result){
+					$(".right").html(result);
+				});
+			}
 			
 			
 		});
@@ -412,6 +426,7 @@ table tfoot ol.page {
 				console.log("완료");
 			});
 		}
+
 		function set() {
 			$.ajax({
 				url:"c_dialog",
@@ -470,6 +485,21 @@ table tfoot ol.page {
 
 			});
         }
+
+
+		function set5() {
+				$("#dialog5").dialog("open");
+			$.ajax({
+				url:"c_dialog",
+				type:"post",
+				data:"select="+encodeURIComponent("addUpskill")
+			}).done(function(result){
+				$("#dialog5").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog5").dialog("close");
+				});
+
 		function set4(c_idx) {
             $("#dialog4").dialog("open");
             
@@ -489,7 +519,6 @@ table tfoot ol.page {
 					 room_length = 7;
 					 $("#dialog4").dialog( "close" );
 				});
-
 			});
         }
 
@@ -507,6 +536,8 @@ table tfoot ol.page {
 			});
 			$("#dialog4").dialog("open");	
         }
+
+		
 
 		$( "#dialog" ).dialog({
             autoOpen: false,
@@ -551,6 +582,18 @@ table tfoot ol.page {
                 }
             }
         });
+		$( "#dialog5" ).dialog({
+            autoOpen: false,
+            width: 600,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		
 
 		function del(c_idx){
 			if( confirm("삭제하시겠습니까?")){
@@ -580,11 +623,14 @@ table tfoot ol.page {
 			
 			$("#addRoom_tbody").html(str+str2);
 		}
+	
 		
 		function addCourse(frm) {
 		    frm.action= "editCourse?edit=ok";
 		    frm.submit();
 		}
+
+		
 	</script>
 </body>
 </html>
