@@ -240,26 +240,26 @@
 	}
 
 	function set(c_idx){
-		console.log(c_idx);
+		//console.log(c_idx);
 		//이 비동기 통신을 하면서fileVo객체를 받아온다 과정에대한 c_idx를 가지고가서 출력하고 그 과정명을h2태그에 띄어준다 
 		
-
+		$("#dialog").dialog("open");
 		$.ajax({
 			url:"course_file",
 			type:"post",
-			data:"c_idx="+encodeURIComponent(c_idx)
+			data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=2"
 		}).done(function(result){
 			$("#dialog").html(result);
 			$("#cc_cancle").click(function(){
 					$("#dialog").dialog("close");
 			});
 		});
-		$("#dialog").dialog("open");
+		
 	}
 
 	$("#dialog").dialog({
 		autoOpen: false,
-		width:1200,
+		width:900,
 		modal: true,
 		buttons: {
 			"닫기": function() {
@@ -267,12 +267,6 @@
 			}
 		}
 	});
-	function send_file(){
-		let ar = document.file_frm.file;
-		ar[0].name.value = "file1";
-		console.log(ar[0].name);
-		
-	}
 	</script>
 </body>
 </c:if>

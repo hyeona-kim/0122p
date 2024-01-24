@@ -288,15 +288,15 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addRoom_ajax");
 		else if(select.equals("editCourse"))
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
-
 		else if(select.equals("addUpskill"))
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
-    else if(select.equals("updateSubject")){
+   		else if(select.equals("updateSubject")){
             mv.setViewName("/jsp/admin/courseReg/subject");
-    CourseVO cvo = c_Service.getCourse(c_idx);
-    mv.addObject("cvo",cvo);
-    return mv;
+			CourseVO cvo = c_Service.getCourse(c_idx);
+			mv.addObject("cvo",cvo);
 		}
+		return mv;
+	}
 @RequestMapping("upskill")
     public ModelAndView upskill() {
         ModelAndView mv = new ModelAndView();
@@ -360,10 +360,10 @@ public class CourseController {
 		return null;
 	}
     @RequestMapping("course_file")
-    public ModelAndView course_file(FileVO fvo){
+    public ModelAndView course_file(FileVO fvo,String listSelect){
         ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
-
+		System.out.println(listSelect);
 		if(encType.startsWith("application")){
 			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
 
@@ -374,11 +374,7 @@ public class CourseController {
 		}else if(encType.startsWith("multipart")){
 			String realPath = application.getRealPath("upload_courseFile");
 			String c_idx = fvo.getC_idx();
-			//파일의 기본키는 ,로 넘어온다 그래서 f_idx가 없다면 ,5개 즉 length가 5이게 된다 이럴경우에는 전부다 insert해주는 방식으로 한다.
-			//과정의 기본키는 필수항목이다 . 만약 해당 과정의 하나의 파일이라도 업로드 된 경우에는 무조건 전부다 file에 추가해 주는 방식으로 저장한다,
-			//만약 파일이 존재하지 않는다면 fname= null로 저장한다.
-			//총 길이가 6만큼의 반복문을 돌면서 fvo를 생성하고 그 fvo를 저장해준다.
-			//System.out.println("과정의 정보:"+fvo.getF_info());
+			
 			String[] f_info = fvo.getF_info().split(",");
 			String[] f_idx = fvo.getF_idx().split(",");
 			MultipartFile[] f_ar = new MultipartFile[6];
@@ -429,7 +425,7 @@ public class CourseController {
 					}
 				}
 			}
-			mv.setViewName("redirect:course?listSelect=2&cPage=1");
+			mv.setViewName("redirect:course?listSelect="+listSelect+"&cPage=1");
 		}
 
 		return mv;
