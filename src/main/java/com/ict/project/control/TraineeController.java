@@ -199,36 +199,41 @@ public class TraineeController {
 
 	/* 훈련생 확인 서류 수정 */
     @RequestMapping("trainuploadedit")
-    public ModelAndView trainuploadedit(TrainuploadVO tvo, MultipartFile file) {
+    public ModelAndView trainuploadedit(TrainuploadVO tvo) {
         ModelAndView mv = new ModelAndView();
         String enc_type = request.getContentType();
+		System.out.println("enc_type:----"+enc_type);
         String viewPath = null;
+	
     
         if(enc_type !=null && enc_type.startsWith("application")) {
             TrainuploadVO vo = u_Service.getUpload(tvo.getTn_idx());// tn_idx
-        if(vo !=null)
-            request.setAttribute("vo3", vo);
+			mv.addObject("vo", vo);
             viewPath="jsp/admin/schoolRecord/TrainuploadEdit";
-        }else if(enc_type !=null && enc_type.startsWith("multipart")){             
-            String realPath = application.getRealPath("/ictedu_upload");
-            String fname = null;
-            String oname = null;
-            
-            if(file.getSize()>0){
-                oname = file.getOriginalFilename();
-                fname = FileRenameUtil.checkSameFileName(oname, realPath);
-                try {
-                    
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-			tvo.setFile_name(fname);
-			tvo.setOri_name(oname);
-            int cnt = u_Service.edit(tvo);
-            viewPath ="redirect:trainupload";
-		}
 
+        }else if(enc_type !=null && enc_type.startsWith("multipart")){       
+			MultipartFile f = tvo.getFile();       
+
+				if(f != null && f.getSize() > 0){
+            		String realPath = application.getRealPath(upload_file);
+					String 	fname = f.getOriginalFilename();
+					tvo.setOri_name(fname);
+
+					fname = FileRenameUtil.checkSameFileName(fname, realPath);
+
+					try {
+						f.transferTo(new File(realPath, fname));
+						tvo.setFile_name(fname);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				tvo.setIp(request.getRemoteAddr());
+				int cnt =u_Service.edit(tvo);
+				System.out.println(cnt);
+            viewPath =("redirect:trainupload");
+		}
+		System.out.println(enc_type);
         mv.setViewName(viewPath);
 		return mv;
     }
@@ -272,13 +277,16 @@ public class TraineeController {
     @RequestMapping("confirm")
     public ModelAndView confirm() {
         ModelAndView mv = new ModelAndView();
-        TraineeVO[] ar =t_Service.getTraineeList();
+        TrainuploadVO[] ar =u_Service.all();
 		if(ar !=null)
 			mv.addObject("ar", ar);
 
 		mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax"); 
         return mv;
     }
+
+
+
     @RequestMapping("trainuploadview")
     public ModelAndView trainuploadview(String tn_idx) {
         ModelAndView mv = new ModelAndView();
@@ -352,7 +360,7 @@ public class TraineeController {
         ModelAndView mv = new ModelAndView();
        Paging page = new Paging();
 		
-		//page.setTotalRecord(cu.getCount());
+		page.setTotalRecord(t_Service.getCount());
 		
 		if(cPage == null || cPage.length()==0) {
 			page.setNowPage(1);
@@ -362,15 +370,37 @@ public class TraineeController {
 			
 		}
 		
-		//TraineeVO[] ar = t_Service.(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		TraineeVO[] tv = t_Service.getTraineeList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		
-		request.setAttribute("page", page);
-		//request.setAttribute("ar", ar);
+		mv.addObject("ar", tv);
+		mv.addObject("page", page);
+
         mv.setViewName( "jsp/admin/schoolRecord/traineecurrentbt1");
 		return mv;
     }
 
+	@RequestMapping("traineewrite")
+	public ModelAndView traineewrite(String tr_idx){
+		ModelAndView mv = new ModelAndView();
 
+		TraineeVO vo = t_Service.view(tr_idx);
+		
+		mv.addObject("vo8", vo);
+		
+		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
+		return mv;
+	}
+
+
+	@RequestMapping("traineeEdit")
+	public ModelAndView traineeEdit(){
+		ModelAndView mv = new ModelAndView();
+
+
+		mv.setViewName("jsp/admin/schoolRecord/traineeEdit");
+
+		return mv;
+	}
 	
 	
 

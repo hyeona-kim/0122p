@@ -78,14 +78,6 @@ table tfoot ol.page {
 		 margin-bottom: 10px;
 	}
 
-	.ck.ck-editor {
-    	max-width: 100%;
-    	padding: 8px;
-    	
-	}
-	.ck-editor__editable {
-	    min-height: 300px;
-	}
 	
 	#t2{
 		margin-top:10px;

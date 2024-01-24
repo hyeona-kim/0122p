@@ -12,5 +12,6 @@ public interface UploadMapper {
     TrainuploadVO view(String tn_idx);   
     int update(TrainuploadVO vo);
     int del(String tn_idx);
+    List<TrainuploadVO> all();
 
 }

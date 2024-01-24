@@ -26,6 +26,19 @@ public class UploadService {
         return ar;
     }
 
+    public TrainuploadVO[] all(){
+        TrainuploadVO[] aa = null;
+
+        List<TrainuploadVO> list = u_mapper.all();
+        if(list != null && !list.isEmpty()){
+            aa = new TrainuploadVO[list.size()];
+            list.toArray(aa);
+
+        }
+        return aa;
+            
+    }
+
     // trainupload테이블의 Record 개수를 반환하는 기능
     public int getCount() {
         return u_mapper.count();

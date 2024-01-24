@@ -12,6 +12,8 @@
 <style>
 table tfoot ol.page {
 	    list-style:none;
+	    width: 300px;
+	    margin: auto;
 	}
 	
 	table tfoot ol.page li {
@@ -22,28 +24,23 @@ table tfoot ol.page {
 	table tfoot ol.page li a {
 	    display:block;
 	    padding:3px 7px;
-	    border:1px solid #00B3DC;
-	    color:#2f313e;
+	    color:gray;
 	    font-weight:bold;
 	    text-decoration: none;
 	}
 	
 	table tfoot ol.page li a:hover {
-	    background:#00B3DC;
-	    color:white;
+		color:black;
 	    font-weight:bold;
 	}
 	.disable {
 	    padding:3px 7px;
-	    border:1px solid silver;
-	    color:silver;
+	    color:white;
 	}
 	
 	.now {
 	   padding:3px 7px;
-	    border:1px solid #ff4aa5;
-	    background:#ff4aa5;
-	    color:white;
+	    color:#46ade1;
 	    font-weight:bold;
 	}
 	#staffWrap{
@@ -73,6 +70,11 @@ table tfoot ol.page {
 	#searchTime caption, #makeTime caption{
 		text-indent: -9999px;
 		height: 0;
+	}
+	#b1{
+		 float: right;
+		 padding-top: 10px;
+		 margin-bottom: 10px;
 	}
 </style>
 
@@ -119,29 +121,29 @@ table tfoot ol.page {
 						<tr>
 							<td colspan="10">
 								<ol class="page">
-			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
-            <li class="disable">&lt;</li>
-         </c:if>   
-   
-         <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-            <li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
-         </c:if>
+				<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+				<li class="disable">&lt;</li>
+			</c:if>	
+	
+			<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+				<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
+			</c:if>
 
-         <c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
-            <c:if test="${vs.index eq page.nowPage }">
-               <li class="now">${vs.index }</li>
-            </c:if>
-            <c:if test="${vs.index ne page.nowPage }">
-               <li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
-            </c:if>
-         </c:forEach>
-   
-         <c:if test="${page.endPage < page.totalPage }">
-            <li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
-         </c:if>
-         <c:if test="${page.endPage >= page.totalPage }">
-            <li class="disable">&gt;</li>   
-         </c:if>
+			<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
+				<c:if test="${vs.index eq page.nowPage }">
+					<li class="now">${vs.index }</li>
+				</c:if>
+				<c:if test="${vs.index ne page.nowPage }">
+					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
+				</c:if>
+			</c:forEach>
+	
+			<c:if test="${page.endPage < page.totalPage }">
+				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+			</c:if>
+			<c:if test="${page.endPage >= page.totalPage }">
+				<li class="disable">&gt;</li>	
+			</c:if>
                               </ol>
                           </td>
 						</tr>
@@ -167,8 +169,8 @@ table tfoot ol.page {
 						</td>
 						<td><!-- 사유및날짜 --></td>
 						<td>
-						<input type="button" id="fset"  onclick="" value="정보수정">
-						<input type="button" id="fset"  onclick="" value="신상기록부">
+						<input type="button" id="fset"  onclick="javascript:location.href='traineeEdit'" value="정보수정"/>
+						<input type="button" id="fset"  onclick="javascript:location.href='traineewrite'" value="신상기록부">
 						<input type="button" id="fset"  onclick="" value="서류관리">
 						<input type="button" id="fset"  onclick="" value="상담일지">
 						<input type="button" id="fset"  onclick="" value="사후관리">

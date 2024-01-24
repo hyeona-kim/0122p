@@ -124,6 +124,7 @@ table tfoot ol.page {
 										<tr>
 											<th>훈련생명</th>
 											<td colspan="3"></td>
+										</tr>
 										<tr>	
 											<th>과정명</th>
 											<td></td>

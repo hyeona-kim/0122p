@@ -30,7 +30,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea id="content" name="content" ${vo3.content } cols="100" rows="8"></textarea></td>
+							<td><textarea id="content" name="content"  cols="100" rows="8">${vo3.content }</textarea></td>
 						</tr>
 						<tr>
 							<th>첨부파일:</th>
