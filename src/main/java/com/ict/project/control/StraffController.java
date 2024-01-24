@@ -41,12 +41,9 @@ public class StraffController {
     
     @RequestMapping("addStaff")
     public String addStaff(StaffVO svo) {
-        String code = "";     
-        System.out.println(svo.getRt_idx());
-        if(svo.getRt_idx().equals(1)) {
-            System.out.println(svo.getRt_idx());
+        String code = null;
+        if(svo.getRt_idx().equals("1")) {
 			String[] s_ar = s_Service.searchSfCode();
-			
 			HashSet<String> set = new HashSet<String>();
             
 			for(int i=0; i<s_ar.length; i++) {
@@ -58,13 +55,14 @@ public class StraffController {
                 num = (int)Math.floor(Math.random()*999999+100000);
 				code = String.valueOf(num);
 			}
+            System.out.println(code);
 		}
         svo.setSf_code(code);
         //전화번호 합쳐서 보내기.
         String[] ar = request.getParameterValues("sf_phone");
         String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
         svo.setSf_phone(phone);
-        
+
 		s_Service.addStaff(svo);              
         return "redirect:staffList";
     }
