@@ -114,22 +114,22 @@ public class CourseController {
 			mv.addObject("r_idx",vo.getR_idx());
 			mv.addObject("sf_idx",vo.getSf_idx());
 			mv.addObject("ct_idx",vo.getCt_idx());
-			
-			if(vo.getC_day().contains("월"))
-				mv.addObject("monday",true);
-			if(vo.getC_day().contains("화"))	
-				mv.addObject("tuesday",true);
-			if(vo.getC_day().contains("수"))	
-				mv.addObject("wednesday",true);
-			if(vo.getC_day().contains("목"))	
-				mv.addObject("thursday",true);
-			if(vo.getC_day().contains("금"))	
-				mv.addObject("friday",true);
-			if(vo.getC_day().contains("토"))	
-				mv.addObject("saturday",true);
-			if(vo.getC_day().contains("일"))	
-				mv.addObject("sunday",true);
-
+			if(vo.getC_day()!= null){
+				if(vo.getC_day().contains("월"))
+					mv.addObject("monday",true);
+				if(vo.getC_day().contains("화"))	
+					mv.addObject("tuesday",true);
+				if(vo.getC_day().contains("수"))	
+					mv.addObject("wednesday",true);
+				if(vo.getC_day().contains("목"))	
+					mv.addObject("thursday",true);
+				if(vo.getC_day().contains("금"))	
+					mv.addObject("friday",true);
+				if(vo.getC_day().contains("토"))	
+					mv.addObject("saturday",true);
+				if(vo.getC_day().contains("일"))	
+					mv.addObject("sunday",true);
+			}		
 			mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
         }else{
             int cnt =c_Service.editCourse(cvo);
