@@ -574,11 +574,11 @@ table tfoot ol.page {
 			});
         }
 
-		function editC(c_idx){
+		function editC(c_idx,nowPage){
 			 $.ajax({
 				url:"editCourse",
 				type:"post",
-				data:"&c_idx="+c_idx
+				data:"&c_idx="+c_idx+"&cPage="+nowPage
 			}).done(function(result){
 				$("#dialog4").html(result);
 				

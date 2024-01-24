@@ -152,5 +152,6 @@
 						</td>
 					</tr>
 				</tfoot>	
+				<input type="hidden" name="cPage" value="${param.cPage}"/>
 			</table>
 		</form>
