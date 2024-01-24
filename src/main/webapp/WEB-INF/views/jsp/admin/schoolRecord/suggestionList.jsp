@@ -1,4 +1,4 @@
-<%@page import="ictedu.util.Paging"%>
+<%@page import="com.ict.project.util.Paging"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 table tfoot ol.page {
@@ -217,7 +217,7 @@ table tfoot ol.page {
 <c:if test="${tvo eq null }">
 <body>
 	<article>
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -283,20 +283,19 @@ table tfoot ol.page {
 			$("#thirdmenu").addClass("selected");
 			$("#l_first").addClass("l_select");
 			
-			<%-- 처음 고충 및 건의사항을 클릭했을 때
-				 비동기식통신을 수행해 전체 목록을 가져온다 --%>
+			/* 처음 고충 및 건의사항을 클릭했을 때
+				 비동기식통신을 수행해 전체 목록을 가져온다 */
 			$.ajax({
-				url: "Controller",
+				url: "suggMain",
 				type: "post",
-				data: "type=suggMain"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 			
-			<%-- 목록에서 [글쓰기]버튼을 클릭했을 때 수행 --%>
+			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
 			$("#sug_add_btn").bind("click", function(){
 				$.ajax({
-					url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/add_ajax.jsp",
+					url: "sugAddForm",
 					type: "post"
 				}).done(function(result){
 					$("#addForm").html(result);
@@ -312,35 +311,32 @@ table tfoot ol.page {
 			
 		});
 		
-		<%-- 목록 아래 [page번호]를 클릭할 때 수행
+		/* 목록 아래 [page번호]를 클릭할 때 수행
 			 cPage를 변수로 가지고 새롭게 비동기통신을 해서
-			 테이블을 표현한다 --%>
+			 테이블을 표현한다 */
 		function paging(cPage) {
 			$.ajax({
-				url: "Controller",
+				url: "suggMain",
 				type: "post",
-				data: "type=suggMain&cPage="+cPage
+				data: "cPage="+cPage
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 		}
 		
-		<%-- 건의사항 작성 폼에서 [등록] 버튼을 눌렀을때 수행 --%>
+		/* 건의사항 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
 		function addSuggestion() {
 			// 유효성 검사 해야함
 			
 			document.forms[0].submit();
 		};
 		
-		<%-- 글의 제목을 클릭했을 때 내용 보기 --%>
-		function viewContent(subject, date, hit, content) {
+		/* 글의 제목을 클릭했을 때 내용 보기 */
+		function viewContent(sg_idx) {
 			$.ajax({
-				url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/view_ajax.jsp",
+				url: "viewSugg",
 				type: "post",
-				data: "subject="+encodeURIComponent(subject)+
-					  "&date="+encodeURIComponent(date)+
-					  "&hit="+encodeURIComponent(hit)+
-					  "&content="+encodeURIComponent(content)
+				data: "sg_idx="+sg_idx
 			}).done(function(result){
 				$("#sugContent").html(result);
 			});
@@ -353,14 +349,12 @@ table tfoot ol.page {
 			});
 		};
 		
-		<%-- 건의사항 보기화면에서 [답변]을 눌렀을때 수행 --%>
-		function reply(subject, content) {
+		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
+		function reply(sg_idx) {
 			$.ajax({
-				url: "${pageContext.request.contextPath}/jsp/admin/schoolRecord/reply_ajax.jsp",
+				url: "reply",
 				type: "post",
-				data: "subject="+subject+
-					  "&content="+content+
-					  "&writer=${vo.sf_name}"
+				data: "sg_idx="+sg_idx
 			}).done(function(result){
 				$("#replyForm").html(result);
 			});
@@ -373,20 +367,22 @@ table tfoot ol.page {
 			});
 		};
 		
-		<%-- 답변 작성에서 [등록]을 눌렀을때 수행 --%>
+		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
 			frm.submit();
 		};
 		
-		<%-- 건의사항 목록에서 [검색]을 눌렀을때 수행 --%>
+		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
 		function searchSugg(cPage) {
 			let tag = document.getElementById("search_tag").value;
 			let value = document.getElementById("search_value").value;
+			let subject = document.getElementById("search_btn").value;
 			$.ajax({
-				url: "Controller",
+				url: "searchSugg",
 				type: "post",
-				data: "type=searchSugg&cPage="+encodeURIComponent(cPage)+
-					  "&tag="+encodeURIComponent(tag)+"&value="+encodeURIComponent(value)
+				data: "cPage="+encodeURIComponent('1')+
+					  "&tag="+encodeURIComponent(tag)+
+					  "&value="+encodeURIComponent(value)
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
@@ -397,7 +393,7 @@ table tfoot ol.page {
 </body>
 </c:if>
 <c:if test="${tvo ne null}">
-	<c:redirect url="Controller">
+	<c:redirect url="index">
 	</c:redirect>
 </c:if>
 </html>

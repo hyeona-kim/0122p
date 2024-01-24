@@ -52,5 +52,8 @@
 			</trim>) a
 			where bd_status = 0
 	</select>
+
+	<!-- 게시물 보기를 위해 해당 게시물을 얻어내는 기능 -->
+	 
 	
 </mapper>

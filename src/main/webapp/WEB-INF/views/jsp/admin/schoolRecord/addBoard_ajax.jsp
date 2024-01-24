@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<form action="Controller?type=addBoard" method="post">
+<form action="addBoard" method="post">
 	<table>
 		<caption>게시판 등록 테이블</caption>
 		<thead>

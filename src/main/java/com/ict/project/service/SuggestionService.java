@@ -48,4 +48,9 @@ public class SuggestionService {
         return s_mapper.reCount(sg_subject);
     }
 
+    // 게시글 보기 기능
+    public SuggestionVO view(String sg_idx) {
+        return s_mapper.view(sg_idx);
+    }
+
 }

@@ -88,6 +88,7 @@
 								</div>
 							</div>
 							<div class="login-bottom"></div>
+							<div id="login_fail" style=" font-size: 11px; color: red;"></div>
 						</div>
 					</form>
 				</td>
@@ -99,8 +100,19 @@
 						<p class="m-t">Copyright &copy; 한국ict인재개발원 All Rights Reserved.</p>
 					</div>
 				</td>
+				
 			</tr>
+			<c:if test="${login eq fail}">
+				<c:set var="login" value="${login}"/>
+			</c:if>
 		</table>
 	</div>
+	<script>
+		let value = '${login}';
+		if(value == "fail"){
+			//alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
+			document.getElementById("login_fail").innerHTML= "아이디 또는 비밀번호를 <br/> 잘못 입력했습니다.";
+		}
+	</script>
 </body>
 </html>

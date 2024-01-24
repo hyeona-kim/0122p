@@ -5,10 +5,9 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
-import com.ict.project.mapper.SuggestionMapper;
 import com.ict.project.service.SuggestionService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.SuggestionVO;
@@ -16,8 +15,6 @@ import com.ict.project.vo.SuggestionVO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -31,10 +28,33 @@ public class SuggestionController {
 	@Autowired
 	SuggestionService s_Service;
 
-     @RequestMapping("suggestionList")
+    @RequestMapping("suggestionList")
     public String suggestionList() {
 		return "/jsp/admin/schoolRecord/suggestionList";
     }
+
+	@RequestMapping("sugAddForm")
+	public String sugAddForm() {
+		return "/jsp/admin/schoolRecord/add_ajax";
+	}
+
+	@RequestMapping("reply")
+	public ModelAndView reply(String sg_idx) {
+		ModelAndView mv = new ModelAndView();
+		SuggestionVO vo = s_Service.view(sg_idx);
+		mv.addObject("vo", vo);
+		mv.setViewName("/jsp/admin/schoolRecord/reply_ajax");
+		return mv;
+	}
+	
+	@RequestMapping("viewSugg")
+	public ModelAndView viewSugg(String sg_idx) {
+		ModelAndView mv = new ModelAndView();
+		SuggestionVO vo = s_Service.view(sg_idx);
+		mv.addObject("vo", vo);
+		mv.setViewName("/jsp/admin/schoolRecord/view_ajax");
+		return mv;
+	}
     
     @RequestMapping("addSuggestion")
     public String addSuggestion(SuggestionVO svo) {
@@ -50,8 +70,8 @@ public class SuggestionController {
 		mv.setViewName("redirect:suggestionList");
 		return mv;
     }
-    @RequestMapping("searchSugg")
-    public ModelAndView requestMethodName(String cPage,String tag,String value,String sg_subject) {
+    @RequestMapping(value="searchSugg", method = RequestMethod.POST)
+    public ModelAndView requestMethodName(String cPage,String tag,String value) {
         ModelAndView mv = new ModelAndView();
         SuggestionVO[] ar = null;
 		Paging page = null;
@@ -61,7 +81,8 @@ public class SuggestionController {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(tag, value);
 		
-		int cnt = s_Service.reGetTotalRecord(sg_subject);
+		// Paging을 다시 만들기 위해 totalRecord를 다시 구한다
+		int cnt = s_Service.reGetTotalRecord(value);
 		
 		if(cnt > 0) {
 			page = new Paging();
@@ -77,7 +98,7 @@ public class SuggestionController {
 		request.setAttribute("bl", bl);
 		request.setAttribute("ar", ar);
 		request.setAttribute("page", page);
-        mv.setViewName( "redirect:suggMain");
+        mv.setViewName("suggMain");
 		
         return mv;
     }
@@ -89,7 +110,6 @@ public class SuggestionController {
 		
 		Object obj_ar = request.getAttribute("ar");
 		Object obj_p = request.getAttribute("page");
-		
 		if(obj_p == null) {
 			page = new Paging();
 			page.setTotalRecord(s_Service.getTotalRecord());

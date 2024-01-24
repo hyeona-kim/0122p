@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.CounselAddMapper">
+	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">
+    		  
+        INSERT INTO  advice_sst(ss_idx, ss_time, sf_idx, ss_day, ss_name, ss_pp, tr_idx, ss_msg, ss_msubject, ss_bd,
+          ss_member, ss_mday, ss_pa)
+          values(#{ss_idx}, #{ss_time}, #{sf_idx},#{ ss_day}, #{ss_name}, #{ss_pp}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd},
+          #{ss_member}, #{ss_mday}, #{ss_pa})
+	</insert>
+
+    <select id ="list" resultType="com.ict.project.vo.CounselAddVO">
+        select * from advice_sst
+    </select>
+	
+</mapper>

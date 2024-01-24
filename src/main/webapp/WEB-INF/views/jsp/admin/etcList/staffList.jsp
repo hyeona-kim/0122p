@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <title>Insert title here</title>
 <style>
@@ -120,9 +120,9 @@
 </head>
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
-		<jsp:include page="leftList.jsp"></jsp:include>
+		<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 				<div id="staffWrap">
@@ -218,13 +218,12 @@
 			$(".selected").removeClass("selected")
 			$("#etclist").addClass("selected");
 			
-			<%-- [교직원등록]버튼을 클릭했을 때
-			 비동기통신을 이용해 dialog를 띄우는 기능 --%>
+			/* [교직원등록]버튼을 클릭했을 때
+			 비동기통신을 이용해 dialog를 띄우는 기능 */
 			$("#staff_add_btn").bind("click", function() {
 				$.ajax({
-					url: "Controller",
+					url: "staffAddForm",
 					type: "post",
-					data: "type=staffAddForm"
 				}).done(function(result){
 					$("#addForm").html(result);
 				});
@@ -238,13 +237,13 @@
 			});
 		});
 		
-		<%-- 교직원현황 - [수정]버튼을 클릭했을 때
-		 비동기통신을 이용해 dialog를 띄우는 기능 --%>
+		/* 교직원현황 - [수정]버튼을 클릭했을 때
+		 비동기통신을 이용해 dialog를 띄우는 기능 */
 		function editStaff(idx) {
 			$.ajax({
-				url: "Controller",
+				url: "staffEditForm",
 				type: "post",
-				data: "type=staffEditForm"
+				data: "sf_idx="+idx
 			}).done(function(result){
 				$("#addForm").html(result);
 			});
@@ -257,19 +256,19 @@
 			});
 		};
 		
-		<%-- 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
-			 교직원의 status를 0->1 로 변경해서 보이지 않게 한다--%>
+		/* 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
+			 교직원의 status를 0->1 로 변경해서 보이지 않게 한다 */
 		function delStaff(idx) {
 			if(confirm("삭제하시겠습니까?")){
-				location.href="Controller?type=delStaff&sf_idx="+idx;
+				location.href="delStaff?sf_idx="+idx;
 			}else{
 				return false;
 			}
 		};
 		
-		<%-- 교직원등록에서 인증선택의 option을 변경할 때 수행하는 곳 --%>
+		/* 교직원등록에서 인증선택의 option을 변경할 때 수행하는 곳 */
 		function changeCertifi() {
-			<%-- option에서 선택된 값을 value에 저장 --%>
+			/* option에서 선택된 값을 value에 저장 */
 			let value = $("#certification").val();
 			
 			switch(value){
@@ -294,7 +293,7 @@
 									penColor : "rgb(0, 0, 0)"
 					});
 					
-					<%-- 교직원등록에서 전자서명패드를 clear하는 기능 --%>
+					/* 교직원등록에서 전자서명패드를 clear하는 기능 */
 					$("#clear_btn").bind("click", function() {
 						signature.clear();
 					});
@@ -303,7 +302,7 @@
 			};
 		};
 			
-		<%-- 교직원등록에서 [저장]버튼을 눌렀을 때 수행하는 곳 --%>
+		/* 교직원등록에서 [저장]버튼을 눌렀을 때 수행하는 곳 */
 		function addStaff() {
 			// 유효성 검사
 /* 			let ar = document.forms[0].elements;

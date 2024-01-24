@@ -31,7 +31,7 @@
 									<td>${cvo.svo.sf_name} </td>
 									<td>${cvo.start_date }</td>
 									<td>${cvo.end_date }</td>
-									<td>월화수목금</td>
+									<td>${cvo.c_day }</td>
 									<td>${cvo.c_round_num }</td>
 									<td>${cvo.c_peo_num }</td>
 									<td>${cvo.rvo.r_name} </td>

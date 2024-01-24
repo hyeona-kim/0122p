@@ -48,8 +48,8 @@
 	</select>
 
 	<insert id="add" parameterType="com.ict.project.vo.CourseVO">
-			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, t_idx)
-			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{t_idx})
+			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, sf_idx,r_idx ,c_day)
+			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{sf_idx}, 3 ,#{c_day})
 	</insert>
 
   <select id="getCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
@@ -71,13 +71,14 @@
         end_date = #{end_date},
         course_fee = #{course_fee},
         c_peo_num = #{c_peo_num},
-        c_round_num = #{c_round_num}
-	    </set>
-	    where c_idx = #{c_idx}
+        c_round_num = #{c_round_num},
+        c_day = #{c_day}
+	</set>
+	where c_idx = #{c_idx}
 	</update>
 
 	<select id="count" resultType="int" >
-		select count(*) from course_t 
+		select count(*) from course_t where c_status = 0 
 	</select>
 	
 	<select id="search_count" parameterType="Map" resultType="int">

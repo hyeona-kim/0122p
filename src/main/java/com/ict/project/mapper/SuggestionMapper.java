@@ -12,4 +12,5 @@ public interface SuggestionMapper {
 	int count();
     List<SuggestionVO> search(String subject,String begin,String end);
     int reCount(String sg_subject);
+    SuggestionVO view(String sg_idx);
 }

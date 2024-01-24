@@ -51,4 +51,10 @@
 			</trim>) a
 			where status = 0
 	</select>
+
+	<!-- 글보기 를 하기 위해 해당 글을 구하는 기능 -->
+	<select id="view" parameterType="String" resultType="com.ict.project.vo.SuggestionVO">
+		select * from suggestion_t
+		where sg_idx = #{sg_idx}
+	</select>
 </mapper>

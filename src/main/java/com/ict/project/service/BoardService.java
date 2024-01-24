@@ -56,4 +56,9 @@ public class BoardService {
     public int reGetTotalRecord(String subject) {
         return b_mapper.reCount(subject);
     }
+
+    // 게시물 보기 기능을 위해 해당 게시물 검색하는 기능
+    public BoardVO getBoard(String bd_idx) {
+        return b_mapper.getBoard(bd_idx);
+    }
 }

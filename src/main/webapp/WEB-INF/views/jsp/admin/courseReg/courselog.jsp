@@ -187,7 +187,65 @@ table tfoot ol.page {
     }
      #t1 tfoot{
      	border: none;
-     }
+    }
+	#table_h2{
+		background-color: black;
+		color: white;
+	}
+	<!-- 교과목 수정,등록하는 CSS-->
+	#subject_wrap{
+		width: 100%;
+		border: 1px solid red;
+	}
+	.subject_out{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.subject_out td, .subject_out th{
+		height: 120px;
+		border: 1px solid #ababab;
+		text-align: center;
+	}
+	.subject_out th{
+		background-color: #ededed;
+	}
+	.subject_out p{
+		font-size: 20px;
+	}
+	.subject_out select{
+		width: 60px;
+		height: 25px;
+	}
+	.subject_out #innerTable{
+		border-collapse: collapse;
+		height: 100px;
+		margin: auto;
+	}
+	.subject_out #innerTable td, .subject_out #innerTable th{
+		height: 20px;
+		border: 1px solid #ababab;
+	}
+	#subject_h2{
+		background: black;
+		color: white;
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+	}
+	#btns button{
+		height: 30px;
+		
+		border: 1px solid black;
+		background:  #00acac;
+		color: white;
+		border: 1px solid #00acac;
+		border-radius: 5px 5px;
+	}
+	#btns {
+		width: 100%;
+		margin-bottom: 20px;
+		text-align: right;
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -283,7 +341,7 @@ table tfoot ol.page {
 			$.ajax({
 				url: "courseMain",
 				type: "post",
-				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(${param.cPage})
+				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -313,7 +371,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -324,7 +382,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -337,11 +395,12 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(${param.cPage})
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
 			});	
+
 		});
 
 
@@ -357,8 +416,17 @@ table tfoot ol.page {
 				});
 			}
 			
+			
+		});
+		function downSubject(){
+			$.ajax({
+				url: "downloadSubject",
+				type: "post",
+			}).done(function(result){
+				console.log("완료");
+			});
+		}
 
-		
 		function set() {
 			$.ajax({
 				url:"c_dialog",
@@ -418,6 +486,7 @@ table tfoot ol.page {
 			});
         }
 
+
 		function set5() {
 				$("#dialog5").dialog("open");
 			$.ajax({
@@ -429,6 +498,26 @@ table tfoot ol.page {
 				
 				$("#cc_cancle").click(function(){
 					 $("#dialog5").dialog("close");
+				});
+
+		function set4(c_idx) {
+            $("#dialog4").dialog("open");
+            
+            $.ajax({
+				url:"c_dialog",
+				type:"post",
+				data:"select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
+			}).done(function(result){
+				$("#dialog4").html(result);
+				
+				$("#cl").click(function(){
+					 room_length = 7;
+					 $("#dialog4").dialog( "close" );
+				});
+				
+				$(".ui-dialog-titlebar-close").click(function(){
+					 room_length = 7;
+					 $("#dialog4").dialog( "close" );
 				});
 			});
         }
@@ -520,7 +609,7 @@ table tfoot ol.page {
 				url: "searchCourse",
 				type: "post",
 				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(${param.listSelect})+"&cPage="+encodeURIComponent(str),
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -537,7 +626,7 @@ table tfoot ol.page {
 	
 		
 		function addCourse(frm) {
-		    frm.action= "editCourse&edit=ok";
+		    frm.action= "editCourse?edit=ok";
 		    frm.submit();
 		}
 
