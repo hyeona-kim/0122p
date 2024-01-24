@@ -91,4 +91,5 @@
 </table>
 </div>
 <input name="c_idx" type="hidden" value="${cvo.c_idx}"/>
+<input name="listSelect" type="hidden" value="${param.listSelect}"/>
 </form>
