@@ -16,7 +16,7 @@
 						<th>관리현황</th>
 					</tr>
 				</thead>
-				
+				<tbody>
 					<c:forEach var="vo2" items="${requestScope.ar }" varStatus="vs">
 					<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 					<tr>
@@ -27,7 +27,7 @@
 						<td>${vo2.sk_idx }</td>
 						<td>${vo2.t_idx}</td>
 						<td>${vo2.us_cnum }</td>
-						<td><button type="button"  onclick="set5()">등록/수정</button></td>
+						<td><button type="button"  onclick="set5('skill')">등록/수정</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

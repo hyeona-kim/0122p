@@ -290,25 +290,35 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
 		else if(select.equals("addUpskill"))
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
-   		else if(select.equals("updateSubject")){
+
+    else if(select.equals("updateSubject"))
             mv.setViewName("/jsp/admin/courseReg/subject");
-			CourseVO cvo = c_Service.getCourse(c_idx);
-			mv.addObject("cvo",cvo);
-		}
-		return mv;
+    CourseVO cvo = c_Service.getCourse(c_idx);
+    mv.addObject("cvo",cvo);
+    return mv;
+		
 	}
 @RequestMapping("upskill")
-    public ModelAndView upskill() {
+    public ModelAndView upskill(String skill) {
         ModelAndView mv = new ModelAndView();
-        UpSkillVO[] ar = null;
-        ar = us_Service.getUpskillList();
-        SkillVO[] ar2 = null;
-        ar2 = sk_Service.getSkillList();
+		if(skill == null){
+			UpSkillVO[] ar = null;
+			ar = us_Service.getUpskillList();
+			mv.addObject("ar", ar);
+			mv.setViewName("/jsp/admin/courseReg/upskill");
+			
+		}else{
+			SkillVO[] ar2 = null;
+			ar2 = sk_Service.getSkillList();
+			
+			System.out.println(ar2.length);
+			
+			mv.addObject("ar2", ar2);
+			mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
 
-        mv.addObject("ar2", ar2);
-        mv.addObject("ar", ar);
+		}
 
-        mv.setViewName("/jsp/admin/courseReg/upskill");
+
         return mv;
     }
 
