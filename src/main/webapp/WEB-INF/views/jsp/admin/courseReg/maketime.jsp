@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 	table tfoot ol.page {
 	    list-style:none;
@@ -70,6 +71,27 @@
 		text-indent: -9999px;
 		height: 0;
 	}
+	#e_table{
+		width:100%;
+		border-collapse: collapse;
+	}
+	#e_table td, #e_table th{
+		border: 1px solid #ababab;
+		padding: 5px;
+	}
+	#e_h2{
+		height: 35px;
+		background-color: black;
+		color: white;
+		font-size: 20px;
+		line-height: 35px;
+	}
+	#e_div{
+		height: 20px;
+		line-height: 20px;
+		font-size: 11px;
+		color: red;
+	}
 </style>
 
 </head>
@@ -118,8 +140,23 @@
 				</div>
 			</div>	
 		</div>
+		<div id="dialog" hidden title="액셀등록">
+			<h2 id="e_h2">강사/시설/교과목 엑셀등록</h2>
+			<div id="e_div"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
+			<table id="e_table">
+				<colgroup>
+					<col width="20%"/>
+					<col width="80%"/>
+				</colgroup>
+				<tr>
+					<th bgcolor="#eeeeee">첨부파일</th>
+					<td><input type="file" name="file"/></td>
+				</tr>
+			</table>
+		</div>
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 
 	let select ="";
@@ -203,6 +240,20 @@
 			$("#courseLog_Table").html(result);
 		});
 	}
+	function set() {
+		$( "#dialog" ).dialog("open");
+    }
+
+	$( "#dialog" ).dialog({
+		autoOpen: false,
+		width:1000,
+		modal: true,
+		buttons: {
+			"닫기": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+    });
 	</script>
 </body>
 </c:if>

@@ -98,9 +98,8 @@ public class CourseController {
     }
     
     @RequestMapping("editCourse")
-    public ModelAndView editCourse(CourseVO cvo,String edit) {
+    public ModelAndView editCourse(CourseVO cvo,String edit,String cPage) {
 		ModelAndView mv = new ModelAndView();
-		
         if(edit == null) {
 			CourseVO vo = c_Service.getCourse(cvo.getC_idx());
 			request.setAttribute("edit_cvo", vo);
@@ -133,7 +132,7 @@ public class CourseController {
 			mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
         }else{
             int cnt =c_Service.editCourse(cvo);
-            mv.setViewName("redirect:course?listSelect=1&cPage=1");
+            mv.setViewName("redirect:course?listSelect=1&cPage="+cPage);
         }
 		return mv;
     }
@@ -186,7 +185,7 @@ public class CourseController {
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-
+		mv.addObject("cPage", cPage);
 		
 		//비동기 통신할 jsp로 보내기
 		if(listSelect.equals("1"))

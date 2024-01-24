@@ -63,8 +63,8 @@
 								<td>24</td>
 								<td>${vo2.c_peo_num}</td>
 								<td>
-									<button type="button">강사/시설/교과목 액셀등록</button>
-									<button type="button">HRD시간표 액셀등록</button>
+									<button type="button" onclick="set()">강사/시설/교과목 액셀등록</button>
+									<button type="button" onclick="set()">HRD시간표 액셀등록</button>
 									<button type="button">주별시간표보기</button>
 								</td>
 							</tr>
