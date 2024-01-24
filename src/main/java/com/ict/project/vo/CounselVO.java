@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class CounselVO {
 
-    private String so_idx, ss_day, tr_idx, ss_menu, ss_pp, ss_subject, ss_pd, c_idx, status;
+    private String so_idx, so_day, tr_idx, sf_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status;
     
     private CourseVO cvo;
-
     private TraineeVO tvo;
+    private StaffVO svo;
 }

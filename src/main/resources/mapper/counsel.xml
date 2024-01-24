@@ -6,17 +6,19 @@
 <mapper namespace="com.ict.project.mapper.CounselMapper">  
 	<resultMap type="com.ict.project.vo.CounselVO" id="map1">
 		<association property="cvo" column="c_idx" javaType="com.ict.project.vo.CourseVO" select="course"></association>
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<association property="tvo" column="tr_idx" javaType="com.ict.project.vo.TraineeVO" select="trainee"></association>
 	</resultMap>
 	<select id="search" parameterType="Map" resultMap="map1">
 		select * 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t
+			from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t t
 				<where>
 					<trim suffixOverrides="and">
-							status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
+						    so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
 							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">ss_day like concat('%', {value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
 							<if test="select !=null and select == 3">c_name=#{value} and</if>
 							<if test="select !=null and select == 4">tr_name=#{value} and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
@@ -25,22 +27,31 @@
 			)a ,(select @RN:=0) b) c 
 			where c.rnum between ${begin} and ${end}
 	</select>
+
 	<select id="course" resultType="com.ict.project.vo.CourseVO" parameterType="String">
 		select * from course_t where c_idx=#{str}
 	</select>
-	
+
+	<select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
+		select * from staff_t where sf_idx=#{str}
+	</select>
+
+	<select id="trainee" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where tr_idx=#{str}
+	</select>
+
 	<select id="list" parameterType="Map" resultMap="map1">
 		select * 
 		from 
 		(select @RN:=@RN+1 as rnum, a.* 
-		from (select a.*,c.c_name,s.sf_name,t.tr_name from advice_t a,course_t c,staff_t s, trainee_t t 
-		WHERE status = 0 and a.c_idx= c.c_idx and a.tr_idx=t.tr_idx and s.sf_idx = c.sf_idx)a ,(select @RN:=0) b) c 
+		from (select a.*,c.c_name, c.c_day, s.sf_name, t.tr_name from advice_t a,course_t c,staff_t s, trainee_t t 
+		WHERE so_status = 0 and a.c_idx= c.c_idx and a.tr_idx=t.tr_idx and s.sf_idx = c.sf_idx)a ,(select @RN:=0) b) c 
 		where c.rnum between ${begin} and ${end} ;
 	</select>
 
 	<insert id="add" parameterType="com.ict.project.vo.CounselVO">
-			INSERT INTO advice_t(so_idx, ss_day, tr_idx, ss_menu, ss_pp, subject, ss_pd, c_idx, status )
-			values(#{so_idx}, #{ss_day}, #{tr_idx}, #{ss_menu}, #{ss_pp}, #{subject}, #{ss_pd}, #{c_idx}, 0)
+			INSERT INTO advice_t(so_idx, so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status )
+			values(#{so_idx}, #{so_day}, #{tr_idx}, #{so_menu}, #{so_pp}, #{so_subject}, #{so_pd}, #{c_idx}, 0)
 	</insert>
 
   <select id="getCounsel" parameterType="String" resultType="com.ict.project.vo.CounselVO">
@@ -50,7 +61,7 @@
 	<!--  과정삭제 status값을 1로 변경 -->
 	<update id="del" parameterType="String">
 			update advice_t
-			set status = 1
+			set so_status = 1
 			where so_idx = #{so_idx}
 	</update>
 	
@@ -58,13 +69,12 @@
     update advice_t
     <set>
         so_idx = #{so_idx},
-        ss_day = #{ss_day},
+        ss_day = #{so_day},
         tr_idx = #{tr_idx},
-        course_fee = #{course_fee},
-        ss_menu = #{ss_menu},
-        ss_pp = #{ss_pp}
-        subject = #{subject}
-        ss_pd = #{ss_pd}
+        so_menu = #{so_menu},
+        so_pp = #{so_pp}
+        so_subject = #{so_subject}
+        so_pd = #{so_pd}
         c_idx = #{c_idx}
         
 	    </set>
@@ -79,12 +89,12 @@
 		select count(*) 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t
+			from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t t
 				<where>
 					<trim suffixOverrides="and">
-							status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
+							so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
 							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">ss_day like concat('%', {value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
 							<if test="select !=null and select == 3">c_name=#{value} and</if>
 							<if test="select !=null and select == 4">tr_name=#{value} and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>

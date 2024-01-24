@@ -39,12 +39,12 @@ public class CounselController {
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
         else if(listSelect.equals("3"))
-            viewPath= "/jsp/admin/counselManage/counselTraineeList";
+            viewPath= "/jsp/admin/counselManage/counselTraineeSearch";
         
         return viewPath;
     }
 
-    @RequestMapping("addCounsel")
+    @RequestMapping("addCounselFile")
     public String addCounsel( CounselVO vo,String listSelect) {
         
         cs_Service.addCounsel(vo);
@@ -52,7 +52,7 @@ public class CounselController {
         return "redirect:counsel?listSelect="+listSelect;
     }
      @RequestMapping("delCounsel")
-    public String delCourse(String so_idx,String cPage) {
+    public String delCounsel(String so_idx,String cPage) {
 		
 		cs_Service.deleteCounsel(so_idx);
 		
@@ -62,7 +62,7 @@ public class CounselController {
     @RequestMapping("editCounsel")
     public String editCounsel(CounselVO vo,String edit) {
        if(edit == null) {
-        CounselVO cvo = cs_Service.getCounsel(vo.getC_idx());
+        CounselVO cvo = cs_Service.getCounsel(vo.getSo_idx());
         request.setAttribute("edit_cvo", cvo);
         return "/jsp/admin/counselManage/editCounsel_ajax";
         }else{
@@ -138,12 +138,12 @@ public class CounselController {
 		
 		//비동기 통신할 jsp로 보내기
 		if(listSelect.equals("1"))
-            mv.setViewName("/jsp/admin/counselManage/counselTypeList");
+            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
 		else if(listSelect.equals("2"))
-            mv.setViewName("/jsp/admin/counselManage/counselDataList");
+            mv.setViewName("/jsp/admin/counselManage/counselDataList_ajax");
 
 		else if(listSelect.equals("3"))
-            mv.setViewName("/jsp/admin/counselManage/counselTraineeList");
+            mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
         return mv;
 	}
 
@@ -160,13 +160,13 @@ public class CounselController {
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		if(listSelect.equals("1"))
-			mv.setViewName("/jsp/admin/counselManage/counselTypeList");
+			mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
 		else if(listSelect.equals("2"))
-            mv.setViewName("/jsp/admin/counselManage/counselDateList");
+            mv.setViewName("/jsp/admin/counselManage/counselDateList_ajax");
 		else if(listSelect.equals("3"))
-            mv.setViewName("/jsp/admin/counselManage/counselTraineeList"); 
+            mv.setViewName("/jsp/admin/counselManage/counselTraineeList_ajax"); 
 		else
-            mv.setViewName("/jsp/admin/counselManage/counselTypeList");	
+            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");	
 		
         return mv;
     }

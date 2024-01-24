@@ -80,10 +80,7 @@ table tfoot ol.page {
 		text-indent: -9999px;
 		height: 0;
 	}
-	#ttop{
-		margin-top:10px;
-		text-align: right;
-	}
+
 	
 	#table{
 		width:100%;
@@ -210,11 +207,8 @@ table tfoot ol.page {
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 					
 					<div id="counselWrap">
-						<div id="counselList_top">상담 관리</div>
-						<div id="ttop">
-							<button type="button" onclick="set()">상담파일등록</button>	
-							<button type="button" onclick="downloadFile()">상담파일등록 샘플</button>
-						</div>
+						<div id="counselList_top">일자별 상담관리</div>
+
 						<form>
 							<table id="searchCounsel">
 							<caption>상담검색</caption>
@@ -261,11 +255,9 @@ table tfoot ol.page {
 		</form>
 		
 		
-		<div id="dialog" hidden="" title="상담파일등록">	
+		<div id="dialog" hidden="" title="교육생 상담일지">	
 		</div>
 		
-		<div id="dialog2" hidden="" title="상담결과보고">
-		</div>
 
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -279,7 +271,7 @@ table tfoot ol.page {
 			$.ajax({
 				url: "counselMain",
 				type: "post",
-				data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
@@ -289,7 +281,7 @@ table tfoot ol.page {
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#fourthmenu").addClass("selected");
-			$("#l_first").addClass("l_select");
+			$("#l_second").addClass("l_select");
 			
 			let now = new Date();	// 현재 날짜 및 시간
 			let year = now.getFullYear();
@@ -360,26 +352,17 @@ table tfoot ol.page {
             	width:500,
             	height:600
             });
-        }
-		function set2(c_idx) {
-			$.ajax({
-				url:"counselAddMain",
-				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("CounselAddMain")
-			}).done(function(result){
-				$("#dialog2").html(result);
-				$(".ccol").on("change input", function() {
-		             $(this).prev().val("");
-		             $(this).prev().val($(this).val());
-		   		});
-				
-				$("#cancel").click(function(){
-					 $("#dialog2").dialog( "close" );
-				});
-			});
-			
-            $("#dialog2").dialog("open");
-        }
+        }	
+
+        function del(so_idx){
+			if( confirm("삭제하시겠습니까?")){
+                frm.action = "delCounsel";
+                document.frm.so_idx.value =so_idx; 
+                
+                document.frm.submit();
+			}
+		}
+		
 
 		function paging(str) {
 			$.ajax({
