@@ -88,6 +88,7 @@
 								</div>
 							</div>
 							<div class="login-bottom"></div>
+							<div id="login_fail" style=" font-size: 11px; color: red;"></div>
 						</div>
 					</form>
 				</td>
@@ -109,7 +110,8 @@
 	<script>
 		let value = '${login}';
 		if(value == "fail"){
-			alert("로그인실패");
+			//alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
+			document.getElementById("login_fail").innerHTML= "아이디 또는 비밀번호를 <br/> 잘못 입력했습니다.";
 		}
 	</script>
 </body>
