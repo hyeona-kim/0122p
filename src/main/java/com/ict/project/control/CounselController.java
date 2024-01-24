@@ -80,7 +80,7 @@ public class CounselController {
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
         ModelAndView mv = new ModelAndView();
-System.out.println("C_IDX:"+c_idx);
+
         CourseVO cvo = c_Service.getCourse(c_idx);
         
 
@@ -107,6 +107,14 @@ System.out.println("C_IDX:"+c_idx);
        
         return mv;
     }
+
+    @RequestMapping("counselA")
+    public String counselAdd(){
+
+
+        return "/jsp/admin/counselManage/counselAdd";  
+    }
+
 
 
 
