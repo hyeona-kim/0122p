@@ -34,9 +34,9 @@
 			<tr>
 				<th>연락처</th>
 				<td class="left">
-					<input class="phone" type="text" placeholder="010" name="sf_phone"/>
-					<input class="phone" type="text" placeholder="1234" name="sf_phone"/>
-					<input class="phone" type="text" placeholder="5678" name="sf_phone"/>
+					<input class="phone" type="text" placeholder="010" name="sf_phone" value="${phone1}"/>
+					<input class="phone" type="text" placeholder="1234" name="sf_phone" value="${phone2}"/>
+					<input class="phone" type="text" placeholder="5678" name="sf_phone" value="${phone3}"/>
 				</td>
 				<th>사용권한</th>
 				<td class="left">

@@ -90,7 +90,13 @@ public class StraffController {
     public ModelAndView staffEditForm(String sf_idx) {
         ModelAndView mv = new ModelAndView();
         StaffVO vo = s_Service.getStaff(sf_idx);
+        String phone1 = vo.getSf_phone().substring(0, 3); // 010
+        String phone2 = vo.getSf_phone().substring(4, 8); // 가운데 4자리
+        String phone3 = vo.getSf_phone().substring(9, 13); // 뒤 4자리
 
+        mv.addObject("phone1", phone1);
+        mv.addObject("phone2", phone2);
+        mv.addObject("phone3", phone3);
         mv.addObject("vo", vo);
         mv.setViewName("/jsp/admin/etcList/edit_ajax");
 
@@ -99,7 +105,6 @@ public class StraffController {
     
     @RequestMapping("editStaff")
     public String editStaff(StaffVO vo) {
-        // [수정필요] 퇴사일 넣었다가 지우는건 현재 구동 안됨
         String code = null;
         if(vo.getRt_idx().equals("1")){
             String[] s_ar = s_Service.searchSfCode();
@@ -121,11 +126,15 @@ public class StraffController {
             }
         }
         vo.setSf_code("tc"+code);
-
         // 퇴사일을 지정하지 않았을 경우 null로 지정
-        if(vo.getSf_fire_date().equals("") || vo.getSf_fire_date() == null){
+        if(vo.getSf_fire_date() == null || vo.getSf_fire_date().trim().length() == 0){
             vo.setSf_fire_date(null);
         }
+
+         //전화번호 합쳐서 보내기.
+         String[] ar = request.getParameterValues("sf_phone");
+         String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
+         vo.setSf_phone(phone);
 
         s_Service.editStaff(vo);
         return "redirect:staffList";
