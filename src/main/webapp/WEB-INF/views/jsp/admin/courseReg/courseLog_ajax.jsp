@@ -27,18 +27,19 @@
 									<td>${num-vs.index}</td>
 									<td>${cvo.c_name }</td>
 									<td>W1805300001</td>
-									<td>${requestScope.ct_names[vs.index]} </td>
-									<td>${requestScope.sf_names[vs.index]} </td>
+									<td>${cvo.ctvo.ct_name} </td>
+									<td>${cvo.svo.sf_name} </td>
 									<td>${cvo.start_date }</td>
 									<td>${cvo.end_date }</td>
 									<td>월화수목금</td>
 									<td>${cvo.c_round_num }</td>
 									<td>${cvo.c_peo_num }</td>
-									<td>${requestScope.r_names[vs.index]} </td>
+									<td>${cvo.rvo.r_name} </td>
 									<td>
+										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
 										<button type="button">교과목 등록/수정</button>
 										<button type="button">학습안내서 등록/수정</button>
-										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
+										<button type="button" id="upskill_bt" onclick="upskill()">능력단위 요소 등록/수정</button>
 										<button type="button" onclick="editC('${cvo.c_idx}')">수정</button>
 										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}')">삭제</button>
 									</td>

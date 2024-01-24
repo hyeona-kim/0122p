@@ -33,7 +33,7 @@
 </body>
 </c:if>
 <c:if test="${tvo ne null}">
-	<c:redirect url="Controller">
+	<c:redirect url="index">
 	</c:redirect>
 </c:if>
 </html>

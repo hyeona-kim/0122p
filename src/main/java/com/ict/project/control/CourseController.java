@@ -3,19 +3,25 @@ package com.ict.project.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.mapper.SkillMapper;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
 import com.ict.project.service.RoomService;
+import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
+import com.ict.project.service.UpskillService;
 import com.ict.project.util.LmsBean;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.RoomVO;
+import com.ict.project.vo.SkillVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.UpSkillVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,6 +44,10 @@ public class CourseController {
 	RoomService r_Service;
 	@Autowired
 	StaffService s_Service;
+	@Autowired
+	UpskillService us_Service;
+    @Autowired
+    SkillService sk_Service;
 
     @RequestMapping("course")
     public String course(String listSelect) {
@@ -92,6 +102,7 @@ public class CourseController {
 
         return viewPath;
     }
+
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
 		if(value.trim().length()==0){
@@ -239,8 +250,24 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addRoom_ajax");
 		else if(select.equals("editCourse"))
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
-		
+		else if(select.equals("addUpskill"))
+            mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
         return mv;
     }
+@RequestMapping("upskill")
+    public ModelAndView upskill() {
+        ModelAndView mv = new ModelAndView();
+		UpSkillVO[] ar = null;
+		ar = us_Service.getUpskillList();
+		SkillVO[] ar2 = null;
+		ar2 = sk_Service.getSkillList();
+		
+		mv.addObject("ar2", ar2);
+		mv.addObject("ar", ar);
+
+        mv.setViewName("/jsp/admin/courseReg/upskill");
+        return mv;
+    }
+
     
 }

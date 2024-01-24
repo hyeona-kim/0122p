@@ -9,6 +9,7 @@
 		<association property="rvo" column="r_idx" javaType="com.ict.project.vo.RoomVO" select="room"></association>
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
 	</resultMap>
+
 	<select id="search" parameterType="Map" resultMap="map1">
 		select * 
 			from 
@@ -26,6 +27,7 @@
 			)a ,(select @RN:=0) b) c 
 			where c.rnum between ${begin} and ${end}
 	</select>
+	
 	<select id="courseType" resultType="com.ict.project.vo.CourseTypeVO" parameterType="String">
 		select * from course_type_t where ct_idx=#{str}
 	</select>
