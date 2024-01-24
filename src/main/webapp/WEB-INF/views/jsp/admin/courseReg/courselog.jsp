@@ -417,7 +417,7 @@ table tfoot ol.page {
 			}
 			
 			
-		});
+		
 		function downSubject(){
 			$.ajax({
 				url: "downloadSubject",
@@ -487,19 +487,20 @@ table tfoot ol.page {
         }
 
 
-		function set5() {
+		function set5(str) {
 				$("#dialog5").dialog("open");
 			$.ajax({
-				url:"c_dialog",
+				url:"upskill",
 				type:"post",
-				data:"select="+encodeURIComponent("addUpskill")
+				data:"select="+encodeURIComponent("addUpskill")+"&skill="+encodeURIComponent(str)
 			}).done(function(result){
 				$("#dialog5").html(result);
 				
 				$("#cc_cancle").click(function(){
 					 $("#dialog5").dialog("close");
 				});
-
+			});
+		}
 		function set4(c_idx) {
             $("#dialog4").dialog("open");
             
@@ -560,6 +561,7 @@ table tfoot ol.page {
                 }
             }
         });
+
 		$( "#dialog3" ).dialog({
             autoOpen: false,
             width: 700,
@@ -582,6 +584,7 @@ table tfoot ol.page {
                 }
             }
         });
+
 		$( "#dialog5" ).dialog({
             autoOpen: false,
             width: 600,
@@ -630,7 +633,7 @@ table tfoot ol.page {
 		    frm.submit();
 		}
 
-		
+	
 	</script>
 </body>
 </html>

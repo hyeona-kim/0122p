@@ -14,12 +14,10 @@
 					<td>순번</td>
 					<td>능력단위요소명</td>
 				</tr>
-			
-			
 				
 			</thead>
 			<tbody id="addUpskill_tbody">
-			 <c:forEach var="rvo" items="${ar2 }">
+			 <c:forEach var="rvo" items="${requestScope.ar2 }">
 					<tr>
 						<td><strong>${rvo.sk_idx }</strong><br/>
 							<button type="button">삭제</button>
@@ -28,8 +26,8 @@
 	
 					</tr> 
 				</c:forEach>
-			
 			</tbody>
+
 			<tfoot>
 				<tr>
 					<td colspan="4" align="left">
