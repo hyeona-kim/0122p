@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.CounselAddService;
 import com.ict.project.service.CounselService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselVO;
@@ -22,12 +23,19 @@ public class CounselController {
     ServletContext application;
 	@Autowired
 	CounselService cs_Service;
+    @Autowired
+    CounselAddService ca_Service;
+    
+
+
+  
+
 
     @RequestMapping("counsel")
     public String counsel(String listSelect) {
         String viewPath = null;
         if(listSelect.equals("1"))
-            viewPath= "/jsp/admin/counselManage/counselTypeList";
+            viewPath= "counselAdd";
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
         else if(listSelect.equals("3"))
@@ -62,6 +70,22 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
+    @RequestMapping("counselAdd")
+    public String viewCourse2(String so_idx) {
+        String viewPath = null;
+
+        // so_idx를 기반으로 CounselVO 객체 가져오기
+        CounselVO vo = cs_Service.getCounsel(so_idx);
+      
+        request.setAttribute("select_vo", vo);
+
+        viewPath ="";
+
+        return viewPath;
+    }
+
+
+
     
     @RequestMapping("viewCounsel")
     public String viewCourse(String so_idx) {

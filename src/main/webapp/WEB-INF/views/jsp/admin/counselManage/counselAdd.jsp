@@ -64,71 +64,77 @@
 		</table>
 	</div>
 	
-	<div">
+	<div>
+	<form action="counselAdd" method="post">
 		<table id="t2">
 			<thead id="t2head">
 				<tr>
-                    <td>회의일자</td><br/>
+                    <td>회의일자</td>
                     <input type="text" id="ss_mday" name="ss_mday"/>
-					<td>상담사</td><br/>
+					<td>상담사</td>
                     <input type="text" id="sf_idx" name="sf_idx"/>
                 </tr>
                 <tr>
-                    <td>훈련시간</td><br/>
+                    <td>훈련시간</td>
                      <input type="text" id="" name=""/>
-					<td>훈련교사</td><br/>
+					<td>훈련교사</td>
                     <input type="text" id="" name=""/>
                 </tr>
 				<tr>
-                    <td>회의장소</td><br/>
+                    <td>회의장소</td>
                     <input type="text" id="" name=""/>
-                    <td>총회의회수</td><br/>
+                    <td>총회의회수</td>
                     <input type="text" id="" name=""/>
                 </tr>
                 <tr>
-                    <td>상담회차</td><br/>
+                    <td>상담회차</td>
                     <input type="text" id="" name=""/>
-                    <td>상담기간</td><br/>
+                    <td>상담기간</td>
                     <input type="text" id="" name=""/>
                 </tr>
 				<tr>
-                	<td colspan ='3'>회의참석자</td><br/>
+                	<td colspan ='3'>회의참석자</td>
                     <input type="text" id="" name=""/>
 					
 				</tr>
 				<tr>
-					<td colspan ='3'>상담목적</td><br/>
+					<td colspan ='3'>상담목적</td>
                     <input type="text" id="" name=""/>
 				</tr>
-					<tr><td colspan ='3'>상담대상자</td><br/>
-                    <input type="text" id="" name=""/>
-				</tr>
-				<tr>
-				<td colspan ='3'>상담내용<br/>전달사항</td><br/>
+					<tr><td colspan ='3'>상담대상자</td>
                     <input type="text" id="" name=""/>
 				</tr>
 				<tr>
-					<td colspan ='3'>회의내용</td><br/>
+				<td colspan ='3'>상담내용전달사항</td>
+                    <input type="text" id="" name=""/>
+				</tr>
+				<tr>
+					<td colspan ='3'>회의내용</td>
 						<input type="text" id="" name=""/>
 				</tr>
 				<tr>
-					<td colspan ='3'>회의사진</td><br/>
+					<td colspan ='3'>회의사진</td>
 						<input type="text" id="" name=""/>
 				</tr>
 					
 			</thead>
 			<tbody>
-							<button type="button" onclick="add()">등록</button>
-							<button type="button">취소</button>
+							<button type="submit">등록</button>
+							<button type="button" onclick="cancel()">취소</button>
 						</td>
 					</tr>
 			</tbody>
 		</table>
+	</form>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
+	function cancel(){
+		location.href="councel?listSelect=1"
+
+	}
 
 
 	</script>
