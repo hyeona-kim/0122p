@@ -6,11 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-	<!-- 클래식 에디터 -->
-	<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" href="css/summernote-lite.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
 table tfoot ol.page {
 	    list-style:none;
@@ -106,7 +104,7 @@ table tfoot ol.page {
 			<div class="right">
 				<div id="staffWrap">
 					<div id="staffList_top">확인서류등록</div>
-				<form action="Controller?type=trainuploadview" method="post" encType="multipart/form-data">
+				<form action="trainuploadview" method="post" encType="multipart/form-data">
 				<table id="makeTime" >
 				<caption>서류보기 리스트</caption>
 					<tbody>
@@ -134,7 +132,7 @@ table tfoot ol.page {
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea id="content" name="content" cols="100" rows="8">${vo6.content }</textarea></td>
+							<td><textarea id="content" name="content" cols="100" rows="8" disabled="disabled">${vo6.content }</textarea></td>
 						</tr>
 						<tr>
 							<th>첨부파일:</th>
@@ -148,7 +146,7 @@ table tfoot ol.page {
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="button" value="닫기" onclick="javascript:location.href='Controller?type=trainupload'">
+								<input type="button" value="닫기" onclick="javascript:location.href='trainupload'">
 							</td>
 						</tr>
 					</tbody>
@@ -157,7 +155,7 @@ table tfoot ol.page {
 			</div>
 		</div>
 	</div>
-	<form action="Controller" method="post" name="frm">
+	<form action="trainuploadview" method="post" name="frm">
 		<input type="hidden" name="type" value=""/>
 		<input type="hidden" name="tn_idx" value=""/>
 		<input type="hidden" name="fname"/>
@@ -170,19 +168,35 @@ table tfoot ol.page {
 	
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="js/summernote-lite.js"></script>
+	<script src="js/lang/summernote-ko-KR.js"></script>
 
 	<script>
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#secondmenu").addClass("selected");
+
+			$("#content").summernote({
+				height:200,
+				focus : true, /* 커서를 미리 가져다 놓는다 */
+				lang : "ko-KR",
+				callbacks:{
+					onImageUpload:function(files, editor){
+						// 이미지가 에디터에 추가 될 때마다 수행하는곳
+						// 추가되어 들어온 이미지는 여러개일수 있기 때문에 files 으로 받아야함.(배열)
+						// 배열로 받아야하기때문에 반복문을 돌림
+						for(let i=0; i<files.length; i++)
+							sendImage(files[i],editor);
+						
+					}
+					
+				}
+			});
+			$("#content").summernote("lineHeight", .7);
+
 		});
 		
-	 	ClassicEditor
-            .create( document.querySelector( '#content' ))
-            .catch( error => {
-                console.error( error );
-            });
 	 	function sendData(){
         		let ar = document.forms[0].elements;
         	
@@ -193,16 +207,6 @@ table tfoot ol.page {
         				return;
         			}
         		
-        		
-        		for(var i=21; i<ar.length-1; i++){
-        			console.log(ar.length)
-        			let str = ar[i].dataset.str;
-        			if(document.forms[0].elements[i].value==""){
-        				alert(str+"를 입력하세요");
-        				document.forms[0].elements[i].focus();
-        				return;
-        			}
-        		}
         		document.forms[0].submit();
         		
         	}
