@@ -4,30 +4,52 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ict.project.mapper.CourseMapper">  
+	<resultMap type="com.ict.project.vo.CourseVO" id="map1">
+		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<association property="rvo" column="r_idx" javaType="com.ict.project.vo.RoomVO" select="room"></association>
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+	</resultMap>
 
-	<select id="search" parameterType="Map" resultType="com.ict.project.vo.CourseVO">
+	<select id="search" parameterType="Map" resultMap="map1">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							<if test="select !=null and select == 1">sf_name =#{value} and</if>
+							<if test="select !=null and select == 2">ct_name=#{value} and</if>
+							<if test="select !=null and select == 3">r_name=#{value} and</if>
+							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end}
+	</select>
+	
+	<select id="courseType" resultType="com.ict.project.vo.CourseTypeVO" parameterType="String">
+		select * from course_type_t where ct_idx=#{str}
+	</select>
+	<select id="room" resultType="com.ict.project.vo.RoomVO" parameterType="String">
+		select * from room_t where r_idx=#{str}
+	</select>
+	<select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
+		select * from staff_t where sf_idx=#{str}
+	</select>
+	
+	<select id="list" parameterType="Map" resultMap="map1">
 		select * 
 		from 
 		(select @RN:=@RN+1 as rnum, a.* 
-		from (select * from course_t 
-				<trim prefix="where" suffixOverrides="and">
-					<if test="select !=null and select == 1">t_idx =#{value} and</if>
-					<if test="select !=null and select == 2">ct_idx =#{value} and</if>
-					<if test="select !=null and select == 3">r_idx =#{value} and</if>
-					<if test="year !=null">start_date like concat('%',#{year},'%') and</if>
-				</trim>
-		)a ,(select @RN:=0) b) c 
-		where c.rnum between #{begin} and #{end} and c_status = 0
-	</select>
-
-	<select id="list" parameterType="Map" resultType="com.ict.project.vo.CourseVO">
-		select * from (select @RN:=@RN+1 as rnum, a.* from(select * from course_t WHERE c_status = 0  order by c_idx )a , 
-			(select @RN:=0) b) c where c.rnum between #{begin} and #{end}
+		from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+		WHERE c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx)a ,(select @RN:=0) b) c 
+		where c.rnum between ${begin} and ${end} ;
 	</select>
 
 	<insert id="add" parameterType="com.ict.project.vo.CourseVO">
-			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, t_idx)
-			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{t_idx})
+			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, sf_idx,r_idx ,c_day)
+			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{sf_idx}, 3 ,#{c_day})
 	</insert>
 
   <select id="getCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
@@ -49,26 +71,30 @@
         end_date = #{end_date},
         course_fee = #{course_fee},
         c_peo_num = #{c_peo_num},
-        c_round_num = #{c_round_num}
-	    </set>
-	    where c_idx = #{c_idx}
+        c_round_num = #{c_round_num},
+        c_day = #{c_day}
+	</set>
+	where c_idx = #{c_idx}
 	</update>
 
 	<select id="count" resultType="int" >
-		select count(*) from course_t 
+		select count(*) from course_t where c_status = 0 
 	</select>
 	
 	<select id="search_count" parameterType="Map" resultType="int">
-		select count(*)
-		from 
-		(select @RN:=@RN+1 as rnum, a.* 
-		from (select * from course_t 
-				<trim prefix="where" suffixOverrides="and">
-					<if test="select !=null and select == 1">t_idx =#{value} and</if>
-					<if test="select !=null and select == 2">ct_idx =#{value} and</if>
-					<if test="select !=null and select == 3">r_idx =#{value} and</if>
-					<if test="year !=null">start_date like concat('%',#{year},'%') and</if>
-				</trim>
-		)a ,(select @RN:=0) b) c  WHERE c_status = 0
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							<if test="select !=null and select == 1">sf_name =#{value} and</if>
+							<if test="select !=null and select == 2">ct_name=#{value} and</if>
+							<if test="select !=null and select == 3">r_name=#{value} and</if>
+							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c 
 	</select>
 </mapper>

@@ -6,14 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 
 </head>
 <c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
 		<jsp:include page="leftList.jsp"></jsp:include>
 			<div class="right">

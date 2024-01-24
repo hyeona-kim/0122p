@@ -13,7 +13,7 @@
 <c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
@@ -33,7 +33,7 @@
 </body>
 </c:if>
 <c:if test="${tvo ne null}">
-	<c:redirect url="Controller">
+	<c:redirect url="index">
 	</c:redirect>
 </c:if>
 </html>

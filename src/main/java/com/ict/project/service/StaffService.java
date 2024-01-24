@@ -52,4 +52,14 @@ public class StaffService {
         }
         return ar;
     }
+
+    // 교직원 1명 검색하는 기능
+    public StaffVO getStaff(String sf_idx) {
+        return s_mapper.getStaff(sf_idx);
+    }
+
+    // 교직원 수정하는 기능
+    public int editStaff(StaffVO vo) {
+        return s_mapper.editStaff(vo);
+    }
 }

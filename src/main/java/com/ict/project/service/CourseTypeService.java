@@ -34,7 +34,7 @@ public class CourseTypeService {
             ar = new CourseTypeVO[list.size()];
             list.toArray(ar);
         }
-
+        
         return ar;
     }
 

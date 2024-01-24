@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<h2 id="table_h2">교육과정등록</h2>
-	<form action="Controller" method="post" name="frm02">
-		<input type="hidden" name="type"  value="addCourse"/>
+	<form action="addCourse" method="post" name="frm02">
 			<table id="table">
 			<thead>
 				<tr>
@@ -20,13 +19,12 @@
 						</td>
 						<th><label>과정구분</label></th>
 						<td>
-						<select name="ct_select">
+						<select name="ct_idx">
 							<option value="0">선택하세요</option>
 							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
 								<option value="${c_ar.ct_idx }">
 								 		${c_ar.ct_name }
 								 </option>
-								 <%-- <input type="hidden" value="${c_ar.ct_idx }" name="ct_idx" /> --%>
 							</c:forEach>
 						</select>
 						</td>
@@ -38,7 +36,7 @@
 						</td>
 						<th><label>담당교사</label></th>
 						<td>
-						<select name="sf_select">
+						<select name="sf_idx">
 							<option value="t1">선택하세요</option>
 							<c:forEach items="${requestScope.s_ar}" var="s_ar" varStatus="loop">
 								<option value="${s_ar.sf_idx }">
@@ -71,13 +69,13 @@
 						<td><input type="text" name="c_peo_num"></td>
 						<th><label>요일</label></th>
 						<td>
-						<input type="checkbox" name="monday" value="월">월
-						<input type="checkbox" name="tuesday" value="화">화
-						<input type="checkbox" name="wednesday" value="수">수
-						<input type="checkbox" name="thursday" value="목">목
-						<input type="checkbox" name="friday" value="금">금
-						<input type="checkbox" name="saturday" value="토">토
-						<input type="checkbox" name="sunday" value="일">일
+						<input type="checkbox" name="c_day" value="월">월
+						<input type="checkbox" name="c_day" value="화">화
+						<input type="checkbox" name="c_day" value="수">수
+						<input type="checkbox" name="c_day" value="목">목
+						<input type="checkbox" name="c_day" value="금">금
+						<input type="checkbox" name="c_day" value="토">토
+						<input type="checkbox" name="c_day" value="일">일
 						</td>
 					</tr>
 					<tr>

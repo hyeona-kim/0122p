@@ -25,12 +25,14 @@ public class BoardController {
     ServletContext application;
 	@Autowired
 	BoardService b_Service;
+
     @RequestMapping("boardList")
     public ModelAndView boardList() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/jsp/admin/schoolRecord/boardList");
         return mv;
     }
+
     @RequestMapping("addBoard")
     public String addBoard(BoardVO bvo) {
 		
@@ -39,11 +41,26 @@ public class BoardController {
 		b_Service.addBoard(bvo);
 		return "redirect:boardList";
     }
+
+	@RequestMapping("addBoardAjax")
+	public String addBoard_ajax() {
+		return "/jsp/admin/schoolRecord/addBoard_ajax";
+	}
+
     @RequestMapping("boardAddReply")
     public String boardAddReply(BoardVO bvo) {		
 		b_Service.addReply(bvo);
 		return "redirect:boardList";
     }
+
+	@RequestMapping("boardReplyAjax")
+	public ModelAndView boardReplyAjax(String bd_idx) {
+		ModelAndView mv = new ModelAndView();
+		BoardVO bvo = b_Service.getBoard(bd_idx);
+		mv.addObject("bvo", bvo);
+		mv.setViewName("/jsp/admin/schoolRecord/boardReply_ajax");
+		return mv;
+	}
 	
     @RequestMapping("boardListAjax")
     public String boardListAjax(String cPage ) {
@@ -79,6 +96,16 @@ public class BoardController {
 		
 		return "/jsp/admin/schoolRecord/boardList_ajax";
     }
+
+	@RequestMapping("boardViewAjax")
+	public ModelAndView boardViewAjax(String bd_idx){
+		ModelAndView mv = new ModelAndView();
+		BoardVO vo = b_Service.getBoard(bd_idx);
+		mv.addObject("bvo", vo);
+		mv.setViewName("/jsp/admin/schoolRecord/boardView_ajax");
+
+		return mv;
+	}
     
     @RequestMapping("searchBoard")
     public String searchBoard(String cPage,String tag,String value,String subject) {

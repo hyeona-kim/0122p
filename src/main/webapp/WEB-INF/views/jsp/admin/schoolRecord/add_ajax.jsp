@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<form action="Controller?type=addSuggestion" method="post">
+<form action="addSuggestion" method="post">
 	<table>
 		<caption>고충 및 건의사항 등록 테이블</caption>
 		<thead>
@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<th>전체공지</th>
-				<td class="left"><input type="checkbox" name="sg_notice" value="1"/>공지</td>
+				<td class="left"><input type="checkbox" name="notice" value="1"/>공지</td>
 			</tr>
 			<tr>
 				<th>내용</th>
