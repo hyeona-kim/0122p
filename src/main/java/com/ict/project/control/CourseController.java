@@ -386,7 +386,7 @@ public class CourseController {
 			String c_idx = fvo.getC_idx();
 			
 			String[] f_info = fvo.getF_info().split(",");
-			String[] f_idx = fvo.getF_idx().split(",");
+			
 			MultipartFile[] f_ar = new MultipartFile[6];
 			f_ar[0] = fvo.getFile1();
 			f_ar[1] = fvo.getFile2();
@@ -419,6 +419,7 @@ public class CourseController {
 				}		
 			}else{
 				//파일 존재 
+				String[] f_idx = fvo.getF_idx().split(",");
 				for(int i =0; i<f_info.length; i++){
 	
 					
