@@ -4,7 +4,7 @@
 <header>
    <div id="head" style="margin-bottom: 0px;">
       <h1><img alt="아이콘" src="${pageContext.request.contextPath }/image/ict_logo.png" width="200" style="margin-left: 20px;"/></h1>
-      <span id="span1">서비스종료일:2024-03-03</span>
+      <span id="span1">서비스종료일:${vo.sf_fire_date}</span>
       <span id="span2">접속자:${vo.sf_name }</span>
       <a href="logout">로그아웃</a>
    </div>

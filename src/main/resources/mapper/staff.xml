@@ -46,7 +46,7 @@
 	</select>
 
 	<!-- 교직원 삭제하는 기능 -->
-	<update id="del" parameterType="String">
+	<update id="delete" parameterType="String">
 		update staff_t
 		set status = 1
 		where sf_idx = #{idx}
@@ -64,7 +64,10 @@
 			sf_id = #{sf_id},
 			sf_pwd = #{sf_pwd},
 			sf_hire_date = #{sf_hire_date},
-			<if test="sf_fire_date != null">sf_fire_date = #{sf_fire_date}</if>
+			rt_idx = #{rt_idx},
+			sf_mgr = #{rt_idx},
+			sf_code = #{sf_code},
+			<if test="sf_fire_date != null or sf_fire_date eq ''">sf_fire_date = #{sf_fire_date}</if>
 		</trim>
 		where sf_idx = #{sf_idx}
 	</update>
