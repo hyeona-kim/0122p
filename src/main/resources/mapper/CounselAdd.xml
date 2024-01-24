@@ -5,14 +5,18 @@
 <mapper namespace="com.ict.project.mapper.CounselAddMapper">
 	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">
     		  
-        INSERT INTO  advice_sst(ss_idx, ss_time, sf_idx, ss_day, ss_name, ss_pp, tr_idx, ss_msg, ss_msubject, ss_bd,
-          ss_member, ss_mday, ss_pa)
-          values(#{ss_idx}, #{ss_time}, #{sf_idx},#{ ss_day}, #{ss_name}, #{ss_pp}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd},
-          #{ss_member}, #{ss_mday}, #{ss_pa})
+        INSERT INTO  advice_sst(s_idx, sf_idx, ss_time, so_idx, tr_idx, ss_msg, ss_msubject, ss_bd, ss_member, ss_mday, ss_pa,
+    ss_cnt,ss_day)
+          values(#{s_idx}, #{sf_idx}, #{ss_time}, #{so_idx}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd}, #{ss_member}, #{ss_mday}, #{ss_pa},
+    #{ss_cnt},#{ss_day})
 	</insert>
 
-    <select id ="list" resultType="com.ict.project.vo.CounselAddVO">
-        select * from advice_sst
+    <select id ="list" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
+        SELECT * FROM advice_sst
+        WHERE so_idx IN (
+          SELECT so_idx FROM project_db.advice_t
+          WHERE c_idx = #{idx}
+        )
     </select>
 	
 </mapper>
