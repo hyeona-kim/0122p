@@ -54,9 +54,6 @@
 	</select>
 
 	<!-- 게시물 보기를 위해 해당 게시물을 얻어내는 기능 -->
-	<select id="getBoard" parameterType="String" resultType="com.ict.project.vo.BoardVO">
-		select * from board_t
-		where bd_idx = #{bd_idx}
-	</select>
+	 
 	
 </mapper>
