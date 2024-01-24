@@ -373,7 +373,6 @@ public class CourseController {
     public ModelAndView course_file(FileVO fvo,String listSelect){
         ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
-		System.out.println(listSelect);
 		if(encType.startsWith("application")){
 			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
 
