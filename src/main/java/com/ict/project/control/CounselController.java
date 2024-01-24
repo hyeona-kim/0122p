@@ -76,7 +76,7 @@ public class CounselController {
         }
     }
     @RequestMapping("counselAdd")
-    public String viewCourse2(String so_idx) {
+    public String counselAdd(String so_idx) {
         String viewPath = null;
 
         // so_idx를 기반으로 CounselVO 객체 가져오기
@@ -139,6 +139,13 @@ public class CounselController {
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
+        
+        page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
+        page.setNowPage(Integer.parseInt(cPage));
+        CourseVO[] c_ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        mv.addObject("c_ar", c_ar);
+		mv.addObject("c_page", page);
+
 
 		
 		//비동기 통신할 jsp로 보내기
@@ -155,7 +162,8 @@ public class CounselController {
     @RequestMapping("counselMain")
     public ModelAndView counselMain(String listSelect, String cPage) {
         ModelAndView mv = new ModelAndView();
-		
+		if(cPage == null)
+            cPage = "1";
 		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
 		Paging page = new Paging();
 		page.setTotalRecord(cs_Service.getCount());
@@ -164,6 +172,16 @@ public class CounselController {
 		ar = cs_Service.getCounselList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
+
+
+        page.setTotalRecord(c_Service.getCount());
+        page.setNowPage(Integer.parseInt(cPage));
+        CourseVO[] c_ar = null;
+        c_ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+        
+        mv.addObject("c_ar", c_ar);
+        mv.addObject("c_page", page);
+
 		if(listSelect.equals("1"))
 			mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
 		else if(listSelect.equals("2"))

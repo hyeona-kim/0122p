@@ -43,7 +43,7 @@ table tfoot ol.page {
 	    font-weight:bold;
 	}
 
-	#CounselWrap{
+	#counselWrap{
 		width: 95%;
 		margin: auto;
 		margin-top: 20px;
@@ -402,12 +402,12 @@ table tfoot ol.page {
             }
         });
 
-		function paging(str) {
+		function paging(cPage) {
 			$.ajax({
-				url: "CounselController",
+				url: "searchCounsel",
 				type: "post",
 				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(cPage),
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
