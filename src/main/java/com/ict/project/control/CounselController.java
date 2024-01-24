@@ -9,6 +9,7 @@ import com.ict.project.service.CounselAddService;
 import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
 
@@ -33,7 +34,7 @@ public class CounselController {
     
 
 
-  
+    
 
 
     @RequestMapping("counsel")
@@ -75,18 +76,34 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
-    @RequestMapping("counselAdd")
-    public String viewCourse2(String so_idx) {
-        String viewPath = null;
-
+    @RequestMapping("counselAddMain")
+    public ModelAndView counselAddMain(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+System.out.println("C_IDX:"+c_idx);
+        CourseVO cvo = c_Service.getCourse(c_idx);
+        
         // so_idx를 기반으로 CounselVO 객체 가져오기
-        CounselVO vo = cs_Service.getCounsel(so_idx);
-      
-        request.setAttribute("select_vo", vo);
+        CounselAddVO[] ar = ca_Service.list(c_idx);
+        mv.addObject("c_idx", c_idx);
+        mv.addObject("ar", ar);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("jsp/admin/counselManage/counselAddMain_ajax");
+       
+        return mv;
+    }
 
-        viewPath ="";
 
-        return viewPath;
+    @RequestMapping("counselAdd")
+    public ModelAndView counselAdd(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        
+        // so_idx를 기반으로 CounselVO 객체 가져오기
+        CounselAddVO[] vo = ca_Service.list(c_idx);
+        mv.addObject("c_idx", c_idx);
+        mv.addObject("vo", vo);
+        mv.setViewName("/jsp/admin/counselManage/counselAddMain");
+       
+        return mv;
     }
 
 

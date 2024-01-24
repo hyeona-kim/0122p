@@ -8,7 +8,7 @@ public interface CounselAddMapper {
     
     int add(CounselAddVO vo);
     
-    List<CounselAddVO> list();
+    List<CounselAddVO> list(String c_idx);
 
     
 }

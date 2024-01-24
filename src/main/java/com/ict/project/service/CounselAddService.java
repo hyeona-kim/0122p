@@ -18,9 +18,9 @@ public class CounselAddService {
         return c_Mapper.add(vo);
     }
 
-    public CounselAddVO[] list(){
+    public CounselAddVO[] list(String c_idx){
         CounselAddVO[] ar  = null;
-        List<CounselAddVO> list = c_Mapper.list();
+        List<CounselAddVO> list = c_Mapper.list(c_idx);
         
         if( list != null && list.size() >0){
             ar = new CounselAddVO[list.size()];

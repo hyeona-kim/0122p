@@ -55,10 +55,10 @@
 		<table id="t1">
 			<thead>
 				<tr>
-					<td >교육과정명:</td>
-					<td>테스트</td>
-					<td>교육기간:</td>
-					<td>2000-01-01~2000-02-02</td>
+					<td >교육과정명</td>
+					<td>${vo.c_name}</td>
+					<td>교육기간</td>
+					<td>${vo.start_date}+"~"+${vo.end_date}</td>
 				</tr>
 			</thead>
 		</table>
@@ -76,45 +76,45 @@
                 </tr>
                 <tr>
                     <td>훈련시간</td>
-                     <input type="text" id="" name=""/>
+                     <input type="text" id="ss_time" name="ss_time"/>
 					<td>훈련교사</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="sf_idx" name="sf_idx"/>
                 </tr>
 				<tr>
                     <td>회의장소</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_pa" name="ss_pa"/>
                     <td>총회의회수</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_cnt" name="ss_cnt"/>
                 </tr>
                 <tr>
                     <td>상담회차</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_num" name="ss_num"/>
                     <td>상담기간</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_day" name="ss_day"/>
                 </tr>
 				<tr>
                 	<td colspan ='3'>회의참석자</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_member" name="ss_member"/>
 					
 				</tr>
 				<tr>
 					<td colspan ='3'>상담목적</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="so_pp" name="so_pp"/>
 				</tr>
 					<tr><td colspan ='3'>상담대상자</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="tr_idx" name="tr_idx"/>
 				</tr>
 				<tr>
 				<td colspan ='3'>상담내용전달사항</td>
-                    <input type="text" id="" name=""/>
+                    <input type="text" id="ss_msg" name="ss_msg"/>
 				</tr>
 				<tr>
 					<td colspan ='3'>회의내용</td>
-						<input type="text" id="" name=""/>
+						<input type="text" id="ss_msubject" name="ss_msubject"/>
 				</tr>
 				<tr>
 					<td colspan ='3'>회의사진</td>
-						<input type="text" id="" name=""/>
+						<input type="text" id="ss_bd" name="ss_bd"/>
 				</tr>
 					
 			</thead>
