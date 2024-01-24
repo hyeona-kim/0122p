@@ -20,6 +20,7 @@ import com.ict.project.service.FileService;
 import com.ict.project.service.RoomService;
 import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
+import com.ict.project.service.SubjectService;
 import com.ict.project.service.UpskillService;
 import com.ict.project.util.LmsBean;
 import com.ict.project.util.FileRenameUtil;
@@ -30,6 +31,7 @@ import com.ict.project.vo.FileVO;
 import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.SkillVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.UpSkillVO;
 
 import jakarta.servlet.ServletContext;
@@ -68,6 +70,8 @@ public class CourseController {
   SkillService sk_Service;
   @Autowired
 	FileService f_Service;
+	@Autowired
+	SubjectService sb_Service;
 
     @RequestMapping("course")
     public String course(String listSelect) {
@@ -489,5 +493,44 @@ public class CourseController {
 		}
 		return null;
 	}
+    @RequestMapping("exelAdd")
+	public ModelAndView exelAdd(String select,String c_idx) {
+		ModelAndView mv = new ModelAndView();
+		if(select.equals("SRS")){
+			CourseVO cvo = c_Service.getCourse(c_idx);
+			StaffVO[] sfvo = s_Service.getList();
+			RoomVO[] rvo = r_Service.getList();
+			SubjectVO[] svo =sb_Service.getList(c_idx);
+			for(RoomVO vo :rvo){
+				if(vo.getR_sep() != null){
+					switch (vo.getR_sep()) {
+						case "0":
+							vo.setR_sep("실습");
+						break;
+						case "1":
+							vo.setR_sep("이론");
+						break;
+						case "2":
+							vo.setR_sep("겸용");
+						break;
+					}
+				}
+			}
+			mv.addObject("sfvo", sfvo);
+			mv.addObject("rvo", rvo);
+			mv.addObject("svo", svo);
+			mv.addObject("cvo", cvo);
+		}
+		mv.setViewName("/jsp/admin/courseReg/exelAdd_ajax");
+		return mv;
+    }
+    @RequestMapping("weekTime")
+    public ModelAndView weekTime(String listSelect,String c_idx) {
+		ModelAndView mv = new ModelAndView();
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		mv.addObject("cvo", cvo);
+		mv.setViewName("/jsp/admin/courseReg/weekTime_ajax");
+        return mv;
+    }
     
 }

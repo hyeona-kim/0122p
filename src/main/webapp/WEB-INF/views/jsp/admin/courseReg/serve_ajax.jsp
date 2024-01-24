@@ -17,13 +17,7 @@
 								<th>관리</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="10">
-									${htmlCode}
-	                          </td>
-							</tr>
-						</tfoot>
+						<tbody>
 							<c:forEach var="vo2" items="${requestScope.ar }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
