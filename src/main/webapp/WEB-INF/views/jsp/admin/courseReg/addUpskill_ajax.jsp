@@ -14,7 +14,6 @@
 					<td>순번</td>
 					<td>능력단위요소명</td>
 				</tr>
-				
 			</thead>
 			<tbody id="addUpskill_tbody">
 			 <c:forEach var="rvo" items="${requestScope.ar2 }">
