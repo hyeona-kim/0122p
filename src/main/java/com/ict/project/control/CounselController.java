@@ -35,7 +35,7 @@ public class CounselController {
     public String counsel(String listSelect) {
         String viewPath = null;
         if(listSelect.equals("1"))
-            viewPath= "counselAdd";
+            viewPath= "/jsp/admin/counselManage/counselTypeList";
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
         else if(listSelect.equals("3"))
