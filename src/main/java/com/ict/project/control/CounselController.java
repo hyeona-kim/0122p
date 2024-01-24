@@ -7,8 +7,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CounselAddService;
 import com.ict.project.service.CounselService;
+import com.ict.project.service.CourseService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselVO;
+import com.ict.project.vo.CourseVO;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +28,8 @@ public class CounselController {
 	CounselService cs_Service;
     @Autowired
     CounselAddService ca_Service;
+    @Autowired
+    CourseService c_Service;
     
 
 
@@ -35,7 +40,7 @@ public class CounselController {
     public String counsel(String listSelect) {
         String viewPath = null;
         if(listSelect.equals("1"))
-            viewPath= "counselAdd";
+            viewPath= "/jsp/admin/counselManage/counselTypeList";
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
         else if(listSelect.equals("3"))
@@ -164,9 +169,25 @@ public class CounselController {
 		else if(listSelect.equals("2"))
             mv.setViewName("/jsp/admin/counselManage/counselDateList_ajax");
 		else if(listSelect.equals("3"))
-            mv.setViewName("/jsp/admin/counselManage/counselTraineeList_ajax"); 
+            mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax"); 
 		else
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");	
+		
+        return mv;
+    }
+
+    @RequestMapping("ss_dialog")
+    public ModelAndView ss_dialog(String select,String c_idx) {
+        ModelAndView mv = new ModelAndView();
+		
+	
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		mv.addObject("cvo", cvo);
+		
+		if(select.equals("addCounselFile"))
+			mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
+		else if(select.equals("counselAddMain"))
+            mv.setViewName("/jsp/admin/counselManage/counselAddMain_ajax");
 		
         return mv;
     }
