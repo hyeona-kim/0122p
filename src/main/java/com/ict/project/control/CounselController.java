@@ -76,12 +76,14 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
+
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
         ModelAndView mv = new ModelAndView();
 System.out.println("C_IDX:"+c_idx);
         CourseVO cvo = c_Service.getCourse(c_idx);
         
+
         // so_idx를 기반으로 CounselVO 객체 가져오기
         CounselAddVO[] ar = ca_Service.list(c_idx);
         mv.addObject("c_idx", c_idx);
@@ -156,6 +158,13 @@ System.out.println("C_IDX:"+c_idx);
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
+        
+        page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
+        page.setNowPage(Integer.parseInt(cPage));
+        CourseVO[] c_ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        mv.addObject("c_ar", c_ar);
+		mv.addObject("c_page", page);
+
 
 		
 		//비동기 통신할 jsp로 보내기
@@ -172,7 +181,8 @@ System.out.println("C_IDX:"+c_idx);
     @RequestMapping("counselMain")
     public ModelAndView counselMain(String listSelect, String cPage) {
         ModelAndView mv = new ModelAndView();
-		
+		if(cPage == null)
+            cPage = "1";
 		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
 		Paging page = new Paging();
 		page.setTotalRecord(cs_Service.getCount());
@@ -181,6 +191,16 @@ System.out.println("C_IDX:"+c_idx);
 		ar = cs_Service.getCounselList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
+
+
+        page.setTotalRecord(c_Service.getCount());
+        page.setNowPage(Integer.parseInt(cPage));
+        CourseVO[] c_ar = null;
+        c_ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+        
+        mv.addObject("c_ar", c_ar);
+        mv.addObject("c_page", page);
+
 		if(listSelect.equals("1"))
 			mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
 		else if(listSelect.equals("2"))

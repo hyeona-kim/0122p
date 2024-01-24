@@ -48,7 +48,7 @@ table tfoot ol.page {
 		margin: auto;
 		margin-top: 20px;
 	}
-	#courseList_top {
+	#courseList_top, #staffList_top {
 		background: black;
 		color: white;
 		height: 40px;
@@ -61,7 +61,7 @@ table tfoot ol.page {
 		width: 100%;
 	}
 	
-	#searchCourse td, #searchCourse th, #makeCourse td, #makeCourse th{
+	#searchCourse td, #searchCourse th, #makeCourse td, #makeCourse th, #makeTime td, #makeTime th {
 		border: 1px solid #ddd;
 		height: 20px;
 		padding-left: 10px;
@@ -69,7 +69,7 @@ table tfoot ol.page {
 	#makeCourse th{
 		height: 40px;
 	}
-	#searchCourse th, #makeCourse th{background-color: #ddd;}
+	#searchCourse th, #makeCourse th, #makeTime th{background-color: #ddd;}
 	
 	#searchCourse caption, #makeCourse caption{
 		text-indent: -9999px;
@@ -246,6 +246,38 @@ table tfoot ol.page {
 		margin-bottom: 20px;
 		text-align: right;
 	}
+
+	#cf_h2{
+		background: black;
+		color: white;
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+		margin-bottom: 30px;
+	}
+	#cf_wrap{
+		width: 100%;
+
+	}
+	#cf_table{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#cf_table td,#cf_table th{
+		border: 1px solid #aaaaaa;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+	}
+	#cf_table thead{
+		background-color: #dedede;
+	}
+	#cf_table tfoot td{
+		border: none;
+		text-align: center;
+		padding-top: 10px;
+	}
+	
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -261,7 +293,6 @@ table tfoot ol.page {
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
-					
 					<div id="staffWrap">
 						<div id="courseList_top">교육과정리스트</div>
 						<div id="ttop">
@@ -323,11 +354,14 @@ table tfoot ol.page {
 		<div id="dialog3" hidden="" title="강의실관리">
 		</div>
 		
-		<div id="dialog4" hidden="" title="과정수정">
+		<div id="dialog4" hidden="" title="교과목 관리/수정">
+		</div>
+
+		<div id="dialog5" hidden="" title="수정">
+		</div>
+		<div id="dialog6" hidden="" title="학습안내서 등록/수정">
 		</div>
 		
-		<div id="dialog5" hidden="" title="교과목 등록/수정">
-		</div>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
@@ -400,10 +434,24 @@ table tfoot ol.page {
 					$("#courseLog_Table").html(result);
 				});
 			});	
-			
-			
-			
+
 		});
+
+
+		function upskill(){
+			console.log("1");
+			$.ajax({
+				url: "upskill",
+				type: "post",
+				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+			}).done(function(result){
+				$(".right").html(result);
+			});
+		}
+			
+			
+		
 		function downSubject(){
 			$.ajax({
 				url: "downloadSubject",
@@ -412,6 +460,7 @@ table tfoot ol.page {
 				console.log("완료");
 			});
 		}
+
 		function set() {
 			$.ajax({
 				url:"c_dialog",
@@ -470,6 +519,26 @@ table tfoot ol.page {
 
 			});
         }
+
+
+
+		function set5(str) {
+				$("#dialog5").dialog("open");
+
+			$.ajax({
+				url:"upskill",
+				type:"post",
+				data:"select="+encodeURIComponent("addUpskill")+"&skill="+encodeURIComponent(str)
+			}).done(function(result){
+				$("#dialog5").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog5").dialog("close");
+				});
+
+			});
+
+		}
 		function set4(c_idx) {
             $("#dialog4").dialog("open");
             
@@ -489,24 +558,38 @@ table tfoot ol.page {
 					 room_length = 7;
 					 $("#dialog4").dialog( "close" );
 				});
+			});
+        }
 
+		function set6(c_idx) {
+			$("#dialog6").dialog("open");
+			$.ajax({
+				url:"course_file",
+				type:"post",
+				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1"
+			}).done(function(result){
+				console.log(result);
+				$("#dialog6").html(result);
+				
 			});
         }
 
 		function editC(c_idx){
 			 $.ajax({
-					url:"editCourse",
-					type:"post",
-					data:"&c_idx="+c_idx
-				}).done(function(result){
-					$("#dialog4").html(result);
-					
-					$("#cancel4").click(function(){
-						 $("#dialog4").dialog( "close" );
+				url:"editCourse",
+				type:"post",
+				data:"&c_idx="+c_idx
+			}).done(function(result){
+				$("#dialog4").html(result);
+				
+				$("#cancel4").click(function(){
+						$("#dialog4").dialog( "close" );
 				});
 			});
 			$("#dialog4").dialog("open");	
         }
+
+		
 
 		$( "#dialog" ).dialog({
             autoOpen: false,
@@ -529,6 +612,7 @@ table tfoot ol.page {
                 }
             }
         });
+
 		$( "#dialog3" ).dialog({
             autoOpen: false,
             width: 700,
@@ -544,6 +628,28 @@ table tfoot ol.page {
 		$( "#dialog4" ).dialog({
             autoOpen: false,
             width: 1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		$( "#dialog5" ).dialog({
+            autoOpen: false,
+            width: 600,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		$( "#dialog6" ).dialog({
+            autoOpen: false,
+            width: 900,
             modal: true,
             buttons: {
                 "닫기": function() {
@@ -580,11 +686,14 @@ table tfoot ol.page {
 			
 			$("#addRoom_tbody").html(str+str2);
 		}
+	
 		
 		function addCourse(frm) {
 		    frm.action= "editCourse?edit=ok";
 		    frm.submit();
 		}
+
+	
 	</script>
 </body>
 </html>
