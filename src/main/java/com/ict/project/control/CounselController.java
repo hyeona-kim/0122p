@@ -36,8 +36,8 @@ public class CounselController {
     HttpSession session;
     @Autowired
     ServletContext application;
-	@Autowired
-	CounselService cs_Service;
+    @Autowired
+    CounselService cs_Service;
     @Autowired
     CounselAddService ca_Service;
     @Autowired
@@ -46,6 +46,7 @@ public class CounselController {
     StaffService s_service;
     @Autowired
     TraineeService t_Service;
+    
 
 
 
@@ -64,18 +65,18 @@ public class CounselController {
     }
 
     @RequestMapping("addCounselFile")
-    public String addCounsel( CounselVO vo,String listSelect) {
-        
-        cs_Service.addCounsel(vo);
+    public ModelAndView addCounsel() {
+        ModelAndView mv = new ModelAndView();
               
-        return "redirect:counsel?listSelect="+listSelect;
+        mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
+        return mv;
     }
      @RequestMapping("delCounsel")
     public String delCounsel(String so_idx,String cPage) {
-		
-		cs_Service.deleteCounsel(so_idx);
-		
-		return "redirect:counsel?listSelect=1";
+      
+      cs_Service.deleteCounsel(so_idx);
+      
+      return "redirect:counsel?listSelect=2";
     }
     
     @RequestMapping("editCounsel")
@@ -165,37 +166,62 @@ public class CounselController {
 
         return viewPath;
     }
+
+    @RequestMapping("traineeList")
+    public ModelAndView traineeList(String cPage){
+        ModelAndView mv = new ModelAndView();
+       Paging page = new Paging();
+		
+		page.setTotalRecord(t_Service.getCount());
+		
+		if(cPage == null || cPage.length()==0) {
+			page.setNowPage(1);
+		}else {
+			int nowPage = Integer.parseInt(cPage);
+			page.setNowPage(nowPage);
+			
+		}
+		
+		TraineeVO[] tv = t_Service.getTraineeList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		
+		mv.addObject("ar", tv);
+		mv.addObject("page", page);
+
+        mv.setViewName( "jsp/admin/counselManage/counselTraineeSearch_ajax");
+		return mv;
+    }
+
     @RequestMapping("searchCounsel")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
-		if(value.trim().length()==0){
-			value= null;
-		}
-		if(year.equals("년도선택"))
-			year = null;
-		if(num.equals("표시개수"))
-			num = null;
-		ModelAndView mv = new ModelAndView();
-		Paging page = null;
-		if(num!=null && num.length()>0 ) {
+      if(value.trim().length()==0){
+         value= null;
+      }
+      if(year.equals("년도선택"))
+         year = null;
+      if(num.equals("표시개수"))
+         num = null;
+      ModelAndView mv = new ModelAndView();
+      Paging page = null;
+      if(num!=null && num.length()>0 ) {
             page = new Paging(Integer.parseInt(num),5);
         }
-		else {
+      else {
             page = new Paging();
         }
-		
+      
 
-		if(value == null || value.length()<1) {
-			value = null;
-		}
-		if(select == null || select.length()<1){
-			select = null;
-		}
-		
-		if(year == null || year.length()==0) {
-			year = null;
-		}
-		//비동기 통신할 jsp로 보내기
-		if(listSelect.equals("1")) {
+      if(value == null || value.length()<1) {
+         value = null;
+      }
+      if(select == null || select.length()<1){
+         select = null;
+      }
+      
+      if(year == null || year.length()==0) {
+         year = null;
+      }
+      //비동기 통신할 jsp로 보내기
+      if(listSelect.equals("1")) {
 
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
             page.setTotalRecord(c_Service.getSearchCount(select, value, year));
@@ -211,29 +237,30 @@ public class CounselController {
             
             mv.addObject("ar", ar);
             mv.addObject("page", page);
-
-		} else if(listSelect.equals("3")) {
-            page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
+        }
+      
+      
+      else if(listSelect.equals("3")) {
+            page.setTotalRecord(t_Service.getCourseSearchCount(select, value, year));
             page.setNowPage(Integer.parseInt(cPage));
-            CounselVO[] ar = cs_Service.searchCounsel(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            TraineeVO[] ar = t_Service.getCourseTraineeSearchList(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 
             mv.addObject("ar", ar);
             mv.addObject("page", page);
             mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
         }
         return mv;
-	}
+   }
 
     @RequestMapping("counselMain")
-    public ModelAndView counselMain(String listSelect, String cPage) {
+    public ModelAndView counselMain(String listSelect, String cPage, String c_idx) {
         ModelAndView mv = new ModelAndView();
-		if(cPage == null)
+      if(cPage == null)
             cPage = "1";
-		// cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
+      // cPage와 listSelect를 받아서 이를 통해 paging객체 만들기.
         
         
-        
-		if(listSelect.equals("1")) {
+      if(listSelect.equals("1")) {
             Paging page = new Paging();
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
             page.setTotalRecord(c_Service.getCount());
@@ -245,46 +272,53 @@ public class CounselController {
             mv.addObject("page", page);
             
         }
-		else if(listSelect.equals("2")){
+      else if(listSelect.equals("2")){
             Paging page = new Paging();
             mv.setViewName("/jsp/admin/counselManage/counselDateList_ajax");
             page.setTotalRecord(cs_Service.getCount());
             page.setNowPage(Integer.parseInt(cPage));
-            CounselVO[] ar = null;
-            ar = cs_Service.getCounselList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+            CounselVO[] ar = cs_Service.getCounselList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            System.out.println(cs_Service.getCount());
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         }
-		else if(listSelect.equals("3")){
-            Paging page = new Paging();
-            mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
-            page.setTotalRecord(cs_Service.getCount());
-            page.setNowPage(Integer.parseInt(cPage));
-            CounselVO[] ar = null;
-            ar = cs_Service.getCounselList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
-            mv.addObject("ar", ar);
-            mv.addObject("page", page); 
+      else if(listSelect.equals("3")){
+          mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
+          TraineeVO[] ar = null;
+          if(c_idx != null){
+                Paging page = new Paging();
+
+                page.setTotalRecord(t_Service.getCourseTraineeCount(c_idx));
+                System.out.println(c_idx);
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+            } else {
+                ar = null;
+                mv.addObject("ar", ar);
+            }
+            
         }
-		else
-            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");	
-		
+      else
+            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");   
+      
         return mv;
     }
 
     @RequestMapping("ss_dialog")
     public ModelAndView ss_dialog(String select,String c_idx) {
         ModelAndView mv = new ModelAndView();
-		
-		CourseVO cvo = c_Service.getCourse(c_idx);
-		mv.addObject("cvo", cvo);
-		
-		if(select.equals("addCounselFile"))
-			mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
-		else if(select.equals("counselAddMain"))
+      
+   
+      CourseVO cvo = c_Service.getCourse(c_idx);
+      mv.addObject("cvo", cvo);
+      
+      if(select.equals("addCounselFile"))
+         mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
+      else if(select.equals("counselAddMain"))
             mv.setViewName("/jsp/admin/counselManage/counselAddMain_ajax");
-        else if(select.equals("counselA"))
-            mv.setViewName("/jsp/admin/counselManage/counselAdd");
-		
+      
         return mv;
     }
   
