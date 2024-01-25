@@ -284,7 +284,7 @@ table tfoot ol.page {
 		<div id="dialog2" hidden="" title="상담결과보고">
 		</div>
         
-        <div id="dialog3" hidden="" title="상담결과보고">
+        <div id="dialog3" hidden="" title="상담결과보고서 등록">
 		</div>
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -364,6 +364,15 @@ table tfoot ol.page {
 		});
 		
 		function set() {
+            $( "#dialog" ).dialog({
+                width:1200,
+                modal: true,
+                buttons: {
+                    "닫기": function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
 			$.ajax({
 				url:"addCounselFile",
 				type:"post",
@@ -374,12 +383,13 @@ table tfoot ol.page {
 					 $("#dialog").dialog("close");
 				});
 			});
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
         }
 		function set2(c_idx) {
+            $( "#dialog2" ).dialog({
+                width: 1200,
+                modal: true,
+               
+            });
 			$.ajax({
 				url:"counselAddMain",
 				type:"post",
@@ -390,65 +400,35 @@ table tfoot ol.page {
 				$("#cc_cancle").click(function(){
 					 $("#dialog2").dialog("close");
 				});
+                ///////////////////////////////
+                    $("#add_btn").click(function(){
+                        $( "#dialog3" ).dialog({
+                        width:1200,
+                        modal: true,
+                        
+                        });
+                        $.ajax({
+                            url:"counselA",
+                            type:"post",
+                            data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselA")+"c_idx="+c_idx,
+                        }).done(function(result){
+                            $("#dialog3").html(result);
+                            
+                            $("#cc_cancle").click(function(){
+                                $("#dialog3").dialog("close");
+                            });
+                        });
+                    });
 			});
-            $("#dialog2").dialog("open",{
-            	width:500,
-            	height:600
-            });
         }
 
-        function counselA(c_idx){
-            $("#dialog2").dialog("close");
-            $.ajax({
-                url:"counselA",
-                type:"post",
-                data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselA")+"c_idx"+c_idx,
-            }).done(function(result){
-				$("#dialog3").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog3").dialog("close");
-				});
-			});
-            $("#dialog3").dialog("open");
-        }
-
-        $( "#dialog" ).dialog({
-            autoOpen: false,
-            width:1200,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
+       
 		
-		$( "#dialog2" ).dialog({
-            autoOpen: false,
-            width: 1200,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-        
-        $( "#dialog3" ).dialog({
-            autoOpen: false,
-            width:1200,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
+		
 
 		function paging(str) {
 			$.ajax({
-				url: "CounselController",
+				url: "searchCounsel",
 				type: "post",
 				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),

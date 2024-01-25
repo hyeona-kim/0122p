@@ -2,7 +2,16 @@ package com.ict.project.vo;
 
 public class TraineeVO {
 	
-	private String tr_idx, tr_name, tr_rrn, tr_phone, tr_hp, tr_pos_code, tr_addr, status, memo, c_code, ct_code, tr_total_fee;
+	private String tr_idx, tr_name, tr_rrn, tr_phone, tr_hp, tr_pos_code, tr_addr, tr_status, memo, c_code, ct_code, tr_total_fee, ss_end;
+
+	
+	public String getSs_end() {
+		return ss_end;
+	}
+
+	public void setSs_end(String ss_end) {
+		this.ss_end = ss_end;
+	}
 
 	public String getTr_idx() {
 		return tr_idx;
@@ -60,12 +69,12 @@ public class TraineeVO {
 		this.tr_addr = tr_addr;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getTr_status() {
+		return tr_status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setTr_status(String tr_status) {
+		this.tr_status = tr_status;
 	}
 
 	public String getMemo() {
