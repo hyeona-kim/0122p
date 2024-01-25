@@ -324,7 +324,7 @@ table tfoot ol.page {
 				data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#counsel_Table").html(result);
-			});
+			});1
 			
 			
 			//$().removeClass("selected");
@@ -420,7 +420,7 @@ table tfoot ol.page {
             });
         }
 
-        function counselA(c_idx){
+        function counselA(c_idx){ 
             $("#dialog2").dialog("close");
             $.ajax({
                 url:"counselA",
@@ -480,10 +480,7 @@ table tfoot ol.page {
 			});
 			
 		}
-		function close(){
-		location.href="councel?listSelect=1&cPage=1";
 
-	}
 	</script>
 </body>
 </html>

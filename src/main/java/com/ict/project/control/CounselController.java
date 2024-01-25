@@ -3,15 +3,18 @@ package com.ict.project.control;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CounselAddService;
 import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
+import com.ict.project.service.StaffService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.StaffVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,10 +34,13 @@ public class CounselController {
     CounselAddService ca_Service;
     @Autowired
     CourseService c_Service;
+    @Autowired
+    StaffService s_service;
+    
+  
     
 
 
-    
 
 
     @RequestMapping("counsel")
@@ -76,12 +82,23 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
+    @RequestMapping("counselsave")
+    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img) {
+        ModelAndView mv = new ModelAndView();
+        System.out.println(ss_img.getOriginalFilename());
+      int cnt = ca_Service.add(vo);
+      System.out.println(cnt);
+      mv.setViewName("redirect:counsel?listSelect=1");
+
+        
+        return mv;
+    }
 
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
         ModelAndView mv = new ModelAndView();
 
-        CourseVO cvo = c_Service.getCourse(c_idx);
+        CourseVO cvo = c_Service.getCourse2(c_idx);
         
 
         // so_idx를 기반으로 CounselVO 객체 가져오기
@@ -101,27 +118,29 @@ public class CounselController {
         
         // so_idx를 기반으로 CounselVO 객체 가져오기
         CounselAddVO[] vo = ca_Service.list(c_idx);
-        mv.addObject("c_idx", c_idx);
+        CourseVO cvo = c_Service.getCourse(c_idx);
+        mv.addObject("cvo", cvo);
         mv.addObject("vo", vo);
         mv.setViewName("/jsp/admin/counselManage/counselAddMain");
-       
+        
         return mv;
     }
-
+    
     @RequestMapping("counselA")
     public ModelAndView counselA(String c_idx){
         ModelAndView mv = new ModelAndView();
         CounselAddVO[] vo = ca_Service.list(c_idx);
-        CourseVO cvo = c_Service.getCourse(c_idx);
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        
         mv.addObject("vo", vo);
         mv.addObject("cvo", cvo);
         mv.setViewName("/jsp/admin/counselManage/counselAdd");
-
+        
         return mv;  
     }
-
-
-
+    
+    
+    
 
     
     @RequestMapping("viewCounsel")
@@ -130,6 +149,8 @@ public class CounselController {
 
         // so_idx를 기반으로 CounselVO 객체 가져오기
         CounselVO vo = cs_Service.getCounsel(so_idx);
+
+
       
         request.setAttribute("select_vo", vo);
 

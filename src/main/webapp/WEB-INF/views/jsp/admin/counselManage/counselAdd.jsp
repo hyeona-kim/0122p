@@ -23,7 +23,7 @@
 	</div>
 	
 	<div>
-	<form action="counselAdd" method="post">
+	<form action="counselsave" method="post">
 		<table id="tt_add2" class="t1">
 			<colgroup>
 				<col width="25%"/>
@@ -34,15 +34,15 @@
 			<thead id="t2head">
 				<tr>
                     <th>회의일자</th>
-                    <td><input type="text" id="ss_mday" name="ss_mday"/></td>
+                    <td><input type="date" id="ss_mday" name="ss_mday"/></td>
 					<th>상담사</th>
-                    <td><input type="text" id="sf_idx1" name="sf_idx1"/></td>
+                    <td><input type="text" id="sf_idx" name="sf_idx"/></td>
                 </tr>
                 <tr>
                     <th>훈련시간</th>
-                    <td><input type="text" id="ss_time" name="ss_time"/></td>
-					<th>훈련교사</th>
-                    <td><input type="text" id="sf_idx2" name="sf_idx2"/></td>
+                    <td><input type="time" id="ss_time" name="ss_time"/></td>
+					<th>훈련교사</th>		
+               		 <td>${cvo.svo.sf_name}</td>
                 </tr>
 				<tr>
                     <th>회의장소</th>
@@ -58,29 +58,29 @@
                 </tr>
 				<tr>
                 	<th>회의참석자</th>
-					<td colspan ='3'><textarea type="text" id="ss_member" name="ss_member" cols="90" rows="10"></textarea></td>
+					<td colspan ='3'><textarea type="text" id="ss_member" name="ss_member" cols="90" rows="6"></textarea></td>
 					
 				</tr>
 				<tr>
 					<th>상담목적</th>
 					<td colspan ='3'>
-						<textarea type="text" id="so_pp" name="so_pp" cols="90" rows="10"></textarea>
+						<textarea type="text" id="so_pp" name="so_pp" cols="90" rows="6"></textarea>
 					</td>
 				</tr>
 					<th>상담대상자</th>
-					<td colspan ='3'><textarea type="text" id="tr_idx" name="tr_idx" cols="90" rows="10"></textarea></td>
+					<td colspan ='3'><textarea type="text" id="tr_idx" name="tr_idx" cols="90" rows="6"></textarea></td>
 				</tr>
 				<tr>
 					<th>상담내용전달사항</th>
-					<td colspan="3"><textarea type="text" id="ss_msg" name="ss_msg" cols="90" rows="10"></textarea></td>
+					<td colspan="3"><textarea type="text" id="ss_msg" name="ss_msg" cols="90" rows="6"></textarea></td>
 				</tr>
 				<tr>
 					<th>회의내용</th>
-					<td colspan ='3'><textarea type="text" id="ss_msubject" name="ss_msubject" cols="90" rows="10"></textarea></td>
+					<td colspan ='3'><textarea type="text" id="ss_msubject" name="ss_msubject" cols="90" rows="6"></textarea></td>
 				</tr>
 				<tr>
 					<th>회의사진</th>
-					<td colspan ='3'><input type="file"/></td>
+					<td colspan ='3'><input type="file" name="ss_img"/></td>
 				</tr>
 					
 			</thead>
