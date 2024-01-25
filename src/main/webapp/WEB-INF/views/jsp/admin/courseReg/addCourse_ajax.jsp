@@ -23,7 +23,7 @@
 							<option value="0">선택하세요</option>
 							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
 								<option value="${c_ar.ct_idx }">
-								 		${c_ar.ct_name }
+								 		${c_ar.ct_name } 
 								 </option>
 							</c:forEach>
 						</select>

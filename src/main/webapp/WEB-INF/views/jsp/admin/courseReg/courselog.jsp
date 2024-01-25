@@ -135,6 +135,8 @@ table tfoot ol.page {
       border-collapse: collapse;
       width: 600px;
       margin: auto;
+	  height: 35px;
+	  line-height: 35px;
    }
    
    #t1 td{
@@ -370,7 +372,8 @@ table tfoot ol.page {
 		let select_year = "";
 		let numPerPage = "";
 		let value ="";
-		let room_length =7;
+		let room_length =Number('${r_length}');
+
 		$(function(){
 			$.ajax({
 				url: "courseMain",
@@ -582,15 +585,11 @@ table tfoot ol.page {
 				$("#dialog4").html(result);
 				
 				$("#cancel4").click(function(){
-						$("#dialog4").dialog( "close" );
+					$("#dialog4").dialog( "close" );
 				});
 			});
 			$("#dialog4").dialog("open");	
-        }
-
-		
-
-		$( "#dialog" ).dialog({
+        }$( "#dialog" ).dialog({
             autoOpen: false,
             width:1200,
             modal: true,
@@ -600,7 +599,7 @@ table tfoot ol.page {
                 }
             }
         });
-		
+
 		$( "#dialog2" ).dialog({
             autoOpen: false,
             width: 1200,

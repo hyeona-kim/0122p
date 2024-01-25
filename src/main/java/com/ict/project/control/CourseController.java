@@ -70,16 +70,22 @@ public class CourseController {
 	SubjectService sb_Service;
 
     @RequestMapping("course")
-    public String course(String listSelect) {
+    public ModelAndView course(String listSelect) {
+		ModelAndView mv = new ModelAndView();
         String viewPath = null;
-        if(listSelect.equals("1"))
+        if(listSelect.equals("1")){
             viewPath= "/jsp/admin/courseReg/courselog";
+			RoomVO[] ar = r_Service.getList();
+			mv.addObject("r_length", ar.length);
+		}
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/courseReg/serve";
         else if(listSelect.equals("3"))
             viewPath= "/jsp/admin/courseReg/maketime";
         
-        return viewPath;
+		mv.setViewName(viewPath);
+
+        return mv;
     }
 
     @RequestMapping("addCourse")
@@ -153,6 +159,7 @@ public class CourseController {
 
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
+		System.out.println(value);
 		if(value.trim().length()==0){
 			value= null;
 		}
@@ -167,22 +174,10 @@ public class CourseController {
 		else 
 			page = new Paging();
 		
-
-		if(value == null || value.length()<1) {
-			value = null;
-		}
-		if(select == null || select.length()<1){
-			select = null;
-		}
-		
-		if(year == null || year.length()==0) {
-			year = null;
-		}
 		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
 		page.setNowPage(Integer.parseInt(cPage));
-		
+		System.out.println(page.getTotalRecord());
 		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		mv.addObject("cPage", cPage);
