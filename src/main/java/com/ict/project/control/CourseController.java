@@ -531,6 +531,8 @@ public class CourseController {
 		mv.setViewName("/jsp/admin/courseReg/exelAdd_ajax");
 		return mv;
     }
+
+	
     @RequestMapping("weekTime")
     public ModelAndView weekTime(String listSelect,String c_idx) {
 		ModelAndView mv = new ModelAndView();
