@@ -162,6 +162,7 @@
 	let select_year = "";
 	let numPerPage = "";
 	let value ="";
+	let cPage = 1;
 	$(function() {
 	
 		$.ajax({
@@ -229,6 +230,7 @@
 	});
 	
 	function paging(str) {
+		cPage = str;
 		$.ajax({
 			url:"searchCourse",
 			type:"post",
@@ -239,7 +241,7 @@
 		});
 	}
 
-	function set(c_idx){
+	function set(){
 		//console.log(c_idx);
 		//이 비동기 통신을 하면서fileVo객체를 받아온다 과정에대한 c_idx를 가지고가서 출력하고 그 과정명을h2태그에 띄어준다 
 		
@@ -247,7 +249,7 @@
 		$.ajax({
 			url:"course_file",
 			type:"post",
-			data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=2"
+			data:"c_idx="+encodeURIComponent(cPage)+"&listSelect=2"
 		}).done(function(result){
 			$("#dialog").html(result);
 			$("#cc_cancle").click(function(){

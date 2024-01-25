@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 
 
-<table id="makeTime">
+<table id="us_table">
 				<thead>
 					<tr>
 						<th>순번</th>
@@ -27,7 +27,7 @@
 						<td>${vo2.sk_idx }</td>
 						<td>${vo2.t_idx}</td>
 						<td>${vo2.us_cnum }</td>
-						<td><button type="button"  onclick="set5('skill')">등록/수정</button></td>
+						<td><button type="button"  onclick="set5('skill','${vo2.us_idx}')">등록/수정</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>
