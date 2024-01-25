@@ -65,9 +65,9 @@ public class CourseController {
 	StaffService s_Service;
 	@Autowired
 	UpskillService us_Service;
-  @Autowired
-  SkillService sk_Service;
-  @Autowired
+	@Autowired
+	SkillService sk_Service;
+	@Autowired
 	FileService f_Service;
 	@Autowired
 	SubjectService sb_Service;
@@ -375,7 +375,6 @@ public class CourseController {
     public ModelAndView course_file(FileVO fvo,String listSelect){
         ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
-		System.out.println(listSelect);
 		if(encType.startsWith("application")){
 			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
 
