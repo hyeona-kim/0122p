@@ -58,14 +58,14 @@
 								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
 								<td>${vo2.end_date }</td>
-								<td>${vo2.ti_idx}</td>
+								<td>${vo2.c_day}</td>
 								<td>${vo2.c_round_num }</td>
 								<td>24</td>
 								<td>${vo2.c_peo_num}</td>
 								<td>
-									<button type="button">강사/시설/교과목 액셀등록</button>
-									<button type="button">HRD시간표 액셀등록</button>
-									<button type="button">주별시간표보기</button>
+									<button type="button" onclick="set('SRS','${vo2.c_idx}')">강사/시설/교과목 액셀등록</button>
+									<button type="button" onclick="set('time','${vo2.c_idx}')">HRD시간표 액셀등록</button>
+									<button type="button" onclick="set2('${vo2.c_idx}')">주별시간표보기</button>
 								</td>
 							</tr>
 						</c:forEach>

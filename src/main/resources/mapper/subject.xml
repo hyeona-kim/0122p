@@ -3,5 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.SubjectMapper">
-
+  <select id="list" resultType="com.ict.project.vo.SubjectVO" parameterType="String">
+    select * from subject_t where c_idx = #{str}
+  </select>
 </mapper>

@@ -14,4 +14,7 @@ public interface StaffMapper {
     int delete(String sf_idx);
     int editStaff(StaffVO vo);
     StaffVO getStaff(String sf_idx);
+    int login_block(String sf_id);
+    int login_unblock(String sf_id);
+    String sf_link(String sf_id);
 }

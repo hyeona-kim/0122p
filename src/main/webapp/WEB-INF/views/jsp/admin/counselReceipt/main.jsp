@@ -16,18 +16,7 @@
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
 		<div id="center">
-			<div class="left 2">
-				<ul id="list2">
-					<li class="title"><a href="">&nbsp;&nbsp;&nbsp;입학상담 및 모집현황</a></li>
-					<li class="content"><a href="">&nbsp;&nbsp;•&nbsp;면접평가표관리</a></li>
-					<li class="content"><a href="">&nbsp;&nbsp;•&nbsp;입학상담내역</a></li>
-					<li class="content"><a href="">&nbsp;&nbsp;•&nbsp;일일모집현황</a></li>
-					<li class="content"><a href="">&nbsp;&nbsp;•&nbsp;교육생등록현황</a></li>
-					<li class="content"><a href="">&nbsp;&nbsp;•&nbsp;수강생파일등록</a></li>
-					<li class="title"><a href="">&nbsp;&nbsp;&nbsp;동영상메뉴얼보기</a></li>
-					<li class="last"></li>	
-				</ul>
-			</div>
+			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				
 			</div>
@@ -44,7 +33,7 @@
 </body>
 </c:if>
 <c:if test="${sessionScope.vo eq null }">
-	<c:redirect url="Controller">
+	<c:redirect url="menu?select=counselReceipt">
 	</c:redirect>
 </c:if>
 </html>

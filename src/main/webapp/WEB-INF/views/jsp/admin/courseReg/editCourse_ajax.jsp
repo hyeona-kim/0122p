@@ -21,8 +21,18 @@
 						<th><label>과정구분</label></th>
 						<td>
 						<select>
-							<option value="0">선택하세요</option>
-							<option value="1">국가기반</option>
+							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
+								<c:if test="${ct_idx eq c_ar.ct_idx}">
+									<option value="${c_ar.ct_idx }" selected>
+										${c_ar.ct_name }
+									</option>
+								</c:if>
+								<c:if test="${ct_idx ne c_ar.ct_idx}">
+									<option value="${c_ar.ct_idx }">
+											${c_ar.ct_name }
+									</option>
+								</c:if>
+							</c:forEach>
 						</select>
 						</td>
 					</tr>
@@ -34,8 +44,18 @@
 						<th><label>담당교사</label></th>
 						<td>
 						<select>
-							<option value="t1">선택하세요</option>
-							<option value="t2">-</option>
+							<c:forEach items="${requestScope.s_ar}" var="s_ar" varStatus="loop">
+								<c:if test="${sf_idx eq s_ar.sf_idx}">
+									<option value="${s_ar.sf_idx }" selected>
+										${s_ar.sf_name }
+									</option>
+								</c:if>
+								<c:if test="${sf_idx ne s_ar.sf_idx}">
+									<option value="${s_ar.sf_idx }" >
+										${s_ar.sf_name }
+									</option>
+								</c:if>
+							</c:forEach>
 						</select>
 						</td>
 					</tr>
@@ -62,13 +82,48 @@
 						<td><input type="text" name="c_peo_num" value="${edit_cvo.c_peo_num }"></td>
 						<th><label>요일</label></th>
 						<td>
-						<input type="checkbox" name="monday" value="월">월
-						<input type="checkbox" name="tuesday" value="화">화
-						<input type="checkbox" name="wednesday" value="수">수
-						<input type="checkbox" name="thursday" value="목">목
-						<input type="checkbox" name="friday" value="금">금
-						<input type="checkbox" name="saturday" value="토">토
-						<input type="checkbox" name="sunday" value="일">일
+						<c:if test="${monday eq true}">
+							<input type="checkbox" name="c_day" value="월" checked>월
+						</c:if>	
+						<c:if test="${monday eq null || monday ne true}">
+							<input type="checkbox" name="c_day" value="월" >월
+						</c:if>	
+						<c:if test="${tuesday eq true}">
+							<input type="checkbox" name="c_day" value="화" checked>화
+						</c:if>
+						<c:if test="${tuesday eq null || tuesday ne true}">
+							<input type="checkbox" name="c_day" value="화">화
+						</c:if>
+						<c:if test="${wednesday eq true}">
+							<input type="checkbox" name="c_day" value="수" checked>수
+						</c:if>	
+						<c:if test="${wednesday eq null || wednesday ne true}">
+							<input type="checkbox" name="c_day" value="수" >수
+						</c:if>	
+						<c:if test="${thursday eq true}">
+							<input type="checkbox" name="c_day" value="목" checked>목
+						</c:if>
+						<c:if test="${thursday eq null || thursday ne true}">
+							<input type="checkbox" name="c_day" value="목">목
+						</c:if>
+						<c:if test="${friday eq true}">
+							<input type="checkbox" name="c_day" value="금" checked>금
+						</c:if>
+						<c:if test="${friday eq null || friday ne true}">
+							<input type="checkbox" name="c_day" value="금" >금
+						</c:if>
+						<c:if test="${saturday eq true}">
+							<input type="checkbox" name="c_day" value="토" checked>토
+						</c:if>
+						<c:if test="${saturday eq null || saturday ne true}">
+							<input type="checkbox" name="c_day" value="토" >토
+						</c:if>
+						<c:if test="${sunday eq true}">
+							<input type="checkbox" name="c_day" value="일" checked>일
+						</c:if>
+						<c:if test="${sunday eq null || sunday ne true}">
+							<input type="checkbox" name="c_day" value="일" >일
+						</c:if>
 						</td>
 					</tr>
 					<tr>
@@ -97,5 +152,6 @@
 						</td>
 					</tr>
 				</tfoot>	
+				<input type="hidden" name="cPage" value="${param.cPage}"/>
 			</table>
 		</form>

@@ -27,7 +27,7 @@
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
-			$("#firstmenu").addClass("selected");
+			$("#fourthmenu").addClass("selected");
 		});
 	</script>
 </body>

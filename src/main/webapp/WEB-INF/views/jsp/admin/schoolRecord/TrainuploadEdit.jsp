@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-				<form action="Controller?type=trainuploadedit" method="post" encType="multipart/form-data" name="fff">
+				<form action="trainuploadedit" method="post" encType="multipart/form-data" name="fff">
 				<table id="makeTime" >
 				<caption>확인서류등록 리스트</caption>
 					<tbody>
@@ -30,7 +30,7 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea id="content" name="content" ${vo3.content } cols="100" rows="8"></textarea></td>
+							<td><textarea id="content" name="content"  cols="100" rows="8">${vo3.content }</textarea></td>
 						</tr>
 						<tr>
 							<th>첨부파일:</th>
@@ -44,7 +44,7 @@
 							<td colspan="2">
 								<input type="button" value="저장"
 								onclick="sendData()"/>
-								<input type="button" value="닫기" onclick="javascript:location.href='Controller?type=trainupload'">
+								<input type="button" value="닫기" onclick="javascript:location.href='trainupload'">
 							</td>
 						</tr>
 					</tbody>

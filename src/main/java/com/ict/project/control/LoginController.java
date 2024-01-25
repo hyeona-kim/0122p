@@ -1,32 +1,16 @@
 package com.ict.project.control;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.ict.project.service.LoginService;
-import com.ict.project.util.FileRenameUtil;
-import com.ict.project.util.LmsBean;
-import com.ict.project.util.Paging;
-import com.ict.project.vo.CourseTypeVO;
-import com.ict.project.vo.CourseVO;
-import com.ict.project.vo.RoomVO;
+import com.ict.project.service.StaffService;
 import com.ict.project.vo.StaffVO;
-import com.ict.project.vo.TrainuploadVO;
-
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @org.springframework.stereotype.Controller
@@ -39,7 +23,11 @@ public class LoginController {
     ServletContext application;
 	@Autowired
 	LoginService l_Service;
-
+    @Autowired
+    StaffService s_Service;
+    
+    int cnt=0;
+    
     @RequestMapping("index")
     public String requestMethodName() {
         return "/jsp/index";
@@ -61,23 +49,47 @@ public class LoginController {
 		return viewPath;
     }
     @RequestMapping("login_ok")
-    public String login_ok(String select,String ID,String PW) {
-       String viewPath = null;
-	
+    public ModelAndView login_ok(String select,String ID,String PW) {
+        ModelAndView mv = new ModelAndView();
+        String viewPath = null;
 		if(select.equalsIgnoreCase("admin")) {
-			StaffVO vo = l_Service.login_admin(ID, PW);
-			viewPath = "/jsp/admin/counselReceipt/main";
-			session.setAttribute("vo", vo);
-			
+            
+            StaffVO vo = l_Service.login_admin(ID, PW);
+            if(vo == null){
+                if(s_Service.sf_link(ID).equals("1")){
+                    mv.addObject("block", "true");
+                }
+                if(session.getAttribute("cnt")==null)
+                    session.setAttribute("cnt", 0);
+                cnt = (int)session.getAttribute("cnt");
+                mv.addObject("login", "fail");
+                session.setAttribute("cnt", cnt+1);
+                if(cnt >= 5){
+                    s_Service.block(ID);
+                    session.removeAttribute("cnt");
+                    mv.addObject("block", "true");
+                }
+                viewPath = "/jsp/login/login_admin";
+            }
+            else{
+			    viewPath = "/jsp/admin/counselReceipt/main";
+                session.removeAttribute("cnt");
+            }
+			session.setAttribute("vo", vo);	
 		}else if(select.equalsIgnoreCase("train")) {			
 			viewPath = "/jsp/train/main";
 		}else if(select.equalsIgnoreCase("teacher")) {
             StaffVO vo = l_Service.login_teacher(ID,PW);
-			viewPath = "/jsp/teacher/counselReceipt/main";
+            if(vo == null){
+                viewPath = "/jsp/login/login_teacher";
+                mv.addObject("login", "fail");
+            }
+            else 
+			    viewPath = "/jsp/teacher/counselReceipt/main";
             session.setAttribute("vo", vo);
 		}
-		
-		return viewPath;
+		mv.setViewName(viewPath);
+		return mv;
     }
     @RequestMapping("logout")
     public String logout() {

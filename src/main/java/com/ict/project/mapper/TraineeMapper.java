@@ -8,5 +8,6 @@ public interface TraineeMapper {
     List<TraineeVO> all();
     int count();
     List<TraineeVO> list();
+    TraineeVO view(String tr_idx);
 
 }
