@@ -271,7 +271,7 @@ table tfoot ol.page {
 			$.ajax({
 				url: "counselMain",
 				type: "post",
-				data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
@@ -364,17 +364,18 @@ table tfoot ol.page {
 		}
 		
 
-		function paging(str) {
+		function paging(cPage) {
 			$.ajax({
-				url: "CounselController",
+				url: "searchCounsel",
 				type: "post",
 				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(cPage),
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
 		}
-		
+		let num = '${num}'	
+		console.log(num);
 	</script>
 </body>
 </html>
