@@ -61,4 +61,40 @@ public class BoardService {
     public BoardVO getBoard(String bd_idx) {
         return b_mapper.getBoard(bd_idx);
     }
+
+    // 공지사항이 아닌 게시물들의 총 개수를 구하는 기능
+    public int cntNonNotice() {
+        return b_mapper.cntNonNotice();
+    }
+
+    // 공지 숨김처리 클릭했을 때 공지 아닌 글들만 검색하는 기능
+    public BoardVO[] checkNotice(String begin, String end) {
+        BoardVO[] ar = null;
+
+        List<BoardVO> list = b_mapper.checkNotice(begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new BoardVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 과정별 게시판 목록을 배열로 반환하는 기능
+    public BoardVO[] viewBoardList(String c_idx, String begin, String end) {
+        BoardVO[] ar = null;
+
+        List<BoardVO> list = b_mapper.viewBoardList(c_idx, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new BoardVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 과정별 게시판의 Paging을 위해 해당 게시판의 totalRecord를 구하는 기능
+    public int cntBoardList(String c_idx){
+        return b_mapper.cntBoardList(c_idx);
+    }
 }

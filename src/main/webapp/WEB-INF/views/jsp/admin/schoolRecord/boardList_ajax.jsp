@@ -3,7 +3,7 @@
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<table id="board_table">
          <tbody>
-                  <%-- ===== 출력할 건의사항 항목 ===== --%>
+                  <%-- ===== 출력할 게시판 항목 ===== --%>
                      <tr>
                         <th>번호</th>
                         <th>제목</th>
@@ -14,26 +14,32 @@
                      </tr>
                   <c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
                   <%-- ===== 로그인 정보가 있다면 반복문을 통해
-                           건의사항 목록 출력 ===== --%>
-                     <c:forEach items="${ar }" varStatus="vs" var="bvo">
-                        <tr>
-                           <td>${vs.index+1}</td>
-                           <td align="left">
-                              <%-- 전체공지로 클릭되었다면(notice가 1일때)
-                                  공지 마크가 추가되어야함 --%>
-                              <c:if test="${bvo.bd_notice eq '1'}">
-                                 <span id="notice">공지</span>
-                              </c:if>
-                              <a href="javascript:viewContent('${bvo.bd_idx}')">
-                                 ${bvo.bd_subject}
-                              </a>
-                           </td>                              
-                           <td>${bvo.bd_file}</td>
-                           <td>***</td>
-                           <td>${bvo.bd_write_date}</td>
-                           <td>${bvo.bd_hit}</td>
-                        </tr>
-                     </c:forEach>
+                           게시판 목록 출력 ===== --%>
+                     <c:if test="${ar ne null}">   
+                        <c:forEach items="${ar }" varStatus="vs" var="bvo">
+                           <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
+                           <tr>
+                              <td>${num-vs.index}</td>
+                              <td align="left">
+                                 <%-- 전체공지로 클릭되었다면(notice가 1일때)
+                                 공지 마크가 추가되어야함 --%>
+                                 <c:if test="${bvo.bd_notice eq '1'}">
+                                    <span id="notice">공지</span>
+                                 </c:if>
+                                 <a href="javascript:viewContent('${bvo.bd_idx}')">
+                                    ${bvo.bd_subject}
+                                 </a>
+                              </td>                              
+                              <td>${bvo.bd_file}</td>
+                              <td>***</td>
+                              <td>${bvo.bd_write_date}</td>
+                              <td>${bvo.bd_hit}</td>
+                           </tr>
+                        </c:forEach>
+                     </c:if>
+                     <c:if test="${ar eq null}">
+                        <tr><td colspan="6">검색 결과가 없습니다</td></tr>
+                     </c:if>
                   </c:if>
                   </tbody>
                   <%-- 화면 하단 page 번호 출력하는 부분 --%>
@@ -59,12 +65,18 @@
                                  <c:if test="${vs.index eq page.nowPage }">
                                     <li class="now">${vs.index }</li>
                                  </c:if>
-                                 <c:if test="${vs.index ne page.nowPage }">
+                                 <c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag eq null && viewList_flag eq null}">
                                     <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
                                  </c:if>
-							<c:if test="${vs.index ne page.nowPage && bl ne null}">
-								<li><a href="javascript:searchBoard('${vs.index}')">${vs.index}</a></li>
-							</c:if>
+                                 <c:if test="${vs.index ne page.nowPage && search_flag ne null && notice_flag eq null && viewList_flag eq null}">
+                                    <li><a href="javascript:searchBoard('${vs.index}')">${vs.index}</a></li>
+                                 </c:if>
+                                 <c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag ne null && viewList_flag eq null}">
+                                    <li><a href="javascript:checkNotice('${vs.index}')">${vs.index}</a></li>
+                                 </c:if>
+                                 <c:if test="${vs.index ne page.nowPage && viewList_flag ne null}">
+                                    <li><a href="javascript:viewBoardList('${vs.index}', '${page.nowPage}')">${vs.index}</a></li>
+                                 </c:if>
                               </c:forEach>
                               <%-- ========== page 번호 만드는 부분 끝 ==========--%>
                               

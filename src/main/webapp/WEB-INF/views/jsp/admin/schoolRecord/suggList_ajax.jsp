@@ -23,26 +23,31 @@
 			<c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
 			<%-- ===== 로그인 정보가 있다면 반복문을 통해
 						건의사항 목록 출력 ===== --%>
-				<c:forEach items="${ar}" varStatus="vs" var="svo">
-				<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
-					<tr>
-						<td>${num-vs.index}</td>
-						<td align="left">
-							<%-- 전체공지로 클릭되었다면(notice가 1일때)
-								 공지 마크가 추가되어야함 --%>
-							<c:if test="${svo.notice eq '1'}">
-								<span id="notice">공지</span>
-							</c:if>
-							<a href="javascript:viewContent(${svo.sg_idx})">
-								${svo.sg_subject}
-							</a>
-						</td>										
-						<td>${svo.sg_file}</td>
-						<td>***</td>
-						<td>${svo.sg_write_date}</td>
-						<td>${svo.sg_hit}</td>
-					</tr>
-				</c:forEach>
+				<c:if test="${ar ne null}">
+					<c:forEach items="${ar}" varStatus="vs" var="svo">
+						<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
+						<tr>
+							<td>${num-vs.index}</td>
+							<td align="left">
+								<%-- 전체공지로 클릭되었다면(notice가 1일때)
+								공지 마크가 추가되어야함 --%>
+								<c:if test="${svo.notice eq '1'}">
+									<span id="notice">공지</span>
+								</c:if>
+								<a href="javascript:viewContent(${svo.sg_idx})">
+									${svo.sg_subject}
+								</a>
+							</td>										
+							<td>${svo.sg_file}</td>
+							<td>***</td>
+							<td>${svo.sg_write_date}</td>
+							<td>${svo.sg_hit}</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${ar eq null}">
+					<tr><td colspan="6">검색 결과가 없습니다</td></tr>
+				</c:if>
 			</c:if>
 		</tbody>
 		<%-- 화면 하단 page 번호 출력하는 부분 --%>
@@ -68,11 +73,14 @@
 							<c:if test="${vs.index eq page.nowPage }">
 								<li class="now">${vs.index }</li>
 							</c:if>
-							<c:if test="${vs.index ne page.nowPage && bl eq null}">
+							<c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag eq null}">
 								<li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
 							</c:if>
-							<c:if test="${vs.index ne page.nowPage && bl ne null}">
+							<c:if test="${vs.index ne page.nowPage && search_flag ne null && notice_flag eq null}">
 								<li><a href="javascript:searchSugg('${vs.index}')">${vs.index}</a></li>
+							</c:if>
+							<c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag ne null}">
+								<li><a href="javascript:checkNotice('${vs.index}')">${vs.index}</a></li>
 							</c:if>
 						</c:forEach>
 						<%-- ========== page 번호 만드는 부분 끝 ==========--%>

@@ -81,10 +81,10 @@ table tfoot ol.page {
 		text-indent: -9999px;
 		height: 0px;
 	}
-	table#boList thead tr:last-child td {
+	/* table#boList thead tr:last-child td {
 		border: none;
-	}
-	#bo_add_btn{
+	} */
+	#search_btn, #board_btn{
 		background-color: #4cdbcf;
 		border-radius: 3px;
 		border: none;
@@ -107,37 +107,37 @@ table tfoot ol.page {
 	table#boList tbody td {
 		font-size: 13px;
 	}
-	#addForm, #board_list{
+	#addForm, #board_main_list{
 		text-align: center;
 		margin: 0px auto;
 		padding: 10px;
 		width: 98%;
 	}
-	#addForm table caption, #board_list table caption{ text-indent: -9999px; }
+	#addForm table caption, #board_main_list table caption{ text-indent: -9999px; }
 	
-	#addForm table, #board_list table{
+	#addForm table, #board_main_list table{
 		width: 100%;
 		border-collapse: collapse;
 	}
-	#addForm table th, #board_list table th{
+	#addForm table th, #board_main_list table th{
 		background: #eee;
 	}
 	
-	#addForm table th,#addForm table td, #board_list table th, #board_list table td{
+	#addForm table th,#addForm table td, #board_main_list table th, #board_main_list table td{
 		border: 1px solid #e9e9e6;
 		padding: 5px;
 	}
 	
-	#addForm .left, #board_list .left{
+	#addForm .left, #board_main_list .left{
 		text-align: left;
 	}
-	#addForm th, #board_list th{
+	#addForm th, #board_main_list th{
 		width: 20px;
 	}
-	#addForm .input, #board_list .input{
+	#addForm .input, #board_main_list .input{
 		width: 350px;
 	}
-	#addForm tfoot td, #board_list tfoot td{
+	#addForm tfoot td, #board_main_list tfoot td{
 		border: none;
 	}
 	#boContent table caption{ text-indent: -9999px; }
@@ -239,50 +239,40 @@ table tfoot ol.page {
 	
 						<%-- ===== 검색하는 부분 ===== --%>
 						<table id="boList">
-						<caption>게시판 테이블</caption>
+						<caption>게시판 검색 테이블</caption>
 							<thead>	
 								<tr>
 									<th>검색</th>
 									<td>
-										<select  id="search_tag">
-											<option value="subject">제목</option>
-											<option>작성자</option>
+										<select id="search_year">
+											<option>년도선택</option>
+											<option>2024</option>
+											<option>2023</option>
+											<option>2022</option>
+											<option>2021</option>
+											<option>2020</option>
+											<option>2019</option>
+											<option>2018</option>
 										</select>
-										<input type="text"  id="search_value"/>
-										<button type="button" id="search_btn" onclick="searchBoard()">검색</button>
 									</td>
-									<th colspan="2">전체공지</th>
-									<td colspan="2">
-										<input type="checkbox" id="chk_btn" onchange="checkNotice()"/>숨김
+									<td>
+										<select id="search_tag">
+                                            <option>훈련강사</option>
+                                            <option>과정타입</option>
+                                            <option>과정명</option>
+                                        </select>
+                                        <input type="text"/>
+                                        <button type="button" id="search_btn">검색</button>
 									</td>
 								</tr>
-								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn">글쓰기</button></td></tr>
 							</thead>
 						</table>
 						
-						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
-						<div id="board_list">
+						<%-- ===== 비동기식으로 표현할 과정 목록 시작 ===== --%>
+						<div id="board_main_list">
 							
 						</div>
-						<%-- ===== 비동기식으로 표현할 게시글 목록 끝 ===== --%>
-
-						<%-- ===== 게시글 작성 폼 시작 ===== --%>
-						<div id="addForm">
-						
-						</div>
-						<%-- ===== 게시글 작성 폼 끝 ===== --%>
-
-						<%-- ===== 게시글 내용 시작 ===== --%>
-						<div id="boContent">
-						
-						</div>
-						<%-- ===== 게시글 내용 끝 ===== --%>
-						
-						<%-- ===== 게시글 답변 작성 폼 시작 ===== --%>
-						<div id="replyForm">
-						
-						</div>
-						<%-- ===== 게시글 답변 작성 폼 끝 ===== --%>
+						<%-- ===== 비동기식으로 표현할 과정 목록 끝 ===== --%>
 				</div>
 			</div>
 		</div>
@@ -290,136 +280,43 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-	
-		$(function() {
-			//$().removeClass("selected");
-			/* 처음 게시판을 클릭했을 때
-				 비동기식통신을 수행해 전체 목록을 가져온다 */
-			$.ajax({
-					url: "boardListAjax",
-					type: "post",
-				}).done(function(result){
-					$("#board_list").html(result);
-				});
-			$(".selected").removeClass("selected");
-			$(".l_select").removeClass("l_selected");
-			$("#thirdmenu").addClass("selected");
-			$("#l_five").addClass("l_select");
-			
-			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-			$("#bo_add_btn").bind("click", function(){
-				$.ajax({
-					url: "addBoardAjax",
-					type: "post"
-				}).done(function(result){
-					$("#addForm").html(result);
-				});
-				
-				$("#addForm").dialog({
-					title : '게시글 작성',
-					modal : true,
-					width : 1000,
-					height : 600
-				});
-			});
-			
-		});
-		
-		/* 목록 아래 [page번호]를 클릭할 때 수행
+        $(function() {
+            // 처음 게시판에 들어왔을 때
+            // 비동기식 통신을 이용해 과정의 내용들을 출력한다
+            $.ajax({
+                url: "boardCourseAjax",
+                type: "post",
+            }).done(function(result) {
+                $("#board_main_list").html(result);
+            });
+        });
+
+        /* 목록 아래 [page번호]를 클릭할 때 수행
 		 str를 변수로 가지고 새롭게 비동기통신을 해서
 		 테이블을 표현한다 */
 		function paging(str) {
 			$.ajax({
-				url: "boardListAjax",
+				url: "boardCourseAjax",
 				type: "post",
 				data: "cPage="+str
 			}).done(function(result){
-				$("#board_list").html(result);
-			});
-		}
-		
-		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
-		function addBoard() {
-			// 유효성 검사 해야함
-			
-			document.forms[0].submit();
-		};
-		
-		
-		/* 글의 제목을 클릭했을 때 내용 보기 */
-		function viewContent(bd_idx) {
-			$.ajax({
-				url: "boardViewAjax",
-				type: "post",
-				data: "bd_idx="+bd_idx
-			}).done(function(result){
-				$("#boContent").html(result);
-			});
-			
-			$("#boContent").dialog({
-				title : '고충 및 건의사항',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
-		};
-		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
-		function reply(idx) {
-			$.ajax({
-				url: "boardReplyAjax",
-				type: "post",
-				data: "bd_idx="+idx
-			}).done(function(result){
-				$("#replyForm").html(result);
-			});
-			
-			$("#replyForm").dialog({
-				title : '고충 및 건의사항 답변 작성',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
-		};
-		
-		
-		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
-		function addReply(frm) {
-			frm.submit();
-		};
-		
-		/* 게시글 목록에서 [검색]을 눌렀을때 수행 */
-		function searchBoard(cPage) {
-			let value = document.getElementById("search_value").value;
-			$.ajax({
-				url: "searchBoard",
-				type: "post",
-				data: "cPage="+encodeURIComponent(cPage)+
-					  "&value="+encodeURIComponent(value)
-			}).done(function(result){
-				$("#board_list").html(result);
+				$("#board_main_list").html(result);
 			});
 		};
 
-		function checkNotice(cPage) {
-			let checked = $("#chk_btn").is(':checked');
-			if(checked) {
-				$.ajax({
-					url: "checkNotice_board",
-					type: "post",
-					data: "cPage="+encodeURIComponent(cPage),
-				}).done(function(result) {
-					$("#board_list").html(result);
-				});
-			}else if(!checked) {
-				$.ajax({
-					url: "boardListAjax",
-					type: "post",
-					data: "cPage="+encodeURIComponent('1'),
-				}).done(function(result) {
-					$("#board_list").html(result);
-				});
-			}
-		};
+		// [과정별 게시판]을 클릭했을 때 수행
+		// 해당 과정의 게시물들의 목록이 출력
+        function viewBoardList(idx, nowPage) {
+            console.log(idx, nowPage);
+            $.ajax({
+                url: "viewBoardList",
+                type: "post",
+                data: "c_idx="+idx+
+                        "&cPage="+nowPage,
+            }).done(function(result){
+                $("#board_main_list").html(result);
+            });
+        };
 	</script>
 </body>
 </c:if>

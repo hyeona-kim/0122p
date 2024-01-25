@@ -1,11 +1,8 @@
 package com.ict.project.control;
 
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.SuggestionService;
@@ -70,16 +67,12 @@ public class SuggestionController {
 		mv.setViewName("redirect:suggestionList");
 		return mv;
     }
-    @RequestMapping(value="searchSugg", method = RequestMethod.POST)
+    @RequestMapping("searchSugg")
     public ModelAndView requestMethodName(String cPage,String tag,String value) {
         ModelAndView mv = new ModelAndView();
         SuggestionVO[] ar = null;
 		Paging page = null;
-		boolean bl = true;
-		
-		// 검색을 위한 HashMap을 만든다
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put(tag, value);
+		boolean search_flag = true;
 		
 		// Paging을 다시 만들기 위해 totalRecord를 다시 구한다
 		int cnt = s_Service.reGetTotalRecord(value);
@@ -87,18 +80,22 @@ public class SuggestionController {
 		if(cnt > 0) {
 			page = new Paging();
 			page.setTotalRecord(cnt);
-			if(cPage.equals("undefined")) {
-				page.setNowPage(1);				
+			if(cPage == null || cPage.equals("undefined")) {
+				page.setNowPage(1);	
 			}else {
 				page.setNowPage(Integer.parseInt(cPage));								
 			}
-			ar = s_Service.getSuggList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+			ar = s_Service.search(value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		}
 		
-		request.setAttribute("bl", bl);
-		request.setAttribute("ar", ar);
-		request.setAttribute("page", page);
-        mv.setViewName("suggMain");
+		mv.addObject("search_flag", search_flag);
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		if(value.trim().length() > 0){
+			mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
+		}else {
+			mv.setViewName("redirect:suggMain");
+		}
 		
         return mv;
     }
@@ -130,10 +127,31 @@ public class SuggestionController {
 			ar = (SuggestionVO[])obj_ar;
 		}		
 		
-		request.setAttribute("ar", ar);
-		request.setAttribute("page", page);
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
 		mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
 		return mv;
     }
     
+	@RequestMapping("checkNotice_sugg")
+	public ModelAndView checkNotice(String cPage) {
+		ModelAndView mv = new ModelAndView();
+		SuggestionVO[] ar = null;
+		Paging page = new Paging();
+		boolean notice_flag = true;
+		page.setTotalRecord(s_Service.cntNonNotice());
+
+		if(cPage == null || cPage.equals("undefined")){
+			page.setNowPage(1);
+		}else {
+			page.setNowPage(Integer.parseInt(cPage));
+		}
+		ar = s_Service.checkNotice(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		mv.addObject("notice_flag", notice_flag);
+		mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
+
+		return mv;
+	}
 }

@@ -240,7 +240,7 @@ table tfoot ol.page {
 								</td>
 								<th colspan="2">전체공지</th>
 								<td colspan="2">
-									<input type="checkbox"/>숨김
+									<input type="checkbox" id="chk_btn" onchange="checkNotice()"/>숨김
 								</td>
 							</tr>
 							<tr><td colspan="6" align="right"><button type="button" id="sug_add_btn">글쓰기</button></td></tr>
@@ -376,17 +376,37 @@ table tfoot ol.page {
 		function searchSugg(cPage) {
 			let tag = document.getElementById("search_tag").value;
 			let value = document.getElementById("search_value").value;
-			let subject = document.getElementById("search_btn").value;
 			$.ajax({
 				url: "searchSugg",
 				type: "post",
-				data: "cPage="+encodeURIComponent('1')+
+				data: "cPage="+encodeURIComponent(cPage)+
 					  "&tag="+encodeURIComponent(tag)+
 					  "&value="+encodeURIComponent(value)
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
-			// location.href = "Controller?type=searchSugg&tag="+encodeURIComponent(tag)+"&value="+encodeURIComponent(value);
+		};
+		
+		/* 전체공지 [숨김] 체크박스를 눌렀을때 수행 */
+		function checkNotice(cPage) {
+			let checked = $("#chk_btn").is(':checked');
+			if(checked) {
+				$.ajax({
+					url: "checkNotice_sugg",
+					type: "post",
+					data: "cPage="+encodeURIComponent(cPage),
+				}).done(function(result){
+					$("#ajaxContent").html(result);
+				});
+			}else if(!checked){
+				$.ajax({
+					url: "suggMain",
+					type: "post",
+					data: "cPage="+encodeURIComponent('1'),
+				}).done(function(result){
+					$("#ajaxContent").html(result);
+				});
+			}
 		};
 		
 	</script>
