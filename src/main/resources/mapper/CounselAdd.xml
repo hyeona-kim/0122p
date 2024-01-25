@@ -24,5 +24,7 @@
           WHERE c_idx = #{idx}
         )
     </select>
+
+    
 	
 </mapper>
