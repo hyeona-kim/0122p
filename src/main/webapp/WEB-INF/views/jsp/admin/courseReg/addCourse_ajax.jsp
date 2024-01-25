@@ -10,6 +10,7 @@
 						과정등록
 					</td>
 				</tr>
+				<td>gd</td>
 			</thead>
 				<tbody>
 					<tr>
