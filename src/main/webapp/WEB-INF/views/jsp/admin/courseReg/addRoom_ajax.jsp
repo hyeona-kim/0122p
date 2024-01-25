@@ -74,7 +74,8 @@
 					</td>
 				</tr>
 			</tfoot>
-			
+			<input type="hidden" name="cPage" value="${param.cPage}"/>
+			<input type="hidden" name="listSelect" value="${param.listSelect}"/>
 		</table>	
 		</form>
 			

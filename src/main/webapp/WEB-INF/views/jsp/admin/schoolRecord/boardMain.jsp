@@ -80,11 +80,11 @@ table tfoot ol.page {
 	table#boList caption{
 		text-indent: -9999px;
 		height: 0px;
-	}
-	/* table#boList thead tr:last-child td {
+	}/* 
+	table#boList thead tr:last-child td {
 		border: none;
 	} */
-	#search_btn, #board_btn{
+	#search_btn, #board_btn, #bo_add_btn{
 		background-color: #4cdbcf;
 		border-radius: 3px;
 		border: none;
@@ -239,7 +239,7 @@ table tfoot ol.page {
 	
 						<%-- ===== 검색하는 부분 ===== --%>
 						<table id="boList">
-						<caption>게시판 검색 테이블</caption>
+							<caption>게시판 검색 테이블</caption>
 							<thead>	
 								<tr>
 									<th>검색</th>
@@ -257,7 +257,7 @@ table tfoot ol.page {
 									</td>
 									<td>
 										<select id="search_tag">
-                                            <option>훈련강사</option>
+											<option>훈련강사</option>
                                             <option>과정타입</option>
                                             <option>과정명</option>
                                         </select>
@@ -267,12 +267,31 @@ table tfoot ol.page {
 								</tr>
 							</thead>
 						</table>
+						<%-- ===== 검색하는 부분 ===== --%>
 						
 						<%-- ===== 비동기식으로 표현할 과정 목록 시작 ===== --%>
 						<div id="board_main_list">
 							
 						</div>
 						<%-- ===== 비동기식으로 표현할 과정 목록 끝 ===== --%>
+
+						<%-- ===== 게시글 내용 시작 ===== --%>
+						<div id="boContent">
+						
+						</div>
+						<%-- ===== 게시글 내용 끝 ===== --%>
+						
+						<%-- ===== 게시글 답변 작성 폼 시작 ===== --%>
+						<div id="replyForm">
+						
+						</div>
+						<%-- ===== 게시글 답변 작성 폼 끝 ===== --%>
+
+						<%-- ===== 게시글 작성 폼 시작 ===== --%>
+						<div id="addForm">
+							<input type="hidden" id="hidden_btn" value="'${param.c_idx}'"/>
+						</div>
+						<%-- ===== 게시글 작성 폼 끝 ===== --%>
 				</div>
 			</div>
 		</div>
@@ -303,20 +322,90 @@ table tfoot ol.page {
 				$("#board_main_list").html(result);
 			});
 		};
-
+		
 		// [과정별 게시판]을 클릭했을 때 수행
 		// 해당 과정의 게시물들의 목록이 출력
-        function viewBoardList(idx, nowPage) {
-            console.log(idx, nowPage);
-            $.ajax({
-                url: "viewBoardList",
-                type: "post",
-                data: "c_idx="+idx+
-                        "&cPage="+nowPage,
-            }).done(function(result){
-                $("#board_main_list").html(result);
-            });
-        };
+		function viewBoardList(c_idx, cPage) {
+			$.ajax({
+				url: "viewBoardList",
+				type: "post",
+				data: "cPage="+cPage+
+						"&c_idx="+c_idx,
+			}).done(function(result){
+				$("#board_main_list").html(result);
+				$("#boList_top").html("과정별 게시판");
+				$("#boList").html("<caption>게시판 테이블</caption> <thead>	<tr> <th>검색</th><td><select  id='search_tag'><option value='subject'>제목</option><option>작성자</option></select><input type='text'  id='search_value'/><button type='button' id='search_btn' onclick='searchBoard()'>검색</button></td><th colspan='2'>전체공지</th><td colspan='2'><input type='checkbox' id='chk_btn' onchange='checkNotice()'/>숨김</td></tr><tr><td colspan='6' align='right'><button type='button' id='bo_add_btn' onclick='add_btn_click("+'${param.c_idx}'+")'>글쓰기</button></td></tr></thead>");
+			});
+		};
+
+		/* 글의 제목을 클릭했을 때 내용 보기 */
+		function viewContent(bd_idx, cPage) {
+			$.ajax({
+				url: "boardViewAjax",
+				type: "post",
+				data: "bd_idx="+bd_idx+
+						"&cPage="+cPage,
+			}).done(function(result){
+				$("#boContent").html(result);
+			});
+			
+			$("#boContent").dialog({
+				title : '게시글 보기',
+				modal : true,
+				width : 1000,
+				height : 600
+			});
+		};
+
+		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
+		function reply(idx, cPage) {
+			$("#replyForm").dialog({
+				title : '게시판 답변 작성',
+				modal : true,
+				width : 1000,
+				height : 600
+			});
+
+			$.ajax({
+				url: "boardReplyAjax",
+				type: "post",
+				data: "bd_idx="+idx+
+						"&cPage="+cPage,
+			}).done(function(result){
+				$("#replyForm").html(result);
+				$("#cancel_btn").click(function() {
+					$("#replyForm").dialog("close");
+				})
+			});
+			
+		};
+
+		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
+		function addBoard() {
+			// 유효성 검사 해야함
+			
+			document.forms[0].submit();
+		};
+
+		/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
+		function add_btn_click(c_idx){
+			let idx = document.getElementById("hidden_btn").value;
+			console.log("add="+idx);
+			$.ajax({
+				url: "addBoardAjax",
+				type: "post",
+				data: "c_idx="+c_idx,
+			}).done(function(result){
+				$("#addForm").html(result);
+			});
+			
+			$("#addForm").dialog({
+				title : '게시글 작성',
+				modal : true,
+				width : 1000,
+				height : 600
+			});
+		};
 	</script>
 </body>
 </c:if>

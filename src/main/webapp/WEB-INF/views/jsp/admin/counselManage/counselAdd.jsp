@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 	<h2 id="add_h2">상담관리보고서등록</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="t1">
@@ -34,15 +33,19 @@
 			<thead id="t2head">
 				<tr>
                     <th>회의일자</th>
+
                     <td><input type="date" id="ss_mday" name="ss_mday"/></td>
+
 					<th>상담사</th>
                     <td><input type="text" id="sf_idx" name="sf_idx"/></td>
                 </tr>
                 <tr>
                     <th>훈련시간</th>
+
                     <td><input type="time" id="ss_time" name="ss_time"/></td>
 					<th>훈련교사</th>		
                		 <td>${cvo.svo.sf_name}</td>
+
                 </tr>
 				<tr>
                     <th>회의장소</th>
@@ -88,11 +91,10 @@
 					<tr>
 						<td colspan="4">
 							<button type="submit">등록</button>
-							<button type="button" id="cc_close">취소</button>
+							<button type="button" id="cc_close">취소</button
 						</td>
 					</tr>
 			</tbody>
 		</table>
 	</form>
 	</div>
-	

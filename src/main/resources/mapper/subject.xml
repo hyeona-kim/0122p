@@ -3,7 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.SubjectMapper">
-  <select id="list" resultType="com.ict.project.vo.SubjectVO" parameterType="String">
-    select * from subject_t where c_idx = #{str}
+  <select id="list" resultType="com.ict.project.vo.SubjectVO" parameterType="int">
+    select * from subject_t where c_idx = #{c_idx}
   </select>
+  <insert id="add" parameterType="Map">
+     INSERT INTO subject_t (s_title, us_name, s_type, sf_name, s_category_num, hour, r_name, c_idx,s_status)
+     VALUES 
+     <foreach collection="list" item="vo" separator=",">
+     (#{vo.s_title}, #{vo.us_name}, #{vo.s_type}, #{vo.sf_name}, #{vo.s_category_num}, #{vo.hour}, #{vo.r_name}, #{vo.c_idx},0)
+    </foreach>
+  </insert>
 </mapper>

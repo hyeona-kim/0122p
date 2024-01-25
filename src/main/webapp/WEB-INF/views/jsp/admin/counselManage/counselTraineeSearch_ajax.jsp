@@ -1,55 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-		<table id="makeCourse">
-			<caption>교육과정리스트</caption>
+		<table id="makeCounsel">
+			<caption>일자별 상담관리</caption>
 							<thead>
 								<tr>
 									<th>번호</th>
+									<th>이름</th>
 									<th>과정명</th>
-									<th>과정코드</th>
-									<th>과정타입</th>
-									<th>담당교수</th>
 									<th>개강일</th>
 									<th>종료일</th>
-									<th>요일</th>
-									<th>회차</th>
-									<th>모집인원</th>
-									<th>강의실</th>
+									<th>연락처</th>
+									<th>주민번호</th>
+									<th>상태</th>
+									<th>최종상담일</th>
 									<th>관리</th>
 								</tr>
 							</thead>
 							<tbody>
 							<c:if test="${ar ne null }">
-							<c:forEach var="cvo" items="${ar }" varStatus="vs">
+							<c:forEach var="vo" items="${ar }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 								<tr>
 									<td>${num-vs.index}</td>
-									<td>${cvo.c_name }</td>
-									<td>W1805300001</td>
-									<td>${cvo.ctvo.ct_name} </td>
-									<td>${cvo.svo.sf_name} </td>
-									<td>${cvo.start_date }</td>
-									<td>${cvo.end_date }</td>
-									<td>${cvo.c_day }</td>
-									<td>${cvo.c_round_num }</td>
-									<td>${cvo.c_peo_num }</td>
-									<td>${cvo.rvo.r_name} </td>
+									<td>${vo.tvo.tr_name} </td>
+									<td>${vo.cvo.c_name }</td>
+									<td>${vo.cvo.start_date }</td>
+									<td>${vo.cvo.end_date }</td>
+									<td>${vo.tvo.tr_hp }</td>
+									<td>${vo.tvo.tr_rrn }</td>
+									<c:if test="${vo.tvo.tr_status eq 0}">
+										<td>수강</td>
+									</c:if>
+									<c:if test="${vo.tvo.tr_status eq 1}">
+										<td>수료</td>
+									</c:if>
+									<c:if test="${vo.tvo.tr_status eq 2}">
+										<td>제적</td>
+									</c:if>
+									<td>${vo.tvo.ss_end}</td>
 									<td>
-										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
-										<input type="hidden" name="cPage" value="${page.nowPage}"/>
-										<button type="button" onclick="set4('${cvo.c_idx}')">교과목 등록/수정</button>
-										<button type="button" onclick="set6('${cvo.c_idx}')">학습안내서 등록/수정</button>
-										<button type="button" id="upskill_bt" onclick="upskill()">능력단위 요소 등록/수정</button>
-										<button type="button" onclick="editC('${cvo.c_idx}','${page.nowPage}')">수정</button>
-										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}','${page.nowPage}')">삭제</button>
+										<button type="button" id="so_del_btn" onclick="counselList('${vo.so_idx}')">상담내역 및 등록</button>
+										<input type="hidden" name="so_idx" value="${vo.so_idx }"/>
 									</td>
 								</tr>
 							</c:forEach>
 							</c:if>
 							<c:if test="${ar eq null }">
 								<tr>
-									<td colspan="12">검색 결과가 없습니다</td>
+									<td colspan="12">데이터가 없습니다</td>
 								</tr>
 							</c:if>
 							</tbody>
@@ -73,7 +72,7 @@
 					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
 				</c:if>
 			</c:forEach>
-	
+
 			<c:if test="${page.endPage < page.totalPage }">
 				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
 			</c:if>

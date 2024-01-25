@@ -9,12 +9,20 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.CounselAddService;
 import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
+
 import com.ict.project.service.StaffService;
+
+import com.ict.project.service.TraineeService;
+
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
+
 import com.ict.project.vo.StaffVO;
+
+import com.ict.project.vo.TraineeVO;
+
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,9 +44,8 @@ public class CounselController {
     CourseService c_Service;
     @Autowired
     StaffService s_service;
-    
-  
-    
+    @Autowired
+    TraineeService t_Service;
 
 
 
@@ -204,13 +211,8 @@ public class CounselController {
             
             mv.addObject("ar", ar);
             mv.addObject("page", page);
-        }
-		
-        
-        
-        
-		
-		else if(listSelect.equals("3")) {
+
+		} else if(listSelect.equals("3")) {
             page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
             page.setNowPage(Integer.parseInt(cPage));
             CounselVO[] ar = cs_Service.searchCounsel(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
@@ -273,7 +275,6 @@ public class CounselController {
     public ModelAndView ss_dialog(String select,String c_idx) {
         ModelAndView mv = new ModelAndView();
 		
-	
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		mv.addObject("cvo", cvo);
 		
@@ -281,6 +282,8 @@ public class CounselController {
 			mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
 		else if(select.equals("counselAddMain"))
             mv.setViewName("/jsp/admin/counselManage/counselAddMain_ajax");
+        else if(select.equals("counselA"))
+            mv.setViewName("/jsp/admin/counselManage/counselAdd");
 		
         return mv;
     }
