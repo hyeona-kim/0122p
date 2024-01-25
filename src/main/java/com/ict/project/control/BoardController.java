@@ -30,7 +30,7 @@ public class BoardController {
 	@Autowired
 	CourseService c_Service;
 	
-	private List<BoardVO> r_list;
+	private List<BoardVO> bd_r_list;
 
 	@RequestMapping("boardMainList")
 	public ModelAndView boardMainList(String cPage) {
@@ -140,17 +140,17 @@ public class BoardController {
 		ModelAndView mv = new ModelAndView();
 		BoardVO vo = b_Service.getBoard(bd_idx);
 
-		Object obj = session.getAttribute("r_list");
+		Object obj = session.getAttribute("bd_r_list");
 		if(obj == null) {
-			r_list = new ArrayList<BoardVO>();
-			session.setAttribute("r_list", r_list);
+			bd_r_list = new ArrayList<BoardVO>();
+			session.setAttribute("bd_r_list", bd_r_list);
 		}else {
-			r_list = (ArrayList<BoardVO>) obj;
+			bd_r_list = (ArrayList<BoardVO>) obj;
 		}
 
 		boolean read = CheckRead(vo);
 		if(!read) {
-			r_list.add(vo);
+			bd_r_list.add(vo);
 			b_Service.addHit(bd_idx);
 		}
 
@@ -163,8 +163,8 @@ public class BoardController {
 	public boolean CheckRead(BoardVO vo) {
 		boolean flag = false;
 
-		for(int i=0; i<r_list.size(); i++) {
-			BoardVO bvo = r_list.get(i);
+		for(int i=0; i<bd_r_list.size(); i++) {
+			BoardVO bvo = bd_r_list.get(i);
 
 			if(vo.getBd_idx().equals(bvo.getBd_idx())) {
 				flag = true;
