@@ -14,6 +14,8 @@ public class CourseService {
     @Autowired
     private CourseMapper c_mapper;
 
+    
+
     // 과정 검색하는 기능
     public CourseVO[] searchCourse(String select, String value, String year, String begin, String end) {
         CourseVO[] ar = null;
@@ -48,6 +50,10 @@ public class CourseService {
     // 과정명을 출력하기 위해 해당 과정의 정보를 가져오는 기능
     public CourseVO getCourse(String c_idx) {
         return c_mapper.getCourse(c_idx);
+    }
+    
+    public CourseVO getCourse2(String c_idx) {
+        return c_mapper.getCourse2(c_idx);
     }
 
     // 과정 삭제하는 기능

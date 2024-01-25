@@ -48,12 +48,18 @@
 		where c.rnum between ${begin} and ${end} 
 	</select>
 
+	
+
 	<insert id="add" parameterType="com.ict.project.vo.CourseVO">
 			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, sf_idx,r_idx ,c_day)
 			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{sf_idx}, 3 ,#{c_day})
 	</insert>
 
   <select id="getCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+    SELECT * FROM course_t WHERE c_idx = #{c_idx}
+  </select>
+
+  <select id="getCourse2" parameterType="String" resultMap="map1">
     SELECT * FROM course_t WHERE c_idx = #{c_idx}
   </select>
   

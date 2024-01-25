@@ -11,9 +11,9 @@
 
 	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">
     		  
-        INSERT INTO  advice_sst(s_idx, sf_idx, ss_time, so_idx, tr_idx, ss_msg, ss_msubject, ss_bd, ss_member, ss_mday, ss_pa,
+        INSERT INTO  advice_sst(ss_idx , ss_time, so_idx, tr_idx, ss_msg, ss_msubject, ss_bd, ss_member, ss_mday, ss_pa,
     ss_cnt,ss_day)
-          values(#{s_idx}, #{sf_idx}, #{ss_time}, #{so_idx}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd}, #{ss_member}, #{ss_mday}, #{ss_pa},
+          values(#{ss_idx},  #{ss_time}, #{so_idx}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd}, #{ss_member}, #{ss_mday}, #{ss_pa},
     #{ss_cnt},#{ss_day})
 	</insert>
 

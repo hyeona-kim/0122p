@@ -37,7 +37,7 @@
 						<td>${vo.ss_cnt}</td>
 						<td>${vo.ss_day}</td>
 						<td>${vo.co_vo.so_pp}</td>
-						<td>5</td>
+						<td>${cvo.svo.sf_name}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -47,7 +47,7 @@
 						<button type="button" id="add_btn">보고서등록</button>
 
 						<button type="button" onclick="">인쇄</button>
-						<button type="button" onclick="">취소</button>
+						<button type="button" id="cc_cancle">취소</button>
 					</td>
 				</tr>
 			</tfoot>
