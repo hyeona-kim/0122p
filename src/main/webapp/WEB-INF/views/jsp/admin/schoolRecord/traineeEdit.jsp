@@ -104,7 +104,7 @@ table tfoot ol.page {
 			<div class="right">
 				<div id="staffWrap">
 					<div id="staffList_top">훈련생 현황</div>
-				<form action="" method="post" encType="multipart/form-data">
+				<form action="traineeEdit" method="post" encType="multipart/form-data">
 				<table id="makeTime" >
 				<caption>확인서류등록 리스트</caption>
 					<tble>
@@ -131,9 +131,7 @@ table tfoot ol.page {
 								<tr>
 									<th><label>휴대폰번호</label></th>
 									<td>
-										<input type="text" name="ph">-
-										<input type="text" name="ph">-
-										<input type="text" name="ph">
+										<input type="text" name="ph">-<input type="text" name="ph">-<input type="text" name="ph">
 									</td>
 									<th><label>과정명</label></th>
 									<td></td>
@@ -231,7 +229,6 @@ table tfoot ol.page {
 										</table>
 									</td>
 								</tr>
-								
 							</tbody>
 							<tfoot>
 								<tr>

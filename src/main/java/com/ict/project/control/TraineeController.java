@@ -81,7 +81,7 @@ public class TraineeController {
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
 
-		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent");
+		mv.setViewName("jsp/admin/schoolRecord/traineeCurrent");
 
 		return mv;
 	}
@@ -209,7 +209,7 @@ public class TraineeController {
         if(enc_type !=null && enc_type.startsWith("application")) {
             TrainuploadVO vo = u_Service.getUpload(tvo.getTn_idx());// tn_idx
 			mv.addObject("vo", vo);
-            viewPath="jsp/admin/schoolRecord/TrainuploadEdit";
+            viewPath="jsp/admin/schoolRecord/trainuploadEdit";
 
         }else if(enc_type !=null && enc_type.startsWith("multipart")){       
 			MultipartFile f = tvo.getFile();       
@@ -269,7 +269,7 @@ public class TraineeController {
 		
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
-		mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
+		mv.setViewName("jsp/admin/schoolRecord/trainconfirm");
         return mv;
     }
 
@@ -387,25 +387,55 @@ public class TraineeController {
 		
 		mv.addObject("vo8", vo);
 		
-		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
+		mv.setViewName("jsp/admin/schoolRecord/traineewrite");
 		return mv;
 	}
 
 
 	@RequestMapping("traineeEdit")
-	public ModelAndView traineeEdit(){
+	public ModelAndView traineeEdit(String tr_idx){
 		ModelAndView mv = new ModelAndView();
 
+		TraineeVO vo = t_Service.view(tr_idx);
 
+		mv.addObject("vo", vo);
 		mv.setViewName("jsp/admin/schoolRecord/traineeEdit");
 
 		return mv;
 	}
 	
+	@RequestMapping("counseling")
+	public ModelAndView counseling(){
+		ModelAndView mv = new ModelAndView();
+
+		mv.setViewName("jsp/admin/schoolRecord/traineeCounseling");
+
+		return mv;
+
+
+	}
 	
+	@RequestMapping("traineedocument")
+	public ModelAndView traineedocument(){
+		ModelAndView mv = new ModelAndView();
 
+		mv.setViewName("jsp/admin/schoolRecord/traineedocument");
 
+		return mv;
+	}
 
+	@RequestMapping("cudel")
+	public ModelAndView cudel(String tr_idx){
+		ModelAndView mv = new ModelAndView();
 
+		int cnt = t_Service.delete(tr_idx);
+		System.out.println(cnt);
+		mv.setViewName("redirect:traineecurrentbt1");
+
+		return mv;
+
+	}
+
+	
     
 }

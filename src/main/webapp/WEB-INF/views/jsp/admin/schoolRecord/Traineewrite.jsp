@@ -2,68 +2,17 @@
     pageEncoding="UTF-8"%>
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
-<style>
 
 	
-	#staffWrap{
-		width: 95%;
-		margin: auto;
-		margin-top: 20px;
-	}
-	#staffList_top {
-		background: black;
-		color: white;
-		height: 40px;
-		line-height: 40px;
-	}
-	
-	#searchTime, #makeTime{
-		margin-top:10px;
-		border-collapse: collapse;
-		width: 100%;
-        
-	}
-	#searchTime td, #searchTime th, #makeTime td, #makeTime th{
-        height: 40px;
-		padding-left: 10px;
-		border: 1px solid #ddd;
-        
-	}
-	#searchTime th, #makeTime th{background-color: #F5F7F9;}
-	
-	#searchTime caption, #makeTime caption{
-		text-indent: -9999px;
-		height: 0;
-	}
-</style>
-
-</head>
-<c:if test="${tvo eq null }">
-<body>
-	<article id="wrap">
-		<jsp:include page="../../head.jsp"></jsp:include>
-		<div id="center">
-			<jsp:include page="./leftList.jsp"></jsp:include>
-			<div class="right">
-				<div id="staffWrap">
-					<div id="staffList_top">신상기록부</div>
 				    <table id="makeTime">
 				        <caption>신상기록부</caption>
 					<tbody>
-                       <c:forEach var="vo" items="${vo8 }">
 						<tr>
 							<th rowspan="5">이미지</th>
                         </tr>
                         <tr>
 							<th>성명</th>
-							<td> ${vo.tr_name}</td>
+							<td></td>
 							<th>교육과정</th>
 							<td></td>
                         </tr>
@@ -75,17 +24,16 @@
 						</tr>
                         <tr>
                             <th>주민등록번호</th>
-							<td>${vo.tr_rrn}</td>
+							<td></td>
                             <th>주소</th>
-							<td>${vo.tr_addr}</td>
+							<td></td>
 					    </tr>
                         <tr>
                             <th>본인휴대폰</th>
-							<td>${vo.tr_hp}</td>
+							<td></td>
                             <th>집전화</th>
 							<td></td>
                         </tr>
-                    </c:forEach>
 				</tbody>
 			</table>
             <table id="makeTime">
@@ -169,29 +117,4 @@
                     </tr>
                 </tbody>
              </table>
-             </div>
-            </div>
-		</div>
-	</div>
-</article>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script>
-		$(function() {
-			//$().removeClass("selected");
-			$(".selected").removeClass("selected");
-			$(".l_select").removeClass("l_selected");
-			$("#thirdmenu").addClass("selected");
-			$("#l_second").addClass("l_select");
-		});
-		
-		function paging(str) {
-			location.href="traincurrent?cPage="+str
-		}
-	</script>
-</body>
-</c:if>
-<c:if test="${tvo ne null}">
-	<c:redirect url="index">
-	</c:redirect>
-</c:if>
-</html>
+	

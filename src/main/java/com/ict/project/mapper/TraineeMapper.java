@@ -9,5 +9,6 @@ public interface TraineeMapper {
     int count();
     List<TraineeVO> list();
     TraineeVO view(String tr_idx);
+    int del(String tr_status);
 
 }

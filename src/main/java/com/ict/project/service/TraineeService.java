@@ -44,4 +44,8 @@ public class TraineeService {
     public int getCount(){
         return t_mapper.count();
     }
+
+    public int delete(String tr_idx){
+        return t_mapper.del(tr_idx);
+    }
 }
