@@ -233,9 +233,9 @@ table tfoot ol.page {
       padding-left: 20px;
    }
    #table_h2{
-		background-color: black;
-		color: white;
-	}
+      background-color: black;
+      color: white;
+   }
    
 </style>
 
@@ -369,6 +369,7 @@ table tfoot ol.page {
                   +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
             }).done(function(result){
                $("#counsel_Table").html(result);
+
             });
          });
          
@@ -413,6 +414,7 @@ table tfoot ol.page {
             
             $("#cc_cancle").click(function(){
                 $("#dialog2").dialog("close");
+
             });
          });
             $("#dialog2").dialog("open");
@@ -499,7 +501,6 @@ table tfoot ol.page {
          });
          
       }
-
    </script>
 </body>
 </html>

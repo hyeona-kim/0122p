@@ -37,7 +37,7 @@
 						<td>${vo.ss_cnt}</td>
 						<td>${vo.ss_day}</td>
 						<td>${vo.co_vo.so_pp}</td>
-						<td>5</td>
+						<td>${cvo.svo.sf_name}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

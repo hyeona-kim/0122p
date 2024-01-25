@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<form action="addSuggestion" method="post">
+<form action="addSuggestion" method="post" enctype="multipart/form-data" name="addForm">
 	<table>
 		<caption>고충 및 건의사항 등록 테이블</caption>
 		<thead>
@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<th>파일첨부</th>
-				<td class="left"><input type="file" name="sg_file"/></td>
+				<td class="left"><input type="file" name="file"/></td>
 			</tr>
 		</tbody>
 		<tfoot>

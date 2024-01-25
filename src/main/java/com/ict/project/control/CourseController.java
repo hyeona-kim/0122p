@@ -5,15 +5,22 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ict.project.mapper.SkillMapper;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
 import com.ict.project.service.FileService;
@@ -38,6 +45,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 
 
@@ -89,10 +97,10 @@ public class CourseController {
     }
 
     @RequestMapping("addCourse")
-    public String addCourse( CourseVO cvo) {
+    public String addCourse( CourseVO cvo,String cPage,String select,String num,String year,String value) {
         c_Service.addCourse(cvo);
-              
-        return "redirect:course?listSelect=1&cPage=1";
+        //System.out.println(cPage+"/"+select+"/"+num+"/"+year+"/"+value);     
+        return "redirect:course?listSelect=1&cPage="+cPage+"&select="+select+"&num="+num+"&year="+year+"&value="+value;
     }
      @RequestMapping("delCourse")
     public String delCourse(String c_idx,String cPage) {
@@ -159,8 +167,8 @@ public class CourseController {
 
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
-		System.out.println(value);
-		if(value.trim().length()==0){
+		//System.out.println(value);
+		if(value== null || value.trim().length()==0){
 			value= null;
 		}
 		if(year.equals("년도선택"))
@@ -176,12 +184,11 @@ public class CourseController {
 		
 		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
 		page.setNowPage(Integer.parseInt(cPage));
-		System.out.println(page.getTotalRecord());
+
 		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		mv.addObject("cPage", cPage);
-		
+	
 		//비동기 통신할 jsp로 보내기
 		if(listSelect.equals("1"))
             mv.setViewName("/jsp/admin/courseReg/courseLog_ajax");
@@ -194,7 +201,7 @@ public class CourseController {
 	}
 
     @RequestMapping("addCourseType")
-    public ModelAndView addCourseType(String[] name,String[] text, String listSelect) {
+    public ModelAndView addCourseType(String[] name,String[] text, String listSelect,String cPage) {
         ModelAndView mv = new ModelAndView();
         String[] ct_name = name;
 		String[] ct_color =text;
@@ -211,7 +218,7 @@ public class CourseController {
 				
 			}
 		}
-		mv.setViewName("redirect:course?listSelect="+listSelect);
+		mv.setViewName("redirect:course?listSelect="+listSelect+"&cPage="+cPage);
         return mv;
     }
     @RequestMapping("courseMain")
@@ -240,7 +247,7 @@ public class CourseController {
         return mv;
     }
     @RequestMapping("addRoom")
-    public String addRoom(String[] className,String[] roomSep,String[] use,String listSelect) {
+    public String addRoom(String[] className,String[] roomSep,String[] use,String listSelect,String cPage) {
        
         String[] r_name = className;
 		String[] r_sep = roomSep;
@@ -259,10 +266,10 @@ public class CourseController {
 				
 			}
 		}
-		return "redirect:course&listSelect="+listSelect;
+		return "redirect:course?listSelect="+listSelect+"&cPage="+cPage;
     }
     @RequestMapping("c_dialog")
-    public ModelAndView c_dialog(String select,String c_idx) {
+    public ModelAndView c_dialog(String c_select,String c_idx) {
         ModelAndView mv = new ModelAndView();
 		
 	
@@ -274,19 +281,24 @@ public class CourseController {
 		mv.addObject("r_ar", r_ar);
 		mv.addObject("s_ar", s_ar);
 		
-		if(select.equals("addCourse"))
+		if(c_select.equals("addCourse"))
 			mv.setViewName("/jsp/admin/courseReg/addCourse_ajax");
-		else if(select.equals("addCourseType"))
+		else if(c_select.equals("addCourseType"))
             mv.setViewName("/jsp/admin/courseReg/addCourseType_ajax");
-		else if(select.equals("addRoom"))
+		else if(c_select.equals("addRoom"))
             mv.setViewName("/jsp/admin/courseReg/addRoom_ajax");
-		else if(select.equals("editCourse"))
+		else if(c_select.equals("editCourse"))
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
-		else if(select.equals("addUpskill"))
+		else if(c_select.equals("addUpskill"))
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
+		else if(c_select.equals("updateSubject")){
+			//교과목에 대한 정보를 가지고 온다.
+			System.out.println(c_idx);
+			SubjectVO[] ar = sb_Service.getList(Integer.parseInt(c_idx));
+			mv.addObject("sb_ar",ar);
+			mv.setViewName("/jsp/admin/courseReg/subject");
 
-    else if(select.equals("updateSubject"))
-            mv.setViewName("/jsp/admin/courseReg/subject");
+		}
     CourseVO cvo = c_Service.getCourse(c_idx);
     mv.addObject("cvo",cvo);
     return mv;
@@ -364,7 +376,7 @@ public class CourseController {
 		return null;
 	}
     @RequestMapping("course_file")
-    public ModelAndView course_file(FileVO fvo,String listSelect){
+    public ModelAndView course_file(FileVO fvo,String listSelect,String cPage){
         ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
 		if(encType.startsWith("application")){
@@ -429,7 +441,7 @@ public class CourseController {
 					}
 				}
 			}
-			mv.setViewName("redirect:course?listSelect="+listSelect+"&cPage=1");
+			mv.setViewName("redirect:course?listSelect="+listSelect+"&cPage="+cPage);
 		}
 
 		return mv;
@@ -490,7 +502,12 @@ public class CourseController {
 			CourseVO cvo = c_Service.getCourse(c_idx);
 			StaffVO[] sfvo = s_Service.getList();
 			RoomVO[] rvo = r_Service.getList();
-			SubjectVO[] svo =sb_Service.getList(c_idx);
+			SubjectVO[] svo =sb_Service.getList(Integer.parseInt(c_idx));
+			if(svo == null){
+				System.out.println("svo=null");
+			}else{
+				System.out.println(svo.length);
+			}
 			for(RoomVO vo :rvo){
 				if(vo.getR_sep() != null){
 					switch (vo.getR_sep()) {
@@ -520,6 +537,101 @@ public class CourseController {
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		mv.addObject("cvo", cvo);
 		mv.setViewName("/jsp/admin/courseReg/weekTime_ajax");
+        return mv;
+    }
+    @RequestMapping("add_subject")
+    public ModelAndView add_subject(String year,String select,String listSelect,String num,String value, String cPage,MultipartFile s_file,String c_idx) {
+		ModelAndView mv = new ModelAndView();
+		String realPath = application.getRealPath("subject_ex_upload");
+		if(s_file.getSize()>0){
+			String fname = s_file.getOriginalFilename();
+			fname = FileRenameUtil.checkSameFileName(fname, realPath);
+			try {
+				File f = new File(realPath,fname);
+				s_file.transferTo(f);
+				FileInputStream fis = new FileInputStream(f.getAbsolutePath());
+				IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+				XSSFWorkbook workbook = new XSSFWorkbook(fis);
+				XSSFSheet sheet = workbook.getSheetAt(0);
+				
+				Iterator<Row> it = sheet.iterator();
+				List<SubjectVO> list = new ArrayList<SubjectVO>();
+					while(it.hasNext()) {
+						Row row = it.next();
+						// 첫번째 행은 머릿글이므로 제외
+						if(row.getRowNum()==0)
+							continue;
+						//cell들을 한번에 반복자로 얻어낸다.
+						Iterator<Cell> it2 = row.cellIterator();
+						SubjectVO vo = new SubjectVO();
+						int i=0;
+						while(it2.hasNext()) {
+							//하나의 cell을 얻어낸다 
+							Cell cell = it2.next();
+							String val = null;
+							//System.out.println("cell.getCellType():"+cell.getCellType());
+							switch (cell.getCellType()) {
+								case NUMERIC:
+									val = String.valueOf(cell.getNumericCellValue());
+									break;
+								case STRING:
+									val = cell.getStringCellValue();
+									break;
+								case BLANK:
+									val = null;
+								default:
+									val = null;
+									break;
+							}//switch문의 끝
+
+							switch(i) {
+								case 0:
+									vo.setS_title(val);
+									break;
+								case 1:
+									vo.setUs_name(val);
+									break;
+								case 2:
+									vo.setS_type(val);
+									break;
+								case 3:
+									vo.setSf_name(val);
+									break;
+								case 4:
+									vo.setS_category_num(val);
+									break;
+								case 5:
+									vo.setHour(val);
+									break;
+								case 6:
+									vo.setR_name(val);
+									break;
+								default:
+									break;
+							}
+							i++;
+						}// 열반복의 끝
+						vo.setC_idx(c_idx);
+						// 어떤 과정에 대한 과목을 추가하는 것이기 때문에 그 기본키를 가지고 있을것이다
+						list.add(vo); //리스트에 저장
+					}//행 반복의 끝
+					// 리스트에 있는 정보들을 db에 저장하기위해
+
+					HashMap<String,List<SubjectVO>> map = new HashMap<>();
+					map.put("list", list);
+					sb_Service.addSubject(map);
+					
+
+					fis.close();
+					workbook.close();
+					f.delete(); //파일 삭제
+				//if문의 끝, file이 null이 아닐때
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				
+		}
+		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect=1"+"&num="+num+"&value="+value+"&cPage="+cPage);
         return mv;
     }
     

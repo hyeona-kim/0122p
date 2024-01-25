@@ -235,11 +235,11 @@ table tfoot ol.page {
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 				<div id="boWrap">
-					<div id="boList_top">게시판</div>
+					<div id="boList_top">과정별 게시판</div>
 	
 						<%-- ===== 검색하는 부분 ===== --%>
 						<table id="boList">
-						<caption>게시판 테이블</caption>
+							<caption>게시판 테이블</caption>
 							<thead>	
 								<tr>
 									<th>검색</th>
@@ -256,9 +256,10 @@ table tfoot ol.page {
 										<input type="checkbox" id="chk_btn" onchange="checkNotice()"/>숨김
 									</td>
 								</tr>
-								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn">글쓰기</button></td></tr>
+								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn" onclick="add_btn_click('${param.c_idx}')">글쓰기</button></td></tr>
 							</thead>
 						</table>
+						<%-- ===== 검색하는 부분 ===== --%>
 						
 						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
 						<div id="board_list">
@@ -307,10 +308,10 @@ table tfoot ol.page {
 			$("#l_five").addClass("l_select");
 			
 			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-			$("#bo_add_btn").bind("click", function(){
+			/* $("#bo_add_btn").bind("click", function(){
 				$.ajax({
 					url: "addBoardAjax",
-					type: "post"
+					type: "post",
 				}).done(function(result){
 					$("#addForm").html(result);
 				});
@@ -321,9 +322,28 @@ table tfoot ol.page {
 					width : 1000,
 					height : 600
 				});
-			});
+			}); */
 			
 		});
+		
+		/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
+		function add_btn_click(c_idx){
+			console.log("add="+c_idx);
+			$.ajax({
+				url: "addBoardAjax",
+				type: "post",
+				data: "c_idx="+c_idx,
+			}).done(function(result){
+				$("#addForm").html(result);
+			});
+			
+			$("#addForm").dialog({
+				title : '게시글 작성',
+				modal : true,
+				width : 1000,
+				height : 600
+			});
+		};
 		
 		/* 목록 아래 [page번호]를 클릭할 때 수행
 		 str를 변수로 가지고 새롭게 비동기통신을 해서
@@ -357,7 +377,7 @@ table tfoot ol.page {
 			});
 			
 			$("#boContent").dialog({
-				title : '고충 및 건의사항',
+				title : '게시글 보기',
 				modal : true,
 				width : 1000,
 				height : 600
@@ -374,7 +394,7 @@ table tfoot ol.page {
 			});
 			
 			$("#replyForm").dialog({
-				title : '고충 및 건의사항 답변 작성',
+				title : '게시판 답변 작성',
 				modal : true,
 				width : 1000,
 				height : 600

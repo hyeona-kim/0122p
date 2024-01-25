@@ -97,4 +97,9 @@ public class BoardService {
     public int cntBoardList(String c_idx){
         return b_mapper.cntBoardList(c_idx);
     }
+
+    // 조회수 증가하는 기능
+    public int addHit(String bd_idx) {
+        return b_mapper.addHit(bd_idx);
+    }
 }

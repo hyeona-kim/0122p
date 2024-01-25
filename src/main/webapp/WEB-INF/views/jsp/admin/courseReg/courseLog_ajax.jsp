@@ -37,11 +37,12 @@
 									<td>${cvo.rvo.r_name} </td>
 									<td>
 										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
+										<input type="hidden" name="cPage" value="${page.nowPage}"/>
 										<button type="button" onclick="set4('${cvo.c_idx}')">교과목 등록/수정</button>
 										<button type="button" onclick="set6('${cvo.c_idx}')">학습안내서 등록/수정</button>
 										<button type="button" id="upskill_bt" onclick="upskill()">능력단위 요소 등록/수정</button>
 										<button type="button" onclick="editC('${cvo.c_idx}','${page.nowPage}')">수정</button>
-										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}')">삭제</button>
+										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}','${page.nowPage}')">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>

@@ -105,5 +105,11 @@
 					</tr>
 				</tfoot>	
 			</table>
+			<input type="hidden" name="cPage" value="${param.cPage}"/>
+			<input type="hidden" name="select" value="${param.select}"/>
+			<input type="hidden" name="year" value="${param.year}"/>
+			<input type="hidden" name="value" value="${param.value}"/>
+			<input type="hidden" name="num" value="${param.num}"/>
+
 		</form>
 		

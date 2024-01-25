@@ -116,6 +116,14 @@
 		font-size: 14px;
 		color: white; 
 	}
+	#block_btn{
+		background-color: #4c5bcf;
+		border-radius: 3px;
+		padding: 5px 7px;
+		font-weight: bold;
+		font-size: 14px;
+		color: white; 
+	}
 </style>
 </head>
 <body>
@@ -133,7 +141,7 @@
 							<caption>교직원현황 테이블</caption>
 							<thead>
 								<%-- ===== 교직원 등록 버튼 ===== --%>
-								<tr><td colspan="12"><button type="button" id="staff_add_btn">교직원 등록</button></td></tr>
+								<tr><td colspan="13"><button type="button" id="staff_add_btn">교직원 등록</button></td></tr>
 							</thead>
 							<tbody>
 								<%-- ===== 출력할 교직원 항목 ===== --%>
@@ -148,6 +156,7 @@
 									<th>입사일</th>
 									<th>퇴사일</th>
 									<th>사용권한</th>
+									<th>차단여부</th>
 									<th>책임자</th>
 									<th colspan="2">관리</th>
 								</tr>
@@ -178,6 +187,13 @@
 												<td>${vo.rt_idx}</td>
 											</sf:if>
 											<sf:if test="${vo.rt_idx eq null}">
+												<td></td>
+											</sf:if>
+											<%-- sf_link가 1인 사람만 ON 마크 표시 --%>
+											<sf:if test="${vo.sf_link eq '1'}">
+												<td><span id="block_btn">ON</span></td>
+											</sf:if>
+											<sf:if test="${vo.sf_link eq '0'}">
 												<td></td>
 											</sf:if>
 											<%-- 사용권한이 9인 사람만 총책임자 마크 표시 --%>
