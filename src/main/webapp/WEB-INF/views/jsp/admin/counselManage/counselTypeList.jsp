@@ -367,17 +367,33 @@ table tfoot ol.page {
 				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselAddMain")+"&c_idx="+c_idx,
 			}).done(function(result){
 				$("#dialog2").html(result);
-				$(".ccol").on("change input", function() {
-		             $(this).prev().val("");
-		             $(this).prev().val($(this).val());
-		   		});
 				
-				$("#cancel").click(function(){
-					 $("#dialog2").dialog( "close" );
+				$("#cc_cancle").click(function(){
+					 $("#dialog2").dialog("close");
 				});
 			});
-			
-            $("#dialog2").dialog("open");
+            $("#dialog2").dialog("open",{
+            	width:500,
+            	height:600
+            });
+        }
+
+        function counselA(c_idx){
+            $.ajax({
+                url:"counselA",
+                type:"post",
+                data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselA")+"c_idx"+c_idx,
+            }).done(function(result){
+				$("#dialog3").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog").dialog("close");
+				});
+			});
+            $("#dialog3").dialog("open",{
+            	width:500,
+            	height:600
+            });
         }
 
         $( "#dialog" ).dialog({
@@ -394,6 +410,17 @@ table tfoot ol.page {
 		$( "#dialog2" ).dialog({
             autoOpen: false,
             width: 1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+        
+        $( "#dialog3" ).dialog({
+            autoOpen: false,
+            width:1200,
             modal: true,
             buttons: {
                 "닫기": function() {
