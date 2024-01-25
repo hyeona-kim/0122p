@@ -22,7 +22,6 @@ import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.UpskillService;
-import com.ict.project.util.LmsBean;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseTypeVO;
@@ -39,9 +38,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 
 

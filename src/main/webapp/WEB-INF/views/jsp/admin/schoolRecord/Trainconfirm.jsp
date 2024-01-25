@@ -167,7 +167,7 @@
 						<td>${num+(vs.index)-1}</td>
 						<td>${vo4.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
-						<td>${vo4.t_idx}</td>
+						<td>${vo4.sf_idx}</td>
 						<td>${vo4.start_date }</td>
 						<td>${vo4.end_date }</td>
 						<td>${vo4.ti_idx}</td>
