@@ -26,4 +26,7 @@ public class SubjectService {
     public int addSubject(Map<String,List<SubjectVO>> map){
         return sb_mapper.add(map);
     }
+    public int editSubject(SubjectVO sfvo){
+        return sb_mapper.edit_sb(sfvo);
+    }
 }

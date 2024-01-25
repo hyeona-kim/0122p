@@ -45,6 +45,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -107,7 +110,7 @@ public class CourseController {
 		if(cPage == null)
 			cPage = "1";
 		int cnt = c_Service.deleteCourse(c_idx);
-		
+		System.out.println(cPage);
 		return "redirect:course?listSelect=1&cPage="+cPage;
     }
     
@@ -293,8 +296,9 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
 		else if(c_select.equals("updateSubject")){
 			//교과목에 대한 정보를 가지고 온다.
-			System.out.println(c_idx);
 			SubjectVO[] ar = sb_Service.getList(Integer.parseInt(c_idx));
+			if(ar != null)
+				mv.addObject("sb_length",ar.length);
 			mv.addObject("sb_ar",ar);
 			mv.setViewName("/jsp/admin/courseReg/subject");
 
@@ -636,5 +640,50 @@ public class CourseController {
 		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect=1"+"&num="+num+"&value="+value+"&cPage="+cPage);
         return mv;
     }
+	@RequestMapping("add_subject_form")
+	public ModelAndView add_subject_form(SubjectVO svo) {
+		ModelAndView mv = new ModelAndView();
+		System.out.println(svo.getS_idx()+"/"+svo.getC_idx()+"/"+svo.getHour()+"/"+svo.getR_name()+"/"+svo.getS_category_num()+"/"+svo.getS_status()+"/"+svo.getS_title()+"/"+svo.getS_type());
+		String[] s_idx = svo.getS_idx().split(",");
+		String c_idx = svo.getC_idx();
+		String[] hour = svo.getHour().split(",");
+		String[] s_status = svo.getS_status().split(",");
+		String[] s_category_num = svo.getS_category_num().split(",");
+		String[] s_type = svo.getS_type().split(",");
+		String[] s_title = svo.getS_title().split(",");
+		String[] r_name = svo.getR_name().split(",");
+		String[] sf_name = svo.getSf_name().split(",");
+		String[] us_name = svo.getUs_name().split(",");
+		
+		for(int i =0; i<s_type.length;i++){
+			if(s_type[i].equals("NONCS")){
+				s_type[i] ="기초소양";
+			}
+		}
+		for(int i=0; i<s_idx.length; i++){
+			//업데이트 하는 부분
+			SubjectVO sfvo = new SubjectVO();
+			sfvo.setS_idx(s_idx[i]);
+			sfvo.setC_idx(c_idx);
+			sfvo.setHour(hour[i]);
+			sfvo.setR_name(r_name[i]);
+			sfvo.setUs_name(us_name[i]);
+			sfvo.setS_status(s_status[i]);
+			sfvo.setS_title(s_title[i]);
+			sfvo.setSf_name(sf_name[i]);
+			if(s_category_num != null && s_category_num.length>0)
+				sfvo.setS_category_num(s_category_num[i]);
+			else
+				sfvo.setS_category_num(null);
+			sfvo.setS_type(s_type[i]);
+			int cnt =sb_Service.editSubject(sfvo);
+			System.out.println(cnt);
+
+		}
+		mv.setViewName("redirect:course?cPage=1&listSelect=1");
+		
+		return mv;
+	}
+
     
 }
