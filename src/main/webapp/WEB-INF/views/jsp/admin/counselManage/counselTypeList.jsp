@@ -43,7 +43,7 @@ table tfoot ol.page {
 	    font-weight:bold;
 	}
 
-	#CounselWrap{
+	#counselWrap{
 		width: 95%;
 		margin: auto;
 		margin-top: 20px;

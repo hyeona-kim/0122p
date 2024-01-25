@@ -37,7 +37,7 @@
 								</tr>
 							</c:forEach>
 							</c:if>
-							<c:if test="${c_ar eq null }">
+							<c:if test="${ar eq null }">
 								<tr>
 									<td colspan="12">검색 결과가 없습니다</td>
 								</tr>
