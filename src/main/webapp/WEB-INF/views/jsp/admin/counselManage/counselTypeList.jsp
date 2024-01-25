@@ -429,7 +429,7 @@ table tfoot ol.page {
             }).done(function(result){
 				$("#dialog3").html(result);
 				
-				$("#cc_cancle").click(function(){
+				$("#cc_close").click(function(){
 					 $("#dialog3").dialog("close");
 				});
 			});
@@ -471,15 +471,19 @@ table tfoot ol.page {
 
 		function paging(str) {
 			$.ajax({
-				url: "CounselController",
+				url: "searchCounsel",
 				type: "post",
 				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
+			
 		}
-		
+		function close(){
+		location.href="councel?listSelect=1&cPage=1";
+
+	}
 	</script>
 </body>
 </html>
