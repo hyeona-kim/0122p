@@ -109,10 +109,15 @@ public class CounselController {
     }
 
     @RequestMapping("counselA")
-    public String counselAdd(){
+    public ModelAndView counselA(String c_idx){
+        ModelAndView mv = new ModelAndView();
 
+        CounselAddVO[] vo = ca_Service.list(c_idx);
+        mv.addObject("c_idx", c_idx);
+        mv.addObject("vo", vo);
+        mv.setViewName("/jsp/admin/counselManage/counselAdd");
 
-        return "/jsp/admin/counselManage/counselAdd";  
+        return mv;  
     }
 
 

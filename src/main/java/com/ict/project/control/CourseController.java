@@ -22,7 +22,6 @@ import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.UpskillService;
-import com.ict.project.util.LmsBean;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseTypeVO;
