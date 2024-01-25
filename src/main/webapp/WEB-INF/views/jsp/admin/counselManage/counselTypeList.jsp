@@ -43,7 +43,7 @@ table tfoot ol.page {
 	    font-weight:bold;
 	}
 
-	#CounselWrap{
+	#counselWrap{
 		width: 95%;
 		margin: auto;
 		margin-top: 20px;
@@ -192,7 +192,24 @@ table tfoot ol.page {
     }
      #t1 tfoot{
      	border: none;
-     }
+    }
+    .t1 th, .t1 td {
+	 	margin: 0;
+        padding: 0;
+        border: 1px solid black;
+        text-align: center;
+    }
+    .t1 {
+		border-collapse: collapse;
+		width: 100%;
+		border-spacing: 0;
+	}
+	#add_top{
+		margin: 10px;
+	}
+	#t2head, #tt_add1 td{
+		background-color: skyblue;
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -266,7 +283,9 @@ table tfoot ol.page {
 		
 		<div id="dialog2" hidden="" title="상담결과보고">
 		</div>
-
+        
+        <div id="dialog3" hidden="" title="상담결과보고">
+		</div>
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -379,6 +398,7 @@ table tfoot ol.page {
         }
 
         function counselA(c_idx){
+            $("#dialog2").dialog("close");
             $.ajax({
                 url:"counselA",
                 type:"post",
@@ -387,13 +407,10 @@ table tfoot ol.page {
 				$("#dialog3").html(result);
 				
 				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
+					 $("#dialog3").dialog("close");
 				});
 			});
-            $("#dialog3").dialog("open",{
-            	width:500,
-            	height:600
-            });
+            $("#dialog3").dialog("open");
         }
 
         $( "#dialog" ).dialog({

@@ -113,8 +113,9 @@ public class CounselController {
         ModelAndView mv = new ModelAndView();
 
         CounselAddVO[] vo = ca_Service.list(c_idx);
-        mv.addObject("c_idx", c_idx);
+        CourseVO cvo = c_Service.getCourse(c_idx);
         mv.addObject("vo", vo);
+        mv.addObject("cvo", cvo);
         mv.setViewName("/jsp/admin/counselManage/counselAdd");
 
         return mv;  
