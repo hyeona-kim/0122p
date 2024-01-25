@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.ict.project.service.ConfirmService;
+import com.ict.project.service.CourseService;
 import com.ict.project.service.TrainConfirmService;
 import com.ict.project.service.TraineeCurrentService;
 import com.ict.project.service.TraineeService;
@@ -56,6 +57,8 @@ public class TraineeController {
 	TraineeService t_Service;
 	@Autowired
 	ConfirmService cu_Service;
+	@Autowired
+	CourseService c_Service;
 
 	private String editor_img =	"/editor_img";
 	private String upload_file = "/upload_file";
@@ -356,7 +359,7 @@ public class TraineeController {
 
     }
     @RequestMapping("traineecurrentbt1")
-    public ModelAndView traineecurrentbt1(String cPage) {
+    public ModelAndView traineecurrentbt1(String cPage, String c_idx) {
         ModelAndView mv = new ModelAndView();
        Paging page = new Paging();
 		
@@ -369,10 +372,11 @@ public class TraineeController {
 			page.setNowPage(nowPage);
 			
 		}
-		
+		CourseVO cv = c_Service.getCourse(c_idx);
 		TraineeVO[] tv = t_Service.getTraineeList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		
 		mv.addObject("ar", tv);
+		mv.addObject("vo1", cv);
 		mv.addObject("page", page);
 
         mv.setViewName( "jsp/admin/schoolRecord/traineecurrentbt1");

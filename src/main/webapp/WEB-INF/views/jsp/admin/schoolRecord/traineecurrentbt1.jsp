@@ -66,7 +66,7 @@ table tfoot ol.page {
 		height: 40px;
 		padding-left: 10px;
 	}
-	#searchTime th, #makeTime th{background-color: #ddd;}
+	#searchTime th, #makeTime th{background-color: #F5F7F9;}
 	
 	#searchTime caption, #makeTime caption{
 		text-indent: -9999px;
@@ -92,9 +92,11 @@ table tfoot ol.page {
 					<table id="searchTime">
 						<caption>훈련생확인서류검색</caption>
 							<thead>
+								
 								<tr>
-									<th>｜"훈련과정테스트" 과정 (교육기간 : 2024년 12월 30일 ~ 2024년 12월 30일)</th>
+									<th>｜asd</th>
 								</tr>
+							
 							</thead>
 						</table>
 				<form th:action th:object="${form}" method="get">
@@ -170,16 +172,16 @@ table tfoot ol.page {
 						<td>${vo7.tr_rrn }</td>
 						<td><!-- 상태 -->
 							<select name="status">
-								<option value="접수" >접수</option>
-								<option value="예정" >예정</option>
-								<option value="수강" >수강</option>
-								<option value="조기수료" >조기수료</option>
-								<option value="조기취업" >조기취업</option>
-								<option value="수료" >수료</option>
-								<option value="수강포기" >수강포기</option>
-								<option value="미수료" >미수료</option>
-								<option value="제적" >제적</option>
-								<option value="취소" >취소</option>
+								<option value="0" >접수</option>
+								<option value="1" >예정</option>
+								<option value="2" >수강</option>
+								<option value="3" >조기수료</option>
+								<option value="4" >조기취업</option>
+								<option value="5" >수료</option>
+								<option value="6" >수강포기</option>
+								<option value="7" >미수료</option>
+								<option value="8" >제적</option>
+								<option value="9" >취소</option>
 							</select>
 						</td>
 						<td><!-- 사유및날짜 --></td>
