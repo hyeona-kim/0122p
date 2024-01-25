@@ -26,7 +26,7 @@
                                  <c:if test="${bvo.bd_notice eq '1'}">
                                     <span id="notice">공지</span>
                                  </c:if>
-                                 <a href="javascript:viewContent('${bvo.bd_idx}')">
+                                 <a href="javascript:viewContent('${bvo.bd_idx}', '${param.cPage}')">
                                     ${bvo.bd_subject}
                                  </a>
                               </td>                              
@@ -75,7 +75,7 @@
                                     <li><a href="javascript:checkNotice('${vs.index}')">${vs.index}</a></li>
                                  </c:if>
                                  <c:if test="${vs.index ne page.nowPage && viewList_flag ne null}">
-                                    <li><a href="javascript:viewBoardList('${vs.index}', '${page.nowPage}')">${vs.index}</a></li>
+                                    <li><a href="javascript:viewBoardList('${c_idx}','${vs.index}')">${vs.index}</a></li>
                                  </c:if>
                               </c:forEach>
                               <%-- ========== page 번호 만드는 부분 끝 ==========--%>

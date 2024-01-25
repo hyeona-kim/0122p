@@ -15,14 +15,14 @@
 	
 	<!-- 고충 및 건의사항 추가하는 기능 -->
 	<insert id="add" parameterType="com.ict.project.vo.SuggestionVO">
-		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file, notice, status)
-		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file}, #{notice}, 0)
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0)
 	</insert>
 	
 	<!-- 건의사항 답변 추가하는 기능 -->
 	<insert id="addReply" parameterType="com.ict.project.vo.SuggestionVO">
-		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file, notice, status)
-		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file}, #{notice}, 0)
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0)
 	</insert>
 	
 	<!-- Paging객체를 생성하기 위해 totalRecord를 구하는 기능 -->
@@ -72,4 +72,11 @@
 		(select * from suggestion_t where status = 0 and ifnull(notice, 2) not in (1) order by sg_idx desc) a,
     	(select @RN:=0) b) c
 	</select>
+
+	<!-- 조회수 증가하는 기능 -->
+	<update id="addHit" parameterType="String">
+		update suggestion_t
+		set sg_hit = sg_hit+1
+		where sg_idx = #{sg_idx}
+	</update>
 </mapper>

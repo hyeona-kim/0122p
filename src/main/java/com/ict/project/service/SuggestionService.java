@@ -84,4 +84,9 @@ public class SuggestionService {
         return s_mapper.cntNonNotice();
     }
 
+    // 조회수 증가시키는 기능
+    public int addHit(String sg_idx) {
+        return s_mapper.addHit(sg_idx);
+    }
+
 }
