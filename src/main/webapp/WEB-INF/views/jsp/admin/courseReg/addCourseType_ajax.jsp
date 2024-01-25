@@ -4,15 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
-   <h2>과정타입 등록/수정</h2>
+   <h2 id="ct_h2">과정타입 등록/수정</h2>
    
   <form action="addCourseType" method="post" name="fm">
-         <table id="t1">
+         <table id="ct_t1">
             <colgroup>
-               <col width="80px"/>
-               <col width="*/2"/>
-               <col width="80px"/>
-               <col width="*/2"/>
+               <col width="10%"/>
+               <col width="40%"/>
+               <col width="10%"/>
+               <col width="40%"/>
             </colgroup>
             <tbody>
             <c:if test="${c_ar ne null}">
@@ -71,5 +71,7 @@
 	       
     	    </tfoot>
          </table>
+         <input type="hidden" name="listSelect" value="${param.listSelect}"/>
+         <input type="hidden" name="cPage" value="${param.cPage}"/>
       </form>
   

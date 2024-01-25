@@ -19,7 +19,6 @@
     <button type="button" id="cc_cancle">취소</button>
 </div>
  <c:if test="${sfvo ne null || svo ne null || rvo ne null}">
-    
     <table id="e_table">
         <colgroup>
             <col width="25%"/>
