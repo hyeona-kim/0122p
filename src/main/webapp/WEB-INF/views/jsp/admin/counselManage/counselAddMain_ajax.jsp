@@ -44,10 +44,10 @@
 			<tfoot>
 				<tr>
 					<td colspan="5">
-						<button type="button" id="add_btn">보고서등록</button>
+						<button type="button" onclick="counselA('${cvo.c_idx}')">보고서등록</button>
 
 						<button type="button" onclick="">인쇄</button>
-						<button type="button" onclick="">취소</button>
+						<button type="button" id="cc_cancle">취소</button>
 					</td>
 				</tr>
 			</tfoot>

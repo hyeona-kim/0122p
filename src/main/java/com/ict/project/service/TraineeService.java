@@ -44,4 +44,36 @@ public class TraineeService {
     public int getCount(){
         return t_mapper.count();
     }
+
+    public TraineeVO[] getCourseTraineeList(String c_idx, String begin, String end){
+        TraineeVO[] ar = null;
+
+        List<TraineeVO> list = t_mapper.course_list(c_idx, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new TraineeVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public TraineeVO[] getCourseTraineeSearchList(String select, String value, String year, String begin, String end){
+        TraineeVO[] ar = null;
+
+        List<TraineeVO> list = t_mapper.course_search(select, value, year, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new TraineeVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public int getCourseTraineeCount(String c_idx){
+        return t_mapper.course_count(c_idx);
+    }
+
+    public int getCourseSearchCount(String select,String value,String year){
+        return t_mapper.search_count(select,value,year);
+    }
 }

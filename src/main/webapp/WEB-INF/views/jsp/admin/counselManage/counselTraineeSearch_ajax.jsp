@@ -23,25 +23,25 @@
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 								<tr>
 									<td>${num-vs.index}</td>
-									<td>${vo.tvo.tr_name} </td>
+									<td>${vo.tr_name} </td>
 									<td>${vo.cvo.c_name }</td>
 									<td>${vo.cvo.start_date }</td>
 									<td>${vo.cvo.end_date }</td>
-									<td>${vo.tvo.tr_hp }</td>
-									<td>${vo.tvo.tr_rrn }</td>
-									<c:if test="${vo.tvo.tr_status eq 0}">
+									<td>${vo.tr_hp }</td>
+									<td>${vo.tr_rrn }</td>
+									<c:if test="${vo.status eq 0}">
 										<td>수강</td>
 									</c:if>
-									<c:if test="${vo.tvo.tr_status eq 1}">
+									<c:if test="${vo.status eq 1}">
 										<td>수료</td>
 									</c:if>
-									<c:if test="${vo.tvo.tr_status eq 2}">
+									<c:if test="${vo.status eq 2}">
 										<td>제적</td>
 									</c:if>
-									<td>${vo.tvo.ss_end}</td>
+									<td>${vo.ss_end}</td>
 									<td>
-										<button type="button" id="so_del_btn" onclick="counselList('${vo.so_idx}')">상담내역 및 등록</button>
-										<input type="hidden" name="so_idx" value="${vo.so_idx }"/>
+										<button type="button" id="tr_del_btn" onclick="counselList('${vo.tr_idx}')">상담내역 및 등록</button>
+										<input type="hidden" name="tr_idx" value="${vo.tr_idx }"/>
 									</td>
 								</tr>
 							</c:forEach>
@@ -53,34 +53,37 @@
 							</c:if>
 							</tbody>
 							<tfoot>
-						<tr>
-							<td colspan="12">
-								<ol class="page">
-			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
-				<li class="disable">&lt;</li>
-			</c:if>	
-	
-			<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-				<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
-			</c:if>
+								<c:if test="${ar ne null }">
 
-			<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
-				<c:if test="${vs.index eq page.nowPage }">
-					<li class="now">${vs.index }</li>
-				</c:if>
-				<c:if test="${vs.index ne page.nowPage }">
-					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
-				</c:if>
-			</c:forEach>
-
-			<c:if test="${page.endPage < page.totalPage }">
-				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
-			</c:if>
-			<c:if test="${page.endPage >= page.totalPage }">
-				<li class="disable">&gt;</li>	
-			</c:if>
-                              </ol>
-                          </td>
-						</tr>
-					</tfoot>
-						</table>
+									<tr>
+										<td colspan="12">
+											<ol class="page">
+												<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+													<li class="disable">&lt;</li>
+												</c:if>	
+												
+												<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+													<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
+												</c:if>
+												
+												<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
+													<c:if test="${vs.index eq page.nowPage }">
+														<li class="now">${vs.index }</li>
+													</c:if>
+													<c:if test="${vs.index ne page.nowPage }">
+														<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
+													</c:if>
+												</c:forEach>
+												
+												<c:if test="${page.endPage < page.totalPage }">
+													<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+												</c:if>
+												<c:if test="${page.endPage >= page.totalPage }">
+													<li class="disable">&gt;</li>	
+												</c:if>
+											</ol>
+										</td>
+									</tr>
+								</c:if>
+								</tfoot>
+							</table>

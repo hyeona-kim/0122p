@@ -83,7 +83,7 @@
 	</update>
 
 	<select id="count" resultType="int" >
-		select count(*) from advice_t 
+		select count(*) from advice_t where so_status = 0
 	</select>
 	
 	<select id="search_count" parameterType="Map" resultType="int">
