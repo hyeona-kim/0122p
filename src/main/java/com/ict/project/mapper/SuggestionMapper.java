@@ -15,4 +15,5 @@ public interface SuggestionMapper {
     SuggestionVO view(String sg_idx);
     List<SuggestionVO> checkNotice(String begin, String end);
     int cntNonNotice();
+    int addHit(String sg_idx);
 }

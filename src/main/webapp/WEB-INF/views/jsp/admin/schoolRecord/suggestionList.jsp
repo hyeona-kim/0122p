@@ -247,9 +247,12 @@ table tfoot ol.page {
 						</thead>
 					</table>
 					<%-- ===== 비동기식 통신으로 출력할 테이블 시작 ===== --%>
-					<div id="ajaxContent">
-					
-					</div>
+					<form action="download" name="downForm" method="get">
+						<input type="hidden" name="fname"/>
+						<div id="ajaxContent">
+						
+						</div>
+					</form>
 					<%-- ===== 비동기식 통신으로 출력할 테이블 끝 ===== --%>
 				</div>
 				
@@ -328,7 +331,7 @@ table tfoot ol.page {
 		function addSuggestion() {
 			// 유효성 검사 해야함
 			
-			document.forms[0].submit();
+			document.addForm.submit();
 		};
 		
 		/* 글의 제목을 클릭했을 때 내용 보기 */
@@ -407,6 +410,11 @@ table tfoot ol.page {
 					$("#ajaxContent").html(result);
 				});
 			}
+		};
+
+		function download(fname) {
+			document.downForm.fname.value = fname;
+			document.downForm.submit();
 		};
 		
 	</script>

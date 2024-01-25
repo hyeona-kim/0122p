@@ -4,8 +4,9 @@
 <form action="boardAddReply" method="post">
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
 	<input type="hidden" name="writer" value="${bvo.bd_writer}">
+	<input type="hidden" name="c_idx" value="${bvo.c_idx}">
 	<table>
-		<caption>고충 및 건의사항 답변 작성 테이블</caption>
+		<caption>게시판 답변 작성 테이블</caption>
 		<thead>
 			
 		</thead>
@@ -39,7 +40,8 @@ ${bvo.bd_content}
 				<td colspan="2">
 					<button type="button" onclick="addReply(this.form)" class="bo_edit_btn bo_btn">등록</button>
 					<!-- <a href="javascript:addReply(this.form)" class="bo_edit_btn bo_btn">등록</a> -->
-					<a href="" class="bo_del_btn bo_btn">취소</a>
+					<!-- <a href="" class="bo_del_btn bo_btn">취소</a> -->
+					<button type="button" class="bo_del_btn bo_btn" id="cancel_btn">취소</a>
 				</td>
 			</tr>
 		</tfoot>

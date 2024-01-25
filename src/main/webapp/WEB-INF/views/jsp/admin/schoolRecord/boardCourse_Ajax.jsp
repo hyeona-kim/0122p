@@ -28,7 +28,7 @@
                     <td>${vo.c_day}</td>
                     <td>${vo.c_round_num}</td>
                     <td>${vo.c_peo_num}</td>
-                    <td><button id="board_btn" onclick="viewBoardList('${vo.c_idx}', '${page.nowPage}')">과정별 게시판</button></td>
+                    <td><button id="board_btn" onclick="viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
                 </tr>
                 </c:forEach>
             </c:if>
@@ -58,9 +58,6 @@
                         </c:if>
                         <c:if test="${vs.index ne page.nowPage && viewList_flag eq null}">
                         <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
-                        </c:if>
-                        <c:if test="${vs.index ne page.nowPage && viewList_flag ne null}">
-                        <li><a href="javascript:viewBoardList('${vs.index}', '${page.nowPage}')">${vs.index}</a></li>
                         </c:if>
                     </c:forEach>
                     <%-- ========== page 번호 만드는 부분 끝 ==========--%>

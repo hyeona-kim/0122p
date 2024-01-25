@@ -38,7 +38,11 @@
 									${svo.sg_subject}
 								</a>
 							</td>										
-							<td>${svo.sg_file}</td>
+							<td>
+								<a href="javascript:download('${svo.sg_file_name}')">
+									${svo.sg_file_name}
+								</a>
+							</td>
 							<td>***</td>
 							<td>${svo.sg_write_date}</td>
 							<td>${svo.sg_hit}</td>
