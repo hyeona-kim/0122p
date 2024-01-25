@@ -75,7 +75,8 @@
 	</update>
 
 	<select id="count" resultType="int" >
-		select count(*) from course_t 
+		select count(*) from course_t
+		where c_status = 0
 	</select>
 	
 	<select id="search_count" parameterType="Map" resultType="int">

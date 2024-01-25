@@ -53,4 +53,35 @@ public class SuggestionService {
         return s_mapper.view(sg_idx);
     }
 
+    // 게시글 검색 기능
+    public SuggestionVO[] search(String subject, String begin, String end) {
+        SuggestionVO[] ar = null;
+
+        List<SuggestionVO> list = s_mapper.search(subject, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new SuggestionVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 공지 숨김처리 클릭했을 때 공지 아닌 글들만 검색하는 기능
+    public SuggestionVO[] checkNotice(String begin, String end) {
+        SuggestionVO[] ar = null;
+
+        List<SuggestionVO> list = s_mapper.checkNotice(begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new SuggestionVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 공지사항이 아닌 글들의 총 개수를 구하는 기능
+    public int cntNonNotice() {
+        return s_mapper.cntNonNotice();
+    }
+
 }

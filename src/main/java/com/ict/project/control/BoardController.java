@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.BoardService;
+import com.ict.project.service.CourseService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.BoardVO;
+import com.ict.project.vo.CourseVO;
 
 
 
@@ -25,12 +27,41 @@ public class BoardController {
     ServletContext application;
 	@Autowired
 	BoardService b_Service;
+	@Autowired
+	CourseService c_Service;
+
+	@RequestMapping("boardMainList")
+	public ModelAndView boardMainList(String cPage) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("cPage", cPage);
+		mv.setViewName("/jsp/admin/schoolRecord/boardMain");
+		return mv;
+	}
+
+	@RequestMapping("boardCourseAjax")
+	public ModelAndView boardCourseAjax(String cPage) {
+		ModelAndView mv = new ModelAndView();
+		Paging page = new Paging();
+		page.setTotalRecord(c_Service.getCount());
+
+		if(cPage == null || cPage.equalsIgnoreCase("undefined")){
+			page.setNowPage(1);
+		}else {
+			page.setNowPage(Integer.parseInt(cPage));
+		}
+
+		CourseVO[] ar = c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_Ajax");
+
+		return mv;
+	}
 
     @RequestMapping("boardList")
-    public ModelAndView boardList() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/jsp/admin/schoolRecord/boardList");
-        return mv;
+    public String boardList() {
+        return "/jsp/admin/schoolRecord/boardList";
     }
 
     @RequestMapping("addBoard")
@@ -63,7 +94,7 @@ public class BoardController {
 	}
 	
     @RequestMapping("boardListAjax")
-    public String boardListAjax(String cPage ) {
+    public String boardListAjax(String cPage) {
        	BoardVO[] ar = null;
 		Paging page = null;
 		
@@ -108,31 +139,35 @@ public class BoardController {
 	}
     
     @RequestMapping("searchBoard")
-    public String searchBoard(String cPage,String tag,String value,String subject) {
+    public ModelAndView searchBoard(String cPage,String value) {
+		ModelAndView mv = new ModelAndView();
         BoardVO[] ar = null;
         Paging page = null;
-        boolean bl = true;
+        boolean search_flag = true;
         
-        
-        // 검색을 위한 HashMap을 만든다
-        int cnt = b_Service.reGetTotalRecord(subject);
+        int cnt = b_Service.reGetTotalRecord(value);
         
         if(cnt > 0) {
             page = new Paging();
             page.setTotalRecord(cnt);
-            if(cPage.equals("undefined")) {
+            if(cPage == null || cPage.equals("undefined")) {
                 page.setNowPage(1);				
             }else {
                 page.setNowPage(Integer.parseInt(cPage));								
             }
-            ar = b_Service.searchBoard(subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            ar = b_Service.searchBoard(value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
         }
         
-        request.setAttribute("bl", bl);
-        request.setAttribute("ar", ar);
-        request.setAttribute("page", page);
-
-        return "redirect:boardMain";
+        mv.addObject("search_flag", search_flag);
+        mv.addObject("ar", ar);
+        mv.addObject("page", page);
+		if(value.trim().length() > 0) {
+			mv.setViewName("/jsp/admin/schoolRecord/boardList_ajax");
+		}else {
+			mv.setViewName("redirect:boardMain");
+		}
+		
+        return mv;
     }
     @RequestMapping("boardMain")
     public String boardMain() {
@@ -170,5 +205,52 @@ public class BoardController {
 		return "/jsp/admin/schoolRecord/boardList_ajax";
     }
     
-    
+    @RequestMapping("checkNotice_board")
+	public ModelAndView checkNotice(String cPage) {
+		ModelAndView mv = new ModelAndView();
+		BoardVO[] ar = null;
+		Paging page = new Paging();
+		boolean notice_flag = true;
+		page.setTotalRecord(b_Service.cntNonNotice());
+
+		if(cPage == null || cPage.equals("undefined")) {
+			page.setNowPage(1);
+		}else {
+			page.setNowPage(Integer.parseInt(cPage));
+		}
+
+		ar = b_Service.checkNotice(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		mv.addObject("notice_flag", notice_flag);
+		mv.setViewName("/jsp/admin/schoolRecord/boardList_ajax");
+
+		return mv;
+	}
+
+	@RequestMapping("viewBoardList")
+	public ModelAndView viewBoardList(String c_idx, String cPage) {
+		ModelAndView mv = new ModelAndView();
+		BoardVO[] ar = null;
+		Paging page = new Paging();
+		boolean viewList_flag = true;
+
+		page.setTotalRecord(b_Service.cntBoardList(c_idx));
+
+		if(cPage == null || cPage.equals("undefined") || cPage.equals("2")) {
+			page.setNowPage(1);
+		}else {
+			page.setNowPage(Integer.parseInt(cPage));
+		}
+
+		ar = b_Service.viewBoardList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+		mv.addObject("viewList_flag", viewList_flag);
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		mv.setViewName("/jsp/admin/schoolRecord/boardList_ajax");
+
+		return mv;
+	}
 }
