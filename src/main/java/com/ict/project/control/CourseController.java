@@ -64,9 +64,9 @@ public class CourseController {
 	StaffService s_Service;
 	@Autowired
 	UpskillService us_Service;
-  @Autowired
-  SkillService sk_Service;
-  @Autowired
+	@Autowired
+	SkillService sk_Service;
+	@Autowired
 	FileService f_Service;
 
     @RequestMapping("course")
