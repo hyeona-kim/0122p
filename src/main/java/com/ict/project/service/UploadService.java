@@ -17,13 +17,26 @@ public class UploadService {
     public TrainuploadVO[] getList(String begin, String end) {
         TrainuploadVO[] ar = null;
 
-        List<TrainuploadVO> list = u_mapper.getList(begin, end);
+        List<TrainuploadVO> list = u_mapper.getlist(begin, end);
         if(list != null && list.size() > 0){
             ar = new TrainuploadVO[list.size()];
             list.toArray(ar);
         }
 
         return ar;
+    }
+
+    public TrainuploadVO[] all(){
+        TrainuploadVO[] aa = null;
+
+        List<TrainuploadVO> list = u_mapper.all();
+        if(list != null && !list.isEmpty()){
+            aa = new TrainuploadVO[list.size()];
+            list.toArray(aa);
+
+        }
+        return aa;
+            
     }
 
     // trainupload테이블의 Record 개수를 반환하는 기능

@@ -1,7 +1,10 @@
 package com.ict.project.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TrainuploadVO {
-	private String tn_idx, subject, content, file_name, ori_name, tn_name, status;
+	private String tn_idx, subject, content, file_name, ori_name, tn_name, status,ip;
+	private MultipartFile file;
 	
 
 	public String getTn_idx() {
@@ -58,6 +61,22 @@ public class TrainuploadVO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 	
 	

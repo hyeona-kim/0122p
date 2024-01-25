@@ -17,5 +17,10 @@
 		select * from trainee_t
 </select>
 
+<select id="view" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+	select * from trainee_t
+	where tr_idx = #{idx}
+</select>
+
 
 </mapper>

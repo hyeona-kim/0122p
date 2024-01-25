@@ -6,9 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/summernote-lite.css">
 <style>
 table tfoot ol.page {
 	    list-style:none;
@@ -77,14 +78,6 @@ table tfoot ol.page {
 		 margin-bottom: 10px;
 	}
 
-	.ck.ck-editor {
-    	max-width: 100%;
-    	padding: 8px;
-    	
-	}
-	.ck-editor__editable {
-	    min-height: 300px;
-	}
 	
 	#t2{
 		margin-top:10px;
@@ -111,7 +104,7 @@ table tfoot ol.page {
 				<div id="staffWrap">
 					<div id="staffList_top">훈련생확인서류등록</div>
 					<div id="b1">
-						<input type="button" value="확인서류등록" onclick="javascript:location.href='Controller?type=uploadwrite'"/>
+						<input type="button" value="확인서류등록" onclick="javascript:location.href='uploadwrite'"/>
 					</div>
 				<table id="makeTime">
 				<caption>훈련생확인서류등록 리스트</caption>
@@ -159,14 +152,14 @@ table tfoot ol.page {
 						<c:forEach var="vo3" items="${requestScope.ar }" varStatus="vs">
 				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
 					<tr>
-						<td>${num+(vs.index)-2 }</td>
+						<td>${num-(vs.index) }</td>
 						<td>${vo3.subject }</td>
 						<td>${vo3.file_name }</td>
 						<td>
 						<input type="button" value="수정"
 							onclick="edit('${vo3.tn_idx}')"/>
 						<input type="button" onclick="traindel('${vo3.tn_idx}')" value="삭제">
-						<input type="button" onclick="javascript:location.href='Controller?type=trainuploadview&tn_idx=${vo3.tn_idx}'" value="확인서류보기">
+						<input type="button" onclick="javascript:location.href='trainuploadview?tn_idx=${vo3.tn_idx}'" value="확인서류보기">
 						</td>
 					</tr>
 				</c:forEach>
@@ -175,7 +168,7 @@ table tfoot ol.page {
 			</div>
 		</div>
 	</div>
-	<form action="Controller" method="post" name="frm">
+	<form action="trainuploaddel" method="post" name="frm">
 		<input type="hidden" name="type" value=""/>
 		<input type="hidden" name="tn_idx" value=""/>
 		<input type="hidden" name="cPage" value="${param.cPage }"/>
@@ -186,7 +179,9 @@ table tfoot ol.page {
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+	<script src="js/summernote-lite.js"></script>
+	<script src="js/lang/summernote-ko-KR.js"></script>
+
 	<script>
 		$(function() {
 			//$().removeClass("selected");
@@ -216,24 +211,34 @@ table tfoot ol.page {
 		function edit(ed){
 			console.log(ed);
 			$.ajax({
-				url:"Controller",
+				url:"trainuploadedit",
 				type:"post",
 				data:"type="+encodeURIComponent("trainuploadedit")+"&select="+ed
 			}).done(function(reg){
 				$("#edit").html(reg);
 				
-				ClassicEditor
-		        .create( document.querySelector( '#content' ))
-		        .catch( error => {
-		            console.error( error );
-		        });
-				
-				
+				$("#content").summernote({
+				height:200,
+				focus : true, /* 커서를 미리 가져다 놓는다 */
+				lang : "ko-KR",
+				callbacks:{
+					onImageUpload:function(files, editor){
+						// 이미지가 에디터에 추가 될 때마다 수행하는곳
+						// 추가되어 들어온 이미지는 여러개일수 있기 때문에 files 으로 받아야함.(배열)
+						// 배열로 받아야하기때문에 반복문을 돌림
+						for(let i=0; i<files.length; i++)
+							sendImage(files[i],editor);
+						
+					}
+					
+				}
 			});
+			$("#content").summernote("lineHeight", .7);
+		});
 			
 			$("#edit").dialog({
 				width:1000,
-				height:500
+				height:600
 			});
 			
 		}
@@ -248,29 +253,19 @@ table tfoot ol.page {
     				document.fff.elements[i].focus();
     				return;
     			}
-    		
-    		
-    		for(var i=21; i<ar.length-2; i++){
-    			console.log(ar.length)
-    			let str = ar[i].dataset.str;
-    			if(document.fff.elements[i].value==""){
-    				alert(str+"를 입력하세요");
-    				document.fff.elements[i].focus();
-    				return;
-    			}
-    		}
+
     		document.fff.submit();
 		}
 		
 		function paging(str) {
 			console.log(str);
-			location.href="Controller?type=trainupload&cPage="+str;
+			location.href="trainupload?cPage="+str;
 		}
 	</script>
 </body>
 </c:if>
 <c:if test="${tvo ne null}">
-	<c:redirect url="Controller">
+	<c:redirect url="trainupload">
 	</c:redirect>
 </c:if>
 </html>

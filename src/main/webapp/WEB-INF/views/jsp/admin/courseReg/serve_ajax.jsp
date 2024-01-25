@@ -17,13 +17,7 @@
 								<th>관리</th>
 							</tr>
 						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="10">
-									${htmlCode}
-	                          </td>
-							</tr>
-						</tfoot>
+						<tbody>
 							<c:forEach var="vo2" items="${requestScope.ar }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
@@ -36,8 +30,39 @@
 								<td>${vo2.c_day}</td>
 								<td>${vo2.c_round_num }</td>
 								<td>${vo2.c_peo_num}</td>
-								<td><button type="button">과정별 학습 안내서</button></td>
+								<td><button type="button" onclick="set('${vo2.c_idx}')">과정별 학습 안내서</button></td>
 							</tr>
 						</c:forEach>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="12">
+								<ol class="page">
+			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+				<li class="disable">&lt;</li>
+			</c:if>	
+	
+			<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+				<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
+			</c:if>
+
+			<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
+				<c:if test="${vs.index eq page.nowPage }">
+					<li class="now">${vs.index }</li>
+				</c:if>
+				<c:if test="${vs.index ne page.nowPage }">
+					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
+				</c:if>
+			</c:forEach>
+	
+			<c:if test="${page.endPage < page.totalPage }">
+				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+			</c:if>
+			<c:if test="${page.endPage >= page.totalPage }">
+				<li class="disable">&gt;</li>	
+			</c:if>
+                              </ol>
+                          </td>
+						</tr>
+					</tfoot>
 				</table>

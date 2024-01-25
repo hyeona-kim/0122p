@@ -33,10 +33,10 @@
 			<tbody>
 				<c:forEach items="${ar}" var="vo">
 					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
+						<td>${vo.ss_mday}</td>
+						<td>${vo.ss_cnt}</td>
+						<td>${vo.ss_day}</td>
+						<td>${vo.co_vo.so_pp}</td>
 						<td>5</td>
 					</tr>
 				</c:forEach>
@@ -44,7 +44,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="5">
-						<button type="submit" onclick="">보고서등록</button>
+						<button type="button" onclick="counselA()">보고서등록</button>
 						<button type="button" onclick="">인쇄</button>
 						<button type="button" onclick="">취소</button>
 					</td>

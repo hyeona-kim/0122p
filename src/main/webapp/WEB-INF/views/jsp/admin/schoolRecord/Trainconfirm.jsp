@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jsp/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 	table tfoot ol.page {
@@ -164,7 +164,7 @@
 						<c:forEach var="vo4" items="${requestScope.ar }" varStatus="vs">
 				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
 					<tr>
-						<td>${num+(vs.index-2)}</td>
+						<td>${num+(vs.index)-1}</td>
 						<td>${vo4.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
 						<td>${vo4.t_idx}</td>
@@ -203,7 +203,7 @@
 		
 	function set(str){
 		$.ajax({
-            url: "Controller",
+            url: "confirm",
             type: "post",
             data:"type="+encodeURIComponent("confirm")+"&select="+str
          }).done(function(result){
@@ -218,7 +218,7 @@
 	}
 		
 	function paging(str) {
-		location.href="Controller?type=trainconfirm&cPage="+str
+		location.href="trainconfirm?cPage="+str
 	
 	}
 		

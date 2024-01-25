@@ -10,18 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.mapper.SkillMapper;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
+import com.ict.project.service.FileService;
 import com.ict.project.service.RoomService;
+import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
+import com.ict.project.service.SubjectService;
+import com.ict.project.service.UpskillService;
 import com.ict.project.util.LmsBean;
+import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.FileVO;
 import com.ict.project.vo.RoomVO;
+import com.ict.project.vo.SkillVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SubjectVO;
+import com.ict.project.vo.UpSkillVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletOutputStream;
@@ -30,6 +41,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 
@@ -51,6 +64,14 @@ public class CourseController {
 	RoomService r_Service;
 	@Autowired
 	StaffService s_Service;
+	@Autowired
+	UpskillService us_Service;
+  @Autowired
+  SkillService sk_Service;
+  @Autowired
+	FileService f_Service;
+	@Autowired
+	SubjectService sb_Service;
 
     @RequestMapping("course")
     public String course(String listSelect) {
@@ -81,9 +102,8 @@ public class CourseController {
     }
     
     @RequestMapping("editCourse")
-    public ModelAndView editCourse(CourseVO cvo,String edit) {
+    public ModelAndView editCourse(CourseVO cvo,String edit,String cPage) {
 		ModelAndView mv = new ModelAndView();
-		
         if(edit == null) {
 			CourseVO vo = c_Service.getCourse(cvo.getC_idx());
 			request.setAttribute("edit_cvo", vo);
@@ -97,26 +117,26 @@ public class CourseController {
 			mv.addObject("r_idx",vo.getR_idx());
 			mv.addObject("sf_idx",vo.getSf_idx());
 			mv.addObject("ct_idx",vo.getCt_idx());
-			
-			if(vo.getC_day().contains("월"))
-				mv.addObject("monday",true);
-			if(vo.getC_day().contains("화"))	
-				mv.addObject("tuesday",true);
-			if(vo.getC_day().contains("수"))	
-				mv.addObject("wednesday",true);
-			if(vo.getC_day().contains("목"))	
-				mv.addObject("thursday",true);
-			if(vo.getC_day().contains("금"))	
-				mv.addObject("friday",true);
-			if(vo.getC_day().contains("토"))	
-				mv.addObject("saturday",true);
-			if(vo.getC_day().contains("일"))	
-				mv.addObject("sunday",true);
-
+			if(vo.getC_day()!= null){
+				if(vo.getC_day().contains("월"))
+					mv.addObject("monday",true);
+				if(vo.getC_day().contains("화"))	
+					mv.addObject("tuesday",true);
+				if(vo.getC_day().contains("수"))	
+					mv.addObject("wednesday",true);
+				if(vo.getC_day().contains("목"))	
+					mv.addObject("thursday",true);
+				if(vo.getC_day().contains("금"))	
+					mv.addObject("friday",true);
+				if(vo.getC_day().contains("토"))	
+					mv.addObject("saturday",true);
+				if(vo.getC_day().contains("일"))	
+					mv.addObject("sunday",true);
+			}		
 			mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
         }else{
             int cnt =c_Service.editCourse(cvo);
-            mv.setViewName("redirect:course?listSelect=1&cPage=1");
+            mv.setViewName("redirect:course?listSelect=1&cPage="+cPage);
         }
 		return mv;
     }
@@ -134,6 +154,7 @@ public class CourseController {
 
         return viewPath;
     }
+
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
 		if(value.trim().length()==0){
@@ -168,7 +189,7 @@ public class CourseController {
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-
+		mv.addObject("cPage", cPage);
 		
 		//비동기 통신할 jsp로 보내기
 		if(listSelect.equals("1"))
@@ -199,7 +220,7 @@ public class CourseController {
 				
 			}
 		}
-		mv.setViewName("redirect:course?listSelect=1&cPage=1");
+		mv.setViewName("redirect:course?listSelect="+listSelect);
         return mv;
     }
     @RequestMapping("courseMain")
@@ -235,7 +256,7 @@ public class CourseController {
 		String[] r_status = use;
 		RoomVO vo = new RoomVO();
 		
-		if(r_name != null && r_name.length>0) {
+		if(r_name != null && !r_name.equals("")) {
 			for(int i = 0; i < r_name.length;i++) {
 				if(r_name[i] != null && !r_name[i].isEmpty()) {
 					vo.setR_name(r_name[i]);
@@ -247,7 +268,7 @@ public class CourseController {
 				
 			}
 		}
-		return "redirect:course?listSelect=1&cPage=1";
+		return "redirect:course&listSelect="+listSelect;
     }
     @RequestMapping("c_dialog")
     public ModelAndView c_dialog(String select,String c_idx) {
@@ -270,14 +291,40 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addRoom_ajax");
 		else if(select.equals("editCourse"))
             mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
-		else if(select.equals("updateSubject")){
+		else if(select.equals("addUpskill"))
+            mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
+
+    else if(select.equals("updateSubject"))
             mv.setViewName("/jsp/admin/courseReg/subject");
-			CourseVO cvo = c_Service.getCourse(c_idx);
-			mv.addObject("cvo",cvo);
-		}
+    CourseVO cvo = c_Service.getCourse(c_idx);
+    mv.addObject("cvo",cvo);
+    return mv;
 		
+	}
+@RequestMapping("upskill")
+    public ModelAndView upskill(String skill) {
+        ModelAndView mv = new ModelAndView();
+		if(skill == null){
+			UpSkillVO[] ar = null;
+			ar = us_Service.getUpskillList();
+			mv.addObject("ar", ar);
+			mv.setViewName("/jsp/admin/courseReg/upskill");
+			
+		}else{
+			SkillVO[] ar2 = null;
+			ar2 = sk_Service.getSkillList();
+			
+			System.out.println(ar2.length);
+			
+			mv.addObject("ar2", ar2);
+			mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
+
+		}
+
+
         return mv;
     }
+
     @RequestMapping("downloadSubject")
 	public String download() {
 		//b_idx, cPage, file_name, bname 이 넘어온다 
@@ -325,5 +372,165 @@ public class CourseController {
 		}
 		return null;
 	}
+    @RequestMapping("course_file")
+    public ModelAndView course_file(FileVO fvo,String listSelect){
+        ModelAndView mv = new ModelAndView();
+		String encType = request.getContentType();
+		System.out.println(listSelect);
+		if(encType.startsWith("application")){
+			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
+
+			FileVO[] ar =  f_Service.getList(fvo.getC_idx());
+			mv.addObject("fvo",ar);
+			mv.addObject("cvo",cvo);
+			mv.setViewName("/jsp/admin/courseReg/courseFile_ajax");
+		}else if(encType.startsWith("multipart")){
+			String realPath = application.getRealPath("upload_courseFile");
+			String c_idx = fvo.getC_idx();
+			
+			String[] f_info = fvo.getF_info().split(",");
+			
+			MultipartFile[] f_ar = new MultipartFile[6];
+			f_ar[0] = fvo.getFile1();
+			f_ar[1] = fvo.getFile2();
+			f_ar[2] = fvo.getFile3();
+			f_ar[3] = fvo.getFile4();
+			f_ar[4] = fvo.getFile5();
+			f_ar[5] = fvo.getFile6();
+
+			if(fvo.getF_idx() == null || fvo.getF_idx().length()==5){
+				//파일이 존재하지 않는 경우
+				
+				for(int i =0; i<f_info.length; i++){
+					if(f_ar[i].getSize() > 0){
+						String fname = FileRenameUtil.checkSameFileName(f_ar[i].getOriginalFilename(),realPath);
+
+						try {
+							f_ar[i].transferTo(new File(realPath,fname));//파일 업로드 
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						fvo.setF_name(fname);
+					}
+						fvo.setF_info(f_info[i]);
+						f_Service.addFile(fvo);
+						//fvo가 이전의 파일명을 가지고 또 저장하기때문에 중복되는걸 막고자 fvo를 초기화 한다.
+						fvo = new FileVO();
+						fvo.setC_idx(c_idx);
+						if(i<f_info.length-1)
+							fvo.setF_info(f_info[i+1]);
+				}		
+			}else{
+				//파일 존재 
+				String[] f_idx = fvo.getF_idx().split(",");
+				for(int i =0; i<f_info.length; i++){
+	
+					
+					if(f_ar[i].getSize()>0){
+						String fname = FileRenameUtil.checkSameFileName(f_ar[i].getOriginalFilename(),realPath);
+						try {
+							f_ar[i].transferTo(new File(realPath,fname)); //파일 업로드 
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						fvo.setF_idx(f_idx[i]);
+						fvo.setF_name(fname);
+						f_Service.editFile(fvo);
+					}
+				}
+			}
+			mv.setViewName("redirect:course?listSelect="+listSelect+"&cPage=1");
+		}
+
+		return mv;
+    }
+	@RequestMapping("coursefileDown")
+	public String coursefileDown(FileVO fvo) {
+		String filename = fvo.getF_name();
+		String realPath = request.getServletContext().getRealPath("upload_courseFile");
+		//System.out.println(realPath);
+		String fullPath = realPath+System.getProperty("file.separator")+filename;
+		
+		File f= new File(fullPath);
+		if(f.exists() && f.isFile()){
+			byte[] buf = new byte[2048];
+			
+			BufferedInputStream bis = null;
+			BufferedOutputStream bos =null;
+			FileInputStream fis = null;
+			ServletOutputStream sos  = null;
+			try {
+				response.setContentType("application/x-msdownload");
+				response.setHeader("Content-Disposition", "attachment;filename=" +new String(filename.getBytes(),"8859_1"));
+				fis = new FileInputStream(f);
+				bis = new BufferedInputStream(fis);
+				// 응답 객체를 통해 output스트림 생성
+				sos = response.getOutputStream();
+				bos = new BufferedOutputStream(sos);
+				int size = -1;
+				while((size = bis.read(buf)) != -1) {
+					bos.write(buf,0,size);
+					bos.flush();
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(fis!= null)
+						fis.close();
+					if(bis != null) 
+						bis.close();
+					if(sos != null)
+						sos.close();
+					if(bos != null)
+						bos.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+
+		}
+		return null;
+	}
+    @RequestMapping("exelAdd")
+	public ModelAndView exelAdd(String select,String c_idx) {
+		ModelAndView mv = new ModelAndView();
+		if(select.equals("SRS")){
+			CourseVO cvo = c_Service.getCourse(c_idx);
+			StaffVO[] sfvo = s_Service.getList();
+			RoomVO[] rvo = r_Service.getList();
+			SubjectVO[] svo =sb_Service.getList(c_idx);
+			for(RoomVO vo :rvo){
+				if(vo.getR_sep() != null){
+					switch (vo.getR_sep()) {
+						case "0":
+							vo.setR_sep("실습");
+						break;
+						case "1":
+							vo.setR_sep("이론");
+						break;
+						case "2":
+							vo.setR_sep("겸용");
+						break;
+					}
+				}
+			}
+			mv.addObject("sfvo", sfvo);
+			mv.addObject("rvo", rvo);
+			mv.addObject("svo", svo);
+			mv.addObject("cvo", cvo);
+		}
+		mv.setViewName("/jsp/admin/courseReg/exelAdd_ajax");
+		return mv;
+    }
+    @RequestMapping("weekTime")
+    public ModelAndView weekTime(String listSelect,String c_idx) {
+		ModelAndView mv = new ModelAndView();
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		mv.addObject("cvo", cvo);
+		mv.setViewName("/jsp/admin/courseReg/weekTime_ajax");
+        return mv;
+    }
     
 }

@@ -1,4 +1,3 @@
-<%@page import="mybatis.dao.TrainuploadDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,7 +10,7 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${ar }" var="va">
+					<c:forEach items="${requestScope.ar }" var="va">
 					<tr>
 						<td><input type="checkbox"></td>
 						<td>${va.subject}</td>
@@ -40,6 +39,6 @@
 			</table>
 				<div class="bb1">
 					<button type="button"   onclick="">저장</button>
-    				<button type="button"   onclick="javascript:location.href='Controller?type=trainconfirm'">닫기</button>
+    				<button type="button"   onclick="javascript:location.href='trainconfirm'">닫기</button>
 				</div>
 				

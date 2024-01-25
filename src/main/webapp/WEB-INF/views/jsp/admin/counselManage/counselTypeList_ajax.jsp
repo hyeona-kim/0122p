@@ -17,27 +17,27 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:if test="${ar ne null }">
-							<c:forEach var="vo" items="${ar }" varStatus="vs">
-							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
+							<c:if test="${c_ar ne null }">
+							<c:forEach var="vo" items="${c_ar }" varStatus="vs">
+							<c:set var="num" value="${c_page.totalRecord - (c_page.numPerPage*(c_page.nowPage-1))}"/>
 								<tr>
 									<td>${num-vs.index}</td>
-									<td>${vo.cvo.c_name }</td>
+									<td>${vo.c_name }</td>
 									<td>${vo.svo.sf_name} </td>
-									<td>${vo.cvo.start_date }</td>
-									<td>${vo.cvo.end_date }</td>
-									<td>${vo.cvo.c_day }</td>
-									<td>${vo.cvo.c_round_num }</td>
-									<td id="peo_num">${vo.cvo.c_peo_num }</td>
+									<td>${vo.start_date }</td>
+									<td>${vo.end_date }</td>
+									<td>${vo.c_day }</td>
+									<td>${vo.c_round_num }</td>
+									<td id="peo_num">${vo.c_peo_num }</td>
 									<td>
-										<button type="button" onclick="set3('${vo.tr_idx }')">교육생별 상담내역</button>
+										<button type="button" onclick="set3('${vo.c_idx }')">교육생별 상담내역</button>
 										<button type="button" onclick="set2('${vo.c_idx}')">상담결과보고</button>
-										<input type="hidden" name="so_idx" value="${vo.so_idx }"/>
+										<input type="hidden" name="c_idx" value="${vo.c_idx }"/>
 									</td>
 								</tr>
 							</c:forEach>
 							</c:if>
-							<c:if test="${ar eq null }">
+							<c:if test="${c_ar eq null }">
 								<tr>
 									<td colspan="12">검색 결과가 없습니다</td>
 								</tr>
@@ -47,27 +47,27 @@
 						<tr>
 							<td colspan="12">
 								<ol class="page">
-			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+			<c:if test="${requestScope.c_page.startPage < requestScope.c_page.pagePerBlock }">
 				<li class="disable">&lt;</li>
 			</c:if>	
 	
-			<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-				<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
+			<c:if test="${requestScope.c_page.startPage >= requestScope.c_page.pagePerBlock }">
+				<li><a href="javascript:paging('${c_page.startPage-c_page.pagePerBlock }')">&lt;</a></li>
 			</c:if>
 
-			<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
-				<c:if test="${vs.index eq page.nowPage }">
+			<c:forEach begin="${c_page.startPage }" end="${c_page.endPage }" varStatus="vs">
+				<c:if test="${vs.index eq c_page.nowPage }">
 					<li class="now">${vs.index }</li>
 				</c:if>
-				<c:if test="${vs.index ne page.nowPage }">
+				<c:if test="${vs.index ne c_page.nowPage }">
 					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
 				</c:if>
 			</c:forEach>
 	
-			<c:if test="${page.endPage < page.totalPage }">
-				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+			<c:if test="${c_page.endPage < c_page.totalPage }">
+				<li><a href="javascript:paging('${c_page.startPage + c_page.pagePerBlock }')">&gt;</a></li>
 			</c:if>
-			<c:if test="${page.endPage >= page.totalPage }">
+			<c:if test="${c_page.endPage >= c_page.totalPage }">
 				<li class="disable">&gt;</li>	
 			</c:if>
                               </ol>
