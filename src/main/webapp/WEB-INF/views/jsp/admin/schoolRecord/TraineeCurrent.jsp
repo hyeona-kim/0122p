@@ -173,7 +173,7 @@ table tfoot ol.page {
 						<td>${vs.index+1}</td>
 						<td>${vo2.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
-						<td>${vo2.t_idx}</td>
+						<td>${vo2.sf_idx}</td>
 						<td>${vo2.start_date }</td>
 						<td>${vo2.end_date }</td>
 						<td>${vo2.ti_idx}</td>

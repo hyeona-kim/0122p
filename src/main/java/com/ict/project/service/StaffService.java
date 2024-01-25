@@ -62,4 +62,13 @@ public class StaffService {
     public int editStaff(StaffVO vo) {
         return s_mapper.editStaff(vo);
     }
+    public int block(String sf_id){
+        return s_mapper.login_block(sf_id);
+    }
+    public int unblock(String sf_id){
+        return s_mapper.login_unblock(sf_id);
+    }
+    public String sf_link(String sf_id){
+        return s_mapper.sf_link(sf_id);
+    }
 }

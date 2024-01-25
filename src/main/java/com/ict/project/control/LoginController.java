@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.LoginService;
+import com.ict.project.service.StaffService;
 import com.ict.project.vo.StaffVO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,11 @@ public class LoginController {
     ServletContext application;
 	@Autowired
 	LoginService l_Service;
-
+    @Autowired
+    StaffService s_Service;
+    
+    int cnt=0;
+    
     @RequestMapping("index")
     public String requestMethodName() {
         return "/jsp/index";
@@ -47,15 +52,29 @@ public class LoginController {
     public ModelAndView login_ok(String select,String ID,String PW) {
         ModelAndView mv = new ModelAndView();
         String viewPath = null;
-	
 		if(select.equalsIgnoreCase("admin")) {
-			StaffVO vo = l_Service.login_admin(ID, PW);
+            
+            StaffVO vo = l_Service.login_admin(ID, PW);
             if(vo == null){
-                viewPath = "/jsp/login/login_admin";
+                if(s_Service.sf_link(ID).equals("1")){
+                    mv.addObject("block", "true");
+                }
+                if(session.getAttribute("cnt")==null)
+                    session.setAttribute("cnt", 0);
+                cnt = (int)session.getAttribute("cnt");
                 mv.addObject("login", "fail");
+                session.setAttribute("cnt", cnt+1);
+                if(cnt >= 5){
+                    s_Service.block(ID);
+                    session.removeAttribute("cnt");
+                    mv.addObject("block", "true");
+                }
+                viewPath = "/jsp/login/login_admin";
             }
-            else
+            else{
 			    viewPath = "/jsp/admin/counselReceipt/main";
+                session.removeAttribute("cnt");
+            }
 			session.setAttribute("vo", vo);	
 		}else if(select.equalsIgnoreCase("train")) {			
 			viewPath = "/jsp/train/main";
