@@ -114,7 +114,6 @@ public class CounselController {
     @RequestMapping("counselA")
     public ModelAndView counselA(String c_idx){
         ModelAndView mv = new ModelAndView();
-
         CounselAddVO[] vo = ca_Service.list(c_idx);
         CourseVO cvo = c_Service.getCourse(c_idx);
         mv.addObject("vo", vo);

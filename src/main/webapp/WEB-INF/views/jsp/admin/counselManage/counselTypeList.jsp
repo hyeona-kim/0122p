@@ -198,18 +198,41 @@ table tfoot ol.page {
         padding: 0;
         border: 1px solid black;
         text-align: center;
+		height: 40px;
+
+
     }
+	.t1 td input{
+		width: 85%;
+		border: 1px solid #dedede;
+		height: 30px;
+	}
+	.t1 th{
+		background-color: lightblue;
+	}
     .t1 {
 		border-collapse: collapse;
 		width: 100%;
 		border-spacing: 0;
 	}
 	#add_top{
-		margin: 10px;
+		width: 100%;
+		margin-bottom: 20px;
 	}
-	#t2head, #tt_add1 td{
-		background-color: skyblue;
+	.t1 tbody td{
+		border: none;
 	}
+	.t1 tbody td{
+		padding-top: 20px;
+	}
+	#add_h2{
+		background-color: black;
+		color: white;
+		height: 35px;
+		line-height: 35px;
+		padding-left: 20px;
+	}
+	
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -420,8 +443,6 @@ table tfoot ol.page {
                         });
                     });
 			});
-        }
-
        
 		
 		
@@ -435,8 +456,12 @@ table tfoot ol.page {
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
+			
 		}
-		
+		function close(){
+		location.href="councel?listSelect=1&cPage=1";
+
+	}
 	</script>
 </body>
 </html>

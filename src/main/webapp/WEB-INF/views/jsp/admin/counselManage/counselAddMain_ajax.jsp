@@ -45,6 +45,7 @@
 				<tr>
 					<td colspan="5">
 						<button type="button" id="add_btn">보고서등록</button>
+
 						<button type="button" onclick="">인쇄</button>
 						<button type="button" onclick="">취소</button>
 					</td>

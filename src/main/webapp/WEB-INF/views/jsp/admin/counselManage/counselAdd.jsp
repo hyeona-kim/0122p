@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-	<header id="h1">상담관리보고서등록</header>
+	<h2 id="add_h2">상담관리보고서등록</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="t1">
+			<colgroup>
+				<col width="25%"/>
+				<col width="35%"/>
+				<col width="20%"/>
+				<col width="*"/>
+			</colgroup>
 			<thead>
 				<tr>
-					<td >교육과정명</td>
+					<th >교육과정명</th>
 					<td>${cvo.c_name}</td>
-					<td>교육기간</td>
-					<td>${cvo.start_date}+"~"+${cvo.end_date}</td>
+					<th>교육기간</th>
+					<td>${cvo.start_date} ~ ${cvo.end_date}</td>
 				</tr>
 			</thead>
 		</table>
@@ -19,62 +24,72 @@
 	<div>
 	<form action="counselAdd" method="post">
 		<table id="tt_add2" class="t1">
+			<colgroup>
+				<col width="25%"/>
+				<col width="25%"/>
+				<col width="25%"/>
+				<col width="25%"/>
+			</colgroup>
 			<thead id="t2head">
 				<tr>
-                    <td>회의일자</td>
+                    <th>회의일자</th>
                     <td><input type="text" id="ss_mday" name="ss_mday"/></td>
-					<td>상담사</td>
+
+					<th>상담사</th>
                     <td><input type="text" id="sf_idx1" name="sf_idx1"/></td>
                 </tr>
                 <tr>
-                    <td>훈련시간</td>
+                    <th>훈련시간</th>
                     <td><input type="text" id="ss_time" name="ss_time"/></td>
-					<td>훈련교사</td>
+
+					<th>훈련교사</th>
                     <td><input type="text" id="sf_idx2" name="sf_idx2"/></td>
                 </tr>
 				<tr>
-                    <td>회의장소</td>
+                    <th>회의장소</th>
                     <td><input type="text" id="ss_pa" name="ss_pa"/></td>
-                    <td>총회의회수</td>
+                    <th>총회의회수</th>
                     <td><input type="text" id="ss_cnt" name="ss_cnt"/></td>
                 </tr>
                 <tr>
-                    <td>상담회차</td>
+                    <th>상담회차</th>
 					<td><input type="text" id="ss_num" name="ss_num"/></td>
-                    <td>상담기간</td>
+                    <th>상담기간</th>
 					<td><input type="text" id="ss_day" name="ss_day"/></td>
                 </tr>
 				<tr>
-                	<td>회의참석자</td>
-					<td colspan ='3'><input type="text" id="ss_member" name="ss_member"/></td>
+                	<th>회의참석자</th>
+					<td colspan ='3'><textarea type="text" id="ss_member" name="ss_member" cols="90" rows="10"></textarea></td>
 					
 				</tr>
 				<tr>
-					<td>상담목적</td>
-					<td colspan ='3'><input type="text" id="so_pp" name="so_pp"/></td>
+					<th>상담목적</th>
+					<td colspan ='3'>
+						<textarea type="text" id="so_pp" name="so_pp" cols="90" rows="10"></textarea>
+					</td>
 				</tr>
-					<tr><td>상담대상자</td>
-						<td colspan ='3'><input type="text" id="tr_idx" name="tr_idx"/></td>
-				</tr>
-				<tr>
-				<td>상담내용전달사항</td>
-				<td ><input type="text" id="ss_msg" name="ss_msg"/></td>
+					<th>상담대상자</th>
+					<td colspan ='3'><textarea type="text" id="tr_idx" name="tr_idx" cols="90" rows="10"></textarea></td>
 				</tr>
 				<tr>
-					<td>회의내용</td>
-					<td colspan ='3'><input type="text" id="ss_msubject" name="ss_msubject"/></td>
+					<th>상담내용전달사항</th>
+					<td colspan="3"><textarea type="text" id="ss_msg" name="ss_msg" cols="90" rows="10"></textarea></td>
 				</tr>
 				<tr>
-					<td>회의사진</td>
-					<td colspan ='3'><input type="text" id="ss_bd" name="ss_bd"/></td>
+					<th>회의내용</th>
+					<td colspan ='3'><textarea type="text" id="ss_msubject" name="ss_msubject" cols="90" rows="10"></textarea></td>
+				</tr>
+				<tr>
+					<th>회의사진</th>
+					<td colspan ='3'><input type="file"/></td>
 				</tr>
 					
 			</thead>
 			<tbody>
 					<tr>
-						<td>
+						<td colspan="4">
 							<button type="submit">등록</button>
-							<button type="button" id="cc_cancle">취소</button>
+							<button type="button" id="cc_close">취소</button
 						</td>
 					</tr>
 			</tbody>
