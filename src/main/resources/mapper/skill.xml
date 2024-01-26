@@ -10,4 +10,17 @@
       insert into skill_t (sk_name, s_idx,sk_status)
       values (#{sk_name}, #{s_idx} ,0)
 	  </insert>
+    <update id="edit_sk" parameterType="com.ict.project.vo.SkillVO">
+          update skill_t 
+          set
+          s_idx = #{s_idx},
+          sk_name =#{sk_name}
+          where sk_idx = #{sk_idx}  
+    </update>
+    <update id="del_sk" parameterType="String">
+          update skill_t 
+          set
+          sk_status = 1
+          where sk_idx = #{sk_idx}  
+    </update>
 </mapper>

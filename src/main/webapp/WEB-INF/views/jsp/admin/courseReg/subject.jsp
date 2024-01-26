@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
 					</c:if>
 					<c:if test="${sbvo.s_status eq '1'}">
 						<select  style="width: 80px; height: 25px;" name="s_status">
-							<option value="0">미삭제</option>
+							<option value="0" >미삭제</option>
 							<option selected value="1">삭제</option>
 						</select>
 					</c:if>
@@ -144,7 +144,6 @@ pageEncoding="UTF-8"%>
 				<tr>
 					<th>
 						<p>과목${vs.index + sb_length}</p>
-						
 						<select style="width: 80px; height: 25px;" name="s_status">
 							<option value="0" >미삭제</option>
 							<option value="1">삭제</option>

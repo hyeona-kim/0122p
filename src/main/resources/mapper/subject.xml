@@ -9,7 +9,7 @@
 	  </resultMap>
 
   <select id="getSkill" parameterType="String" resultType="com.ict.project.vo.SkillVO">
-    select * from skill_t where s_idx =#{s_idx}
+    select * from skill_t where s_idx =#{s_idx} and sk_status =0
   </select>
   <select id="list" resultMap="map1" parameterType="int">
     select * from subject_t where c_idx = #{c_idx}
