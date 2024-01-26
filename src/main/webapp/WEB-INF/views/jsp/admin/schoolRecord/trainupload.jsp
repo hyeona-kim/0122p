@@ -213,7 +213,7 @@ table tfoot ol.page {
 			$.ajax({
 				url:"trainuploadedit",
 				type:"post",
-				data:"type="+encodeURIComponent("trainuploadedit")+"&select="+ed
+				data:"type="+encodeURIComponent("trainuploadedit")+"&tn_idx="+ed
 			}).done(function(reg){
 				$("#edit").html(reg);
 				
@@ -244,17 +244,17 @@ table tfoot ol.page {
 		}
 		
 	
-		function sendData(){
-    		let ar = document.fff.elements;
+		function sendData(frm){
+    		let ar = frm.elements;
     	
     			let str = ar[0].dataset.str;
-    			if(document.fff.elements[0].value==""){
+    			if(frm.elements[0].value==""){
     				alert(str+"를 입력하세요");
-    				document.fff.elements[i].focus();
+    				frm.elements[i].focus();
     				return;
     			}
 
-    		document.fff.submit();
+    		frm.submit();
 		}
 		
 		function paging(str) {

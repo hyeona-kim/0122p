@@ -200,6 +200,17 @@
 		
 			
 		});
+
+		function sendData(){
+    		let ar = document.fff.elements;
+    	
+    			let str = ar[0].dataset.str;
+
+    		document.fff.submit();
+		}
+
+
+
 		
 	function set(str){
 		$.ajax({
@@ -215,8 +226,18 @@
             	height:600
 		});
 
+		let idxobj = $("input[name=chk]:checked")
+		let objvalue = idxobj.val();
+
+		$.each(idxobj, function(idx){
+			if($chk.eq(idx).prop("checked") == true){
+				
+			}
+		});
+
+
 	}
-		
+
 	function paging(str) {
 		location.href="trainconfirm?cPage="+str
 	
