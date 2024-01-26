@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.ict.project.mapper.EvaluationFactorMapper;
 import com.ict.project.vo.EvaluationFactorVO;
 
-
 @Service
 public class EvaluationFactorService {
 
