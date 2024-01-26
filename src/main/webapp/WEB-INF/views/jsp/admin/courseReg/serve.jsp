@@ -241,7 +241,7 @@
 		});
 	}
 
-	function set(){
+	function set(c_idx){
 		//console.log(c_idx);
 		//이 비동기 통신을 하면서fileVo객체를 받아온다 과정에대한 c_idx를 가지고가서 출력하고 그 과정명을h2태그에 띄어준다 
 		
@@ -249,11 +249,11 @@
 		$.ajax({
 			url:"course_file",
 			type:"post",
-			data:"c_idx="+encodeURIComponent(cPage)+"&listSelect=2"
+			data:"cPage="+encodeURIComponent(cPage)+"&listSelect=2&c_idx="+c_idx
 		}).done(function(result){
 			$("#dialog").html(result);
 			$("#cc_cancle").click(function(){
-					$("#dialog").dialog("close");
+				$("#dialog").dialog("close");
 			});
 		});
 		
@@ -263,11 +263,6 @@
 		autoOpen: false,
 		width:900,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
 	});
 	</script>
 </body>

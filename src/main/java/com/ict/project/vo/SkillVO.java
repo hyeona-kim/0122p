@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class SkillVO {
 	
-	private String sk_idx, sk_name, us_idx;
+	private String sk_idx, sk_name, s_idx,sk_status;
 
 }

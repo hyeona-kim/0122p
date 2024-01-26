@@ -273,11 +273,6 @@
 		autoOpen: false,
 		width:1000,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
     });
 	function set2(c_idx){
 		$( "#dialog2" ).dialog("open");
@@ -300,11 +295,6 @@
 		autoOpen: false,
 		width:1600,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
     });
 	</script>
 </body>
