@@ -3,7 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.SubjectMapper">
-  <select id="list" resultType="com.ict.project.vo.SubjectVO" parameterType="int">
+  	<resultMap type="com.ict.project.vo.SubjectVO" id="map1">
+      <result property="s_idx" column="s_idx"/>
+		  <collection property="sk_ar" column="s_idx" ofType="com.ict.project.vo.SkillVO" select="getSkill"/>
+	  </resultMap>
+
+  <select id="getSkill" parameterType="String" resultType="com.ict.project.vo.SkillVO">
+    select * from skill_t where s_idx =#{s_idx}
+  </select>
+  <select id="list" resultMap="map1" parameterType="int">
     select * from subject_t where c_idx = #{c_idx}
   </select>
   <insert id="add" parameterType="Map">
