@@ -3,7 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.SubjectMapper">
-  <select id="list" resultType="com.ict.project.vo.SubjectVO" parameterType="int">
+  	<resultMap type="com.ict.project.vo.SubjectVO" id="map1">
+      <result property="s_idx" column="s_idx"/>
+		  <collection property="sk_ar" column="s_idx" ofType="com.ict.project.vo.SkillVO" select="getSkill"/>
+	  </resultMap>
+
+  <select id="getSkill" parameterType="String" resultType="com.ict.project.vo.SkillVO">
+    select * from skill_t where s_idx =#{s_idx}
+  </select>
+  <select id="list" resultMap="map1" parameterType="int">
     select * from subject_t where c_idx = #{c_idx}
   </select>
   <insert id="add" parameterType="Map">
@@ -13,4 +21,22 @@
      (#{vo.s_title}, #{vo.us_name}, #{vo.s_type}, #{vo.sf_name}, #{vo.s_category_num}, #{vo.hour}, #{vo.r_name}, #{vo.c_idx},0)
     </foreach>
   </insert>
+  <update id="edit_sb" parameterType="com.ict.project.vo.SubjectVO">
+		update subject_t 
+    <trim prefix="set" suffixOverrides=",">
+      s_title = #{s_title}, 
+      us_name = #{us_name},
+      s_type = #{s_type},
+      sf_name = #{sf_name},
+      <if test="s_category_num != null">
+       s_category_num = #{s_category_num},
+      </if>
+      hour = #{hour},
+      r_name = #{r_name}, 
+      c_idx = #{c_idx}, 
+      s_status = #{s_status},
+    </trim>
+		where s_idx = #{s_idx}
+  </update>
+
 </mapper>

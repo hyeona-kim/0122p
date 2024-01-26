@@ -6,6 +6,32 @@
 
   <select id="all" resultType="com.ict.project.vo.CounselReceiptVO">
     select * from counselreceipt_t
+    where cr_status2 = 0
+  </select>
+
+  <select id="getCounselReceipt" parameterType="String" resultType="com.ict.project.vo.CounselReceiptVO">
+    SELECT * FROM counselreceipt_t WHERE cr_idx = #{cr_idx}
   </select>
   
+  <insert id="add" parameterType="com.ict.project.vo.CounselReceiptVO">
+			INSERT INTO counselreceipt_t(cr_name, cr_score,cr_status2)
+			values(#{cr_name}, #{cr_score},0)
+	</insert>
+
+  <update id="edit" parameterType="com.ict.project.vo.CounselReceiptVO">
+    update counselreceipt_t
+    <set>
+        cr_name = #{cr_name},
+        cr_score = #{cr_score}
+    </set>
+      where cr_idx = #{cr_idx}
+    </update>
+
+    <update id="del" parameterType="String">
+			update counselreceipt_t
+			set cr_status2 = 1
+			where cr_idx = #{cr_idx}
+	  </update>
+
+
 </mapper>

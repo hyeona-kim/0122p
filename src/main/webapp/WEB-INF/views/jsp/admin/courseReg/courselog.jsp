@@ -406,7 +406,7 @@ table tfoot ol.page {
 				<hr/>
 				<div align="right">
 					<button type="button" id="sa_submit_btn">저장</button>
-					<button type="button" id="cc_cancle">취소</button>
+					<button type="button" id="cc_cancle2">취소</button>
 				</div>
 			</form>
 		</div>
@@ -420,18 +420,33 @@ table tfoot ol.page {
 		let value ="";
 		let room_length =Number('${r_length}');
 		let cPage =1;
-
+		let html ="";
+		let sb_num = 0;
+		let sK_num =0;
+		let upskillAdd ='${param.upskill}';
+		let us_c_idx = '${param.c_idx}';
+		console.log(us_c_idx);
 		$(function(){
-			$.ajax({
+			if(upskillAdd == "upskill_add"){
+				$.ajax({
+					url: "upskill",
+					type: "post",
+					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent(cPage)+"&c_idx="+us_c_idx,
+				}).done(function(result){
+					$(".right").html(result);
+				});
+			}else{
+				$.ajax({
 				url: "searchCourse",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+cPage
-			}).done(function(result){
-				$("#courseLog_Table").html(result);
-			});
-			
-			
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+'${param.cPage}'
+				}).done(function(result){
+					$("#courseLog_Table").html(result);
+				});
+			}
+
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
@@ -469,7 +484,7 @@ table tfoot ol.page {
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
-					$("#courseLog_Table").html(result);
+					$("#courseLog_Table").html(result);Co
 				});
 			});
 			
@@ -480,7 +495,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURImponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -490,21 +505,17 @@ table tfoot ol.page {
 
 		});
 
-
-		function upskill(){
-			console.log("1");
+		function upskill(c_idx){
 			$.ajax({
 				url: "upskill",
 				type: "post",
-				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent(cPage)+"&c_idx="+c_idx
 			}).done(function(result){
 				$(".right").html(result);
 			});
+
 		}
-			
-			
-		
 		function downSubject(){
 			$.ajax({
 				url: "downloadSubject",
@@ -519,7 +530,7 @@ table tfoot ol.page {
 				url:"c_dialog",
 				type:"post",
 				data:"&c_select="+encodeURIComponent("addCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+cPage
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+cPage
 			}).done(function(result){
 			}).done(function(result){
 				$("#dialog").html(result);
@@ -559,7 +570,7 @@ table tfoot ol.page {
             $.ajax({
 				url:"c_dialog",
 				type:"post",
-				data:"&c_select="+encodeURIComponent("addRoom")+"&listSelect=1&cPage="+cPage,
+				data:"c_select="+encodeURIComponent("addRoom")+"&listSelect=1&cPage="+cPage,
 			}).done(function(result){
 				$("#dialog3").html(result);
 				
@@ -578,25 +589,42 @@ table tfoot ol.page {
 
 
 
-		function set5(str,us_idx) {
-			console.log(us_idx);
+		function set5(str,s_idx,c_idx) {
 			$("#dialog5").dialog("open");
-
 			$.ajax({
 				url:"upskill",
 				type:"post",
-				data:"select="+encodeURIComponent("addUpskill")+"&skill="+encodeURIComponent(str)
+				data:"skill="+encodeURIComponent(str)+"&s_idx="+s_idx+"&c_idx="+c_idx
 			}).done(function(result){
+				sk_num = 0;
 				$("#dialog5").html(result);
-				
-				$("#cc_cancle").click(function(){
+
+				$("#skill_cl").click(function(){
 					 $("#dialog5").dialog("close");
+				});
+
+				$("#add_upskill").click(function(){
+					//유효성 검사
+					document.skill_frm.submit();
 				});
 
 			});
 
 		}
+		function addHtml(length){
+			if(sk_num == 0 )
+				sk_num = Number(length)	;
+			sk_num +=1;
+			let str = $("#addUpskill_tbody").html();
+			let str2 = "<tr><td><strong>"+sk_num+"</strong><br/><button type='button'>삭제</button></td><td><input type='text' name='sk_name'> </td></tr>";
+			if(str.includes('검색결과'))
+				$("#addUpskill_tbody").html(str2);
+			else
+				$("#addUpskill_tbody").html(str+str2);
+		}
+
 		function set4(c_idx) {
+			let sb_num = 18;
             $("#dialog4").dialog("open");
             
             $.ajax({
@@ -604,6 +632,7 @@ table tfoot ol.page {
 				type:"post",
 				data:"c_select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
 			}).done(function(result){
+				
 				$("#dialog4").html(result);
 				
 				$("#cl").click(function(){
@@ -618,9 +647,10 @@ table tfoot ol.page {
 				$("#cc_cancle").click(function(){
 					$("#dialog4").dialog( "close" );
 				});
+
 				$("#add_subject_btn").click(function(){
 					$("#dialog9").dialog("open");
-					$("#cc_cancle").click(function(){
+					$("#cc_cancle2").click(function(){
 						$("#dialog9").dialog("close");
 					});
 					$("#sa_submit_btn").click(function(){
@@ -635,6 +665,30 @@ table tfoot ol.page {
 
 					});
 				});
+				
+				$("#sb_add_btn").click(function(){
+					sb_num+=1;
+					let str = $("#add_space").html();
+					html = "<table class='subject_out'><colgroup><col width='10%'/><col width='90%'/>"+
+							"</colgroup><tr><th><p>과목"+sb_num+"</p> <select style='width: 80px; height: 25px;'>"+
+							" <option>미삭제</option><option>삭제</option></select></th> <td>"+
+							"<table id='innerTable'><colgroup> <col width='10%'/> <col width='30%'/>"+
+							"<col width='10%'/><col width='20%'/> <col width='10%'/><col width='20%'/>"+
+							"</colgroup><tr> <th>과목명</th><td><input type='text' style='width: 320px; height: 25px;'/></td>"+
+							"<th>분류/시수</th><td><select style='width: 80px; height: 25px;'><option>NCS</option><option>비NCS</option>"+
+							"</select><input type='text' style='width: 70px; height: 25px;'/></td><th>교수</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td></tr> <tr><th>능력단위명</th>"+
+							"<td><input type='text' style='width: 320px; height: 25px;'/></td><th>분류번호</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td><th>강의실</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td> </tr> </table></td> </tr></table>";
+					$("#add_space").html(str+html);
+				
+					$("#add_space").attr("hidden",false);
+					
+				});
+				$("#sb_db_btn").click(function(){
+					document.sb_add_frm.submit();
+				});
 			});
         }
 
@@ -646,7 +700,9 @@ table tfoot ol.page {
 				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1&cPage="+cPage
 			}).done(function(result){
 				$("#dialog6").html(result);
-				
+				$("#cc_cancle").click(function(){
+					$("#dialog6").dialog("close");
+				});
 			});
         }
 
@@ -667,67 +723,41 @@ table tfoot ol.page {
             autoOpen: false,
             width:1200,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
         });
 
 		$( "#dialog2" ).dialog({
             autoOpen: false,
             width: 750,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+           
         });
 
 		$( "#dialog3" ).dialog({
             autoOpen: false,
             width: 700,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-					room_length = 7;
-                }
-            }
+            
         });
 		
 		$( "#dialog4" ).dialog({
             autoOpen: false,
             width: 1200,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
 		$( "#dialog5" ).dialog({
             autoOpen: false,
             width: 600,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
 		$( "#dialog6").dialog({
             autoOpen: false,
             width: 900,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
 		$( "#dialog9" ).dialog({

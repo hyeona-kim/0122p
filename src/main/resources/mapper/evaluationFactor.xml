@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ict.project.mapper.UpSkillMapper">
+<mapper namespace="com.ict.project.mapper.EvaluationFactorMapper">
 
-  <select id="all" resultType="com.ict.project.vo.UpSkillVO">
-    select * from upskill_t
+  <select id="all" resultType="com.ict.project.vo.EvaluationFactorVO">
+    select * from evaluation_factor_t
   </select>
   
 </mapper>

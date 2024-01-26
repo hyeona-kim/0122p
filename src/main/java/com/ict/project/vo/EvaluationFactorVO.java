@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SkillVO {
-	
-	private String sk_idx, sk_name, s_idx,sk_status;
-
+public class EvaluationFactorVO {
+    private String ef_idx, ef_name, ef_subject, ef_score;
 }

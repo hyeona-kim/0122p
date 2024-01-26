@@ -21,7 +21,6 @@ import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
 
-import com.ict.project.vo.StaffVO;
 
 import com.ict.project.vo.TraineeVO;
 
@@ -60,8 +59,9 @@ public class CounselController {
             viewPath= "/jsp/admin/counselManage/counselTypeList";
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
-        else if(listSelect.equals("3"))
+        else if(listSelect.equals("3")){
             viewPath= "/jsp/admin/counselManage/counselTraineeSearch";
+        }
         
         return viewPath;
     }
@@ -92,6 +92,26 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
+
+
+    @RequestMapping("counselTraineeSearch")
+    public ModelAndView counselTraineeSearch(String c_idx){
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("c_idx", c_idx);
+        mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch");
+
+        return mv;
+    }
+
+    @RequestMapping("counselsave")
+    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img) {
+        ModelAndView mv = new ModelAndView();
+        System.out.println(ss_img.getOriginalFilename());
+      int cnt = ca_Service.add(vo);
+      System.out.println(cnt);
+      mv.setViewName("redirect:counsel?listSelect=1");
+
 
 
 
@@ -182,13 +202,14 @@ public class CounselController {
 		
 		mv.addObject("ar", tv);
 		mv.addObject("page", page);
-
+        
         mv.setViewName( "jsp/admin/counselManage/counselTraineeSearch_ajax");
 		return mv;
     }
-
+    
     @RequestMapping("searchCounsel")
-    public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
+    public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage, String c_idx){
+      System.out.println("c_idx: " + c_idx + "/listSelect: " + listSelect + "/select: " + select + "/cPage: " + cPage );
       if(value.trim().length()==0){
          value= null;
       }
@@ -207,22 +228,31 @@ public class CounselController {
       
 
       if(value == null || value.length()<1) {
-         value = null;
+        value = null;
+        select = null;
       }
       if(select == null || select.length()<1){
          select = null;
       }
       
       if(year == null || year.length()==0) {
-         year = null;
-      }
-      //비동기 통신할 jsp로 보내기
-      if(listSelect.equals("1")) {
-
+          year = null;
+        }
+        //비동기 통신할 jsp로 보내기
+        if(listSelect.equals("1")) {
+            
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
-            page.setTotalRecord(c_Service.getSearchCount(select, value, year));
-            page.setNowPage(Integer.parseInt(cPage));
-            CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            CourseVO[] ar = null;
+            if(value == null){
+                page.setTotalRecord(c_Service.getCount());
+                page.setNowPage(Integer.parseInt(cPage));
+                ar= c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            }else{
+                page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            }
+            
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         } else if(listSelect.equals("2")){
@@ -233,17 +263,36 @@ public class CounselController {
             
             mv.addObject("ar", ar);
             mv.addObject("page", page);
-        }
-      
-      
-      else if(listSelect.equals("3")) {
-            page.setTotalRecord(t_Service.getCourseSearchCount(select, value, year));
-            page.setNowPage(Integer.parseInt(cPage));
-            TraineeVO[] ar = t_Service.getCourseTraineeSearchList(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-
-            mv.addObject("ar", ar);
-            mv.addObject("page", page);
+        } else if(listSelect.equals("3")) {
             mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
+            TraineeVO[] ar = null;
+            if(cPage == null || cPage.trim().length() < 1)
+                cPage = "1";
+            if(c_idx != null && value == null){
+                page.setTotalRecord(t_Service.getCourseTraineeCount(c_idx));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+                mv.addObject("c_idx", c_idx);
+            
+            } else if(c_idx != null && value != null) {
+                page.setTotalRecord(t_Service.getCourseSearchValueCount(c_idx, select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeSearchValueList(c_idx, select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+
+            } else {
+                page.setTotalRecord(t_Service.getCourseSearchCount(select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeSearchList(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+
+            }
         }
         return mv;
    }
@@ -277,29 +326,29 @@ public class CounselController {
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         }
-      else if(listSelect.equals("3")){
-          mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
-          TraineeVO[] ar = null;
-          if(c_idx != null){
+        else if(listSelect.equals("3")){
+            mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
+            TraineeVO[] ar = null;
+            if(c_idx != null){
                 Paging page = new Paging();
-
+                
                 page.setTotalRecord(t_Service.getCourseTraineeCount(c_idx));
                 page.setNowPage(Integer.parseInt(cPage));
                 ar = t_Service.getCourseTraineeList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
                 mv.addObject("ar", ar);
                 mv.addObject("page", page);
+                mv.addObject("c_idx", c_idx);
             } else {
                 ar = null;
                 mv.addObject("ar", ar);
             }
             
-        }
-      else
-            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");   
-      
+        }else
+        mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");   
+        
         return mv;
     }
-
+    
     @RequestMapping("ss_dialog")
     public ModelAndView ss_dialog(String select,String c_idx) {
         ModelAndView mv = new ModelAndView();
