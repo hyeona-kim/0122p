@@ -94,22 +94,20 @@ table tfoot ol.page {
 							<thead>
 								
 								<tr>
-									<th>｜asd</th>
+									<th>｜${aa.c_name} (교육기간: ${aa.start_date} ~ ${aa.end_date})</th>
 								</tr>
 							
 							</thead>
 						</table>
-				<form th:action th:object="${form}" method="get">
 					<table>
 						<thead>
 							<tr>
 								<td><input type="button" value="면접평가표등록"></td>
 								<td><input type="button" value="교육생일괄삭제" onclick="javascript:cudel()" ></td>
-								<td><input type="button" value="교육생상태 일괄수정"></td>
+								<td><input type="button" value="교육생상태 일괄수정" onclick="alledit()"></td>
 						</tr>
 						</thead>
 					</table>
-					<form th:action th:object="${form}" method="get">
 				<table id="makeTime">
 				<caption>훈련생확인서류 리스트</caption>
 					<thead>
@@ -158,22 +156,23 @@ table tfoot ol.page {
 						</tr>
 					</tfoot>
 					<tbody>
-		
+		<form name="fff" method="post" action="cudel">
+			<input type="hidden" name="c_idx" value="${c_idx}">
 						<c:forEach var="vo7" items="${requestScope.ar }" varStatus="vs">
 				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
 					<tr>
-						<td><label class="checkbox-inline"><input type="checkbox" name="chk" class="chk" onclick="chkClicked()" value="${vo7.tr_idx}"></label></td>
+						<td><label class="checkbox-inline"><input type="checkbox" name="chk" class="chk" onclick="chkClicked('${vo7.tr_idx}')" value="${vo7.tr_idx}"></label></td>
 						<!-- 학생에 대한 정보 입력  -->
-						<td>${num+(vs.index)-1 }</td>
+						<td>${num-(vs.index)-2 }</td>
 						<td><!-- 이미지 --></td>
 						<td><!-- 학생코드 --></td>
 						<td>${vo7.tr_name }</td>
 						<td>${vo7.tr_hp }</td>
 						<td>${vo7.tr_rrn }</td>
 						<td><!-- 상태 -->
-							<select name="status">
-								<option value="0" >접수</option>
-								<option value="1" >예정</option>
+							<select name="status" class="nowsta">
+								<option value="0" name="접수" >접수</option>
+								<option value="1" name="예정">예정</option>
 								<option value="2" >수강</option>
 								<option value="3" >조기수료</option>
 								<option value="4" >조기취업</option>
@@ -195,16 +194,20 @@ table tfoot ol.page {
 						</td>
 					</tr>
 				</c:forEach>
+				</form>
 				</tbody>
 			</table>
-		</form>
+		
 			</div>
 		</div>
 	
 	</div>
 	
-	<form name="frm" method="post">
-		<input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
+	<form action="cudel" name="frm" method="post">
+		<input type="hidden" name="tr_idx" value="${vo7.tr_idx}"/>
+		<input type="hidden" name="type" value=""/>
+		<input type="hidden" name="cPage" value="${param.cPage}"/>
+		<input type="hidden" name="c_idx" value="${vo7.c_idx}">
 	</form>
 	<div id="m1" hidden="hidden"></div>
 	
@@ -228,6 +231,18 @@ table tfoot ol.page {
 			
 		});
 
+		function alledit(){
+
+
+
+
+			document.fff.submit();
+		}
+
+		
+
+		
+
 		function allChecked(target){
 
 			let checkbox = document.getElementById('allCheckBox');
@@ -243,8 +258,8 @@ table tfoot ol.page {
 		}
 
 
-		function chkClicked(){
-
+		function chkClicked(tr_idx){
+			console.log(tr_idx);
 			//체크박스 전체개수
 			let allCount = document.querySelectorAll(".chk").length;
 
@@ -262,7 +277,7 @@ table tfoot ol.page {
 			else{
 				document.getElementById('allCheckBox').checked = false;
 			}
-			}
+		}
 
 
 		/* 전체 체크  */
@@ -281,6 +296,7 @@ table tfoot ol.page {
 		
 	function cudel(){
         //체크박스 체크된 항목
+		//console.log(tr_idx);
        	let query = 'input[name="chk"]:checked'
         let selectedElements = document.querySelectorAll(query)
 
@@ -290,22 +306,19 @@ table tfoot ol.page {
         if(selectedElementsCnt == 0){
             alert("삭제할 항목을 선택해주세요.");
             return false;
-        }
+        } else if(confirm("정말로 삭제하시겠습니까?")) {
+			//배열생성
+			// let arr = new Array(selectedElementsCnt);
 
-        else{
-            if (confirm("정말로 삭제하시겠습니까?")) {
-                //배열생성
-                let arr = new Array(selectedElementsCnt);
+			// document.querySelectorAll('input[name="chk"]:checked').forEach(function(v, i) {
+			//     arr[i] = v.value;
+			// 	//console.log(v.value); idx
+			// });
 
-                document.querySelectorAll('input[name="chk"]:checked').forEach(function(v, i) {
-                    arr[i] = v.value;
-					//console.log(v.value); idx
-                });
-
-                
-                document.form.submit();
-            }
-        }
+			
+			document.fff.submit();
+		}
+        
     }
 
 

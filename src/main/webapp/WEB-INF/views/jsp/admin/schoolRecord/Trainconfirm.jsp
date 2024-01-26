@@ -164,7 +164,7 @@
 						<c:forEach var="vo4" items="${requestScope.ar }" varStatus="vs">
 				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
 					<tr>
-						<td>${num+(vs.index)-2}</td>
+						<td>${num+(vs.index)-1}</td>
 						<td>${vo4.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
 						<td>${vo4.sf_idx}</td>
@@ -226,8 +226,18 @@
             	height:600
 		});
 
+		let idxobj = $("input[name=chk]:checked")
+		let objvalue = idxobj.val();
+
+		$.each(idxobj, function(idx){
+			if($chk.eq(idx).prop("checked") == true){
+				
+			}
+		});
+
+
 	}
-		
+
 	function paging(str) {
 		location.href="trainconfirm?cPage="+str
 	

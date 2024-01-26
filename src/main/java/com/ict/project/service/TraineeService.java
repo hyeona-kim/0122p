@@ -40,12 +40,23 @@ public class TraineeService {
         }
         return aa;
     }
+    
+    public TraineeVO[] clist(String c_idx, String begin, String end){
+        TraineeVO[] ab = null;
+
+        List<TraineeVO> list = t_mapper.clist(c_idx);
+        if(list != null && !list.isEmpty()){
+            ab = new TraineeVO[list.size()];
+            list.toArray(ab);
+        }
+        return ab;
+    }
 
     public int getCount(){
         return t_mapper.count();
     }
 
-    public int delete(String tr_idx){
-        return t_mapper.del(tr_idx);
+    public int delete(String tr_idx, String c_idx){
+        return t_mapper.del(tr_idx, c_idx);
     }
 }

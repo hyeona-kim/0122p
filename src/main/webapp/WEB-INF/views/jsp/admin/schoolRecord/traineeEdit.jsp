@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,25 +117,26 @@ table tfoot ol.page {
 							</tr>
 						</thead>
 							<tbody>
+								<c:forEach var="vo1" items="${vo}">
 								<tr>
 									<th><label>학생코드</label></th>
 									<td colspan="3"></td>
 								</tr>
 								<tr>
 									<th>이름</th>
-									<td><input type="text"></td>
+									<td><input type="text">${vo1.tr_name}</td>
 									<th>주민번호</th>
 									<td>
-										<input type="text">-<input type="text">
+										<input type="text">${fn:substring(vo1.tr_rrn,0,8)}-<input type="text">${fn:substring(vo1.tr_ttn,9,13)}
 									</td>
 								</tr>
 								<tr>
 									<th><label>휴대폰번호</label></th>
 									<td>
-										<input type="text" name="ph">-<input type="text" name="ph">-<input type="text" name="ph">
+										<input type="text" name="ph">${fn:substring(vo1.tr_hp,0,3)}-<input type="text" name="ph">${fn:substring(vo1.tr_hp,4,8)}-<input type="text" name="ph">${fn:substring(vo1.tr_hp,9,13)}
 									</td>
 									<th><label>과정명</label></th>
-									<td></td>
+									<td>${vo1.c_idx}</td>
 								</tr>
 								<tr>
 									<th><label>집전화</label></th>
@@ -148,9 +150,18 @@ table tfoot ol.page {
 								</tr>
 								<tr>
 									<th><label>현재상태</label></th>
-									<td><select>
-											<option value="수강">수강</option>
-											<option value="비수강">비수강</option>
+									<td>
+										<select name="status">
+											<option value="0" >접수</option>
+											<option value="1" >예정</option>
+											<option value="2" >수강</option>
+											<option value="3" >조기수료</option>
+											<option value="4" >조기취업</option>
+											<option value="5" >수료</option>
+											<option value="6" >수강포기</option>
+											<option value="7" >미수료</option>
+											<option value="8" >제적</option>
+											<option value="9" >취소</option>
 										</select>
 									</td>
 									<th><label>수료일</label></th>
@@ -230,6 +241,7 @@ table tfoot ol.page {
 									</td>
 								</tr>
 							</tbody>
+						</c:forEach>
 							<tfoot>
 								<tr>
 									<td colspan="4" align="left">

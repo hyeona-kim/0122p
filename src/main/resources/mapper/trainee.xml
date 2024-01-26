@@ -27,8 +27,19 @@
 <update id="del" parameterType="String">
 	update trainee_t
 	set tr_status = 1
-	where tr_idx = #{tr_idx}
+	where tr_idx = #{tr_idx} and c_idx = #{c_idx}
 
+</update>
+
+<select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+	select * from trainee_t
+	where tr_status = 0 and c_idx = ${c_idx}
+</select>
+
+<update id="nowstatus" parameterType="String">
+	update trainee_t
+	set tr_nowstatus = #{tr_nowstatus}
+	where tr_idx = ${tr_idx}
 </update>
 
 </mapper>
