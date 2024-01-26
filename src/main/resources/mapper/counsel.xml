@@ -17,10 +17,10 @@
 				<where>
 					<trim suffixOverrides="and">
 						    so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
-							<if test="select !=null and select == 3">c_name=#{value} and</if>
-							<if test="select !=null and select == 4">tr_name=#{value} and</if>
+							<if test="select !=null and select == 1">sf_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
@@ -94,10 +94,10 @@
 				<where>
 					<trim suffixOverrides="and">
 							so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
-							<if test="select !=null and select == 3">c_name=#{value} and</if>
-							<if test="select !=null and select == 4">tr_name=#{value} and</if>
+							<if test="select !=null and select == 1">sf_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>

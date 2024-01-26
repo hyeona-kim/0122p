@@ -13,8 +13,10 @@ public interface TraineeMapper {
     // resultMap관련 추가
     int course_count(String c_idx);
     int search_count(String select,String value,String year);
-    List<TraineeVO> course_search(String select,String value,String year,String begin, String end);
+    int searchValue_count(String c_idx, String select,String value,String year);
     List<TraineeVO> course_list(String c_idx, String begin,String end);
+    List<TraineeVO> course_search(String select,String value,String year,String begin, String end);
+    List<TraineeVO> course_searchValue(String c_idx, String select,String value,String year,String begin, String end);
 
 
 

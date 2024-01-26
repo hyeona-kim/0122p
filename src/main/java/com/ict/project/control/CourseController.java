@@ -28,7 +28,7 @@ import com.ict.project.service.RoomService;
 import com.ict.project.service.SkillService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
-import com.ict.project.service.UpskillService;
+
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseTypeVO;
@@ -38,13 +38,15 @@ import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.SkillVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
-import com.ict.project.vo.UpSkillVO;
+
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+
 
 
 
@@ -69,8 +71,6 @@ public class CourseController {
 	@Autowired
 	StaffService s_Service;
 	@Autowired
-	UpskillService us_Service;
-	@Autowired
 	SkillService sk_Service;
 	@Autowired
 	FileService f_Service;
@@ -78,7 +78,7 @@ public class CourseController {
 	SubjectService sb_Service;
 
     @RequestMapping("course")
-    public ModelAndView course(String listSelect) {
+    public ModelAndView course(String listSelect,String upskill,String c_idx){
 		ModelAndView mv = new ModelAndView();
         String viewPath = null;
         if(listSelect.equals("1")){
@@ -305,29 +305,43 @@ public class CourseController {
 		
 	}
 @RequestMapping("upskill")
-    public ModelAndView upskill(String skill) {
+    public ModelAndView upskill(String skill,String listSelect,String cPage,String select,String value,String year,String num,String c_idx,String s_idx) {
         ModelAndView mv = new ModelAndView();
 		if(skill == null){
-			UpSkillVO[] ar = null;
-			ar = us_Service.getUpskillList();
+			SubjectVO[] ar = null;
+			ar = sb_Service.getList(Integer.parseInt(c_idx));
+			//과목은 각 과목의 기본키를 가지고 있다. 그렇다면 과목이 skill의 배열을 가지고 그 배열을 반복문 돌려서 그에 맞는 skillV를 찾아 주어야 한다.
 			mv.addObject("ar", ar);
 			mv.setViewName("/jsp/admin/courseReg/upskill");
-			
 		}else{
-			SkillVO[] ar2 = null;
-			ar2 = sk_Service.getSkillList();
-			
-			System.out.println(ar2.length);
-			
-			mv.addObject("ar2", ar2);
+			SkillVO[] ar = null;
+			ar = sk_Service.getSkillList(s_idx);
+			mv.addObject("ar", ar);
+			mv.addObject("c_idx", c_idx);
+			mv.addObject("s_idx", s_idx);
+			if(ar != null){
+				mv.addObject("sk_length",ar.length);
+			}
+			else
+				mv.addObject("sk_length",0);
 			mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
-
 		}
-
-
         return mv;
     }
+	@RequestMapping("skillAdd")
+	public ModelAndView skillAdd(SkillVO skvo,String c_idx,String upskill) {
+		//s_idx의 값이 있는경우는 update를 해주어야하고 s_idx가 없는 경우에는 add를 해주어야 한다.
+		System.out.println("추가");
+		System.out.println(upskill);
+		ModelAndView mv = new ModelAndView();
+		int cnt =sk_Service.addSkill(skvo);
+	
+		mv.setViewName("redirect:course?listSelect=1&cPage=1&upskill="+upskill+"&c_idx="+c_idx); 
+		//사실상 능력 단위요소 페이지로 갈 수 있게 해주어야 한다.아니면 비동기 통신으로 추가만해주고 결과는 없는데 대신 다이얼로그를 종료 해주는 방식으로 해야한다.
 
+		return mv;
+	}
+	
     @RequestMapping("downloadSubject")
 	public String download() {
 		//b_idx, cPage, file_name, bname 이 넘어온다 

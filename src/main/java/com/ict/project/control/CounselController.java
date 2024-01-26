@@ -1,5 +1,7 @@
 package com.ict.project.control;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,13 +15,12 @@ import com.ict.project.service.CourseService;
 import com.ict.project.service.StaffService;
 
 import com.ict.project.service.TraineeService;
-
+import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
 
-import com.ict.project.vo.StaffVO;
 
 import com.ict.project.vo.TraineeVO;
 
@@ -58,8 +59,9 @@ public class CounselController {
             viewPath= "/jsp/admin/counselManage/counselTypeList";
         else if(listSelect.equals("2"))
             viewPath="/jsp/admin/counselManage/counselDateList";
-        else if(listSelect.equals("3"))
+        else if(listSelect.equals("3")){
             viewPath= "/jsp/admin/counselManage/counselTraineeSearch";
+        }
         
         return viewPath;
     }
@@ -90,6 +92,18 @@ public class CounselController {
             return "redirect:counsel?listSelect=1&cPage=1";
         }
     }
+
+
+    @RequestMapping("counselTraineeSearch")
+    public ModelAndView counselTraineeSearch(String c_idx){
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("c_idx", c_idx);
+        mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch");
+
+        return mv;
+    }
+
     @RequestMapping("counselsave")
     public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img) {
         ModelAndView mv = new ModelAndView();
@@ -98,44 +112,49 @@ public class CounselController {
       System.out.println(cnt);
       mv.setViewName("redirect:counsel?listSelect=1");
 
-        
-        return mv;
-    }
 
+
+
+    //상담결과보고 리스트 
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
         ModelAndView mv = new ModelAndView();
-
-        CourseVO cvo = c_Service.getCourse2(c_idx);
         
-
-        // so_idx를 기반으로 CounselVO 객체 가져오기
+        CourseVO cvo = c_Service.getCourse2(c_idx);
         CounselAddVO[] ar = ca_Service.list(c_idx);
         mv.addObject("c_idx", c_idx);
         mv.addObject("ar", ar);
+        mv.addObject("ss_cnt", ar.length);
         mv.addObject("cvo", cvo);
         mv.setViewName("jsp/admin/counselManage/counselAddMain_ajax");
        
         return mv;
     }
 
-
-    @RequestMapping("counselAdd")
-    public ModelAndView counselAdd(String c_idx) {
+    @RequestMapping("counselsave")
+    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img1) {
         ModelAndView mv = new ModelAndView();
-        
-        // so_idx를 기반으로 CounselVO 객체 가져오기
-        CounselAddVO[] vo = ca_Service.list(c_idx);
-        CourseVO cvo = c_Service.getCourse(c_idx);
-        mv.addObject("cvo", cvo);
-        mv.addObject("vo", vo);
-        mv.setViewName("/jsp/admin/counselManage/counselAddMain");
+        String realPath = application.getRealPath("counselimg");
+        String f_name = FileRenameUtil.checkSameFileName(ss_img1.getOriginalFilename(), realPath);//이름바꿔준거 
+        try {//파일업로드 
+            ss_img1.transferTo(new File(realPath,f_name));
+
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+        vo.setSs_img(f_name);
+      int cnt = ca_Service.add(vo);
+      //System.out.println(cnt);
+      mv.setViewName("redirect:counsel?listSelect=1");
+
         
         return mv;
     }
-    
+
+    //보고서등록버튼, 상담결과보고서등록페이지 이동
     @RequestMapping("counselA")
     public ModelAndView counselA(String c_idx){
+        System.out.println();
         ModelAndView mv = new ModelAndView();
         CounselAddVO[] vo = ca_Service.list(c_idx);
         CourseVO cvo = c_Service.getCourse2(c_idx);
@@ -146,9 +165,6 @@ public class CounselController {
         
         return mv;  
     }
-    
-    
-    
 
     
     @RequestMapping("viewCounsel")
@@ -186,13 +202,14 @@ public class CounselController {
 		
 		mv.addObject("ar", tv);
 		mv.addObject("page", page);
-
+        
         mv.setViewName( "jsp/admin/counselManage/counselTraineeSearch_ajax");
 		return mv;
     }
-
+    
     @RequestMapping("searchCounsel")
-    public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
+    public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage, String c_idx){
+      System.out.println("c_idx: " + c_idx + "/listSelect: " + listSelect + "/select: " + select + "/cPage: " + cPage );
       if(value.trim().length()==0){
          value= null;
       }
@@ -211,22 +228,31 @@ public class CounselController {
       
 
       if(value == null || value.length()<1) {
-         value = null;
+        value = null;
+        select = null;
       }
       if(select == null || select.length()<1){
          select = null;
       }
       
       if(year == null || year.length()==0) {
-         year = null;
-      }
-      //비동기 통신할 jsp로 보내기
-      if(listSelect.equals("1")) {
-
+          year = null;
+        }
+        //비동기 통신할 jsp로 보내기
+        if(listSelect.equals("1")) {
+            
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
-            page.setTotalRecord(c_Service.getSearchCount(select, value, year));
-            page.setNowPage(Integer.parseInt(cPage));
-            CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            CourseVO[] ar = null;
+            if(value == null){
+                page.setTotalRecord(c_Service.getCount());
+                page.setNowPage(Integer.parseInt(cPage));
+                ar= c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            }else{
+                page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            }
+            
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         } else if(listSelect.equals("2")){
@@ -237,17 +263,36 @@ public class CounselController {
             
             mv.addObject("ar", ar);
             mv.addObject("page", page);
-        }
-      
-      
-      else if(listSelect.equals("3")) {
-            page.setTotalRecord(t_Service.getCourseSearchCount(select, value, year));
-            page.setNowPage(Integer.parseInt(cPage));
-            TraineeVO[] ar = t_Service.getCourseTraineeSearchList(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-
-            mv.addObject("ar", ar);
-            mv.addObject("page", page);
+        } else if(listSelect.equals("3")) {
             mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
+            TraineeVO[] ar = null;
+            if(cPage == null || cPage.trim().length() < 1)
+                cPage = "1";
+            if(c_idx != null && value == null){
+                page.setTotalRecord(t_Service.getCourseTraineeCount(c_idx));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+                mv.addObject("c_idx", c_idx);
+            
+            } else if(c_idx != null && value != null) {
+                page.setTotalRecord(t_Service.getCourseSearchValueCount(c_idx, select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeSearchValueList(c_idx, select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+
+            } else {
+                page.setTotalRecord(t_Service.getCourseSearchCount(select, value, year));
+                page.setNowPage(Integer.parseInt(cPage));
+                ar = t_Service.getCourseTraineeSearchList(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        
+                mv.addObject("ar", ar);
+                mv.addObject("page", page);
+
+            }
         }
         return mv;
    }
@@ -278,34 +323,32 @@ public class CounselController {
             page.setTotalRecord(cs_Service.getCount());
             page.setNowPage(Integer.parseInt(cPage));
             CounselVO[] ar = cs_Service.getCounselList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-            System.out.println(cs_Service.getCount());
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         }
-      else if(listSelect.equals("3")){
-          mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
-          TraineeVO[] ar = null;
-          if(c_idx != null){
+        else if(listSelect.equals("3")){
+            mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch_ajax");
+            TraineeVO[] ar = null;
+            if(c_idx != null){
                 Paging page = new Paging();
-
+                
                 page.setTotalRecord(t_Service.getCourseTraineeCount(c_idx));
-                System.out.println(c_idx);
                 page.setNowPage(Integer.parseInt(cPage));
                 ar = t_Service.getCourseTraineeList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
                 mv.addObject("ar", ar);
                 mv.addObject("page", page);
+                mv.addObject("c_idx", c_idx);
             } else {
                 ar = null;
                 mv.addObject("ar", ar);
             }
             
-        }
-      else
-            mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");   
-      
+        }else
+        mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");   
+        
         return mv;
     }
-
+    
     @RequestMapping("ss_dialog")
     public ModelAndView ss_dialog(String select,String c_idx) {
         ModelAndView mv = new ModelAndView();
