@@ -28,4 +28,10 @@ public class SkillService {
     public int addSkill(SkillVO svo){
         return sk_mapper.add(svo);
     }
+    public int editSkill(SkillVO skvo){
+        return sk_mapper.edit_sk(skvo);
+    }
+    public int delSkill(String sk_idx){
+        return sk_mapper.del_sk(sk_idx);
+    }
 }

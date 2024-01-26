@@ -425,7 +425,7 @@ table tfoot ol.page {
 		let sK_num =0;
 		let upskillAdd ='${param.upskill}';
 		let us_c_idx = '${param.c_idx}';
-		console.log(us_c_idx);
+	
 		$(function(){
 			if(upskillAdd == "upskill_add"){
 				$.ajax({
@@ -598,7 +598,7 @@ table tfoot ol.page {
 			}).done(function(result){
 				sk_num = 0;
 				$("#dialog5").html(result);
-
+	
 				$("#skill_cl").click(function(){
 					 $("#dialog5").dialog("close");
 				});
@@ -805,7 +805,20 @@ table tfoot ol.page {
 		    frm.submit();
 		}
 
-	
+		function skill_delete(sk_idx,s_idx,c_idx){
+			console.log(sk_idx+s_idx+c_idx);
+			$.ajax({
+				url:"del_skill",
+				type:"post",
+				data:"skill="+encodeURIComponent("skill")+"&s_idx="+s_idx+"&c_idx="+c_idx+"&sk_idx="+sk_idx,
+			}).done(function(result){
+				$("#dialog5").html(result);
+				$("#skill_cl").click(function(){
+					 $("#dialog5").dialog("close");
+				});
+
+			});
+		}
 	</script>
 </body>
 </html>

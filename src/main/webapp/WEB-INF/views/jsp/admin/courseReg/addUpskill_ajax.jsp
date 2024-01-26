@@ -20,10 +20,11 @@
 					<c:forEach var="rvo" items="${requestScope.ar }" varStatus="vs">
 						<tr>
 							<td><strong>${vs.index+1}</strong><br/>
-								<button type="button">삭제</button>
+								<button type="button" onclick="skill_delete('${rvo.sk_idx}','${s_idx}','${c_idx}')">삭제</button>
 							</td>
 							<td><input type="text" name="sk_name" value="${rvo.sk_name }"> </td>
 						</tr> 
+						<input type="hidden" name="sk_idx" value="${rvo.sk_idx}"/>
 					</c:forEach>
 				</c:if>
 				<c:if test="${ar eq null}">

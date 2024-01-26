@@ -102,7 +102,6 @@ public class CourseController {
     @RequestMapping("addCourse")
     public String addCourse( CourseVO cvo,String cPage,String select,String num,String year,String value) {
         c_Service.addCourse(cvo);
-        //System.out.println(cPage+"/"+select+"/"+num+"/"+year+"/"+value);     
         return "redirect:course?listSelect=1&cPage="+cPage+"&select="+select+"&num="+num+"&year="+year+"&value="+value;
     }
      @RequestMapping("delCourse")
@@ -110,7 +109,6 @@ public class CourseController {
 		if(cPage == null)
 			cPage = "1";
 		int cnt = c_Service.deleteCourse(c_idx);
-		System.out.println(cPage);
 		return "redirect:course?listSelect=1&cPage="+cPage;
     }
     
@@ -170,7 +168,6 @@ public class CourseController {
 
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
-		//System.out.println(value);
 		if(value== null || value.trim().length()==0){
 			value= null;
 		}
@@ -335,13 +332,69 @@ public class CourseController {
 	@RequestMapping("skillAdd")
 	public ModelAndView skillAdd(SkillVO skvo,String c_idx,String upskill) {
 		//s_idx의 값이 있는경우는 update를 해주어야하고 s_idx가 없는 경우에는 add를 해주어야 한다.
-		System.out.println("추가");
-		System.out.println(upskill);
 		ModelAndView mv = new ModelAndView();
-		int cnt =sk_Service.addSkill(skvo);
+		String[] sk_idx = null;
+		String[] sk_name = null;
+
+		if(skvo.getSk_idx() == null)
+			sk_idx = null;
+		else if((skvo.getSk_idx() != null && skvo.getSk_idx().length() > 5) || (skvo.getS_idx() != null && !skvo.getSk_idx().contains(","))){
+			sk_idx = skvo.getSk_idx().split(",");
+			if(!skvo.getSk_idx().contains(",")){
+				sk_idx = new String[1];
+				sk_idx[0] = skvo.getSk_idx();
+			}
+		}
+
+		if(skvo.getSk_name() == null)
+			sk_name = null;
+		else if((skvo.getSk_name() != null && skvo.getSk_name().length()>5) || (skvo.getSk_name() != null && !skvo.getSk_name().contains(","))){
+			sk_name = skvo.getSk_name().split(",");
+			if(!skvo.getSk_name().contains(",")){
+				sk_name = new String[1];
+				sk_name[0] = skvo.getSk_name();
+			}
+		}
+
+		String s_idx = skvo.getS_idx();
+
+		if(sk_name == null){
+			//아무런 수행도 하지 않는다.
+		}else if(sk_idx == null && sk_name.length>0){
+			for(int i=0; i<sk_name.length; i++){
+				SkillVO vo = new SkillVO();
+				vo.setSk_name(sk_name[i]);
+				vo.setS_idx(s_idx);
+				int cnt = sk_Service.addSkill(vo);
+			}
+		} else if(sk_idx != null && sk_idx.length == sk_name.length){
+			//추가 없이 업데이트만 하기.
+			for(int i =0; i<sk_idx.length ; i++){
+				SkillVO vo = new SkillVO();
+				vo.setS_idx(s_idx);
+				vo.setSk_idx(sk_idx[i]);
+				vo.setSk_name(sk_name[i]);
+				int cnt = sk_Service.editSkill(vo);
+			}
+		}else if(sk_idx != null && sk_idx.length < sk_name.length) {
+			//추가는 했지만 업데이트 내용도 있는경우
+			for(int i =0; i<sk_idx.length ; i++){
+				SkillVO vo = new SkillVO();
+				vo.setS_idx(s_idx);
+				vo.setSk_idx(sk_idx[i]);
+				vo.setSk_name(sk_name[i]);
+				int cnt = sk_Service.editSkill(vo);
+			}
+			//4개인경우 0-3까지 반복문이 돌았다 그렇다면 
+			for(int i= sk_idx.length; i<sk_name.length; i++){
+				SkillVO vo = new SkillVO();
+				vo.setSk_name(sk_name[i]);
+				vo.setS_idx(s_idx);
+				int cnt = sk_Service.addSkill(vo);
+			}
+		}
 	
 		mv.setViewName("redirect:course?listSelect=1&cPage=1&upskill="+upskill+"&c_idx="+c_idx); 
-		//사실상 능력 단위요소 페이지로 갈 수 있게 해주어야 한다.아니면 비동기 통신으로 추가만해주고 결과는 없는데 대신 다이얼로그를 종료 해주는 방식으로 해야한다.
 
 		return mv;
 	}
@@ -351,7 +404,6 @@ public class CourseController {
 		//b_idx, cPage, file_name, bname 이 넘어온다 
 		//파일들이 위치하는 곳 
 		String realPath = application.getRealPath("sample.xls");
-		System.out.println(realPath);
 		File f = new File(realPath);
 		if(f.exists() && f.isFile()){
 			//파일이 존재 할 경우.
@@ -468,7 +520,6 @@ public class CourseController {
 	public String coursefileDown(FileVO fvo) {
 		String filename = fvo.getF_name();
 		String realPath = request.getServletContext().getRealPath("upload_courseFile");
-		//System.out.println(realPath);
 		String fullPath = realPath+System.getProperty("file.separator")+filename;
 		
 		File f= new File(fullPath);
@@ -521,11 +572,7 @@ public class CourseController {
 			StaffVO[] sfvo = s_Service.getList();
 			RoomVO[] rvo = r_Service.getList();
 			SubjectVO[] svo =sb_Service.getList(Integer.parseInt(c_idx));
-			if(svo == null){
-				System.out.println("svo=null");
-			}else{
-				System.out.println(svo.length);
-			}
+
 			for(RoomVO vo :rvo){
 				if(vo.getR_sep() != null){
 					switch (vo.getR_sep()) {
@@ -657,7 +704,7 @@ public class CourseController {
 	@RequestMapping("add_subject_form")
 	public ModelAndView add_subject_form(SubjectVO svo) {
 		ModelAndView mv = new ModelAndView();
-		System.out.println(svo.getS_idx()+"/"+svo.getC_idx()+"/"+svo.getHour()+"/"+svo.getR_name()+"/"+svo.getS_category_num()+"/"+svo.getS_status()+"/"+svo.getS_title()+"/"+svo.getS_type());
+		
 		String[] s_idx = svo.getS_idx().split(",");
 		String c_idx = svo.getC_idx();
 		String[] hour = svo.getHour().split(",");
@@ -691,7 +738,6 @@ public class CourseController {
 				sfvo.setS_category_num(null);
 			sfvo.setS_type(s_type[i]);
 			int cnt =sb_Service.editSubject(sfvo);
-			System.out.println(cnt);
 
 		}
 		mv.setViewName("redirect:course?cPage=1&listSelect=1");
@@ -699,5 +745,11 @@ public class CourseController {
 		return mv;
 	}
 
+	@RequestMapping("del_skill")
+	public String del_skill(String sk_idx,String c_idx,String skill,String s_idx) {
+		int cnt = sk_Service.delSkill(sk_idx);
+		return "redirect:upskill?skill="+skill+"&c_idx="+c_idx+"&s_idx="+s_idx;
+	}
+	
     
 }
