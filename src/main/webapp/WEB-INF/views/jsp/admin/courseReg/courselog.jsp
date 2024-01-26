@@ -406,7 +406,7 @@ table tfoot ol.page {
 				<hr/>
 				<div align="right">
 					<button type="button" id="sa_submit_btn">저장</button>
-					<button type="button" id="cc_cancle">취소</button>
+					<button type="button" id="cc_cancle2">취소</button>
 				</div>
 			</form>
 		</div>
@@ -420,13 +420,14 @@ table tfoot ol.page {
 		let value ="";
 		let room_length =Number('${r_length}');
 		let cPage =1;
-
+		let html ="";
+		
 		$(function(){
 			$.ajax({
 				url: "searchCourse",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+cPage
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+'${param.cPage}'
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
@@ -597,6 +598,7 @@ table tfoot ol.page {
 
 		}
 		function set4(c_idx) {
+			let sb_num = 18;
             $("#dialog4").dialog("open");
             
             $.ajax({
@@ -604,6 +606,7 @@ table tfoot ol.page {
 				type:"post",
 				data:"c_select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
 			}).done(function(result){
+				
 				$("#dialog4").html(result);
 				
 				$("#cl").click(function(){
@@ -620,7 +623,7 @@ table tfoot ol.page {
 				});
 				$("#add_subject_btn").click(function(){
 					$("#dialog9").dialog("open");
-					$("#cc_cancle").click(function(){
+					$("#cc_cancle2").click(function(){
 						$("#dialog9").dialog("close");
 					});
 					$("#sa_submit_btn").click(function(){
@@ -634,6 +637,31 @@ table tfoot ol.page {
 						document.sa_frm.submit();
 
 					});
+				});
+				
+				$("#sb_add_btn").click(function(){
+					console.log("dd");
+					sb_num+=1;
+					let str = $("#add_space").html();
+					html = "<table class='subject_out'><colgroup><col width='10%'/><col width='90%'/>"+
+							"</colgroup><tr><th><p>과목"+sb_num+"</p> <select style='width: 80px; height: 25px;'>"+
+							" <option>미삭제</option><option>삭제</option></select></th> <td>"+
+							"<table id='innerTable'><colgroup> <col width='10%'/> <col width='30%'/>"+
+							"<col width='10%'/><col width='20%'/> <col width='10%'/><col width='20%'/>"+
+							"</colgroup><tr> <th>과목명</th><td><input type='text' style='width: 320px; height: 25px;'/></td>"+
+							"<th>분류/시수</th><td><select style='width: 80px; height: 25px;'><option>NCS</option><option>비NCS</option>"+
+							"</select><input type='text' style='width: 70px; height: 25px;'/></td><th>교수</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td></tr> <tr><th>능력단위명</th>"+
+							"<td><input type='text' style='width: 320px; height: 25px;'/></td><th>분류번호</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td><th>강의실</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td> </tr> </table></td> </tr></table>";
+					$("#add_space").html(str+html);
+				
+					$("#add_space").attr("hidden",false);
+					
+				});
+				$("#sb_db_btn").click(function(){
+					document.sb_add_frm.submit();
 				});
 			});
         }
