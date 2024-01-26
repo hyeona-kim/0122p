@@ -180,7 +180,7 @@ table tfoot ol.page {
 						<td>${vo2.c_round_num }</td>
 						<td>${vo2.c_peo_num}</td>
 						<td>
-						<input type="button" onclick="javascript:location.href='traineecurrentbt1'" value="과정별 훈련생 현황">
+						<input type="button" onclick="bt1('${vo2.c_idx}')" value="과정별 훈련생 현황">
 						<input type="button" value="면접평가 결과표">
 						</td>
 					</tr>
@@ -190,6 +190,14 @@ table tfoot ol.page {
 			</div>
 		</div>
 	</div>
+
+	<form action="traineecurrentbt1" method="post" name="fff">
+		<input type="hidden" name="type" value=""/>
+		<input type="hidden" name="c_idx" value=""/>
+		<input type="hidden" name="cPage" value="${param.cPage}"/>
+	</form>
+	
+
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
@@ -204,6 +212,19 @@ table tfoot ol.page {
 		function paging(str) {
 			location.href="traincurrent?cPage="+str
 		}
+
+		function bt1(c_idx){
+			//console.log(c_idx);
+			document.fff.type.value="traineecurrentbt1";
+			document.fff.c_idx.value=c_idx;
+			//console.log(document.fff.type.value);
+			document.fff.submit();
+
+
+
+		}
+
+		
 	</script>
 </body>
 </c:if>

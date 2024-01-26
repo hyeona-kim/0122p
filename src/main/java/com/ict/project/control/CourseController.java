@@ -45,9 +45,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 
 
@@ -293,9 +290,8 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
 		else if(c_select.equals("updateSubject")){
 			//교과목에 대한 정보를 가지고 온다.
+			System.out.println(c_idx);
 			SubjectVO[] ar = sb_Service.getList(Integer.parseInt(c_idx));
-			if(ar != null)
-				mv.addObject("sb_length",ar.length);
 			mv.addObject("sb_ar",ar);
 			mv.setViewName("/jsp/admin/courseReg/subject");
 
@@ -701,6 +697,7 @@ public class CourseController {
 		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect=1"+"&num="+num+"&value="+value+"&cPage="+cPage);
         return mv;
     }
+
 	@RequestMapping("add_subject_form")
 	public ModelAndView add_subject_form(SubjectVO svo) {
 		ModelAndView mv = new ModelAndView();
@@ -751,5 +748,6 @@ public class CourseController {
 		return "redirect:upskill?skill="+skill+"&c_idx="+c_idx+"&s_idx="+s_idx;
 	}
 	
+
     
 }

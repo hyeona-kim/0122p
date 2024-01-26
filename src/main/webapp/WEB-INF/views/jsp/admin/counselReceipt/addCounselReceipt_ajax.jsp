@@ -21,7 +21,6 @@
 						<input type="checkbox" name="cr_status" value="사용">사용
 						</td>
 					</tr>
-
 				</tbody>
 				<tfoot>
 					<tr>

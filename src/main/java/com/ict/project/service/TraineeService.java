@@ -40,11 +40,26 @@ public class TraineeService {
         }
         return aa;
     }
+    
+    public TraineeVO[] clist(String c_idx, String begin, String end){
+        TraineeVO[] ab = null;
+
+        List<TraineeVO> list = t_mapper.clist(c_idx);
+        if(list != null && !list.isEmpty()){
+            ab = new TraineeVO[list.size()];
+            list.toArray(ab);
+        }
+        return ab;
+    }
 
     public int getCount(){
         return t_mapper.count();
     }
-
+    
+    public int delete(String tr_idx, String c_idx){
+        return t_mapper.del(tr_idx, c_idx);
+    }
+  
     public TraineeVO[] getCourseTraineeList(String c_idx, String begin, String end){
         TraineeVO[] ar = null;
 
@@ -91,5 +106,6 @@ public class TraineeService {
 
     public int getCourseSearchValueCount(String c_idx, String select,String value,String year){
         return t_mapper.searchValue_count(c_idx, select,value,year);
+
     }
 }
