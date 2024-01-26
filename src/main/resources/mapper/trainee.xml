@@ -11,12 +11,13 @@
 </select>
 
 <select id="count" resultType="int">
-	select count(*) from trainee_t
-	where status = 0
+		select count(*) from trainee_t
+    where status = 0
 </select>
 
-<select id="list" resultType="com.ict.project.vo.TraineeVO">
-	select * from trainee_t
+ <select id="list" resultType="com.ict.project.vo.TraineeVO">
+		select * from trainee_t
+		where status = 0
 </select>
 
 <select id="view" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
@@ -24,6 +25,24 @@
 	where tr_idx = #{idx}
 </select>
 
+<!-- 훈련생현황에서 교육생 삭제할때 쓰임 -->
+<update id="del" parameterType="String">
+	update trainee_t
+	set status = 1
+	where tr_idx = #{tr_idx} and c_idx = #{c_idx}
+
+</update>
+
+<select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+	select * from trainee_t
+	where status = 0 and c_idx = ${c_idx}
+</select>
+
+<update id="nowstatus" parameterType="String">
+	update trainee_t
+	set tr_nowstatus = #{tr_nowstatus}
+	where tr_idx = ${tr_idx}
+</update>
 
 <select id="course_count" parameterType="String" resultType="int">
 	select count(*) from trainee_t where c_idx = #{c_idx}

@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SkillVO {
-	
-	private String sk_idx, sk_name, s_idx,sk_status;
-
+public class NextscheduledVO {
+    private String ns_idx, ns_name;
 }

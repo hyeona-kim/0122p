@@ -8,7 +8,7 @@
 					<tbody>
 						<tr>
 							<th>확인서류명</th>
-							<td><input type="text" name="title" value="${vo3.subject }" data-str="서류명"/></td>
+							<td><input type="text" name="subject" value="${vo3.subject}" data-str="서류명"/></td>
 						</tr>
 						<tr>
 							<th>과정별 자동입력</th>
@@ -43,7 +43,7 @@
 						<tr>
 							<td colspan="2">
 								<input type="button" value="저장"
-								onclick="sendData()"/>
+								onclick="sendData(this.form)"/>
 								<input type="button" value="닫기" onclick="javascript:location.href='trainupload'">
 							</td>
 						</tr>

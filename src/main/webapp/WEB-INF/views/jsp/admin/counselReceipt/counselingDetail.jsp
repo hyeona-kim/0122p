@@ -101,7 +101,20 @@
 		text-align: center;
 		padding-top: 10px;
 	}
-	
+
+	#cd_div h3 {
+        text-align: center;
+    }
+	#cd_div2{
+		text-align: center;
+		border: 1px solid black;
+	}
+
+	#hd_btn{
+		text-align: right;
+		margin: 0;
+	}
+
 </style>
 
 </head>
@@ -113,7 +126,19 @@
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<div id="staffWrap">
-					<div id="staffList_top">과정별 교수계획서 및 학습 안내서</div>
+					<div id="staffList_top">입학상담내역</div>
+
+					<div id="cd_div">
+						<h3>${now} 금일 상담 예정자</h3>
+						<div id="cd_div2">
+							<h4>금일 처리할 데이터가 없습니다</h4>
+						</div>
+					</div>
+
+					<p id="hd_btn">
+						<button type="button" onclick="togglek()">숨기기</button>
+					</p>
+
 					<form>
 						<table id="searchTime">
 						<caption>과정검색</caption>
@@ -134,9 +159,22 @@
 									</td>
 									<td>
 										<select id="searchType">
-											<option value="1">훈련강사</option>
-											<option value="2">과정타입</option>
-											<option value="3">강의실</option>
+											<option value="1">국가기간</option>
+											<option value="2">국민내일배움카드</option>
+											<option value="3">일반과정</option>
+											<option value="4">KDT</option>
+										</select>
+									</td>
+									<td>
+										<select id="searchType2">
+											<option value="1">여긴 나중에 과정명 반복문 처리</option>
+										</select>
+									</td>
+									<td>
+										<select id="searchType3">
+											<option value="1">이름</option>
+											<option value="2">전화번호</option>
+											<option value="3">메모</option>
 										</select>
 										<input type="text" id="searchValue"/>
 										<button type="button" id="search_bt">검 색</button>
@@ -144,16 +182,30 @@
 								</tr>
 							</thead>
 						</table>
+						<table>
+							<tbody>
+								<tr>	
+									<th>
+										<button type="button">선택삭제</button>
+										<button type="button">선택 접수처리</button>
+										<button type="button" id="btn_right" onclick="setid()">유입경로항목관리</button>
+										<button type="button" id="btn_right" onclick="">다음예정일항목관리</button>
+										<button type="button" id="btn_right" onclick="">입학상담등록</button>
+									</th>
+								</tr>
+							</tbody>
+						</table>
 					</form>	
-				<div id="courseLog_Table">	
+				<div id="counselReceipt_Table">	
 					
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id="dialog" hidden="" title="교육과정등록">	
-		<!--학습 안내서를 등록하는 테이블 -->
+
+	<div id="dialog" hidden="" title="유입경로항목 등록/수정">	
 	</div>
+
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -163,14 +215,16 @@
 	let numPerPage = "";
 	let value ="";
 	let cPage = 1;
+	let room_length =Number('${id_length}');
+
 	$(function() {
 	
 		$.ajax({
-			url: "courseMain",
+			url: "counselReceiptMain",
 			type: "post",
 			data:"listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}'),
 		}).done(function(result){
-			$("#courseLog_Table").html(result);
+			$("#counselReceipt_Table").html(result);
 		});
 		
 		
@@ -201,7 +255,7 @@
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
-				$("#courseLog_Table").html(result);
+				$("#counselReceipt_Table").html(result);
 			});
 		});
 		$("#numPerPage").on("change",function(){
@@ -212,7 +266,7 @@
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
-				$("#courseLog_Table").html(result);
+				$("#counselReceipt_Table").html(result);
 			});
 		});
 		$("#search_bt").click(function(){
@@ -224,10 +278,16 @@
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 			}).done(function(result){
-				$("#courseLog_Table").html(result);
+				$("#counselReceipt_Table").html(result);
 			});
 		});	
 	});
+
+
+	
+
+
+
 	
 	function paging(str) {
 		cPage = str;
@@ -237,33 +297,65 @@
 			data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 				+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 		}).done(function(result){
-			$("#courseLog_Table").html(result);
+			$("#counselReceipt_Table").html(result);
 		});
 	}
 
-	function set(c_idx){
-		//console.log(c_idx);
-		//이 비동기 통신을 하면서fileVo객체를 받아온다 과정에대한 c_idx를 가지고가서 출력하고 그 과정명을h2태그에 띄어준다 
-		
-		$("#dialog").dialog("open");
-		$.ajax({
-			url:"course_file",
-			type:"post",
-			data:"cPage="+encodeURIComponent(cPage)+"&listSelect=2&c_idx="+c_idx
-		}).done(function(result){
-			$("#dialog").html(result);
-			$("#cc_cancle").click(function(){
-				$("#dialog").dialog("close");
+	function setid() {
+            $("#dialog").dialog("open");
+            
+            $.ajax({
+				url:"cr_dialog",
+				type:"post",
+				data:"&select="+encodeURIComponent("addInflowPath")+"&listSelect=1&cPage=1",
+			}).done(function(result){
+				$("#dialog").html(result);
+				
+				$("#cl").click(function(){
+					 room_length = 7;
+					 $("#dialog").dialog( "close" );
+				});
+				
+				$(".ui-dialog-titlebar-close").click(function(){
+					 room_length = 7;
+					 $("#dialog").dialog( "close" );
+				});
+
 			});
-		});
-		
-	}
+        }
+
 
 	$("#dialog").dialog({
 		autoOpen: false,
 		width:900,
 		modal: true,
+		buttons: {
+			"닫기": function() {
+				$( this ).dialog( "close" );
+			}
+		}
 	});
+
+	function togglek() {
+        var cdDiv = document.getElementById("cd_div");
+
+        if (cdDiv.style.display === "none") {
+            cdDiv.style.display = "block";
+        } else {
+            cdDiv.style.display = "none";
+        }
+    }
+
+	function addInflowPath() {
+			room_length +=1;
+			let str = $("#addInflowPath_tbody").html();
+			let str2="<tr><td><strong>"+room_length+"</strong><br/><button type='button'>삭제</button> </td> <td><input type='text' name='InflowPathName'> </td>";
+			
+			$("#addInflowPath_tbody").html(str+str2);
+		}
+
+
+
 	</script>
 </body>
 </c:if>

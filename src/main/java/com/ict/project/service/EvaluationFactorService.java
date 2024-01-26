@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.EvaluationFactorMapper;
-import com.ict.project.mapper.UpSkillMapper;
 import com.ict.project.vo.EvaluationFactorVO;
-import com.ict.project.vo.UpSkillVO;
 
 @Service
 public class EvaluationFactorService {

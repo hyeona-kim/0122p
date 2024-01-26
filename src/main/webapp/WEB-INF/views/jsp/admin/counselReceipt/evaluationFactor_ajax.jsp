@@ -24,7 +24,7 @@
 								<input type="text" name="efName" value="${rvo.ef_name }(${rvo.ef_score})"> 
 							</td>
 							<td>
-								<input type="text" name="efSubject" value="${rvo.ef_subject }">
+								<textarea name="efSubject">${rvo.ef_subject}</textarea>
 							</td>
 							<td>
 								<strong>${rvo.ef_score }</strong>

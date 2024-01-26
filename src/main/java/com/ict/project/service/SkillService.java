@@ -14,15 +14,18 @@ public class SkillService {
     @Autowired
     private SkillMapper sk_mapper;
 
-    public SkillVO[] getSkillList() {
+    public SkillVO[] getSkillList(String s_idx) {
         SkillVO[] ar = null;
 
-        List<SkillVO> list = sk_mapper.all();
+        List<SkillVO> list = sk_mapper.getList(s_idx);
         if(list != null && list.size() > 0) {
             ar = new SkillVO[list.size()];
             list.toArray(ar);
         }
 
         return ar;
+    }
+    public int addSkill(SkillVO svo){
+        return sk_mapper.add(svo);
     }
 }

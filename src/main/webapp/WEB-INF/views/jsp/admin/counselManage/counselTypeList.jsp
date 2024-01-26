@@ -136,13 +136,13 @@ table tfoot ol.page {
       margin: 0px auto;
       margin-bottom: 10px;
    }
-   #t1{
+   #t1,t2{
       border-collapse: collapse;
       width: 600px;
       margin: auto;
    }
    
-   #t1 td{
+   #t1, t2 td{
       border: 1px solid black;
       padding: 4px;
       height: 20px;
@@ -178,7 +178,7 @@ table tfoot ol.page {
       background-color: #d1d1d1;
    }
 
-   #t1 {
+   #t1,#t2 {
       border-collapse: collapse;
       width: 100%;
       border-spacing: 0;
@@ -236,7 +236,10 @@ table tfoot ol.page {
       background-color: black;
       color: white;
    }
+
    
+   
+
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />

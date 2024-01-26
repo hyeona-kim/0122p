@@ -4,25 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.CounselAddMapper">
 
-  <resultMap type="com.ict.project.vo.CounselAddVO" id="map1">
-		<association property="co_vo" column="so_idx" javaType="com.ict.project.vo.CounselVO" 
-      select="com.ict.project.mapper.CounselMapper.getCounsel"/>
-  </resultMap>
 
-	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">
-    		  
-        INSERT INTO  advice_sst(ss_idx , ss_time, so_idx, tr_idx, ss_msg, ss_msubject, ss_bd, ss_member, ss_mday, ss_pa,
-    ss_cnt,ss_day)
-          values(#{ss_idx},  #{ss_time}, #{so_idx}, #{tr_idx}, #{ss_msg}, #{ss_msubject}, #{ss_bd}, #{ss_member}, #{ss_mday}, #{ss_pa},
-    #{ss_cnt},#{ss_day})
+	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">  
+        INSERT INTO  advice_sst( ss_time, ss_tname, ss_name, ss_msg, ss_msubject, ss_img, ss_member, ss_mday, ss_pa, ss_cnt, ss_day, sf_idx, c_idx,ss_p)
+          values(#{ss_time}, #{ss_tname}, #{ss_name}, #{ss_msg}, #{ss_msubject}, #{ss_img}, #{ss_member}, #{ss_mday}, #{ss_pa}, #{ss_cnt}, #{ss_day}, #{sf_idx}, #{c_idx},#{ss_p})
 	</insert>
 
-    <select id ="list" parameterType="String" resultMap="map1">
+    <select id ="list" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
         SELECT * FROM advice_sst
-        WHERE so_idx IN (
-          SELECT so_idx FROM project_db.advice_t
-          WHERE c_idx = #{idx}
-        )
+        WHERE c_idx = #{idx}
+
     </select>
 
     

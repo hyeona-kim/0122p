@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SkillVO {
-	
-	private String sk_idx, sk_name, s_idx,sk_status;
-
+public class InflowPathVO {
+    private String id_idx, id_name;
 }
