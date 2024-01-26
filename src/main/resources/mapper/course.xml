@@ -97,7 +97,7 @@
 				<where>
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
-							<if test="select !=null and select == 1">sf.sf_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 3">r.r_name like concat('%',#{value},'%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
