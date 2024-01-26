@@ -109,9 +109,13 @@
 	</div>
 	<script>
 		let value = '${login}';
+		let block = '${block}';
 		if(value == "fail"){
 			//alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
 			document.getElementById("login_fail").innerHTML= "아이디 또는 비밀번호를 <br/> 잘못 입력했습니다.";
+		}
+		if(block == 'true'){
+			alert("아이디 또는 비밀번호를 5회 잘못 입력했습니다. 관리자에게 문의하세요.");
 		}
 	</script>
 </body>

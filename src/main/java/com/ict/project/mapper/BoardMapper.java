@@ -12,4 +12,9 @@ public interface BoardMapper {
     List<BoardVO> search(String subject,String begin, String end);
     int reCount(String subject);
     BoardVO getBoard(String bd_idx);
+    int cntNonNotice();
+    List<BoardVO> checkNotice(String begin, String end);
+    List<BoardVO> viewBoardList(String c_idx, String begin, String end);
+    int cntBoardList(String c_idx);
+    int addHit(String bd_idx);
 }

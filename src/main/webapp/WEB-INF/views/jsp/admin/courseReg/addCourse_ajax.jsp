@@ -10,6 +10,7 @@
 						과정등록
 					</td>
 				</tr>
+				<td>gd</td>
 			</thead>
 				<tbody>
 					<tr>
@@ -23,7 +24,7 @@
 							<option value="0">선택하세요</option>
 							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
 								<option value="${c_ar.ct_idx }">
-								 		${c_ar.ct_name }
+								 		${c_ar.ct_name } 
 								 </option>
 							</c:forEach>
 						</select>
@@ -104,5 +105,11 @@
 					</tr>
 				</tfoot>	
 			</table>
+			<input type="hidden" name="cPage" value="${param.cPage}"/>
+			<input type="hidden" name="select" value="${param.select}"/>
+			<input type="hidden" name="year" value="${param.year}"/>
+			<input type="hidden" name="value" value="${param.value}"/>
+			<input type="hidden" name="num" value="${param.num}"/>
+
 		</form>
 		

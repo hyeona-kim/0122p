@@ -13,4 +13,7 @@ public interface SuggestionMapper {
     List<SuggestionVO> search(String subject,String begin,String end);
     int reCount(String sg_subject);
     SuggestionVO view(String sg_idx);
+    List<SuggestionVO> checkNotice(String begin, String end);
+    int cntNonNotice();
+    int addHit(String sg_idx);
 }

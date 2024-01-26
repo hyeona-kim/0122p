@@ -92,4 +92,5 @@
 </div>
 <input name="c_idx" type="hidden" value="${cvo.c_idx}"/>
 <input name="listSelect" type="hidden" value="${param.listSelect}"/>
+<input name="cPage" type="hidden" value="${param.cPage}"/>
 </form>

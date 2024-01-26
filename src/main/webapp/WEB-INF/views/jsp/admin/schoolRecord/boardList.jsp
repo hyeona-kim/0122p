@@ -235,52 +235,58 @@ table tfoot ol.page {
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 				<div id="boWrap">
-					<div id="boList_top">게시판</div>
+					<div id="boList_top">과정별 게시판</div>
 	
 						<%-- ===== 검색하는 부분 ===== --%>
 						<table id="boList">
-						<caption>게시판 테이블</caption>
-							<tr>
-								<th>검색</th>
-								<td>
-									<select  id="search_tag">
-										<option value="subject">제목</option>
-										<option>작성자</option>
-									</select>
-									<input type="text"  id="search_value" name="search_value" />
-									<button type="button" id="search_btn" onclick="searchBoard()">검색</button>
-								</td>
-								<th colspan="2">전체공지</th>
-								<td colspan="2">
-									<input type="checkbox"/>숨김
-								</td>
-							</tr>
-							<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn">글쓰기</button></td></tr>
+							<caption>게시판 테이블</caption>
+							<thead>	
+								<tr>
+									<th>검색</th>
+									<td>
+										<select  id="search_tag">
+											<option value="subject">제목</option>
+											<option>작성자</option>
+										</select>
+										<input type="text"  id="search_value"/>
+										<button type="button" id="search_btn" onclick="searchBoard()">검색</button>
+									</td>
+									<th colspan="2">전체공지</th>
+									<td colspan="2">
+										<input type="checkbox" id="chk_btn" onchange="checkNotice()"/>숨김
+									</td>
+								</tr>
+								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn" onclick="add_btn_click('${param.c_idx}')">글쓰기</button></td></tr>
+							</thead>
 						</table>
+						<%-- ===== 검색하는 부분 ===== --%>
 						
+						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
 						<div id="board_list">
-						
+							
 						</div>
+						<%-- ===== 비동기식으로 표현할 게시글 목록 끝 ===== --%>
+
 						<%-- ===== 게시글 작성 폼 시작 ===== --%>
 						<div id="addForm">
 						
 						</div>
 						<%-- ===== 게시글 작성 폼 끝 ===== --%>
+
 						<%-- ===== 게시글 내용 시작 ===== --%>
 						<div id="boContent">
 						
 						</div>
 						<%-- ===== 게시글 내용 끝 ===== --%>
 						
-						<%-- ===== 게시글답변 작성 폼 시작 ===== --%>
+						<%-- ===== 게시글 답변 작성 폼 시작 ===== --%>
 						<div id="replyForm">
 						
 						</div>
 						<%-- ===== 게시글 답변 작성 폼 끝 ===== --%>
-						</div>
-						</div>
-						<%-- ===== 비동기식으로 표현할 게시글 시작 ===== --%>
 				</div>
+			</div>
+		</div>
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -302,10 +308,10 @@ table tfoot ol.page {
 			$("#l_five").addClass("l_select");
 			
 			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-			$("#bo_add_btn").bind("click", function(){
+			/* $("#bo_add_btn").bind("click", function(){
 				$.ajax({
 					url: "addBoardAjax",
-					type: "post"
+					type: "post",
 				}).done(function(result){
 					$("#addForm").html(result);
 				});
@@ -316,15 +322,33 @@ table tfoot ol.page {
 					width : 1000,
 					height : 600
 				});
-			});
+			}); */
 			
 		});
+		
+		/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
+		function add_btn_click(c_idx){
+			console.log("add="+c_idx);
+			$.ajax({
+				url: "addBoardAjax",
+				type: "post",
+				data: "c_idx="+c_idx,
+			}).done(function(result){
+				$("#addForm").html(result);
+			});
+			
+			$("#addForm").dialog({
+				title : '게시글 작성',
+				modal : true,
+				width : 1000,
+				height : 600
+			});
+		};
 		
 		/* 목록 아래 [page번호]를 클릭할 때 수행
 		 str를 변수로 가지고 새롭게 비동기통신을 해서
 		 테이블을 표현한다 */
 		function paging(str) {
-			console.log(str);
 			$.ajax({
 				url: "boardListAjax",
 				type: "post",
@@ -353,13 +377,13 @@ table tfoot ol.page {
 			});
 			
 			$("#boContent").dialog({
-				title : '고충 및 건의사항',
+				title : '게시글 보기',
 				modal : true,
 				width : 1000,
 				height : 600
 			});
 		};
-		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
+		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
 		function reply(idx) {
 			$.ajax({
 				url: "boardReplyAjax",
@@ -370,7 +394,7 @@ table tfoot ol.page {
 			});
 			
 			$("#replyForm").dialog({
-				title : '고충 및 건의사항 답변 작성',
+				title : '게시판 답변 작성',
 				modal : true,
 				width : 1000,
 				height : 600
@@ -383,19 +407,38 @@ table tfoot ol.page {
 			frm.submit();
 		};
 		
-		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
+		/* 게시글 목록에서 [검색]을 눌렀을때 수행 */
 		function searchBoard(cPage) {
-			let tag = document.getElementById("search_tag").value;
 			let value = document.getElementById("search_value").value;
 			$.ajax({
-				url: "Controller",
+				url: "searchBoard",
 				type: "post",
-				data: "type=searchBoard&cPage="+encodeURIComponent(cPage)+
-					  "&tag="+encodeURIComponent(tag)+"&value="+encodeURIComponent(value)
+				data: "cPage="+encodeURIComponent(cPage)+
+					  "&value="+encodeURIComponent(value)
 			}).done(function(result){
-				$("#addForm").html(result);
+				$("#board_list").html(result);
 			});
-			// location.href = "Controller?type=searchSugg&tag="+encodeURIComponent(tag)+"&value="+encodeURIComponent(value);
+		};
+
+		function checkNotice(cPage) {
+			let checked = $("#chk_btn").is(':checked');
+			if(checked) {
+				$.ajax({
+					url: "checkNotice_board",
+					type: "post",
+					data: "cPage="+encodeURIComponent(cPage),
+				}).done(function(result) {
+					$("#board_list").html(result);
+				});
+			}else if(!checked) {
+				$.ajax({
+					url: "boardListAjax",
+					type: "post",
+					data: "cPage="+encodeURIComponent('1'),
+				}).done(function(result) {
+					$("#board_list").html(result);
+				});
+			}
 		};
 	</script>
 </body>

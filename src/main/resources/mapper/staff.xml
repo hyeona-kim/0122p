@@ -7,15 +7,29 @@
 		 삭제되지 않은 교직원만 반환-->
 	<select id="all" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t
-		where status = 0
+		where status = 0 
 	</select>
 	
 	<!-- 관리자 모드로 로그인하는 기능 -->
 	<select id="login_admin" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 
-		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx=9
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx=9 and sf_link=0
 	</select>
 	
+	<update id="login_block" parameterType="String">
+		update staff_t 
+		set sf_link = 1
+		where sf_id =#{sf_id}
+	</update>
+
+	<update id="login_unblock" parameterType="String">
+		update staff_t 
+		set sf_link = 0
+		where sf_id =#{sf_id}
+	</update>
+	<select id="sf_link" parameterType="String" resultType="String">
+		select sf_link from staff_t where sf_id=#{sf_id}
+	</select>
 	<!-- 강사 모드로 로그인하는 기능 -->
 	<select id="login_teacher" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 
@@ -30,8 +44,8 @@
 	
 	<!-- 교직원 추가하는 기능 -->
 	<insert id="add" parameterType="com.ict.project.vo.StaffVO">
-		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, rt_idx, status, sf_code, sf_mgr)
-		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{rt_idx}, 0, #{sf_code}, #{rt_idx})
+		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, rt_idx, status, sf_code, sf_mgr,sf_link)
+		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{rt_idx}, 0, #{sf_code}, #{rt_idx},0)
 	</insert>
 
 	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">

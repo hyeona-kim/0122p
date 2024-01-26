@@ -162,6 +162,7 @@
 	let select_year = "";
 	let numPerPage = "";
 	let value ="";
+	let cPage = 1;
 	$(function() {
 	
 		$.ajax({
@@ -229,6 +230,7 @@
 	});
 	
 	function paging(str) {
+		cPage = str;
 		$.ajax({
 			url:"searchCourse",
 			type:"post",
@@ -247,11 +249,11 @@
 		$.ajax({
 			url:"course_file",
 			type:"post",
-			data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=2"
+			data:"cPage="+encodeURIComponent(cPage)+"&listSelect=2&c_idx="+c_idx
 		}).done(function(result){
 			$("#dialog").html(result);
 			$("#cc_cancle").click(function(){
-					$("#dialog").dialog("close");
+				$("#dialog").dialog("close");
 			});
 		});
 		
@@ -261,11 +263,6 @@
 		autoOpen: false,
 		width:900,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
 	});
 	</script>
 </body>

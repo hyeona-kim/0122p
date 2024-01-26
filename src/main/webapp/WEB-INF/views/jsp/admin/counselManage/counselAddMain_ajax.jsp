@@ -10,7 +10,7 @@
 					<td>교육기간</td>
 					<td>${cvo.start_date} ~ ${cvo.end_date}</td>
 					<td>총회의수</td>
-					<td>1</td>
+					<td>${ss_cnt}</td>
 				</tr>
 			</thead>
 		</table>
@@ -19,6 +19,13 @@
 	<div>
 	<form action="counselAdd" method="post">
 		<table id="t2">
+			<colgroup>
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="45%"/>
+				<col width="*"/>
+				
+			</colgroup>
 			<thead id="t2head">
 				
 				<tr>
@@ -33,20 +40,21 @@
 			<tbody>
 				<c:forEach items="${ar}" var="vo">
 					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
-						<td>4</td>
-						<td>5</td>
+						<td>${vo.ss_mday}</td>
+						<td>${vo.ss_cnt}</td>
+						<td>${vo.ss_day}</td>
+						<td>${vo.ss_p}</td>
+						<td>${cvo.svo.sf_name}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="5">
-						<button type="submit" onclick="">보고서등록</button>
+						<button type="button" onclick="counselA('${cvo.c_idx}')">보고서등록</button>
+
 						<button type="button" onclick="">인쇄</button>
-						<button type="button" onclick="">취소</button>
+						<button type="button" id="cc_cancle">취소</button>
 					</td>
 				</tr>
 			</tfoot>
