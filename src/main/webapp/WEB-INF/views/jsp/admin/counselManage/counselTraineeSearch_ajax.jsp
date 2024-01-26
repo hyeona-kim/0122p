@@ -38,7 +38,12 @@
 									<c:if test="${vo.status eq 2}">
 										<td>제적</td>
 									</c:if>
-									<td>${vo.ss_end}</td>
+									<c:if test="${vo.ss_end ne null}">
+										<td>${vo.ss_end}</td>
+									</c:if>
+									<c:if test="${vo.ss_end eq null}">
+										<td>최근 상담기록 없음</td>
+									</c:if>
 									<td>
 										<button type="button" id="tr_del_btn" onclick="counselList('${vo.tr_idx}')">상담내역 및 등록</button>
 										<input type="hidden" name="tr_idx" value="${vo.tr_idx }"/>
@@ -71,7 +76,7 @@
 														<li class="now">${vs.index }</li>
 													</c:if>
 													<c:if test="${vs.index ne page.nowPage }">
-														<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
+														<li><a onclick="paging('${vs.index}', '${c_idx}')">${vs.index}</a></li>
 													</c:if>
 												</c:forEach>
 												

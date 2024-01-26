@@ -317,10 +317,11 @@ table tfoot ol.page {
    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
    <script>
-      let select ="";
+      let select ="1";
       let select_year = "";
       let numPerPage = "";
       let value ="";
+      let list = "";
       $(function(){
          $.ajax({
             url: "counselMain",
@@ -355,7 +356,7 @@ table tfoot ol.page {
                url: "searchCounsel",
                type: "post",
                data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
             }).done(function(result){
                $("counsel_Table").html(result);
             });
@@ -366,29 +367,42 @@ table tfoot ol.page {
                url: "searchCounsel",
                type: "post",
                data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
             }).done(function(result){
                $("#counsel_Table").html(result);
-
+               
             });
          });
          
          $("#search_bt").click(function(){
-            let value = $("#searchValue").val();
-            
-            $.ajax({
-               url: "searchCounsel",
-               type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-            }).done(function(result){
-               $("#counsel_Table").html(result);
-            });
+            value = $("#searchValue").val();
+            select = $("#searchType").val();
+            if(select == "1" || select == "3")
+               list = "1";
+            else if(select == "2")
+               list = "2";
+            else
+               list = "3";
+            if(value != null && value.trim().length > 0){
+               
+               $.ajax({
+                  url: "searchCounsel",
+                  type: "post",
+                  data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(list)+"&cPage="+encodeURIComponent('${param.cPage}')
+               }).done(function(result){
+                  $("#counsel_Table").html(result);
+               });
+            } else {
+               alert("검색어를 입력하세요");
+               $('#searchValue').focus();
+            }
+
          });   
-         
-         
-         
-         
+               
+               
+               
+               
       });
       
       function set() {
@@ -403,7 +417,7 @@ table tfoot ol.page {
             });
          });
             $("#dialog").dialog("open");
-        }
+      }
       function set2(c_idx) {
          $.ajax({
             url:"counselAddMain",
@@ -418,43 +432,34 @@ table tfoot ol.page {
             });
          });
             $("#dialog2").dialog("open");
-        }
-        function set3(c_idx){
+      }
+
+      function counselA(c_idx){
+         $("#dialog2").dialog("close");
          $.ajax({
-            url: "counselMain",
-            type: "post",
-            data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')+"&c_idx="+c_idx,
+             url:"counselA",
+             type:"post",
+             data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselA")+"&c_idx="+c_idx,
          }).done(function(result){
-            $("#counsel_Table").html(result);
-         });1
-        }
-
-        function counselA(c_idx){
-            $("#dialog2").dialog("close");
-            $.ajax({
-                url:"counselA",
-                type:"post",
-                data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselA")+"&c_idx="+c_idx,
-            }).done(function(result){
-            $("#dialog3").html(result);
-            
-            $("#cc_close").click(function(){
-                $("#dialog3").dialog("close");
-            });
+         $("#dialog3").html(result);
+         
+         $("#cc_close").click(function(){
+             $("#dialog3").dialog("close");
          });
-            $("#dialog3").dialog("open");
-        }
+      });
+         $("#dialog3").dialog("open");
+      }
 
-        $( "#dialog" ).dialog({
-            autoOpen: false,
-            width:1200,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
+      $( "#dialog" ).dialog({
+         autoOpen: false,
+         width:1200,
+         modal: true,
+         buttons: {
+             "닫기": function() {
+                 $( this ).dialog( "close" );
+             }
+         }
+      });
       
       $( "#dialog2" ).dialog({
             autoOpen: false,
@@ -479,23 +484,18 @@ table tfoot ol.page {
         });
 
       function paging(str) {
-         $.ajax({
-            url: "counselMain",
-            type: "post",
-            data:"type="+encodeURIComponent("counselMain")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
-         }).done(function(result){
-            $("#counsel_Table").html(result);
-         });
-         
-      }
-
-      function paging2(str) {
+         select = $("#searchType").val();
+         if(select == "1" || select == "3")
+            list = "1";
+         else if(select == "2")
+            list = "2";
+         else
+            list = "3";
          $.ajax({
             url: "searchCounsel",
             type: "post",
-            data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
+            data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent(list)+"&cPage="+encodeURIComponent(str),
          }).done(function(result){
             $("#counsel_Table").html(result);
          });
