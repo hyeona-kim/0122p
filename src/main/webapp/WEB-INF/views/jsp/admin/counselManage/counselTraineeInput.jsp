@@ -190,6 +190,10 @@ table tfoot ol.page {
      #t1 tfoot{
      	border: none;
      }
+     #ttop{
+      margin-top:10px;
+      text-align: right;
+   }
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -208,38 +212,12 @@ table tfoot ol.page {
 					
 					<div id="counselWrap">
 						<div id="counselList_top">교육생별 상담관리 검색</div>
-
-						<form>
-							<table id="searchCounsel">
-							<caption>상담검색</caption>
-								<thead>
-									<tr>
-										<th>검색</th>
-										<td>
-											<select id="numPerPage">
-			
-												<option value="5">표시개수</option>
-												<option>5</option>
-												<option>10</option>
-												<option>15</option>
-											</select>
-											<select id="selectYear">
-	
-											</select>
-										</td>
-										<td>
-											<select id="searchType">
-												<option value="4">교육생명</option>
-											</select>
-											<input type="text" id="searchValue"/>
-											<button type="button" id="search_bt">검 색</button>
-										</td>
-									</tr>
-								</thead>
-							</table>
-						</form>
+                        <div id="ttop">
+                            <button type="button" onclick="set()">상담일괄등록</button>   
+                            <button type="button" onclick="printList()">상담일지 일괄출력</button>
+                        </div>
 						<div id="counsel_Table">
-						
+                            
 						</div>
 					</div>
 				</div>
@@ -260,6 +238,7 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
+		
 		let select ="4";
 		let select_year = "";
 		let numPerPage = "";
@@ -268,7 +247,7 @@ table tfoot ol.page {
 			$.ajax({
 				url: "counselMain",
 				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("4")+"&cPage="+encodeURIComponent('1')+"&c_idx="+encodeURIComponent('${param.c_idx}'),
 			}).done(function(result){
 				$("#counsel_Table").html(result);
 			});
@@ -301,6 +280,7 @@ table tfoot ol.page {
 						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
 				}).done(function(result){
 					$("counsel_Table").html(result);
+					
 				});
 			});
 			$("#numPerPage").on("change",function(){
@@ -315,29 +295,15 @@ table tfoot ol.page {
 				});
 			});
 			
-			$("#search_bt").click(function(){
-				value = $("#searchValue").val();
-				
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('${param.cPage}')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			});	
-			
-			
-			
-			
-		});
+
+         });   
+
 		
-		function set() {
+		function counselList() {
 			$.ajax({
-				url:"addCounselFile",
+				url:"counselList",
 				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCounselFile")
+				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -351,28 +317,17 @@ table tfoot ol.page {
             });
         }	
 
-        function del(so_idx){
-			if( confirm("삭제하시겠습니까?")){
-                frm.action = "delCounsel";
-                document.frm.so_idx.value =so_idx; 
-                
-                document.frm.submit();
-			}
-		}
-		
-
-		function paging(cPage) {
+		function paging(str, c_idx) {
 			$.ajax({
-				url: "searchCounsel",
-				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent(cPage),
+			   url: "searchCounsel",
+			   type: "post",
+			   data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('4')+"&cPage="+encodeURIComponent(str)+"&c_idx="+encodeURIComponent(c_idx),
 			}).done(function(result){
-				$("#counsel_Table").html(result);
+			   $("#counsel_Table").html(result);
 			});
 		}
-		let num = '${num}'	
-		console.log(num);
+
 	</script>
 </body>
 </html>

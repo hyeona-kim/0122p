@@ -30,7 +30,7 @@
 									<td>${cvo.c_round_num }</td>
 									<td id="peo_num">${cvo.c_peo_num }</td>
 									<td>
-										<button type="button" onclick="javascript:location.href='counselTraineeSearch?c_idx=${cvo.c_idx}'">교육생별 상담내역</button>
+										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'">교육생별 상담내역</button>
 										<button type="button" onclick="set2('${cvo.c_idx}')">상담결과보고</button>
 										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
 									</td>
