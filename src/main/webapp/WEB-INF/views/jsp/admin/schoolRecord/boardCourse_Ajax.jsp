@@ -28,7 +28,7 @@
                     <td>${vo.c_day}</td>
                     <td>${vo.c_round_num}</td>
                     <td>${vo.c_peo_num}</td>
-                    <td><button id="board_btn" onclick="viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
+                    <td><button id="board_btn" onclick="test_viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
                 </tr>
                 </c:forEach>
             </c:if>

@@ -299,15 +299,28 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-        $(function() {
+		$(function() {
             // 처음 게시판에 들어왔을 때
             // 비동기식 통신을 이용해 과정의 내용들을 출력한다
-            $.ajax({
-                url: "boardCourseAjax",
-                type: "post",
-            }).done(function(result) {
-                $("#board_main_list").html(result);
-            });
+				$.ajax({
+					url: "boardCourseAjax",
+					type: "post",
+				}).done(function(result) {
+					$("#board_main_list").html(result);
+				});
+
+/* 			if(reply_key == 1) { */
+				function test_viewBoardList(c_idx, cPage) {
+					$.ajax({
+						url: "test_viewBoardList",
+						type: "get",
+						data: "c_idx="+c_idx+
+								"&cPage="+cPage,
+					}).done(function(result){
+						$("#board_main_list").html(result);
+					})
+				}
+/* 			}; */
         });
 
         /* 목록 아래 [page번호]를 클릭할 때 수행
@@ -325,40 +338,21 @@ table tfoot ol.page {
 		
 		// [과정별 게시판]을 클릭했을 때 수행
 		// 해당 과정의 게시물들의 목록이 출력
-		function viewBoardList(c_idx, cPage) {
+		/* function viewBoardList(c_idx, cPage) {
 			$.ajax({
-				url: "viewBoardList",
+				url: "boardList",
 				type: "post",
 				data: "cPage="+cPage+
 						"&c_idx="+c_idx,
 			}).done(function(result){
 				$("#board_main_list").html(result);
 				$("#boList_top").html("과정별 게시판");
-				$("#boList").html("<caption>게시판 테이블</caption> <thead>	<tr> <th>검색</th><td><select  id='search_tag'><option value='subject'>제목</option><option>작성자</option></select><input type='text'  id='search_value'/><button type='button' id='search_btn' onclick='searchBoard()'>검색</button></td><th colspan='2'>전체공지</th><td colspan='2'><input type='checkbox' id='chk_btn' onchange='checkNotice()'/>숨김</td></tr><tr><td colspan='6' align='right'><button type='button' id='bo_add_btn' onclick='add_btn_click("+'${param.c_idx}'+")'>글쓰기</button></td></tr></thead>");
+				$("#boList").html("");
 			});
-		};
-
-		/* 글의 제목을 클릭했을 때 내용 보기 */
-		function viewContent(bd_idx, cPage) {
-			$.ajax({
-				url: "boardViewAjax",
-				type: "post",
-				data: "bd_idx="+bd_idx+
-						"&cPage="+cPage,
-			}).done(function(result){
-				$("#boContent").html(result);
-			});
-			
-			$("#boContent").dialog({
-				title : '게시글 보기',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
-		};
+		}; */
 
 		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
-		function reply(idx, cPage) {
+		/* function reply(idx, cPage) {
 			$("#replyForm").dialog({
 				title : '게시판 답변 작성',
 				modal : true,
@@ -378,17 +372,17 @@ table tfoot ol.page {
 				})
 			});
 			
-		};
+		}; */
 
 		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
-		function addBoard() {
+		/* function addBoard() {
 			// 유효성 검사 해야함
 			
 			document.forms[0].submit();
-		};
+		}; */
 
 		/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-		function add_btn_click(c_idx){
+		/* function add_btn_click(c_idx){
 			let idx = document.getElementById("hidden_btn").value;
 			console.log("add="+idx);
 			$.ajax({
@@ -405,7 +399,19 @@ table tfoot ol.page {
 				width : 1000,
 				height : 600
 			});
-		};
+		}; */
+		// ============================ 이 밑으로는 test중 ============================
+		function test_viewBoardList(c_idx, cPage) {
+			$.ajax({
+				url: "test_viewBoardList",
+				type: "get",
+				data: "c_idx="+c_idx+
+						"&cPage="+cPage,
+			}).done(function(result){
+				$("#board_main_list").html(result);
+			})
+		}
+
 	</script>
 </body>
 </c:if>

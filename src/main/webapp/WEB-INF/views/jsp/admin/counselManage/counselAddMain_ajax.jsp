@@ -20,10 +20,11 @@
 	<form action="counselAdd" method="post">
 		<table id="t2">
 			<colgroup>
-				<col width="15%"/>
-				<col width="15%"/>
-				<col width="45%"/>
-				<col width="*"/>
+				<col width="10%"/>
+				<col width="5%"/>
+				<col width="25%"/>
+				<col width="90"/>
+				<col width="10"/>
 				
 			</colgroup>
 			<thead id="t2head">
