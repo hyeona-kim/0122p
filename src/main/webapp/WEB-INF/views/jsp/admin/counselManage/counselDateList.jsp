@@ -268,13 +268,25 @@ table tfoot ol.page {
 		let numPerPage = "";
 		let value ="";
 		$(function(){
-			$.ajax({
-				url: "counselMain",
-				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
-			}).done(function(result){
-				$("#counsel_Table").html(result);
-			});
+			if('${value}' != null){
+				$.ajax({
+					url: "searchCounsel",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent('2')+"&value="+encodeURIComponent('${value}')+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			} else {
+
+				$.ajax({
+					url: "counselMain",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			}
 			
 			
 			//$().removeClass("selected");
@@ -341,24 +353,7 @@ table tfoot ol.page {
 			
 			
 		});
-		
-		function set() {
-			$.ajax({
-				url:"addCounselFile",
-				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCounselFile")
-			}).done(function(result){
-				$("#dialog").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
-				});
-			});
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }	
+			
 
         function del(so_idx){
 			if( confirm("삭제하시겠습니까?")){

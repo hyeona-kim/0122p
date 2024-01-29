@@ -230,8 +230,8 @@ table tfoot ol.page {
 		</form>
 		
 		
-		<div id="dialog" hidden="" title="교육생 상담일지">	
-		</div>
+		<div id="dialog" hidden="" title="상담일괄등록"></div>	
+		<div id="dialog2" hidden="" title="교육생 상담일지"></div>
 		
 
 		
@@ -298,23 +298,48 @@ table tfoot ol.page {
 
          });   
 
-		
-		function counselList() {
+		 function set() {
 			$.ajax({
-				url:"counselList",
+				url:"ss_dialog",
 				type:"post",
-				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
+				data:"&select="+encodeURIComponent("uploadAllCounsel")+"&c_idx="+encodeURIComponent("${param.c_idx}"),
 			}).done(function(result){
+				$("#dialog").dialog("open");
 				$("#dialog").html(result);
 				
 				$("#cc_cancle").click(function(){
 					 $("#dialog").dialog("close");
 				});
 			});
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
+			
+        }
+		
+		function printList() {
+			$.ajax({
+				url:"counselList",
+				type:"post",
+				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
+			}).done(function(result){
+				$("#dialog2").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog2").dialog("close");
+				});
+			});
+        }	
+
+		function counselList() {
+			$.ajax({
+				url:"counselList",
+				type:"post",
+				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
+			}).done(function(result){
+				$("#dialog3").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog3").dialog("close");
+				});
+			});
         }	
 
 		function paging(str, c_idx) {
@@ -327,7 +352,11 @@ table tfoot ol.page {
 			   $("#counsel_Table").html(result);
 			});
 		}
-
+		$("#dialog").dialog({
+            autoOpen: false,
+            width:1500,
+            modal: true,
+		});
 	</script>
 </body>
 </html>

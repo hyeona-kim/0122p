@@ -108,4 +108,8 @@ public class TraineeService {
         return t_mapper.searchValue_count(c_idx, select,value,year);
 
     }
+
+    public int getCounsel_date(String tr_idx, String ss_end){
+        return t_mapper.counsel_date(tr_idx, ss_end);
+    }
 }
