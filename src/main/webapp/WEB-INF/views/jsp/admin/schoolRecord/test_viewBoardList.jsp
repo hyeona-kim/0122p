@@ -359,8 +359,15 @@ table tfoot ol.page {
         };
 
         /* 등록폼에서 [등록] 버튼을 클릭했을 때 수행하는 부분 */
-        function addBoard(c_idx, subject, notice, content, file) {
-            console.log("idx="+c_idx+"/sb="+subject+"/nt="+notice+"/ct="+content+"/f="+file);
+        function addBoard(c_idx) {
+            let checked = $("#bd_notice").is(":checked");
+            let notice = 0;
+            if(checked)
+                notice = 1;
+            let subject = document.getElementById("bd_subject").value;
+            let content = document.getElementById("bd_content").value;
+            let file = document.getElementById("bd_file").value;
+
             $.ajax({
                 url: "test_addBoard",
                 type: "post",
@@ -373,6 +380,14 @@ table tfoot ol.page {
             }).done(function(result){
                 $("#board_list").html(result);
             });
+
+			/* $.ajax({
+                url: "test_addBoard",
+                type: "post",
+            }).done(function(result){
+				addForm_t.submit();
+                $("#board_list").html(result);
+            }); */
         };
         
         /* 목록에서 [숨김] 체크박스를 클릭했을 때 수행하는 부분 */
@@ -413,8 +428,9 @@ table tfoot ol.page {
             });
         };
 
-        /* 게시글 보기 상태에서 [답변] 버튼을 클릭했을 때 수행하는 부분 */
-        function reply(bd_idx, cPage, c_idx) {
+        /* 게시글 보기 상태에서 [답변] 버튼을 클릭해서 답변Form을 가져오는 기능 */
+       /*  function reply(bd_idx, cPage, c_idx) {
+            let checked = $
             $.ajax({
                 url: "test_replyBoardAjax",
                 type: "post",
@@ -423,6 +439,7 @@ table tfoot ol.page {
                         "&c_idx="+c_idx,
             }).done(function(result){
                 $("#replyForm").html(result);
+				$("#boContent").dialog("close");
                 $("#replyForm").dialog({
                     title: '게시글 답변 작성',
                     modal: true,
@@ -430,28 +447,32 @@ table tfoot ol.page {
                     height: 600
                 });
             });
-        };
+        }; */
 
         /* 답변 작성에서 [등록]을 눌렀을때 수행 */
-		/* function addReply(c_idx, bd_subject, bd_notice, bd_content, bd_file) {
-            console.log("idx="+c_idx+"/sb="+bd_subject+"/nt="+bd_notice+"/ct="+bd_content+"/f="+bd_file);
+		function addReply(c_idx) {
+            let checked = $("#bd_notice").is(":checked");
+            let notice = 0;
+            if(checked)
+                notice = 1;
+            let subject = document.getElementById("bd_subject").value;
+            let content = document.getElementById("bd_content").value;
+            let file = document.getElementById("bd_file").value;
+
 			$.ajax({
                 url: "test_replyBoard",
                 type: "post",
                 data: "c_idx="+c_idx+
                         "&cPage=1"+
-                        "&bd_subject="+bd_subject+
-                        "&bd_notice="+bd_notice+
-                        "&bd_content="+bd_content+
-                        "&bd_file="+bd_file,
+                        "&bd_subject="+subject+
+                        "&bd_notice="+notice+
+                        "&bd_content="+content+
+                        "&bd_file="+file,
             }).done(function(result){
                 $("#board_list").html(result);
+				$("#replyForm").dialog("close");
             });
-		}; */
-        
-        function addReply() {
-            replyForm_t.submit();
-        };
+		};
 	</script>
 </body>
 </c:if>

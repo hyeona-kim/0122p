@@ -37,7 +37,7 @@
 								<a href="javascript:viewContent(${svo.sg_idx})">
 									${svo.sg_subject}
 								</a>
-							</td>										
+							</td>
 							<td>
 								<a href="javascript:download('${svo.sg_file_name}')">
 									${svo.sg_file_name}

@@ -11,5 +11,4 @@ public class CourseVO {
 	private CourseTypeVO ctvo;
 	private StaffVO svo;
 	private TrainuploadVO tvo;
-
 }
