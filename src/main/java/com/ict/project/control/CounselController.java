@@ -96,7 +96,7 @@ public class CounselController {
 
 
     @RequestMapping("counselTraineeInput")
-    public ModelAndView counselTraineeSearch(String c_idx){
+    public ModelAndView counselTraineeInput(String c_idx){
         ModelAndView mv = new ModelAndView();
 
         mv.addObject("c_idx", c_idx);
@@ -366,6 +366,23 @@ public class CounselController {
         return mv;
     }
   
+    @RequestMapping("counselTraineeSearch")
+    public ModelAndView counselTraineeSearch(){
+        ModelAndView mv = new ModelAndView();
 
+        mv.addObject("c_idx");
+        mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch");
+
+        return mv;
+    }
+
+    @RequestMapping("counselDateSearch")
+    public ModelAndView counselDateSearch(){
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("/jsp/admin/counselManage/counselDateList");
+
+        return mv;
+    }
 
 }
