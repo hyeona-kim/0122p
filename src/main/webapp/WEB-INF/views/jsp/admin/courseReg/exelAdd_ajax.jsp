@@ -4,21 +4,25 @@
 
 <h2 id="e_h2">강사/시설/교과목 엑셀등록</h2>
 <div id="e_div"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
-<table id="e_table">
-    <colgroup>
-        <col width="20%"/>
-        <col width="80%"/>
-    </colgroup>
-    <tr>
-        <th bgcolor="#eeeeee">첨부파일</th>
-        <td><input type="file" name="file"/></td>
-    </tr>
-</table>
-<div id="btns" style="text-align: center; margin-top: 20px;" >
-    <button type="button">저장</button>
-    <button type="button" id="cc_cancle">취소</button>
-</div>
- <c:if test="${sfvo ne null || svo ne null || rvo ne null}">
+<form action="add_subject" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="listSelect" value="3"/>
+    <input type="hidden" name="c_idx" value="${param.c_idx}"/>
+    <table id="e_table">
+        <colgroup>
+            <col width="20%"/>
+            <col width="80%"/>
+        </colgroup>
+        <tr>
+            <th bgcolor="#eeeeee">첨부파일</th>
+            <td><input type="file" name="s_file"/></td>
+        </tr>
+    </table>
+    <div id="btns" style="text-align: center; margin-top: 20px;" >
+        <button type="submit">저장</button>
+        <button type="button" id="cc_cancle">취소</button>
+    </div>
+</form>
+ <c:if test="${s_ar ne null}">
     <table id="e_table">
         <colgroup>
             <col width="25%"/>
@@ -34,33 +38,34 @@
             </tr>
         </thead>
         <tbody>
-        <c:if test="${sfvo ne null}">
-            <c:forEach var="sfvo" items="${sfvo}">
-            <tr>
-                <td>강사</td>
-                <td>[${cvo.start_date}]${sfvo.sf_name}_${sfvo.sf_code}</td>
-                <td></td>
-                <td>${sfvo.sf_name}_${sfvo.sf_code}</td>
-            </tr>
-            </c:forEach>
-        </c:if>
-        <c:if test="${rvo ne null}">
-            <c:forEach var="rvo" items="${rvo}">
-            <tr>
-                <td>시설</td>
-                <td>${rvo.r_name}(${rvo.r_sep})</td>
-                <td></td>
-                <td>${rvo.r_name}(${rvo.r_sep})</td>
-            </tr>
-            </c:forEach>
-        </c:if>
-        <c:if test="${svo ne null}">
-            <c:forEach var="svo" items="${svo}">
+    
+        <c:if test="${s_ar ne null}">
+            <c:forEach var="svo" items="${s_ar}">
             <tr>
                 <td>과목</td>
                 <td>(${svo.s_type})${svo.s_title}</td>
                 <td></td>
                 <td></td>
+            </tr>
+            </c:forEach>
+        </c:if>
+        <c:if test="${sf_ar ne null}">
+            <c:forEach var="sfvo" items="${sf_ar}">
+            <tr>
+                <td>강사</td>
+                <td>(${sfvo.sf_name})${sfvo.sf_code}</td>
+                <td></td>
+                <td>${sfvo.sf_code}</td>
+            </tr>
+            </c:forEach>
+        </c:if>
+        <c:if test="${r_ar ne null}">
+            <c:forEach var="rvo" items="${r_ar}">
+            <tr>
+                <td>시설</td>
+                <td>(${rvo.r_name})${rvo.r_sep}</td>
+                <td></td>
+                <td>(${rvo.r_name})</td>
             </tr>
             </c:forEach>
         </c:if>

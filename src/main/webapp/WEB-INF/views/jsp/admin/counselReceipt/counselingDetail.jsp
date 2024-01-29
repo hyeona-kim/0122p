@@ -231,7 +231,7 @@
 		//$().removeClass("selected");
 		$(".selected").removeClass("selected");
 		$(".l_select").removeClass("l_selected");
-		$("#secondmenu").addClass("selected");
+		$("#firstmenu").addClass("selected");
 		$("#l_second").addClass("l_select");
 		
 		let now = new Date();	// 현재 날짜 및 시간

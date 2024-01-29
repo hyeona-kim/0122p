@@ -136,7 +136,7 @@
 										<select id="searchType">
 											<option value="1">훈련강사</option>
 											<option value="2">과정타입</option>
-											<option value="3">강의실</option>
+											<option value="3">과정명</option>
 										</select>
 										<input type="text" id="searchValue"/>
 										<button type="button" id="search_bt">검 색</button>
@@ -216,7 +216,7 @@
 			});
 		});
 		$("#search_bt").click(function(){
-			let value = $("#searchValue").val();
+			value = $("#searchValue").val();
 			
 			$.ajax({
 				url: "searchCourse",

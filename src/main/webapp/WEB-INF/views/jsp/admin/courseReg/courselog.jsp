@@ -352,7 +352,7 @@ table tfoot ol.page {
 											<select id="searchType">
 												<option value="1">훈련강사</option>
 												<option value="2">과정타입</option>
-												<option value="3">강의실</option>
+												<option value="3">과정명</option>
 											</select>
 											<input type="text" id="searchValue"/>
 											<button type="button" id="search_bt">검 색</button>
@@ -400,7 +400,7 @@ table tfoot ol.page {
 				<input type="hidden" name="year"/>
 				<input type="hidden" name="select"/>
 				<input type="hidden" name="num"/>
-				<input type="hidden" name="listSelect"/>
+				<input type="hidden" name="listSelect" value="1"/>
 
 				<input type="file" name="s_file"/>
 				<hr/>
@@ -437,11 +437,12 @@ table tfoot ol.page {
 					$(".right").html(result);
 				});
 			}else{
+				console.log(value);
 				$.ajax({
 				url: "searchCourse",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+'${param.cPage}'
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+cPage
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -471,7 +472,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -482,20 +483,21 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
 				}).done(function(result){
-					$("#courseLog_Table").html(result);Co
+					$("#courseLog_Table").html(result);
 				});
 			});
 			
 			$("#search_bt").click(function(){
-				let value = $("#searchValue").val();
-				
+				value = $("#searchValue").val();
+				console.log(value);
+				console.log(cPage);
 				$.ajax({
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURImponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect=1&cPage="+cPage
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -600,7 +602,9 @@ table tfoot ol.page {
 				$("#dialog5").html(result);
 	
 				$("#skill_cl").click(function(){
-					 $("#dialog5").dialog("close");
+					 if(confirm("목록으로 돌아가시겠습니까? 변경내용은 저장되지 않습니다.")){
+						 $("#dialog5").dialog("close");
+					 }
 				});
 
 				$("#add_upskill").click(function(){
@@ -612,15 +616,17 @@ table tfoot ol.page {
 
 		}
 		function addHtml(length){
-			if(sk_num == 0 )
-				sk_num = Number(length)	;
-			sk_num +=1;
-			let str = $("#addUpskill_tbody").html();
-			let str2 = "<tr><td><strong>"+sk_num+"</strong><br/><button type='button'>삭제</button></td><td><input type='text' name='sk_name'> </td></tr>";
-			if(str.includes('검색결과'))
-				$("#addUpskill_tbody").html(str2);
-			else
-				$("#addUpskill_tbody").html(str+str2);
+			if(confirm("변경내용이 사라집니다. 추가 하시겠습니까?")){
+				if(sk_num == 0 )
+					sk_num = Number(length)	;
+				sk_num +=1;
+				let str = $("#addUpskill_tbody").html();
+				let str2 = "<tr><td><strong>"+sk_num+"</strong><br/><button type='button'>삭제</button></td><td><input type='text' name='sk_name'><input type='hidden' name='sk_idx'/></td></tr>";
+				if(str.includes('검색결과'))
+					$("#addUpskill_tbody").html(str2);
+				else
+					$("#addUpskill_tbody").html(str+str2);
+			}
 		}
 
 		function set4(c_idx) {
