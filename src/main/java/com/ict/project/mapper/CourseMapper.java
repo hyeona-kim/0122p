@@ -2,6 +2,7 @@ package com.ict.project.mapper;
 
 import java.util.List;
 
+import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 
 public interface CourseMapper {
@@ -14,5 +15,6 @@ public interface CourseMapper {
     int count();
     int search_count(String select,String value,String year);
     CourseVO getCourse2(String c_idx);
+    List<CourseVO> all();
 
 }

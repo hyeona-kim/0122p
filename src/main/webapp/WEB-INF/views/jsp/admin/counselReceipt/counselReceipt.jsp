@@ -432,6 +432,9 @@ table tfoot ol.page {
             	height:600
             });
         }
+
+
+		
 		
 		$( "#dialog" ).dialog({
             autoOpen: false,

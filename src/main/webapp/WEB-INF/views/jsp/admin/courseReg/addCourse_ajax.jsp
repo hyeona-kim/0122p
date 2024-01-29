@@ -105,6 +105,7 @@
 					</tr>
 				</tfoot>	
 			</table>
+			
 			<input type="hidden" name="cPage" value="${param.cPage}"/>
 			<input type="hidden" name="select" value="${param.select}"/>
 			<input type="hidden" name="year" value="${param.year}"/>
