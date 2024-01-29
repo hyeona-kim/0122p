@@ -485,6 +485,7 @@ table tfoot ol.page {
                 }
             }
         });
+        
 
       function paging(str) {
          select = $("#searchType").val();

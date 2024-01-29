@@ -13,4 +13,6 @@ public interface CounselMapper {
 	int edit(CounselVO vo);
     int count();
     int search_count(String select,String value,String year);
+    List<CounselVO> counselList(String tr_idx);
+    int counselCount(String tr_idx);
 }
