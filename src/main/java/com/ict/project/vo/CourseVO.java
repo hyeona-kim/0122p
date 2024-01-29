@@ -10,5 +10,4 @@ public class CourseVO {
 	private RoomVO rvo;
 	private CourseTypeVO ctvo;
 	private StaffVO svo;
-
 }

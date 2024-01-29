@@ -29,8 +29,10 @@
                                  <a href="javascript:viewContent('${bvo.bd_idx}', '${cPage}', '${c_idx}')">
                                     ${bvo.bd_subject}
                                  </a>
-                              </td>                              
-                              <td>${bvo.bd_file}</td>
+                              </td>
+                              <td>
+                                 ${bvo.bd_file}
+                              </td>
                               <td>***</td>
                               <td>${bvo.bd_write_date}</td>
                               <td>${bvo.bd_hit}</td>
