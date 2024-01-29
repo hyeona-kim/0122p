@@ -265,13 +265,26 @@ table tfoot ol.page {
 		let numPerPage = "";
 		let value ="";
 		$(function(){
-			$.ajax({
-				url: "counselMain",
-				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')
-			}).done(function(result){
-				$("#counsel_Table").html(result);
-			});
+			if('${value}' != null && '${value}' != ""){
+				console.log(1);
+				$.ajax({
+					url: "searchCounsel",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent('4')+"&value="+encodeURIComponent('${value}')+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			} else {
+
+				$.ajax({
+					url: "counselMain",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			}	
 			
 			
 			//$().removeClass("selected");
