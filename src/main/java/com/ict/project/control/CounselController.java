@@ -96,7 +96,7 @@ public class CounselController {
 
 
     @RequestMapping("counselTraineeInput")
-    public ModelAndView counselTraineeSearch(String c_idx){
+    public ModelAndView counselTraineeInput(String c_idx){
         ModelAndView mv = new ModelAndView();
 
         mv.addObject("c_idx", c_idx);
@@ -104,16 +104,6 @@ public class CounselController {
 
         return mv;
     }
-
-    @RequestMapping("counselsave")
-    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img) {
-        ModelAndView mv = new ModelAndView();
-        System.out.println(ss_img.getOriginalFilename());
-      int cnt = ca_Service.add(vo);
-      System.out.println(cnt);
-      mv.setViewName("redirect:counsel?listSelect=1");
-
-
 
 
     //상담결과보고 리스트 
@@ -375,6 +365,23 @@ public class CounselController {
         return mv;
     }
   
+    @RequestMapping("counselTraineeSearch")
+    public ModelAndView counselTraineeSearch(){
+        ModelAndView mv = new ModelAndView();
 
+        mv.addObject("c_idx");
+        mv.setViewName("/jsp/admin/counselManage/counselTraineeSearch");
+
+        return mv;
+    }
+
+    @RequestMapping("counselDateSearch")
+    public ModelAndView counselDateSearch(){
+        ModelAndView mv = new ModelAndView();
+
+        mv.setViewName("/jsp/admin/counselManage/counselDateList");
+
+        return mv;
+    }
 
 }
