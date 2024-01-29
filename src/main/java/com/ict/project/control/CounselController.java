@@ -116,7 +116,8 @@ public class CounselController {
         CounselAddVO[] ar = ca_Service.list(c_idx);
         mv.addObject("c_idx", c_idx);
         mv.addObject("ar", ar);
-        mv.addObject("ss_cnt", ar.length);
+        if(ar != null)
+            mv.addObject("ss_cnt", ar.length);
         mv.addObject("cvo", cvo);
         mv.setViewName("jsp/admin/counselManage/counselAddMain_ajax");
        
