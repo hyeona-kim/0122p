@@ -127,17 +127,21 @@ public class CounselController {
     public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img1) {
         ModelAndView mv = new ModelAndView();
         String realPath = application.getRealPath("counselimg");
-        String f_name = FileRenameUtil.checkSameFileName(ss_img1.getOriginalFilename(), realPath);//이름바꿔준거 
-        try {//파일업로드 
-            ss_img1.transferTo(new File(realPath,f_name));
+        if(ss_img1 != null && ss_img1.getSize() > 0){
 
-        } catch (Exception e) {
-             e.printStackTrace();
+            String f_name = FileRenameUtil.checkSameFileName(ss_img1.getOriginalFilename(), realPath);//이름바꿔준거 
+            try {//파일업로드 
+                ss_img1.transferTo(new File(realPath,f_name));
+    
+            } catch (Exception e) {
+                 e.printStackTrace();
+            }
+            vo.setSs_img(f_name);
         }
-        vo.setSs_img(f_name);
+
       int cnt = ca_Service.add(vo);
       //System.out.println(cnt);
-      mv.setViewName("redirect:counsel?listSelect=1");
+      mv.setViewName("redirect:counsel?listSelect=1&cPage=1");
 
         
         return mv;
