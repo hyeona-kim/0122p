@@ -53,8 +53,8 @@ public class BoardService {
 
     // 게시물 검색 후 Paging기법을 다시 적용하기 위해
     // totalRecord를 다시 구하는 기능
-    public int reGetTotalRecord(String subject) {
-        return b_mapper.reCount(subject);
+    public int reGetTotalRecord(String c_idx, String bd_subject) {
+        return b_mapper.reCount(c_idx, bd_subject);
     }
 
     // 게시물 보기 기능을 위해 해당 게시물 검색하는 기능
@@ -63,15 +63,15 @@ public class BoardService {
     }
 
     // 공지사항이 아닌 게시물들의 총 개수를 구하는 기능
-    public int cntNonNotice() {
-        return b_mapper.cntNonNotice();
+    public int cntNonNotice(String c_idx) {
+        return b_mapper.cntNonNotice(c_idx);
     }
 
     // 공지 숨김처리 클릭했을 때 공지 아닌 글들만 검색하는 기능
-    public BoardVO[] checkNotice(String begin, String end) {
+    public BoardVO[] checkNotice(String c_idx, String begin, String end) {
         BoardVO[] ar = null;
 
-        List<BoardVO> list = b_mapper.checkNotice(begin, end);
+        List<BoardVO> list = b_mapper.checkNotice(c_idx, begin, end);
         if(list != null && list.size() > 0) {
             ar = new BoardVO[list.size()];
             list.toArray(ar);

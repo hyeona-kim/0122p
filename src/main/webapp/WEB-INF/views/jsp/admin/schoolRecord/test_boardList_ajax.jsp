@@ -50,13 +50,19 @@
                               <%-- ========== 이전버튼 만드는 부분 시작 ========== --%>
                               <%-- startPage가 5보다 작을 경우
                                   이전page로 돌아가는 버튼 비활성화 후 생성 --%>
-                              <c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+                              <c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock}">
                                  <li class="disable">&lt;</li>
                               </c:if>   
                               <%-- startPage가 5보다 같거나 클 경우
                                   이전page로 돌아가는 버튼 활성화 후 생성 --%>
-                              <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-                                 <li><a href="boardList?cPage=${page.startPage-page.pagePerBlock }">&lt;</a></li>
+                              <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && notice_flag eq null && search_flag eq null && viewList_flag ne null}">
+                                 <li><a href="javascript:viewBoardList('${c_idx}','${page.startPage - page.pagePerBlock }')">&lt;</a></li>
+                              </c:if>
+                              <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && notice_flag ne null && search_flag eq null && viewList_flag eq null}">
+                                 <li><a href="javascript:checkNotice('${page.startPage - page.pagePerBlock }','${c_idx}')">&lt;</a></li>
+                              </c:if>
+                              <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && notice_flag eq null && search_flag ne null && viewList_flag eq null}">
+                                 <li><a href="javascript:searchBoard('${page.startPage - page.pagePerBlock }','${c_idx}')">&lt;</a></li>
                               </c:if>
                               <%-- ========== 이전버튼 만드는 부분 끝 ========== --%>
                               
@@ -65,17 +71,14 @@
                                  <c:if test="${vs.index eq page.nowPage }">
                                     <li class="now">${vs.index }</li>
                                  </c:if>
-                                 <c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag eq null && viewList_flag eq null}">
-                                    <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
+                                 <c:if test="${vs.index ne page.nowPage && notice_flag ne null && viewList_flag eq null && search_flag eq null}">
+                                    <li><a href="javascript:checkNotice('${vs.index}','${c_idx}')">${vs.index}</a></li>
                                  </c:if>
-                                 <c:if test="${vs.index ne page.nowPage && search_flag ne null && notice_flag eq null && viewList_flag eq null}">
-                                    <li><a href="javascript:searchBoard('${vs.index}')">${vs.index}</a></li>
-                                 </c:if>
-                                 <c:if test="${vs.index ne page.nowPage && search_flag eq null && notice_flag ne null && viewList_flag eq null}">
-                                    <li><a href="javascript:checkNotice('${vs.index}')">${vs.index}</a></li>
-                                 </c:if>
-                                 <c:if test="${vs.index ne page.nowPage && viewList_flag ne null}">
+                                 <c:if test="${vs.index ne page.nowPage && notice_flag eq null && viewList_flag ne null && search_flag eq null}">
                                     <li><a href="javascript:viewBoardList('${c_idx}','${vs.index}')">${vs.index}</a></li>
+                                 </c:if>
+                                 <c:if test="${vs.index ne page.nowPage && notice_flag eq null && viewList_flag eq null && search_flag ne null}">
+                                    <li><a href="javascript:searchBoard('${vs.index}','${c_idx}')">${vs.index}</a></li>
                                  </c:if>
                               </c:forEach>
                               <%-- ========== page 번호 만드는 부분 끝 ==========--%>
@@ -83,8 +86,14 @@
                               <%-- ========== 다음버튼 만드는 부분 시작 ========== --%>
                               <%-- endPage가 마지막 끝나는 page보다 작을 경우
                                   다음page로 가는 버튼 활성화 후 생성 --%>
-                              <c:if test="${page.endPage < page.totalPage }">
-                                 <li><a href="boardList?cPage= ${page.startPage + page.pagePerBlock }">&gt;</a></li>
+                              <c:if test="${page.endPage < page.totalPage && notice_flag eq null && search_flag eq null}">
+                                 <li><a href="javascript:viewBoardList('${c_idx}','${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+                              </c:if>
+                              <c:if test="${page.endPage < page.totalPage && notice_flag ne null && search_flag eq null}">
+                                 <li><a href="javascript:checkNotice('${page.startPage + page.pagePerBlock }','${c_idx}')">&gt;</a></li>
+                              </c:if>
+                              <c:if test="${page.endPage < page.totalPage && notice_flag eq null && search_flag ne null}">
+                                 <li><a href="javascript:searchBoard('${page.startPage + page.pagePerBlock }','${c_idx}')">&gt;</a></li>
                               </c:if>
                               <%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우
                                   다음page로 가는 버튼 비활성화 후 생성 --%>
