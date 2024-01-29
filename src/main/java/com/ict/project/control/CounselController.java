@@ -106,7 +106,6 @@ public class CounselController {
     }
 
 
-
     //상담결과보고 리스트 
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
@@ -350,7 +349,7 @@ public class CounselController {
     }
     
     @RequestMapping("ss_dialog")
-    public ModelAndView ss_dialog(String select,String c_idx) {
+    public ModelAndView ss_dialog(String select,String c_idx){
         ModelAndView mv = new ModelAndView();
       
    
