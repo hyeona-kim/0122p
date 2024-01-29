@@ -351,7 +351,7 @@ table tfoot ol.page {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
-			$("#secondmenu").addClass("selected");
+			$("#firstmenu").addClass("selected");
 			$("#l_first").addClass("l_select");
 		});
 

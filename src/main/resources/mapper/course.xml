@@ -19,8 +19,8 @@
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
-							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%')</if>
-							<if test="select !=null and select == 3">r.r_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
@@ -79,7 +79,9 @@
         course_fee = #{course_fee},
         c_peo_num = #{c_peo_num},
         c_round_num = #{c_round_num},
-        c_day = #{c_day}
+        c_day = #{c_day},
+		ct_idx = #{ct_idx},
+		sf_idx = #{sf_idx}
 	</set>
 	where c_idx = #{c_idx}
 	</update>
@@ -99,8 +101,8 @@
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
-							<if test="select !=null and select == 3">r.r_name like concat('%',#{value},'%') and</if>
-							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
+							<if test="year != null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c 
