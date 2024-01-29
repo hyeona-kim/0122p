@@ -21,10 +21,10 @@
 									<td>${cvo.cr_score }</td>
 									<td>${cvo.cr_status} </td>
 									<td>
-										<button type="button" onclick="">수정</button>
-										<button type="button" onclick="">삭제</button>
-										<button type="button" onclick="">평가내용등록/수정</button>
-										<button type="button" onclick="">면접평가표 보기</button>
+										<button type="button" onclick="setcr2('${cvo.cr_idx}')">수정</button>
+										<button type="button" onclick="del('${cvo.cr_idx}')">삭제</button>
+										<button type="button" onclick="setcr4()">평가내용등록/수정</button>
+										<button type="button" onclick="setcr3()">면접평가표 보기</button>
 									</td>
 								</tr>
 							</c:forEach>

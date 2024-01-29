@@ -135,6 +135,7 @@ table tfoot ol.page {
       border-collapse: collapse;
       width: 600px;
       margin: auto;
+
    }
    
    #t1 td{
@@ -142,7 +143,37 @@ table tfoot ol.page {
       padding: 4px;
       height: 20px;
       text-align: center;
+	  height: 35px;
+	  line-height: 35px;
    }
+   #t1 {
+      border-collapse: collapse;
+      width: 100%;
+      border-spacing: 0;
+   }
+     #t1 tfoot{
+     	border: none;
+    }
+	#ct_t1{
+		width: 100%;
+		border-collapse: collapse;
+	}
+	#ct_t1 td{
+		border: 1px solid #aaaaaa;
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+	}
+	#ct_t1 tfoot td{
+		border: none;
+	}
+	#ct_h2{
+		height: 35px;
+		line-height: 35px;
+		background-color: black;
+		color: white;
+		width: 100%;
+	}
    .num, .color{
       background-color: #D6F0FF;
    }
@@ -173,21 +204,7 @@ table tfoot ol.page {
       background-color: #d1d1d1;
    }
 
-   #t1 {
-      border-collapse: collapse;
-      width: 100%;
-      border-spacing: 0;
-   }
-
-   #t1 tbody{
-       margin: 0;
-        padding: 0;
-        border: 1px solid black;
-       text-align: center;
-    }
-     #t1 tfoot{
-     	border: none;
-    }
+  
 	#table_h2{
 		background-color: black;
 		color: white;
@@ -277,6 +294,19 @@ table tfoot ol.page {
 		text-align: center;
 		padding-top: 10px;
 	}
+	#us_table{
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 20px;
+	}
+	#us_table th{
+		background-color: #dedede;
+	}
+	#us_table th,#us_table td{
+		border: 1px solid #dedede;
+		height: 35px;
+		text-align: center;
+	}
 	
 </style>
 
@@ -322,7 +352,7 @@ table tfoot ol.page {
 											<select id="searchType">
 												<option value="1">훈련강사</option>
 												<option value="2">과정타입</option>
-												<option value="3">강의실</option>
+												<option value="3">과정명</option>
 											</select>
 											<input type="text" id="searchValue"/>
 											<button type="button" id="search_bt">검 색</button>
@@ -342,6 +372,7 @@ table tfoot ol.page {
 		<form name="frm" action="course" method="post">
 			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="c_idx" value="" />
+			<input type="hidden" name="cPage" value="" />
 		</form>
 		
 		
@@ -361,7 +392,24 @@ table tfoot ol.page {
 		</div>
 		<div id="dialog6" hidden="" title="학습안내서 등록/수정">
 		</div>
-		
+		<div id="dialog9" hidden title="교과목 수정">
+			<form action="add_subject" method="post" name="sa_frm" enctype="multipart/form-data"  data-parsley-validate="true" >
+				<input type="hidden" name="c_idx"/>
+				<input type="hidden" name="cPage"/>
+				<input type="hidden" name="value"/>
+				<input type="hidden" name="year"/>
+				<input type="hidden" name="select"/>
+				<input type="hidden" name="num"/>
+				<input type="hidden" name="listSelect" value="1"/>
+
+				<input type="file" name="s_file"/>
+				<hr/>
+				<div align="right">
+					<button type="button" id="sa_submit_btn">저장</button>
+					<button type="button" id="cc_cancle2">취소</button>
+				</div>
+			</form>
+		</div>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
@@ -370,17 +418,36 @@ table tfoot ol.page {
 		let select_year = "";
 		let numPerPage = "";
 		let value ="";
-		let room_length =7;
+		let room_length =Number('${r_length}');
+		let cPage =1;
+		let html ="";
+		let sb_num = 0;
+		let sK_num =0;
+		let upskillAdd ='${param.upskill}';
+		let us_c_idx = '${param.c_idx}';
+	
 		$(function(){
-			$.ajax({
-				url: "courseMain",
+			if(upskillAdd == "upskill_add"){
+				$.ajax({
+					url: "upskill",
+					type: "post",
+					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent(cPage)+"&c_idx="+us_c_idx,
+				}).done(function(result){
+					$(".right").html(result);
+				});
+			}else{
+				console.log(value);
+				$.ajax({
+				url: "searchCourse",
 				type: "post",
-				data:"type="+encodeURIComponent("courseMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
-			}).done(function(result){
-				$("#courseLog_Table").html(result);
-			});
-			
-			
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+cPage
+				}).done(function(result){
+					$("#courseLog_Table").html(result);
+				});
+			}
+
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
@@ -404,8 +471,8 @@ table tfoot ol.page {
 				$.ajax({
 					url: "searchCourse",
 					type: "post",
-					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -416,42 +483,41 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
 			});
 			
 			$("#search_bt").click(function(){
-				let value = $("#searchValue").val();
-				
+				value = $("#searchValue").val();
+				console.log(value);
+				console.log(cPage);
 				$.ajax({
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect=1&cPage="+cPage
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
 			});	
 
+			
+
 		});
 
-
-		function upskill(){
-			console.log("1");
+		function upskill(c_idx){
 			$.ajax({
 				url: "upskill",
 				type: "post",
-				data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent(cPage)+"&c_idx="+c_idx
 			}).done(function(result){
 				$(".right").html(result);
 			});
+
 		}
-			
-			
-		
 		function downSubject(){
 			$.ajax({
 				url: "downloadSubject",
@@ -465,7 +531,9 @@ table tfoot ol.page {
 			$.ajax({
 				url:"c_dialog",
 				type:"post",
-				data:"&select="+encodeURIComponent("addCourse")
+				data:"&c_select="+encodeURIComponent("addCourse")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+cPage
+			}).done(function(result){
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -479,10 +547,11 @@ table tfoot ol.page {
             });
         }
 		function set2() {
+			
 			$.ajax({
 				url:"c_dialog",
 				type:"post",
-				data:"&select="+encodeURIComponent("addCourseType")
+				data:"&c_select="+encodeURIComponent("addCourseType")+"&listSelect=1&cPage="+cPage,
 			}).done(function(result){
 				$("#dialog2").html(result);
 				$(".ccol").on("change input", function() {
@@ -503,7 +572,7 @@ table tfoot ol.page {
             $.ajax({
 				url:"c_dialog",
 				type:"post",
-				data:"&select="+encodeURIComponent("addRoom")
+				data:"c_select="+encodeURIComponent("addRoom")+"&listSelect=1&cPage="+cPage,
 			}).done(function(result){
 				$("#dialog3").html(result);
 				
@@ -522,31 +591,54 @@ table tfoot ol.page {
 
 
 
-		function set5(str) {
-				$("#dialog5").dialog("open");
-
+		function set5(str,s_idx,c_idx) {
+			$("#dialog5").dialog("open");
 			$.ajax({
 				url:"upskill",
 				type:"post",
-				data:"select="+encodeURIComponent("addUpskill")+"&skill="+encodeURIComponent(str)
+				data:"skill="+encodeURIComponent(str)+"&s_idx="+s_idx+"&c_idx="+c_idx
 			}).done(function(result){
+				sk_num = 0;
 				$("#dialog5").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog5").dialog("close");
+	
+				$("#skill_cl").click(function(){
+					 if(confirm("목록으로 돌아가시겠습니까? 변경내용은 저장되지 않습니다.")){
+						 $("#dialog5").dialog("close");
+					 }
+				});
+
+				$("#add_upskill").click(function(){
+					//유효성 검사
+					document.skill_frm.submit();
 				});
 
 			});
 
 		}
+		function addHtml(length){
+			if(confirm("변경내용이 사라집니다. 추가 하시겠습니까?")){
+				if(sk_num == 0 )
+					sk_num = Number(length)	;
+				sk_num +=1;
+				let str = $("#addUpskill_tbody").html();
+				let str2 = "<tr><td><strong>"+sk_num+"</strong><br/><button type='button'>삭제</button></td><td><input type='text' name='sk_name'><input type='hidden' name='sk_idx'/></td></tr>";
+				if(str.includes('검색결과'))
+					$("#addUpskill_tbody").html(str2);
+				else
+					$("#addUpskill_tbody").html(str+str2);
+			}
+		}
+
 		function set4(c_idx) {
+			let sb_num = 18;
             $("#dialog4").dialog("open");
             
             $.ajax({
 				url:"c_dialog",
 				type:"post",
-				data:"select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
+				data:"c_select="+encodeURIComponent("updateSubject")+"&c_idx="+c_idx,
 			}).done(function(result){
+				
 				$("#dialog4").html(result);
 				
 				$("#cl").click(function(){
@@ -558,6 +650,51 @@ table tfoot ol.page {
 					 room_length = 7;
 					 $("#dialog4").dialog( "close" );
 				});
+				$("#cc_cancle").click(function(){
+					$("#dialog4").dialog( "close" );
+				});
+
+				$("#add_subject_btn").click(function(){
+					$("#dialog9").dialog("open");
+					$("#cc_cancle2").click(function(){
+						$("#dialog9").dialog("close");
+					});
+					$("#sa_submit_btn").click(function(){
+						document.sa_frm.c_idx.value = c_idx;
+						document.sa_frm.cPage.value =cPage; 
+						document.sa_frm.value.value =value; 
+						document.sa_frm.select.value =select; 
+						document.sa_frm.num.value =numPerPage; 
+						document.sa_frm.year.value =select_year; 
+						
+						document.sa_frm.submit();
+
+					});
+				});
+				
+				$("#sb_add_btn").click(function(){
+					sb_num+=1;
+					let str = $("#add_space").html();
+					html = "<table class='subject_out'><colgroup><col width='10%'/><col width='90%'/>"+
+							"</colgroup><tr><th><p>과목"+sb_num+"</p> <select style='width: 80px; height: 25px;'>"+
+							" <option>미삭제</option><option>삭제</option></select></th> <td>"+
+							"<table id='innerTable'><colgroup> <col width='10%'/> <col width='30%'/>"+
+							"<col width='10%'/><col width='20%'/> <col width='10%'/><col width='20%'/>"+
+							"</colgroup><tr> <th>과목명</th><td><input type='text' style='width: 320px; height: 25px;'/></td>"+
+							"<th>분류/시수</th><td><select style='width: 80px; height: 25px;'><option>NCS</option><option>비NCS</option>"+
+							"</select><input type='text' style='width: 70px; height: 25px;'/></td><th>교수</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td></tr> <tr><th>능력단위명</th>"+
+							"<td><input type='text' style='width: 320px; height: 25px;'/></td><th>분류번호</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td><th>강의실</th>"+
+							"<td><input type='text' style='width: 150px; height: 25px;'/></td> </tr> </table></td> </tr></table>";
+					$("#add_space").html(str+html);
+				
+					$("#add_space").attr("hidden",false);
+					
+				});
+				$("#sb_db_btn").click(function(){
+					document.sb_add_frm.submit();
+				});
 			});
         }
 
@@ -566,10 +703,12 @@ table tfoot ol.page {
 			$.ajax({
 				url:"course_file",
 				type:"post",
-				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1"
+				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1&cPage="+cPage
 			}).done(function(result){
 				$("#dialog6").html(result);
-				
+				$("#cc_cancle").click(function(){
+					$("#dialog6").dialog("close");
+				});
 			});
         }
 
@@ -582,91 +721,69 @@ table tfoot ol.page {
 				$("#dialog4").html(result);
 				
 				$("#cancel4").click(function(){
-						$("#dialog4").dialog( "close" );
+					$("#dialog4").dialog( "close" );
 				});
 			});
 			$("#dialog4").dialog("open");	
-        }
-
-		
-
-		$( "#dialog" ).dialog({
+        }$( "#dialog" ).dialog({
             autoOpen: false,
             width:1200,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
         });
-		
+
 		$( "#dialog2" ).dialog({
             autoOpen: false,
-            width: 1200,
+            width: 750,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+           
         });
 
 		$( "#dialog3" ).dialog({
             autoOpen: false,
             width: 700,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-					room_length = 7;
-                }
-            }
+            
         });
 		
 		$( "#dialog4" ).dialog({
             autoOpen: false,
             width: 1200,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
 		$( "#dialog5" ).dialog({
             autoOpen: false,
             width: 600,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
-		$( "#dialog6" ).dialog({
+		$( "#dialog6").dialog({
             autoOpen: false,
             width: 900,
             modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            
         });
 
-		function del(c_idx){
+		$( "#dialog9" ).dialog({
+            autoOpen: false,
+            width: 900,
+            modal: true,
+           
+        });
+
+		function del(c_idx,str){
 			if( confirm("삭제하시겠습니까?")){
 			frm.action = "delCourse";
 			document.frm.c_idx.value =c_idx; 
-			
+			document.frm.cPage.value =str; 
 			document.frm.submit();
 			}
 		}
 		
 		function paging(str) {
+			cPage=str;
 			$.ajax({
 				url: "searchCourse",
 				type: "post",
@@ -674,8 +791,10 @@ table tfoot ol.page {
 					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
+				
 			});
 		}
+
 		function addRoom() {
 			room_length +=1;
 			let str = $("#addRoom_tbody").html();
@@ -692,7 +811,20 @@ table tfoot ol.page {
 		    frm.submit();
 		}
 
-	
+		function skill_delete(sk_idx,s_idx,c_idx){
+			console.log(sk_idx+s_idx+c_idx);
+			$.ajax({
+				url:"del_skill",
+				type:"post",
+				data:"skill="+encodeURIComponent("skill")+"&s_idx="+s_idx+"&c_idx="+c_idx+"&sk_idx="+sk_idx,
+			}).done(function(result){
+				$("#dialog5").html(result);
+				$("#skill_cl").click(function(){
+					 $("#dialog5").dialog("close");
+				});
+
+			});
+		}
 	</script>
 </body>
 </html>

@@ -141,7 +141,7 @@
 										<select id="searchType">
 											<option value="1">훈련강사</option>
 											<option value="2">과정타입</option>
-											<option value="3">강의실</option>
+											<option value="3">과정명</option>
 										</select>
 										<input type="text" id="searchValue"/>
 										<button type="button" id="search_bt">검 색</button>
@@ -222,7 +222,7 @@
 			});
 		});
 		$("#search_bt").click(function(){
-			let value = $("#searchValue").val();
+			value = $("#searchValue").val();
 			
 			$.ajax({
 				url: "searchCourse",
@@ -273,11 +273,6 @@
 		autoOpen: false,
 		width:1000,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
     });
 	function set2(c_idx){
 		$( "#dialog2" ).dialog("open");
@@ -300,11 +295,6 @@
 		autoOpen: false,
 		width:1600,
 		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
     });
 	</script>
 </body>

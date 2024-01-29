@@ -17,10 +17,10 @@
 				<where>
 					<trim suffixOverrides="and">
 						    so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
-							<if test="select !=null and select == 3">c_name=#{value} and</if>
-							<if test="select !=null and select == 4">tr_name=#{value} and</if>
+							<if test="select !=null and select == 1">sf_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
@@ -51,8 +51,8 @@
 	</select>
 
 	<insert id="add" parameterType="com.ict.project.vo.CounselVO">
-			INSERT INTO advice_t(so_idx, so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status )
-			values(#{so_idx}, #{so_day}, #{tr_idx}, #{so_menu}, #{so_pp}, #{so_subject}, #{so_pd}, #{c_idx}, 0)
+			INSERT INTO advice_t(so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status, so_tname, sf_idx )
+			values(#{so_day}, #{tr_idx}, #{so_menu}, #{so_pp}, #{so_subject}, #{so_pd}, #{c_idx}, 0, #{so_tname}, #{sf_idx} )
 	</insert>
 
   <select id="getCounsel" parameterType="String" resultType="com.ict.project.vo.CounselVO">
@@ -69,21 +69,18 @@
 	<update id="edit" parameterType="com.ict.project.vo.CounselVO">
     update advice_t
     <set>
-        so_idx = #{so_idx},
         ss_day = #{so_day},
-        tr_idx = #{tr_idx},
         so_menu = #{so_menu},
-        so_pp = #{so_pp}
-        so_subject = #{so_subject}
-        so_pd = #{so_pd}
-        c_idx = #{c_idx}
+        so_subject = #{so_subject},
+        so_pd = #{so_pd},
+        so_tname = #{so_tname}
         
 	    </set>
 	    where so_idx = #{so_idx}
 	</update>
 
 	<select id="count" resultType="int" >
-		select count(*) from advice_t 
+		select count(*) from advice_t where so_status = 0
 	</select>
 	
 	<select id="search_count" parameterType="Map" resultType="int">
@@ -94,13 +91,18 @@
 				<where>
 					<trim suffixOverrides="and">
 							so_status = 0 and a.c_idx= c.c_idx and c.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">so_day like concat('%', {value}, '%') and</if>
-							<if test="select !=null and select == 3">c_name=#{value} and</if>
-							<if test="select !=null and select == 4">tr_name=#{value} and</if>
+							<if test="select !=null and select == 1">sf_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c 
+	</select>
+
+	<select id="clist" parameterType="String" resultMap="map1">
+		select * from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t t 
+		where so_status = 0 and a.c_idx = c.c_idx and a.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx) a
 	</select>
 </mapper>

@@ -18,9 +18,9 @@
 				<where>
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">ct_name=#{value} and</if>
-							<if test="select !=null and select == 3">r_name=#{value} and</if>
+							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
@@ -48,12 +48,18 @@
 		where c.rnum between ${begin} and ${end} 
 	</select>
 
+	
+
 	<insert id="add" parameterType="com.ict.project.vo.CourseVO">
 			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, sf_idx,r_idx ,c_day)
 			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{sf_idx}, 3 ,#{c_day})
 	</insert>
 
   <select id="getCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+    SELECT * FROM course_t WHERE c_idx = #{c_idx}
+  </select>
+
+  <select id="getCourse2" parameterType="String" resultMap="map1">
     SELECT * FROM course_t WHERE c_idx = #{c_idx}
   </select>
   
@@ -73,7 +79,9 @@
         course_fee = #{course_fee},
         c_peo_num = #{c_peo_num},
         c_round_num = #{c_round_num},
-        c_day = #{c_day}
+        c_day = #{c_day},
+		ct_idx = #{ct_idx},
+		sf_idx = #{sf_idx}
 	</set>
 	where c_idx = #{c_idx}
 	</update>
@@ -91,12 +99,13 @@
 				<where>
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
-							<if test="select !=null and select == 1">sf_name =#{value} and</if>
-							<if test="select !=null and select == 2">ct_name=#{value} and</if>
-							<if test="select !=null and select == 3">r_name=#{value} and</if>
-							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
+							<if test="year != null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c 
 	</select>
+
 </mapper>

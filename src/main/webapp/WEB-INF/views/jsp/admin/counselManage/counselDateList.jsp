@@ -263,18 +263,30 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-		let select ="";
+		let select ="1";
 		let select_year = "";
 		let numPerPage = "";
 		let value ="";
 		$(function(){
-			$.ajax({
-				url: "counselMain",
-				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
-			}).done(function(result){
-				$("#counsel_Table").html(result);
-			});
+			if('${value}' != null){
+				$.ajax({
+					url: "searchCounsel",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent('2')+"&value="+encodeURIComponent('${value}')+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			} else {
+
+				$.ajax({
+					url: "counselMain",
+					type: "post",
+					data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
+				}).done(function(result){
+					$("#counsel_Table").html(result);
+				});
+			}
 			
 			
 			//$().removeClass("selected");
@@ -319,40 +331,29 @@ table tfoot ol.page {
 			});
 			
 			$("#search_bt").click(function(){
-				let value = $("#searchValue").val();
-				
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			});	
+            value = $("#searchValue").val();
+            if(value != null && value.trim().length > 0){
+
+               $.ajax({
+                  url: "searchCounsel",
+                  type: "post",
+                  data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
+               }).done(function(result){
+                  $("#counsel_Table").html(result);
+               });
+            } else {
+               alert("검색어를 입력하세요");
+               $('#searchValue').focus();
+            }
+
+         });   
 			
 			
 			
 			
 		});
-		
-		function set() {
-			$.ajax({
-				url:"addCounselFile",
-				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCounselFile")
-			}).done(function(result){
-				$("#dialog").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
-				});
-			});
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }	
+			
 
         function del(so_idx){
 			if( confirm("삭제하시겠습니까?")){
@@ -362,20 +363,20 @@ table tfoot ol.page {
                 document.frm.submit();
 			}
 		}
-		
 
-		function paging(cPage) {
-			$.ajax({
-				url: "searchCounsel",
-				type: "post",
-				data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(cPage),
-			}).done(function(result){
-				$("#counsel_Table").html(result);
-			});
-		}
-		let num = '${num}'	
-		console.log(num);
+		function paging(str) {
+			select = $("#searchType").val();
+         $.ajax({
+            url: "searchCounsel",
+            type: "post",
+            data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent(str),
+         }).done(function(result){
+            $("#counsel_Table").html(result);
+         });
+         
+      }
+
 	</script>
 </body>
 </html>

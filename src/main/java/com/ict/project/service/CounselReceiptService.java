@@ -26,4 +26,18 @@ public class CounselReceiptService {
 
         return ar;
     }
+    public CounselReceiptVO getCounselReceipt(String cr_idx) {
+        return cr_mapper.getCounselReceipt(cr_idx);
+    }
+
+    public int addCounselReceipt(CounselReceiptVO vo) {
+        return cr_mapper.add(vo);
+    }
+    public int editCounselReceipt(CounselReceiptVO vo) {
+        return cr_mapper.edit(vo);
+    }
+    public int deleteCounselReceipt(String cr_idx) {
+        return cr_mapper.del(cr_idx);
+    }
+
 }

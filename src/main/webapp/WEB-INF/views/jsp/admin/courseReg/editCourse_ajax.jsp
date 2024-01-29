@@ -20,7 +20,7 @@
 						</td>
 						<th><label>과정구분</label></th>
 						<td>
-						<select>
+						<select name="ct_idx">
 							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
 								<c:if test="${ct_idx eq c_ar.ct_idx}">
 									<option value="${c_ar.ct_idx }" selected>
@@ -43,7 +43,7 @@
 						</td>
 						<th><label>담당교사</label></th>
 						<td>
-						<select>
+						<select name="sf_idx">
 							<c:forEach items="${requestScope.s_ar}" var="s_ar" varStatus="loop">
 								<c:if test="${sf_idx eq s_ar.sf_idx}">
 									<option value="${s_ar.sf_idx }" selected>

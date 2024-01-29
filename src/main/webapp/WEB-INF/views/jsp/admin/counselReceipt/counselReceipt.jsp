@@ -259,23 +259,27 @@ table tfoot ol.page {
 		width: 100%;
 
 	}
-	#cf_table{
+	#cf_table, #crf_table{
 		border-collapse: collapse;
 		width: 100%;
 	}
-	#cf_table td,#cf_table th{
+	#cf_table td,#cf_table th, #crf_table td, #crf_table th{
 		border: 1px solid #aaaaaa;
 		height: 30px;
 		line-height: 30px;
 		text-align: center;
 	}
-	#cf_table thead{
+	#cf_table thead, #crf_table thead{
 		background-color: #dedede;
 	}
-	#cf_table tfoot td{
+	#cf_table tfoot td, #crf_table tfoot td{
 		border: none;
 		text-align: center;
 		padding-top: 10px;
+	}
+	#crf_table tfoot td{
+		border: 1px solid #2e2e2e;
+		height: 30px;
 	}
 	
 </style>
@@ -298,7 +302,7 @@ table tfoot ol.page {
 					<div id="staffWrap">
 						<div id="courseList_top">면접평가표리스트</div>
 						<div id="ttop">
-							<button type="button" onclick="set()">평가표등록</button>	
+							<button type="button" onclick="setcr1()">평가표등록</button>	
 						</div>
 						<div id="counselReceipt_Table">
 						
@@ -308,11 +312,21 @@ table tfoot ol.page {
 			</div>
 		</article>
 		
-		<form name="frm" action="course" method="post">
-			<input type="hidden" name="c_idx" value="" />
+		<form name="frm" action="counselReceipt" method="post">
+			<input type="hidden" name="cr_idx" value="" />
 		</form>
 		
+		<div id="dialog" hidden="" title="면접평가표등록">	
+		</div>
+
+		<div id="dialog2" hidden="" title="면접평가표수정">	
+		</div>
 		
+		<div id="dialog3" hidden="" title="면접평가표">	
+		</div>
+
+		<div id="dialog4" hidden="" title="평가내용 등록/수정">	
+		</div>
 		
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -337,17 +351,17 @@ table tfoot ol.page {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
-			$("#secondmenu").addClass("selected");
+			$("#firstmenu").addClass("selected");
 			$("#l_first").addClass("l_select");
 		});
-			
-		
 
-		function set() {
+
+			
+		function setcr1() {
 			$.ajax({
-				url:"c_dialog",
+				url:"cr_dialog",
 				type:"post",
-				data:"&select="+encodeURIComponent("addCourse")
+				data:"&select="+encodeURIComponent("addCounselReceipt")
 			}).done(function(result){
 				$("#dialog").html(result);
 				
@@ -355,18 +369,73 @@ table tfoot ol.page {
 					 $("#dialog").dialog("close");
 				});
 			});
+
             $("#dialog").dialog("open",{
             	width:500,
             	height:600
             });
         }
-		
 
-		
+		function setcr2(cr_idx) {
+			$.ajax({
+				url:"editCounselReceipt",
+				type:"post",
+				data:"&cr_idx="+cr_idx,
+			}).done(function(result){
+				$("#dialog2").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog2").dialog("close");
+				});
+			});
 
+            $("#dialog2").dialog("open",{
+            	width:500,
+            	height:600
+            });
+        }
+
+		function setcr3() {
+			$.ajax({
+				url:"cr_dialog",
+				type:"post",
+				data:"&select="+encodeURIComponent("counselReceipt_file")
+			}).done(function(result){
+				$("#dialog3").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog3").dialog("close");
+				});
+			});
+
+            $("#dialog3").dialog("open",{
+            	width:500,
+            	height:600
+            });
+        }
+
+		function setcr4() {
+			$.ajax({
+				url:"cr_dialog",
+				type:"post",
+				data:"&select="+encodeURIComponent("evaluationFactor")
+			}).done(function(result){
+				$("#dialog4").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog4").dialog("close");
+				});
+			});
+
+            $("#dialog4").dialog("open",{
+            	width:500,
+            	height:600
+            });
+        }
+		
 		$( "#dialog" ).dialog({
             autoOpen: false,
-            width:1200,
+            width:1000,
             modal: true,
             buttons: {
                 "닫기": function() {
@@ -374,7 +443,53 @@ table tfoot ol.page {
                 }
             }
         });
+
+		$( "#dialog2" ).dialog({
+            autoOpen: false,
+            width:1000,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+		$( "#dialog3" ).dialog({
+            autoOpen: false,
+            width:1000,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		$( "#dialog4" ).dialog({
+            autoOpen: false,
+            width:1000,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+		function addCounselReceipt(frm) {
+		    frm.action= "editCounselReceipt?edit=ok";
+		    frm.submit();
+		}
+
 		
+		function del(cr_idx){
+			if( confirm("삭제하시겠습니까?")){
+			frm.action = "delCounselReceipt";
+			document.frm.cr_idx.value = cr_idx; 
+			
+			document.frm.submit();
+			}
+		}
 
 	</script>
 </body>
