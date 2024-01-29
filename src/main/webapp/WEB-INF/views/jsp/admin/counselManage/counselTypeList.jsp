@@ -142,7 +142,7 @@ table tfoot ol.page {
       margin: auto;
    }
    
-   #t1, t2 td{
+   #t1, td{
       border: 1px solid black;
       padding: 4px;
       height: 20px;
