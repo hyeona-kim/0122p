@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 public class TraineeVO {
 
-	private String tr_idx, tr_name, tr_rrn, tr_phone, tr_hp, tr_pos_code, tr_addr, status, memo, c_idx, ct_code, tr_total_fee, ss_end, c_img, tr_nowstatus, ss_num,s_code,tr_card,tr_cancel_date,tr_cancel_text,tr_hrd;
+	private String tr_idx, tr_name, tr_rrn, tr_phone, tr_hp, tr_pos_code, tr_addr, status, memo, c_idx, ct_code, tr_total_fee, ss_end, c_img, tr_nowstatus, ss_num,s_code,tr_card,tr_cancel_date,
+					tr_cancel_text,tr_hrd,t_path,ori_name,file_name,tr_payment_date,tr_bc;
 
 	private MultipartFile file; 
 	private CourseVO cvo;

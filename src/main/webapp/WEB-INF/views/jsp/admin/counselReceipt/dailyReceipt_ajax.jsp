@@ -56,7 +56,7 @@
                 <td>0</td>
                 <td>0</td>
                 <td>HRD등록</td>
-                <td>${cvo.c_peo_num}</td>
+                <td>${cvo.c_peo_num}</td><!--모집인원말고 과정별 trainee의 수를 가져오기.-->
                 <td>${cvo.c_peo_num}-(재적인원)</td>
                 <td>제적인원</td>
             </tr>

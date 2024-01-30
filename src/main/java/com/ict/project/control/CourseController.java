@@ -686,15 +686,15 @@ public class CourseController {
 						}// 열반복의 끝
 						vo.setC_idx(c_idx);
 						// 어떤 과정에 대한 과목을 추가하는 것이기 때문에 그 기본키를 가지고 있을것이다
-						list.add(vo); //리스트에 저장
+						if(vo.getS_title()!= null)
+							list.add(vo); //리스트에 저장
 					}//행 반복의 끝
 					// 리스트에 있는 정보들을 db에 저장하기위해
-
+				
 					HashMap<String,List<SubjectVO>> map = new HashMap<>();
 					map.put("list", list);
 					sb_Service.addSubject(map);
 					
-
 					fis.close();
 					workbook.close();
 					f.delete(); //파일 삭제
@@ -738,8 +738,9 @@ public class CourseController {
 			if(svo.getS_idx()!= null && svo.getS_idx().length()>0){
 				int cnt =sb_Service.editSubject(svo);
 			}else{
-				if(svo.getS_title() != null && svo.getUs_name() != null && svo.getS_title().length()>0 && svo.getUs_name().length()>0)
+				if(svo.getS_title() != null && svo.getUs_name() != null && svo.getS_title().length()>0 && svo.getUs_name().length()>0){
 					list.add(svo);
+				}
 			}
 		}
 		if(list.size() >0){

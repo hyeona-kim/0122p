@@ -164,7 +164,9 @@
 	update trainee_t set ss_end = #{ss_end}
 	where tr_idx = #{tr_idx}
 </update>
-<select id="traineeReg_count" resultType="int">
+
+<!--ge-->
+<select id="traineeReg_count" parameterType="Map" resultType="int">
 	select count(*) 
 	from 
 	(select @RN:=@RN+1 as rnum, a.* 
@@ -172,6 +174,13 @@
 		<where>
 			<trim suffixOverrides="and">
 				t.status = 0 and t.c_idx = c.c_idx and
+				<if test="c_idx != null">c.c_idx=#{c_idx} and</if>
+				<if test="year != null">c.start_date like concat(#{year},'%') and</if>
+				<if test="ct_idx != null">c.ct_idx=#{ct_idx} and</if>
+				<if test="select != null and select == 0">t.tr_name like concat ('%',#{value},'%') and</if>
+				<if test="select != null and select == 1">t.tr_hp like concat ('%',#{value},'%') and</if>
+				<if test="select != null and select == 2">t.tr_phone like concat ('%',#{value},'%') and </if>
+				<if test="select != null and select == 3">t.memo like concat ('%',#{value},'%') and</if>
 			</trim>
 		</where>
 		order by tr_idx desc
@@ -184,7 +193,14 @@
 	from (select t.* from trainee_t t, course_t c
 		<where>
 			<trim suffixOverrides="and">
-					t.status = 0 and t.c_idx = c.c_idx and
+				t.status = 0 and t.c_idx = c.c_idx and
+				<if test="c_idx != null">c.c_idx=#{c_idx} and</if>
+				<if test="year != null">c.start_date like concat(#{year},'%') and</if>
+				<if test="ct_idx != null">c.ct_idx=#{ct_idx} and</if>
+				<if test="select != null and select == 0">t.tr_name like concat ('%',#{value},'%') and</if>
+				<if test="select != null and select == 1">t.tr_hp like concat ('%',#{value},'%') and</if>
+				<if test="select != null and select == 2">t.tr_phone like concat ('%',#{value},'%') and </if>
+				<if test="select != null and select == 3">t.memo like concat ('%',#{value},'%') and</if>
 			</trim>
 		</where>
 		order by tr_idx desc
@@ -195,5 +211,13 @@
 <select id="courseType" resultType="com.ict.project.vo.CourseTypeVO" parameterType="String">
 	select * from course_type_t where ct_idx=#{ct_idx}
 </select>
+<!-- //성명	주민번호	연락처	전화	우편번호	주소	훈련과정명(코드값)	수강상태	전체교육비	상담메모	카드유형-->
+<insert id="add" parameterType="Map">
+     INSERT INTO trainee_t (tr_name, tr_rrn, tr_hp, tr_phone, tr_pos_code,tr_addr, c_idx, tr_nowstatus, tr_total_fee, memo, tr_card,status)
+     VALUES 
+     <foreach collection="list" item="vo" separator=",">
+     (#{vo.tr_name}, #{vo.tr_rrn}, #{vo.tr_hp}, #{vo.tr_phone}, #{vo.tr_pos_code},#{vo.tr_addr} ,#{vo.c_idx}, #{vo.tr_nowstatus}, #{vo.tr_total_fee}, #{vo.memo}, #{vo.tr_card},0)
+    </foreach>
+</insert>
 
 </mapper>
