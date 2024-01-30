@@ -397,6 +397,7 @@ public class CounselController {
         else if(select.equals("counselListAdd")){
 
         mv.setViewName("/jsp/admin/counselManage/counselListAdd_ajax");
+        System.out.println(c_idx + "????????");
         CourseVO cvo = c_Service.getCourse2(c_idx);
         TraineeVO tvo = t_Service.view(tr_idx);
         tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
@@ -477,7 +478,8 @@ public class CounselController {
     @RequestMapping("counselListAdd")
     public ModelAndView counselListAdd(CounselVO vo, String ss_num){
         ModelAndView mv = new ModelAndView();
-
+        System.out.println(vo.getSo_day() + "/" + vo.getC_idx());
+        
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() >0){
         
          cs_Service.addCounsel(vo);
