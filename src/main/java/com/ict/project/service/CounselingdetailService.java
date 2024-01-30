@@ -25,4 +25,8 @@ public class CounselingdetailService {
 
         return ar;
     }
+
+    public int addCounselingdetail(CounselingdetailVO vo) {
+        return cd_mapper.add(vo);
+    }
 }

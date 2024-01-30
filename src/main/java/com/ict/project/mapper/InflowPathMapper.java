@@ -9,5 +9,6 @@ public interface InflowPathMapper {
     int key(String id_idx);
     int add(InflowPathVO vo);
     int update(InflowPathVO vo);
-    InflowPathVO search(String r_name);
+    InflowPathVO search(String id_name);
+    int del(String id_idx);
 }

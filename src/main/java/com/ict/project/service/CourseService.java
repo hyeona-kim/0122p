@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.CourseMapper;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.StaffVO;
 
 @Service
 public class CourseService {
@@ -39,6 +40,17 @@ public class CourseService {
             list.toArray(ar);
         }
 
+        return ar;
+    }
+
+     public CourseVO[] getList() {
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.all();
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
         return ar;
     }
 

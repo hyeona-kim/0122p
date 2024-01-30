@@ -45,4 +45,8 @@ public class InflowPathService {
 
         return key;
     }
+
+    public int deleteInflowPath(String id_idx) {
+        return id_mapper.del(id_idx);
+    }
 }

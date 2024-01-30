@@ -104,8 +104,9 @@ public class CourseController {
     }
 
     @RequestMapping("addCourse")
-    public String addCourse( CourseVO cvo,String cPage,String select,String num,String year,String value) {
+    public String addCourse(CourseVO cvo,String cPage,String select,String num,String year,String value) {
         c_Service.addCourse(cvo);
+        //System.out.println(cPage+"/"+select+"/"+num+"/"+year+"/"+value);     
         return "redirect:course?listSelect=1&cPage="+cPage+"&select="+select+"&num="+num+"&year="+year+"&value="+value;
     }
      @RequestMapping("delCourse")
@@ -113,6 +114,7 @@ public class CourseController {
 		if(cPage == null)
 			cPage = "1";
 		int cnt = c_Service.deleteCourse(c_idx);
+		
 		return "redirect:course?listSelect=1&cPage="+cPage;
     }
     
@@ -172,6 +174,7 @@ public class CourseController {
 
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
+		//System.out.println(value);
 		if(value== null || value.trim().length()==0){
 			value= null;
 			select=null;
@@ -300,7 +303,6 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/addUpskill_ajax");
 		else if(c_select.equals("updateSubject")){
 			//교과목에 대한 정보를 가지고 온다.
-			System.out.println(c_idx);
 			SubjectVO[] ar = sb_Service.getList(Integer.parseInt(c_idx));
 			mv.addObject("sb_ar",ar);
 			if(ar!= null)
@@ -360,6 +362,7 @@ public class CourseController {
 			}
 		}
 		mv.setViewName("redirect:course?listSelect=1&cPage=1&upskill="+upskill+"&c_idx="+c_idx); 
+		//사실상 능력 단위요소 페이지로 갈 수 있게 해주어야 한다.아니면 비동기 통신으로 추가만해주고 결과는 없는데 대신 다이얼로그를 종료 해주는 방식으로 해야한다.
 
 		return mv;
 	}
@@ -370,6 +373,7 @@ public class CourseController {
 		//b_idx, cPage, file_name, bname 이 넘어온다 
 		//파일들이 위치하는 곳 
 		String realPath = application.getRealPath("sample.xls");
+		System.out.println(realPath);
 		File f = new File(realPath);
 		if(f.exists() && f.isFile()){
 			//파일이 존재 할 경우.
@@ -486,6 +490,7 @@ public class CourseController {
 	public String coursefileDown(FileVO fvo) {
 		String filename = fvo.getF_name();
 		String realPath = request.getServletContext().getRealPath("upload_courseFile");
+		//System.out.println(realPath);
 		String fullPath = realPath+System.getProperty("file.separator")+filename;
 		
 		File f= new File(fullPath);
@@ -535,6 +540,7 @@ public class CourseController {
 		ModelAndView mv = new ModelAndView();
 		if(select.equals("SRS")){
 			CourseVO cvo = c_Service.getCourse(c_idx);
+
 			SubjectVO[] s_ar =sb_Service.getList(Integer.parseInt(c_idx));
 
 			//과정에 따른 강의실 출력해주기
@@ -702,6 +708,7 @@ public class CourseController {
 		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect="+listSelect+"&num="+num+"&value="+value+"&cPage="+cPage);
         return mv;
     }
+
 	@RequestMapping("add_subject_form")
 	public ModelAndView add_subject_form(String[] s_idx, String[] s_title, String[] us_name, String[] s_type, String[] sf_name,
 											String[] s_category_num, String[] hour,String[] r_name, String c_idx, String[] s_status) {
@@ -749,6 +756,5 @@ public class CourseController {
 		return "redirect:upskill?skill="+skill+"&c_idx="+c_idx+"&s_idx="+s_idx;
 	}
 	
-
     
 }

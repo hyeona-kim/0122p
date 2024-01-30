@@ -108,4 +108,8 @@
 			)a ,(select @RN:=0) b) c 
 	</select>
 
+	<select id="all" resultType="com.ict.project.vo.CourseVO">
+		select * from course_t
+	</select>
+
 </mapper>
