@@ -9,4 +9,5 @@ public interface SubjectMapper {
     List<SubjectVO> list(int c_idx);
     int add(Map<String,List<SubjectVO>> map);
     int edit_sb(SubjectVO sfvo);
+ 
 }

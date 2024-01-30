@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 <table>
 	<caption>게시판 보기 테이블</caption>
 	<colgroup>
@@ -39,10 +40,31 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<a href="javascript:viewBoardList('${bvo.c_idx}', '${cPage}')" class="bo_list_btn bo_btn">목록</a>
-				<a href="javascript:reply('${bvo.bd_idx}', '${param.cPage}')" class="bo_reply_btn bo_btn">답변</a>
+				<a href="javascript:test_viewBoardList('${bvo.c_idx}',1)" id="close_btn" class="bo_list_btn bo_btn">목록</a>
+				<a href="javascript:reply('${bvo.bd_idx}', '${cPage}', '${bvo.c_idx}')" class="bo_reply_btn bo_btn">답변</a>
 				<a href="" class="bo_print_btn bo_btn">인쇄</a>
 			</td>
 		</tr>
 	</tfoot>
 </table>
+<script>
+	 function reply(bd_idx, cPage, c_idx) {
+            let checked = $
+            $.ajax({
+                url: "test_replyBoardAjax",
+                type: "post",
+                data: "bd_idx="+bd_idx+
+                        "&cPage="+cPage+
+                        "&c_idx="+c_idx,
+            }).done(function(result){
+				$("#boContent").html(result);
+                $("#boContent").dialog({
+					title: '게시글 답변 작성',
+                    modal: true,
+                    width: 1000,
+                    height: 600
+                });
+				/* $("#boContent").dialog("close"); */
+            });
+        };
+</script>

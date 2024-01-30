@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.BoardMapper;
 import com.ict.project.vo.BoardVO;
+import com.ict.project.vo.CourseVO;
 
 @Service
 public class BoardService {
@@ -53,8 +54,8 @@ public class BoardService {
 
     // 게시물 검색 후 Paging기법을 다시 적용하기 위해
     // totalRecord를 다시 구하는 기능
-    public int reGetTotalRecord(String subject) {
-        return b_mapper.reCount(subject);
+    public int reGetTotalRecord(String c_idx, String bd_subject) {
+        return b_mapper.reCount(c_idx, bd_subject);
     }
 
     // 게시물 보기 기능을 위해 해당 게시물 검색하는 기능
@@ -63,15 +64,15 @@ public class BoardService {
     }
 
     // 공지사항이 아닌 게시물들의 총 개수를 구하는 기능
-    public int cntNonNotice() {
-        return b_mapper.cntNonNotice();
+    public int cntNonNotice(String c_idx) {
+        return b_mapper.cntNonNotice(c_idx);
     }
 
     // 공지 숨김처리 클릭했을 때 공지 아닌 글들만 검색하는 기능
-    public BoardVO[] checkNotice(String begin, String end) {
+    public BoardVO[] checkNotice(String c_idx, String begin, String end) {
         BoardVO[] ar = null;
 
-        List<BoardVO> list = b_mapper.checkNotice(begin, end);
+        List<BoardVO> list = b_mapper.checkNotice(c_idx, begin, end);
         if(list != null && list.size() > 0) {
             ar = new BoardVO[list.size()];
             list.toArray(ar);
@@ -101,5 +102,56 @@ public class BoardService {
     // 조회수 증가하는 기능
     public int addHit(String bd_idx) {
         return b_mapper.addHit(bd_idx);
+    }
+
+    // 게시판에서 년도선택 으로 검색하는 기능
+    public CourseVO[] searchYear(String year, String begin, String end){
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = b_mapper.searchYear(year, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 게시판에서 년도선택 으로 검색할 때의 totalRecord를 구하는 기능
+    public int cntSearchYear(String year) {
+        return b_mapper.cntSearchYear(year);
+    }
+
+    // 게시판에서 훈련강사, 과정타입, 과정명 등으로 검색하는 기능
+    public CourseVO[] searchValue(String tag, String value, String begin, String end) {
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = b_mapper.searchValue(tag, value, begin, end);
+        if(list != null && list.size() > 0){
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
+    // 게시판에서 검색 버튼을 클릭해서 검색할 때의 totalRecord를 구하는 기능
+    public int search_total_count(String tag, String value) {
+        return b_mapper.search_total_count(tag, value);
+    }
+
+    public int search_both_count(String tag, String value, String year){
+        return b_mapper.search_both_count(year, tag, value);
+    }
+
+    public CourseVO[] searchBoth(String year, String tag, String value, String begin, String end){
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = b_mapper.searchBoth(year, tag, value, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
     }
 }

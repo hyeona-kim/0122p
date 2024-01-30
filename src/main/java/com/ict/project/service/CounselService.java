@@ -70,4 +70,16 @@ public class CounselService {
     public int getSearchCount(String select, String value, String year) {
         return c_mapper.search_count(select, value, year);
     }
+
+    public CounselVO[] getClist(String c_idx){
+        CounselVO[] ar = null;
+
+        List<CounselVO> list = c_mapper.clist(c_idx);
+        if(list != null && list.size() > 0) {
+            ar = new CounselVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }

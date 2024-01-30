@@ -7,9 +7,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.jasper.tagplugins.jstl.core.Set;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.util.IOUtils;
@@ -45,6 +48,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -76,6 +82,7 @@ public class CourseController {
 	FileService f_Service;
 	@Autowired
 	SubjectService sb_Service;
+
 
     @RequestMapping("course")
     public ModelAndView course(String listSelect,String upskill,String c_idx){
@@ -170,6 +177,7 @@ public class CourseController {
 		//System.out.println(value);
 		if(value== null || value.trim().length()==0){
 			value= null;
+			select=null;
 		}
 		if(year.equals("년도선택"))
 			year = null;
@@ -184,8 +192,10 @@ public class CourseController {
 		
 		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
 		page.setNowPage(Integer.parseInt(cPage));
-
-		CourseVO[] ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		CourseVO[] ar =null;
+	
+		ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 	
@@ -295,6 +305,8 @@ public class CourseController {
 			//교과목에 대한 정보를 가지고 온다.
 			SubjectVO[] ar = sb_Service.getList(Integer.parseInt(c_idx));
 			mv.addObject("sb_ar",ar);
+			if(ar!= null)
+			 mv.addObject("sb_length",ar.length);
 			mv.setViewName("/jsp/admin/courseReg/subject");
 
 		}
@@ -328,18 +340,33 @@ public class CourseController {
         return mv;
     }
 	@RequestMapping("skillAdd")
-	public ModelAndView skillAdd(SkillVO skvo,String c_idx,String upskill) {
-		//s_idx의 값이 있는경우는 update를 해주어야하고 s_idx가 없는 경우에는 add를 해주어야 한다.
-		System.out.println("추가");
-		System.out.println(upskill);
+	public ModelAndView skillAdd(String c_idx,String s_idx,String[] sk_idx,String[] sk_name,String upskill) {
 		ModelAndView mv = new ModelAndView();
-		int cnt =sk_Service.addSkill(skvo);
-	
+		SkillVO[] ar = new SkillVO[sk_idx.length];
+		for(int i =0; i<ar.length;i++){
+			ar[i] = new SkillVO();
+			ar[i].setS_idx(s_idx);
+			ar[i].setSk_idx(sk_idx[i]);
+			ar[i].setSk_name(sk_name[i]);
+		}
+		//1. sk_idx가 있는경우는 edit// 2.sk_name이 있는데 sk_idx가 없는 경우는 add// 3.sk_name도없고,idx도 없다면pass
+		for(SkillVO skvo: ar){
+			if(skvo.getSk_idx() != null && skvo.getSk_idx().length() >0){
+				
+				sk_Service.editSkill(skvo);
+			}else{
+				//sk_name이 있다면 수정하기
+				if(skvo.getSk_name()!= null && skvo.getSk_name().length() !=0){
+					int cnt = sk_Service.addSkill(skvo);
+				}
+			}
+		}
 		mv.setViewName("redirect:course?listSelect=1&cPage=1&upskill="+upskill+"&c_idx="+c_idx); 
 		//사실상 능력 단위요소 페이지로 갈 수 있게 해주어야 한다.아니면 비동기 통신으로 추가만해주고 결과는 없는데 대신 다이얼로그를 종료 해주는 방식으로 해야한다.
 
 		return mv;
 	}
+	
 	
     @RequestMapping("downloadSubject")
 	public String download() {
@@ -513,32 +540,62 @@ public class CourseController {
 		ModelAndView mv = new ModelAndView();
 		if(select.equals("SRS")){
 			CourseVO cvo = c_Service.getCourse(c_idx);
-			StaffVO[] sfvo = s_Service.getList();
-			RoomVO[] rvo = r_Service.getList();
-			SubjectVO[] svo =sb_Service.getList(Integer.parseInt(c_idx));
-			if(svo == null){
-				System.out.println("svo=null");
-			}else{
-				System.out.println(svo.length);
+
+			SubjectVO[] s_ar =sb_Service.getList(Integer.parseInt(c_idx));
+
+			//과정에 따른 강의실 출력해주기
+			List<String> r_name = new ArrayList<>();
+			for(int i=0; i<s_ar.length;i++){
+				r_name.add(s_ar[i].getR_name());
 			}
-			for(RoomVO vo :rvo){
-				if(vo.getR_sep() != null){
-					switch (vo.getR_sep()) {
-						case "0":
-							vo.setR_sep("실습");
+			java.util.Set<String> set = new HashSet<>(r_name);
+			List<String> sList = new ArrayList<>(set);
+			List<RoomVO> rList =new ArrayList<>();
+			for(String str :sList){
+				RoomVO rvo = r_Service.searchList(str);
+				switch (rvo.getR_sep()) {
+					case "0":
+						rvo.setR_sep("실습");
 						break;
-						case "1":
-							vo.setR_sep("이론");
+					case "1":
+						rvo.setR_sep("이론");
 						break;
-						case "2":
-							vo.setR_sep("겸용");
+					case "2":
+						rvo.setR_sep("겸용");
 						break;
-					}
 				}
+				rList.add(rvo);
 			}
-			mv.addObject("sfvo", sfvo);
-			mv.addObject("rvo", rvo);
-			mv.addObject("svo", svo);
+			
+			//과정에 맞는 강사 출력해주기.
+
+			List<String> sf_name = new ArrayList<>();
+			for(int i=0; i<s_ar.length;i++){
+				sf_name.add(s_ar[i].getSf_name());
+			}
+			java.util.Set<String> set2 = new HashSet<>(sf_name);
+			List<String> sList2 = new ArrayList<>(set2);
+			List<StaffVO> sfList =new ArrayList<>();
+			for(String str :sList2){
+				StaffVO sfvo = s_Service.searchList(str);
+				sfList.add(sfvo);
+			}
+			//교과목 중복 갯수 세기
+			List<String> s_title = new ArrayList<>();
+			for(int i=0; i<s_ar.length;i++){
+				s_title.add(s_ar[i].getS_title());
+			}
+			java.util.Set<String> set3 = new HashSet<>(s_title);
+			List<String> sList3 = new ArrayList<>(set3);
+			SubjectVO[] ar = new SubjectVO[sList3.size()];
+			for(int i=0; i<ar.length;i++){
+				ar[i] = new SubjectVO();
+				ar[i].setS_title(sList3.get(i));
+			}
+			
+			mv.addObject("s_ar", s_ar);
+			mv.addObject("sf_ar",sfList);
+			mv.addObject("r_ar",rList);
 			mv.addObject("cvo", cvo);
 		}
 		mv.setViewName("/jsp/admin/courseReg/exelAdd_ajax");
@@ -646,8 +703,58 @@ public class CourseController {
 			}
 				
 		}
-		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect=1"+"&num="+num+"&value="+value+"&cPage="+cPage);
+		if(cPage ==null)
+			cPage ="1";
+		mv.setViewName("redirect:course?year="+year+"&select="+select+"&listSelect="+listSelect+"&num="+num+"&value="+value+"&cPage="+cPage);
         return mv;
     }
+
+	@RequestMapping("add_subject_form")
+	public ModelAndView add_subject_form(String[] s_idx, String[] s_title, String[] us_name, String[] s_type, String[] sf_name,
+											String[] s_category_num, String[] hour,String[] r_name, String c_idx, String[] s_status) {
+		ModelAndView mv = new ModelAndView();			
+		SubjectVO[] ar = new SubjectVO[s_title.length];
+		
+
+		for(int i=0; i<ar.length;i++){
+			ar[i] = new SubjectVO();
+			ar[i].setS_idx(s_idx[i]);
+			ar[i].setC_idx(c_idx);
+			ar[i].setS_title(s_title[i]);
+			ar[i].setUs_name(us_name[i]);
+			if(s_type[i].equals("NONCS")){
+				s_type[i] ="기초소양";
+			}
+			ar[i].setS_type(s_type[i]);
+			ar[i].setSf_name(sf_name[i]);
+			ar[i].setS_category_num(s_category_num[i]);
+			ar[i].setHour(hour[i]);
+			ar[i].setR_name(r_name[i]);
+			ar[i].setS_status(s_status[i]);
+		}
+		List<SubjectVO> list = new ArrayList<>();
+		for(SubjectVO svo:ar){
+			if(svo.getS_idx()!= null && svo.getS_idx().length()>0){
+				int cnt =sb_Service.editSubject(svo);
+			}else{
+				if(svo.getS_title() != null && svo.getUs_name() != null && svo.getS_title().length()>0 && svo.getUs_name().length()>0)
+					list.add(svo);
+			}
+		}
+		if(list.size() >0){
+			Map<String,List<SubjectVO>> map = new HashMap<>();
+			map.put("list", list);
+			sb_Service.addSubject(map);
+		}
+		mv.setViewName("redirect:course?cPage=1&listSelect=1");
+		return mv;
+	}
+	
+	@RequestMapping("del_skill")
+	public String del_skill(String sk_idx,String c_idx,String skill,String s_idx) {
+		int cnt = sk_Service.delSkill(sk_idx);
+		return "redirect:upskill?skill="+skill+"&c_idx="+c_idx+"&s_idx="+s_idx;
+	}
+	
     
 }
