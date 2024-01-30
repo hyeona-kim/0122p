@@ -131,7 +131,7 @@ public class CounselController {
     }
     
     @RequestMapping("counselsave")
-    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img1) {
+    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img1, String ss_day1, String ss_day2) {
         ModelAndView mv = new ModelAndView();
         String realPath = application.getRealPath("counselimg");
         if(ss_img1 != null && ss_img1.getSize() > 0){
@@ -145,10 +145,10 @@ public class CounselController {
             }
             vo.setSs_img(f_name);
         }
-
-      int cnt = ca_Service.add(vo);
-
-      //System.out.println(cnt);
+        if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0 && vo.getSs_cnt() !=null && vo.getSs_cnt().trim().length()>0){
+            vo.setSs_day(ss_day1 + "~" + ss_day2);
+            int cnt = ca_Service.add(vo);
+        }
       mv.setViewName("redirect:counsel?listSelect=1&cPage=1");
 
         
@@ -161,7 +161,10 @@ public class CounselController {
         ModelAndView mv = new ModelAndView();
         CounselAddVO[] vo = ca_Service.list(c_idx);
         CourseVO cvo = c_Service.getCourse2(c_idx);
-        
+        if(vo !=null && vo.length >0)
+            mv.addObject("ss_cnt",vo.length);
+        else
+            mv.addObject("ss_cnt",0); 
         mv.addObject("vo", vo);
         mv.addObject("cvo", cvo);
         mv.setViewName("/jsp/admin/counselManage/counselAdd");
@@ -381,7 +384,7 @@ public class CounselController {
             CourseVO cvo = c_Service.getCourse2(c_idx);
             TraineeVO tvo = t_Service.view(tr_idx);
             CounselVO[] ar = cs_Service.counselList(tr_idx);    
-            CourseVO cvo = c_Service.getCourse2(c_idx);
+       
      
             tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
             mv.addObject( "cvo", cvo);
@@ -460,7 +463,7 @@ public class CounselController {
                     vo.setSf_idx(sf_idx[i]);
                     cs_Service.addCounsel(vo);
                     ss_end = date[i];
-                    t_Service.getCounsel_date(tr_idx[i], ss_end);
+                    t_Service.getCounsel_date(tr_idx[i], ss_end, "!"); //(1, 2024-01-01)
                 }
             }
         }
@@ -470,10 +473,14 @@ public class CounselController {
     }
 
     @RequestMapping("counselListAdd")
-    public ModelAndView counselListAdd(CounselVO vo){
+    public ModelAndView counselListAdd(CounselVO vo, String ss_num){
         ModelAndView mv = new ModelAndView();
-
-        int cnt = cs_Service.addCounsel(vo);
+        if(vo.getSo_day() != null && vo.getSo_day().trim().length() >0){
+        
+         cs_Service.addCounsel(vo);
+         System.out.println(vo.getTr_idx() + "/" + vo.getSo_day() + "/" + ss_num);
+         t_Service.getCounsel_date(vo.getTr_idx(), vo.getSo_day(),ss_num);
+        }
         mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
         return mv;
     }
