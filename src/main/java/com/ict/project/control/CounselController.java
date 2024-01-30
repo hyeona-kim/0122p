@@ -105,17 +105,6 @@ public class CounselController {
         return mv;
     }
 
-    @RequestMapping("counselsave")
-    public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img) {
-        ModelAndView mv = new ModelAndView();
-        System.out.println(ss_img.getOriginalFilename());
-      int cnt = ca_Service.add(vo);
-      System.out.println(cnt);
-      mv.setViewName("redirect:counsel?listSelect=1");
-
-
-
-
     //상담결과보고 리스트 
     @RequestMapping("counselAddMain")
     public ModelAndView counselAddMain(String c_idx) {
