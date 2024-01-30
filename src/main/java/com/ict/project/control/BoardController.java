@@ -1,4 +1,5 @@
 package com.ict.project.control;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,12 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.BoardService;
 import com.ict.project.service.CourseService;
+import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.BoardVO;
 import com.ict.project.vo.CourseVO;
@@ -119,9 +122,35 @@ public class BoardController {
 	}
 	
     @RequestMapping("addBoard")
-    public String addBoard(BoardVO bvo) {
-		b_Service.addBoard(bvo);
-		return "redirect:boardList";
+    public ModelAndView addBoard(BoardVO bvo) {
+		ModelAndView mv = new ModelAndView();
+		String encType = request.getContentType();
+		if(encType.startsWith("application")) {
+			b_Service.addBoard(bvo);
+		}else if(encType.startsWith("multipart")) {
+			MultipartFile mf = bvo.getFile();
+			String fname = null;
+
+			if(mf != null && mf.getSize() > 0) {
+				String realPath = application.getRealPath("upload_boardFile");
+
+				String oname = mf.getOriginalFilename();
+
+				fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+				try {
+					mf.transferTo(new File(realPath, fname));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				/* bvo.setBd_fname(fname);
+				bvo.setBd_oname(oname); */
+			}
+			b_Service.addBoard(bvo);
+		}
+
+		mv.setViewName("redirect:boardList");
+		return mv;
     }
 
 	@RequestMapping("addBoardAjax")
@@ -371,11 +400,9 @@ public class BoardController {
 	// 게시글 등록 테이블에서 [등록] 버튼을 클릭했을 때 수행하는 곳
 	// [수정필요] 등록 후 과정목록 게시판이 아니라 과정별 게시판으로 가게 해야됨
     @RequestMapping("test_addBoard")
-    public ModelAndView test_addBoard(BoardVO bvo, String cPage) {
-		ModelAndView mv = new ModelAndView();
+    public String test_addBoard(BoardVO bvo, String cPage) {
 		b_Service.addBoard(bvo);
-		mv.setViewName("redirect:test_viewBoardList?c_idx="+bvo.getC_idx());
-		return mv;
+		return "redirect:test_viewBoardList?c_idx="+bvo.getC_idx();
     }
 
 	// 게시글 목록에서 [숨김] 체크박스를 클릭했을 때 수행하는 곳
@@ -449,15 +476,33 @@ public class BoardController {
 	}
 
 	@RequestMapping("test_replyBoard")
-	public ModelAndView test_boardAddReply(BoardVO bvo, String cPage) {
-		ModelAndView mv = new ModelAndView();
-		reply_key = 1;
-
+	public String test_boardAddReply(BoardVO bvo, String cPage) {
 		b_Service.addReply(bvo);
-		/* mv.addObject("c_idx", bvo.getC_idx());
-		mv.addObject("cPage", "1"); */
-		mv.addObject("reply_key", reply_key);
-		mv.setViewName("redirect:test_boardListAjax?c_idx="+bvo.getC_idx());
+		return "redirect:test_viewBoardList?c_idx="+bvo.getC_idx();
+	}
+
+	@RequestMapping("searchBoth")
+	public ModelAndView searchBoth(String cPage, String tag, String value, String year) {
+		ModelAndView mv = new ModelAndView();
+		Paging page = new Paging();
+		CourseVO[] ar = null;
+		boolean searchBoth_flag = true;
+
+		page.setTotalRecord(b_Service.search_both_count(tag, value, year));
+
+		if(cPage == null || cPage.equalsIgnoreCase("undefined")){
+			page.setNowPage(1);
+		}else {
+			page.setNowPage(Integer.parseInt(cPage));
+		}
+
+		ar = b_Service.searchBoth(year, tag, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+		mv.addObject("ar", ar);
+		mv.addObject("page", page);
+		mv.addObject("searchBoth_flag", searchBoth_flag);
+		mv.setViewName("/jsp/admin/schoolRecord/searchBoth_ajax");
+
 		return mv;
 	}
 }

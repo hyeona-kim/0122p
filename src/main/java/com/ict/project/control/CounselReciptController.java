@@ -21,14 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.CounselReceiptService;
 import com.ict.project.service.CounselingdetailService;
 import com.ict.project.service.CourseService;
+
+import com.ict.project.service.CourseTypeService;
+
 import com.ict.project.service.EvaluationFactorService;
 import com.ict.project.service.InflowPathService;
+import com.ict.project.service.NextscheduledService;
+import com.ict.project.service.StaffService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselReceiptVO;
 import com.ict.project.vo.EvaluationFactorVO;
 import com.ict.project.vo.InflowPathVO;
+import com.ict.project.vo.NextscheduledVO;
 import com.ict.project.vo.RoomVO;
+import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.CounselingdetailVO;
+import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 
 import jakarta.servlet.ServletContext;
@@ -64,7 +72,17 @@ public class CounselReciptController {
     @Autowired
     InflowPathService id_Service;
 
+    @Autowired
+    NextscheduledService ns_Service;
 
+    @Autowired
+	StaffService s_Service;
+
+    @Autowired
+    CourseTypeService ct_Service;
+
+    @Autowired
+    CourseService c_Service;
 
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect) {
@@ -80,10 +98,10 @@ public class CounselReciptController {
              mv.setViewName("/jsp/admin/counselReceipt/counselingDetail");
              InflowPathVO[] ar = id_Service.getList();
              mv.addObject("id_length", ar.length);
+             NextscheduledVO[] ar2 = ns_Service.getList();
+             mv.addObject("ns_length", ar2.length);
         }else if(listSelect.equals("3"))
-             mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
-
-        
+           mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
         return mv;
     }
 
@@ -112,16 +130,21 @@ public class CounselReciptController {
     @RequestMapping("cr_dialog")
     public ModelAndView c_dialog(String select,String cr_idx) {
         ModelAndView mv = new ModelAndView();
-		
-	
 		CounselReceiptVO[] ar = cr_Service.getCounselReceiptList();
         EvaluationFactorVO[] ar2 = ef_Service.getEvaluationFactorList();
         InflowPathVO[] ar3 = id_Service.getList();
+        NextscheduledVO[] ar4 = ns_Service.getList();
+        StaffVO[] s_ar = s_Service.getList();
+        CourseTypeVO[] ct_ar = ct_Service.getList();
+        CourseVO[] c_ar = c_Service.getList();
 
 		mv.addObject("ar", ar);
-		mv.addObject("ar", ar2);
-		mv.addObject("ar", ar3);
-
+		mv.addObject("ar2", ar2);
+		mv.addObject("ar3", ar3);
+		mv.addObject("ar", ar4);
+        mv.addObject("ct_ar", ct_ar);
+        mv.addObject("s_ar", s_ar);
+        mv.addObject("c_ar", c_ar);
 		
 		if(select.equals("addCounselReceipt"))
 			mv.setViewName("/jsp/admin/counselReceipt/addCounselReceipt_ajax");
@@ -133,8 +156,12 @@ public class CounselReciptController {
             mv.setViewName("/jsp/admin/counselReceipt/evaluationFactor_ajax");
         else if(select.equals("addInflowPath"))
             mv.setViewName("/jsp/admin/counselReceipt/addInflowPath_ajax");
-            CounselReceiptVO cro = cr_Service.getCounselReceipt(cr_idx);
-            mv.addObject("cro",cro);
+        else if(select.equals("addNextscheduled"))
+            mv.setViewName("/jsp/admin/counselReceipt/addNextscheduled_ajax");
+        else if(select.equals("addCounselingDetail"))
+            mv.setViewName("/jsp/admin/counselReceipt/addCounselingDetail_ajax");
+        CounselReceiptVO cro = cr_Service.getCounselReceipt(cr_idx);
+        mv.addObject("cro",cro);
             return mv;
                 
 	}
@@ -170,14 +197,26 @@ public class CounselReciptController {
 		return "redirect:counselReceipt?listSelect=1&cPage=1";
     }
 
+    @RequestMapping("delInflowPath")
+    public String delInflowPath(String id_idx) {
+		int cnt = id_Service.deleteInflowPath(id_idx);
+		
+		return "redirect:counselReceipt?listSelect=2&cPage=1";
+    }
+
+    @RequestMapping("delNextscheduled")
+    public String delNextscheduled(String ns_idx) {
+		int cnt = ns_Service.deleteNS(ns_idx);
+		
+		return "redirect:counselReceipt?listSelect=2&cPage=1";
+    }
+
     @RequestMapping("addInflowPath")
     public ModelAndView addInflowPath(String[] InflowPathName, String listSelect) {
         ModelAndView mv = new ModelAndView();
 
         String[] id_name = InflowPathName;
 		InflowPathVO vo = new InflowPathVO();
-        System.out.println("id_name="+id_name);
-        System.out.println("id_name.length="+id_name.length);
 		if(id_name != null && !id_name.equals("")) {
 			for(int i = 0; i < id_name.length;i++) {
 				if(id_name[i] != null && !id_name[i].isEmpty()) {
@@ -260,4 +299,25 @@ public class CounselReciptController {
         return mv;
     }
     
+    @RequestMapping("addNextscheduled")
+    public ModelAndView addNextscheduled(String[] nextscheduledName, String listSelect) {
+        ModelAndView mv = new ModelAndView();
+
+        String[] ns_name = nextscheduledName;
+		NextscheduledVO vo = new NextscheduledVO();
+		if(ns_name != null && !ns_name.equals("")) {
+			for(int i = 0; i < ns_name.length;i++) {
+				if(ns_name[i] != null && !ns_name[i].isEmpty()) {
+					vo.setNs_name(ns_name[i]);
+					vo.setNs_idx(Integer.toString(i+1));
+					ns_Service.addNextscheduled(vo);
+				}
+				
+			}
+		}
+        NextscheduledVO[] ns_ar = ns_Service.getList();
+		mv.addObject("ns_ar", ns_ar);
+        mv.setViewName("redirect:counselReceipt?listSelect=2&cPage=1");
+		return mv;
+    }
 }

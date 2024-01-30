@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
-<form action="" method="get" id="addForm_t">
+<form action="" method="post" id="addForm_t">
 	<input type="hidden" name="c_idx" value="${param.c_idx}"/>
 	<table>
 		<caption>게시판 등록 테이블</caption>
@@ -24,14 +24,15 @@
 			</tr>
 			<tr>
 				<th>파일첨부</th>
-				<td class="left"><input type="file" name="bd_file" id="bd_file"/></td>
+				<td class="left"><input type="file" name="file" id="bd_file"/></td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
 				<td colspan="2">
 					<!-- <a href="" class="bo_edit_btn bo_btn">등록</a> -->
-					<button type="button" onclick="addBoard('${c_idx}','${bvo.bd_subject}','${bvo.bd_notice}','${bvo.bd_content}','${bvo.bd_file}')" class="bo_edit_btn bo_btn">등록</button>
+					<button type="button" onclick="addBoard('${c_idx}')" class="bo_edit_btn bo_btn">등록</button>
+					<!-- <button type="button" onclick="addBoard()" class="bo_edit_btn bo_btn">등록</button> -->
 					<a href="" class="bo_del_btn bo_btn">취소</a>
 				</td>
 			</tr>

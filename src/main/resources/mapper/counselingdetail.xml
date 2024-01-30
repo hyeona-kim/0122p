@@ -8,4 +8,13 @@
     select * from counselingdetail_t
   </select>
   
+  <insert id="add" parameterType="com.ict.project.vo.CounselingdetailVO">
+			INSERT INTO counselingdetail_t(sf_idx, cd_date, cd_name, cd_phone, c_idx, ct_idx, cd_result,
+                                     cd_personalNum, cd_cardType, cd_card, cd_nextDate,
+                                      cd_address, cd_inflowPath, cd_subject, cd_status2 )
+			values(#{sf_idx}, #{cd_date}, #{cd_name}, #{cd_phone}, #{c_idx}, #{ct_idx}, #{cd_result},
+                                     #{cd_personalNum}, #{cd_cardType}, #{cd_card}, #{cd_nextDate},
+                                      #{cd_address}, #{cd_inflowPath}, #{cd_subject}, 0)
+	</insert>
+
 </mapper>
