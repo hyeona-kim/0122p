@@ -12,7 +12,7 @@
 
     <select id ="list" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
         SELECT * FROM advice_sst
-        WHERE c_idx = #{idx}
+        WHERE c_idx = #{idx} order by ss_mday desc
 
     </select>
 
