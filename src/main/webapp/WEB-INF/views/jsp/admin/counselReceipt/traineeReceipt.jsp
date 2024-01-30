@@ -281,90 +281,48 @@ table tfoot ol.page {
 		border: 1px solid #2e2e2e;
 		height: 30px;
 	}
-
-    #ttop{
-        margin: auto;
-        width: 95%;
-        height: 220px;
-        position: relative;
-    }
-    #ttop #t1{
-        position: absolute;
-        left: 0px;
-        top:10px;
-        width: 50%;
-        height: 110px;
-        text-align: left;
-    }
-    #ttop #t2{
-        position: absolute;
-        left: 3px;
-        bottom:9px;
-        width: 50%;
-        height: 110px;
-        text-align: left;
-    }
-    #ttop #t2 #top_table{
-        border-collapse: collapse;
-    }
-    #ttop #t2 #top_table th,#ttop #t2 #top_table td{
-        border: 1px solid #ababab;
-    }
-    #ttop #t2 #top_table th{
-        background-color: #dedede;
-        padding: 3px;
-    }
-    #ttop #t3{
-        position: absolute;
-        right: 10px;
-        top:10px;
-        width: 50%;
-        height: 110px;
-        text-align: right;
-    }
-    #ttop #t4{
-        position: absolute;
-        right: 0px;
-        bottom:0;
-        width: 50%;
-        height: 110px;
-        text-align: right;
-        
-    }
-    #ttop #t4 #right_table{
-        border: 1px solid blue;
-        position: absolute;
-        right: 0px;
-        bottom:0;
-        height: 90px;
-        border-collapse: collapse;
-    }
-    #ttop #t4 #right_table td{
-        border: 1px solid #ababab;
-    }
-    #ttop #t4 #right_table tr:first-child{
-        height: 30%;
-    }
-    #ttop #t4 #right_table tr:last-child{
-        height: 70%;
-    }
-    #reg_table{
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 30px;
-    }
-    #reg_table td{
-        border: 1px solid #ababab;
-    }
-    #reg_table thead tr{
-        background-color: #dedede;
-    }
-    #reg_table tbody td:nth-child(12){
-        background-color: orange;
-    }
-    #reg_table tbody td:nth-child(16){
-        background-color: lightcoral;
-    }
+	#counselReceipt_Table{
+		width: 100%;
+		height: 600px;
+		background-color: #ededed;
+	}
+	#counselReceipt_Table article:first-child{
+		margin: auto;
+		width: 98%;
+		height: 10%;
+		text-align: right;
+		line-height: 60px;
+	}
+	.btn{
+		background-color: #00acac;
+		border: 1px solid #00acac;
+		color: white;
+		padding: 7px;
+		border-radius: 5px 5px;
+		font-weight: bold;
+	}
+	#counselReceipt_Table article:last-child{
+		margin: auto;
+		height: 80%;
+		width: 98%;
+		background-color: white;
+	}
+	#counselReceipt_Table #exel_d{
+		width: 100%;
+		height: 400px;
+	}
+	#counselReceipt_Table #exel_t{
+		width: 100%;
+		height: 90px;
+		border-collapse: collapse;
+		margin: auto;
+	}
+	#counselReceipt_Table #exel_t th,#counselReceipt_Table #exel_t td{
+		border: 1px solid #dedede;
+	}
+	#counselReceipt_Table #exel_t th{
+		background-color: #dedede;
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -383,76 +341,44 @@ table tfoot ol.page {
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 					<div id="staffWrap">
 						<div id="courseList_top">
-                            <!--자바스크립트 -->
+                            <strong>&nbsp;&nbsp;&nbsp;수강생 등록</strong>
                         </div>
-						<div id="ttop">
-                            <div id="t1">
-                                검색
-                                <select name="" id="select">
-                                    <option value="0">전체</option>
-                                    <option value="1">모집중</option>
-                                    <option value="2">교육중</option>
-                                </select>
-                            </div>
-
-                            <article id="t2">
-                                <span>접수기준일: 당일0시~ 당일 24시까지</span>
-                                <table id="top_table">
-                                    <tr>
-                                        <th rowspan="4">접수현황</th>
-                                        <th colspan="5">일일 접수 현황</th>
-                                        <th colspan="5">일일 문의 현황</th>
-                                    </tr>
-                                    <tr>
-                                        <th>총계</th>
-                                        <th>국가기간</th>
-                                        <th>국민내일배움카드</th>
-                                        <th>일반과정</th>
-                                        <th>KDT</th>
-                                        <th>총계</th>
-                                        <th>국가기간</th>
-                                        <th>국민내일배움카드</th>
-                                        <th>일반과정</th>
-                                        <th>KDT</th>
-                                    </tr>
-                                    <tr>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    </tr>
-                                </table>
-                            </article>
-                    
-                            <div id="t3">
-                                <a href=""><img alt="인쇄" src=""/></a>
-                                <a href=""><img alt="액셀다운" src=""/></a>
-                            </div>
-                            <article id="t4">
-                                <span id="nowDate"></span>
-                                <table id="right_table">
-                                    <tr>
-                                        <td rowspan="2">결재</td>
-                                        <td>담당</td>
-                                        <td>부장</td>
-                                        <td>원장</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </article>
-						</div>
 						<div id="counselReceipt_Table">
                             <!--과정에 대한 정보 가져오기 -->
+							<article>
+								<button class="btn" id="exelDown_btn">수강생데이터입력샘플EXCEL</button>
+							</article>
+							<article>
+								<div id="exel_d">
+									<table id="exel_t">
+										<colgroup>
+											<col width="30%"/>
+											<col width="70%"/>
+										</colgroup>
+										<tr>
+											<th>
+												수강생일괄등록
+											</th>
+											<td >
+												<input type="file" name="t_file" style="border: 1px solid #ababab;"/><br/><br/>
+												<input type="button" class="btn" id="submit_btn" value="등록"/>
+											</td>
+										</tr>
+									</table>
+									<div>[파일 등록 시 아래사항들을 다시한번 확인해주세요!]</div>
+									<br/><br/>
+									<div>
+										*필수입력사항:성함,연락처,훈련과정명(코드값),수강상태<br/>
+										*훈련과정명(코드값)은 과정등록에 있는 과정코드값을 입력해야합니다, 과정명을 입력하면 저장되지 않습니다.<br/>
+										*수강상태는 수강,수료,조기수료,미수료,제적 중에 하나를 택하여 정확히 입력해주세요.<br/>
+										*카드유형을 취성패1,취성패2,국가취업지원제도1,국가취업지원제도2,내일배움카드(실업자),근로자카드,일반(근로복지공단),일반,일반(기타)중에 하나를 입력해주세요<br/>
+										*전체교육비가 없을경우 0을 입력합니다.<br/>
+										*주민번호,전화,우편번호,주소,상담메모,카드유형은 필수 입력값이 아니며 내용이 없으면 공란으로 작성해주세요.<br/>
+										*이외에 입력할 내용은 등록 후 수정바라며, 파일 업로드시 참고사항내용은 삭제 후 업로드 바랍니다.<br/>
+										*파일형식은 97-2003파일형식으로 저장하셔야 합니다.<br/>
+									</div>
+								</div>
+							</article>
 						</div>
 					</div>
 				</div>
@@ -466,36 +392,17 @@ table tfoot ol.page {
 
 	<script>
 		$(function(){
-            let now = new Date();	
-            let year = now.getFullYear();   
-            $("#courseList_top").html("<strong>&nbsp;&nbsp;"+year+"년 일일모집현황</strong>");
-            $("#nowDate").html("Date:"+now.getFullYear()+"/"+now.getMonth()+"/"+now.getDate());
-            
-			$.ajax({
-				url: "dailyReceipt",
-				type: "post",
-				data:"year="+year+"&selectList=3"
-			}).done(function(result){
-				$("#counselReceipt_Table").html(result);
-			});
-			
-			
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#firstmenu").addClass("selected");
-			$("#l_third").addClass("l_select");
-
-            $("#select").change(function(){
-                let select = $("#select").val();
-                $.ajax({
-                    url: "dailyReceipt",
-                    type: "post",
-                    data:"year="+year+"&selectList=3&select="+select,
-                }).done(function(result){
-                    $("#counselReceipt_Table").html(result);
-                });
-            });
+			$("#l_five").addClass("l_select");
+			$("#submit_btn").click(function(){
+				console.log("저장버튼클릭");
+			});
+            $("#exelDown_btn").click(function(){
+				console.log("엑셀파일 다운로드");
+			});
 		});
 
 

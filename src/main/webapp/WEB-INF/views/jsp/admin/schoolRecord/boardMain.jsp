@@ -310,11 +310,10 @@ table tfoot ol.page {
 					type: "post",
 				}).done(function(result) {
 					$("#board_main_list").html(result);
+					console.log(result);
 				});
 
-				<c:if test="${param.re} == '1'">
-					test_viewBoardList('${param.c_idx}', 1);
-				</c:if>
+			
         });
 
         /* 목록 아래 [page번호]를 클릭할 때 수행

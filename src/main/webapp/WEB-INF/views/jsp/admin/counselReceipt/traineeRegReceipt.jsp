@@ -281,89 +281,51 @@ table tfoot ol.page {
 		border: 1px solid #2e2e2e;
 		height: 30px;
 	}
-
-    #ttop{
-        margin: auto;
-        width: 95%;
-        height: 220px;
+    #search_top{
+        height: 80px;
+    }
+    #search_top article{
+        height: 30px;
+        line-height: 30px;
+        margin-top: 30px;
         position: relative;
     }
-    #ttop #t1{
+    #search_top article a{
         position: absolute;
-        left: 0px;
-        top:10px;
-        width: 50%;
-        height: 110px;
-        text-align: left;
+        right: 5px;
     }
-    #ttop #t2{
-        position: absolute;
-        left: 3px;
-        bottom:9px;
-        width: 50%;
-        height: 110px;
-        text-align: left;
-    }
-    #ttop #t2 #top_table{
-        border-collapse: collapse;
-    }
-    #ttop #t2 #top_table th,#ttop #t2 #top_table td{
+    .search_area{
+        height: 20px;
         border: 1px solid #ababab;
     }
-    #ttop #t2 #top_table th{
-        background-color: #dedede;
-        padding: 3px;
+    .btn{
+		background-color: #00acac;
+		border: 1px solid #00acac;
+		color: white;
+		padding: 5px;
+		border-radius: 5px 5px;
+		font-weight: bold;
+	}
+    #select_top{
+        margin-top: 20px;
+        height: 150px;
     }
-    #ttop #t3{
-        position: absolute;
-        right: 10px;
-        top:10px;
-        width: 50%;
-        height: 110px;
-        text-align: right;
-    }
-    #ttop #t4{
-        position: absolute;
-        right: 0px;
-        bottom:0;
-        width: 50%;
-        height: 110px;
-        text-align: right;
-        
-    }
-    #ttop #t4 #right_table{
-        border: 1px solid blue;
-        position: absolute;
-        right: 0px;
-        bottom:0;
-        height: 90px;
-        border-collapse: collapse;
-    }
-    #ttop #t4 #right_table td{
-        border: 1px solid #ababab;
-    }
-    #ttop #t4 #right_table tr:first-child{
-        height: 30%;
-    }
-    #ttop #t4 #right_table tr:last-child{
-        height: 70%;
-    }
-    #reg_table{
+    #select_top #select_table{
         width: 100%;
         border-collapse: collapse;
-        margin-top: 30px;
     }
-    #reg_table td{
+    #select_top #select_table td,#select_top #select_table th{
         border: 1px solid #ababab;
+        height: 120px;
     }
-    #reg_table thead tr{
+    #select_top #select_table th{
         background-color: #dedede;
     }
-    #reg_table tbody td:nth-child(12){
-        background-color: orange;
-    }
-    #reg_table tbody td:nth-child(16){
-        background-color: lightcoral;
+    .chk{
+        display: inline-block;
+        height: 50px;
+        width: 130px;
+        line-height: 50px;
     }
 </style>
 
@@ -382,77 +344,85 @@ table tfoot ol.page {
 
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 					<div id="staffWrap">
-						<div id="courseList_top">
-                            <!--자바스크립트 -->
-                        </div>
-						<div id="ttop">
-                            <div id="t1">
-                                검색
-                                <select name="" id="select">
-                                    <option value="0">전체</option>
-                                    <option value="1">모집중</option>
-                                    <option value="2">교육중</option>
+						<div id="search_top">
+                            <!--검색을 위한 영역-->
+                            <article>
+                                표시개수:
+                                <select class="search_area" style="width: 60px;">
+                                    <option>5</option>
+                                    <option>10</option>
+                                    <option>15</option>
                                 </select>
-                            </div>
-
-                            <article id="t2">
-                                <span>접수기준일: 당일0시~ 당일 24시까지</span>
-                                <table id="top_table">
-                                    <tr>
-                                        <th rowspan="4">접수현황</th>
-                                        <th colspan="5">일일 접수 현황</th>
-                                        <th colspan="5">일일 문의 현황</th>
-                                    </tr>
-                                    <tr>
-                                        <th>총계</th>
-                                        <th>국가기간</th>
-                                        <th>국민내일배움카드</th>
-                                        <th>일반과정</th>
-                                        <th>KDT</th>
-                                        <th>총계</th>
-                                        <th>국가기간</th>
-                                        <th>국민내일배움카드</th>
-                                        <th>일반과정</th>
-                                        <th>KDT</th>
-                                    </tr>
-                                    <tr>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    </tr>
-                                </table>
+                                검색:
+                                <select class="search_area" style="width: 80px;">
+                                    <option>년도선택</option>
+                                    <option>2025</option>
+                                    <option>2024</option>
+                                </select>
+                                <select class="search_area" style="width: 120px;">
+                                    <option>타입검색</option>
+                                    <option>2025</option>
+                                    <option>2024</option>
+                                </select>
+                                <select class="search_area" style="width: 500px;">
+                                    <option>과정검색</option>
+                                    <option>2025</option>
+                                    <option>2024</option>
+                                </select>
+                                <select class="search_area" style="width: 80px;">
+                                    <option>이름</option>
+                                    <option>2025</option>
+                                    <option>2024</option>
+                                </select>
+                                <input type="text" style="width: 120px;"/>
+                                <input type="button" class="btn" value="검색" id="search_btn"/>
+                                <a href="" ><img src="" alt="문서이미지"/></a>
                             </article>
-                    
-                            <div id="t3">
-                                <a href=""><img alt="인쇄" src=""/></a>
-                                <a href=""><img alt="액셀다운" src=""/></a>
-                            </div>
-                            <article id="t4">
-                                <span id="nowDate"></span>
-                                <table id="right_table">
-                                    <tr>
-                                        <td rowspan="2">결재</td>
-                                        <td>담당</td>
-                                        <td>부장</td>
-                                        <td>원장</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
-                            </article>
+                        </div>
+						<div id="select_top">
+                            <table id="select_table">
+                            <colgroup>
+                                <col width="20%"/>
+                                <col width="*"/>
+                                <col width="10%"/>
+                            </colgroup>
+                                <tr>
+                                    <th>검색</th>
+                                    <td>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>이름</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>주민번호</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>핸드폰</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>전화</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>과정</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>결재일</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>지원경로</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>개강일</span>
+                                        <br/>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>HRD등록일</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>현재상태</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>제적일</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>제적사유</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>수료일</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>전체교육비</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>카드유형</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>우편번호</span>
+                                        <br/>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>주소</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>메모</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>이전직장명</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>학생코드</span>
+                                        <span class="chk"><input type="checkbox" name="chk1"/>과정타입</span>
+                                    </td>
+                                    <td>
+                                        <input type="button" class="btn" id="check_btn" value="검색"/>
+                                        <br/>
+                                        <br/>
+                                    </td>
+                                </tr>
+                            </table>
 						</div>
-						<div id="counselReceipt_Table">
-                            <!--과정에 대한 정보 가져오기 -->
+						<div id="traineeReceipt_Table">
+                            <!--훈련생에대한 정보 가져오기 -->
 						</div>
 					</div>
 				</div>
@@ -466,36 +436,19 @@ table tfoot ol.page {
 
 	<script>
 		$(function(){
-            let now = new Date();	
-            let year = now.getFullYear();   
-            $("#courseList_top").html("<strong>&nbsp;&nbsp;"+year+"년 일일모집현황</strong>");
-            $("#nowDate").html("Date:"+now.getFullYear()+"/"+now.getMonth()+"/"+now.getDate());
-            
-			$.ajax({
-				url: "dailyReceipt",
-				type: "post",
-				data:"year="+year+"&selectList=3"
-			}).done(function(result){
-				$("#counselReceipt_Table").html(result);
-			});
-			
-			
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#firstmenu").addClass("selected");
 			$("#l_third").addClass("l_select");
-
-            $("#select").change(function(){
-                let select = $("#select").val();
-                $.ajax({
-                    url: "dailyReceipt",
-                    type: "post",
-                    data:"year="+year+"&selectList=3&select="+select,
-                }).done(function(result){
-                    $("#counselReceipt_Table").html(result);
-                });
+            
+            $("#check_btn").click(function(){
+                console.log("체크박스 검색");
             });
+            $("#search_btn").click(function(){
+                console.log("검색어 검색");
+            });
+            
 		});
 
 
