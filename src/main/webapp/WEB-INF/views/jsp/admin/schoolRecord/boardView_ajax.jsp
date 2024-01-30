@@ -39,7 +39,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
-				<a href="boardList" class="bo_list_btn bo_btn">목록</a>
+				<a href="javascript:viewBoardList('${bvo.c_idx}', '${cPage}')" class="bo_list_btn bo_btn">목록</a>
 				<a href="javascript:reply('${bvo.bd_idx}', '${param.cPage}')" class="bo_reply_btn bo_btn">답변</a>
 				<a href="" class="bo_print_btn bo_btn">인쇄</a>
 			</td>

@@ -26,7 +26,7 @@
 									<td>${vo.tvo.tr_name} </td>
 									<td>${vo.cvo.c_name }</td>
 									<td>${vo.so_menu }</td>
-									<td>${vo.svo.sf_name }</td>
+									<td>${vo.so_tname }</td>
 									<td>${vo.so_subject }</td>
 									<td>${vo.so_pd }</td>
 									<td>

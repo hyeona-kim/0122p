@@ -40,7 +40,7 @@ public class SuggestionController {
 	@Autowired
 	SuggestionService s_Service;
 
-	private List<SuggestionVO> r_list;
+	private List<SuggestionVO> sg_r_list;
 
     @RequestMapping("suggestionList")
     public String suggestionList() {
@@ -66,16 +66,16 @@ public class SuggestionController {
 		ModelAndView mv = new ModelAndView();
 		SuggestionVO vo = s_Service.view(sg_idx);
 
-		Object obj = session.getAttribute("r_list");
+		Object obj = session.getAttribute("sg_r_list");
 		if(obj == null) {
-			r_list = new ArrayList<SuggestionVO>();
-			session.setAttribute("r_list", r_list);
+			sg_r_list = new ArrayList<SuggestionVO>();
+			session.setAttribute("sg_r_list", sg_r_list);
 		}else {
-			r_list = (ArrayList<SuggestionVO>) obj;
+			sg_r_list = (ArrayList<SuggestionVO>) obj;
 		}
 		boolean read = CheckRead(vo);
 		if(!read) {
-			r_list.add(vo);
+			sg_r_list.add(vo);
 			s_Service.addHit(vo.getSg_idx());
 		}
 
@@ -87,8 +87,8 @@ public class SuggestionController {
 	public boolean CheckRead(SuggestionVO vo) {
 		boolean flag = false;
 
-		for (int i=0; i<r_list.size(); i++){
-			SuggestionVO svo = r_list.get(i);
+		for (int i=0; i<sg_r_list.size(); i++){
+			SuggestionVO svo = sg_r_list.get(i);
 			if(vo.getSg_idx().equals(svo.getSg_idx())){
 				flag = true;
 				break;
@@ -223,7 +223,7 @@ public class SuggestionController {
 		return mv;
 	}
 
-	@RequestMapping("download")
+	@RequestMapping("SuggDownload")
 	public ResponseEntity<Resource> fileDownload(String fname) {
 		String realPath = application.getRealPath("/upload_suggFile/"+fname);
 

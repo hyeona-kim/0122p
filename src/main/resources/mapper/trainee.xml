@@ -153,4 +153,9 @@
 		(select * from trainee_t t WHERE t.status = 0 and t.c_idx= #{c_idx} order by tr_idx desc)a ,(select @RN:=0) b) c 
 		where c.rnum between ${begin} and ${end}
 </select>
+
+<update id="counsel_date" parameterType="Map">
+	update trainee_t set ss_end = #{ss_end}
+	where tr_idx = #{tr_idx}
+</update>
 </mapper>

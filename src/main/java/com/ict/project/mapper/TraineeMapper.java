@@ -27,6 +27,7 @@ public interface TraineeMapper {
     List<TraineeVO> course_list(String c_idx, String begin,String end);
     List<TraineeVO> course_search(String select,String value,String year,String begin, String end);
     List<TraineeVO> course_searchValue(String c_idx, String select,String value,String year,String begin, String end);
+    int counsel_date(String tr_idx, String ss_end);
 
 
 }

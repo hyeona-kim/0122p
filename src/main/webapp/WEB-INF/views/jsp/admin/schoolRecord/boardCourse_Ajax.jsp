@@ -28,7 +28,7 @@
                     <td>${vo.c_day}</td>
                     <td>${vo.c_round_num}</td>
                     <td>${vo.c_peo_num}</td>
-                    <td><button id="board_btn" onclick="viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
+                    <td><button id="board_btn" onclick="test_viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
                 </tr>
                 </c:forEach>
             </c:if>
@@ -36,7 +36,7 @@
         <%-- 화면 하단 page 번호 출력하는 부분 --%>
         <tfoot>
             <tr>
-                <td colspan="6">
+                <td colspan="9">
                     <ol class="page">
                     <%-- ========== 이전버튼 만드는 부분 시작 ========== --%>
                     <%-- startPage가 5보다 작을 경우
@@ -56,7 +56,7 @@
                         <c:if test="${vs.index eq page.nowPage }">
                         <li class="now">${vs.index }</li>
                         </c:if>
-                        <c:if test="${vs.index ne page.nowPage && viewList_flag eq null}">
+                        <c:if test="${vs.index ne page.nowPage}">
                         <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
                         </c:if>
                     </c:forEach>

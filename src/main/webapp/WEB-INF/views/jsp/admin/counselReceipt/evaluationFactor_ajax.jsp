@@ -14,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody id="addRoom_tbody">
-				<c:forEach var="rvo" items="${ar }">
+				<c:forEach var="rvo" items="${ar2 }">
 						<tr>
 							<td>
 								<strong>${rvo.ef_idx }</strong>

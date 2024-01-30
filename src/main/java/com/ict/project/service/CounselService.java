@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.CounselMapper;
 import com.ict.project.vo.CounselVO;
+import com.ict.project.vo.TraineeVO;
 
 @Service
 public class CounselService {
@@ -14,6 +15,8 @@ public class CounselService {
     @Autowired
     private CounselMapper c_mapper;
 
+
+      
     // 상담 검색하는 기능
     public CounselVO[] searchCounsel(String select, String value, String year, String begin, String end) {
         CounselVO[] ar = null;
@@ -69,5 +72,31 @@ public class CounselService {
     // 다시 totalRecord를 검색하는 기능
     public int getSearchCount(String select, String value, String year) {
         return c_mapper.search_count(select, value, year);
+ 
+   }
+   public CounselVO[] counselList(String tr_idx){
+            CounselVO[] ar = null;
+        List<CounselVO> list = c_mapper.counselList(tr_idx);
+        if(list != null && list.size() > 0) {
+            ar = new CounselVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+
+}
+    public int counselCount(String tr_idx){
+        return c_mapper.counselCount(tr_idx);
+    }
+
+    public CounselVO[] getClist(String c_idx){
+        CounselVO[] ar = null;
+
+        List<CounselVO> list = c_mapper.clist(c_idx);
+        if(list != null && list.size() > 0) {
+            ar = new CounselVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
     }
 }

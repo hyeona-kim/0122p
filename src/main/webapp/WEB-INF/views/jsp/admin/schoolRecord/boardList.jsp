@@ -229,13 +229,13 @@ table tfoot ol.page {
 <c:if test="${tvo eq null }">
 <body>
 	<article>
-		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
+		<!-- <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include> -->
 		<div id="center">
-			<jsp:include page="./leftList.jsp"></jsp:include>
+			<!-- <jsp:include page="./leftList.jsp"></jsp:include> -->
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 				<div id="boWrap">
-					<div id="boList_top">과정별 게시판</div>
+					<!-- <div id="boList_top">과정별 게시판</div> -->
 	
 						<%-- ===== 검색하는 부분 ===== --%>
 						<table id="boList">
@@ -253,7 +253,7 @@ table tfoot ol.page {
 									</td>
 									<th colspan="2">전체공지</th>
 									<td colspan="2">
-										<input type="checkbox" id="chk_btn" onchange="checkNotice()"/>숨김
+										<input type="checkbox" id="chk_btn" onchange="checkNotice('${cPage}', '${c_idx}')"/>숨김
 									</td>
 								</tr>
 								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn" onclick="add_btn_click('${param.c_idx}')">글쓰기</button></td></tr>
@@ -291,14 +291,16 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-	
 		$(function() {
 			//$().removeClass("selected");
 			/* 처음 게시판을 클릭했을 때
 				 비동기식통신을 수행해 전체 목록을 가져온다 */
+			
 			$.ajax({
 					url: "boardListAjax",
 					type: "post",
+					data: "cPage="+'${cPage}'+
+							"&c_idx="+'${c_idx}'
 				}).done(function(result){
 					$("#board_list").html(result);
 				});
@@ -361,28 +363,31 @@ table tfoot ol.page {
 		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
 		function addBoard() {
 			// 유효성 검사 해야함
+			$("#addForm").dialog("close");
 			
-			document.forms[0].submit();
 		};
 		
-		
 		/* 글의 제목을 클릭했을 때 내용 보기 */
-		function viewContent(bd_idx) {
+		function viewContent(bd_idx, cPage, c_idx) {
 			$.ajax({
 				url: "boardViewAjax",
 				type: "post",
-				data: "bd_idx="+bd_idx
+				data: "bd_idx="+bd_idx+
+						"&cPage="+cPage+
+						"&c_idx="+c_idx,
 			}).done(function(result){
 				$("#boContent").html(result);
+
+				$("#boContent").dialog({
+					title : '게시글 보기',
+					modal : true,
+					width : 1000,
+					height : 600
+				});
 			});
 			
-			$("#boContent").dialog({
-				title : '게시글 보기',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
 		};
+
 		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
 		function reply(idx) {
 			$.ajax({
@@ -405,6 +410,7 @@ table tfoot ol.page {
 		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
 			frm.submit();
+
 		};
 		
 		/* 게시글 목록에서 [검색]을 눌렀을때 수행 */
@@ -420,7 +426,7 @@ table tfoot ol.page {
 			});
 		};
 
-		function checkNotice(cPage) {
+		function checkNotice(cPage, c_idx) {
 			let checked = $("#chk_btn").is(':checked');
 			if(checked) {
 				$.ajax({
@@ -432,9 +438,10 @@ table tfoot ol.page {
 				});
 			}else if(!checked) {
 				$.ajax({
-					url: "boardListAjax",
+					url: "boardList",
 					type: "post",
-					data: "cPage="+encodeURIComponent('1'),
+					data: "cPage="+encodeURIComponent('1')+
+							"&c_idx="+encodeURIComponent(c_idx),
 				}).done(function(result) {
 					$("#board_list").html(result);
 				});

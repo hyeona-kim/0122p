@@ -5,7 +5,6 @@
     <caption>일자별 상담관리</caption>
                     <thead>
                         <tr>
-                            <th>선택<input type="checkbox" id="chkAll"/></th>
                             <th>번호</th>
                             <th>이미지</th>
                             <th>학생코드</th>
@@ -22,7 +21,6 @@
                     <c:forEach var="vo" items="${ar }" varStatus="vs">
                     <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
                         <tr>
-                            <td><input type="checkbox" id="${vo.tr_idx}"/></td>
                             <td>${num-vs.index}</td>
                             <c:if test="${vo.c_img ne null}">
                                 <td>${vo.c_img} </td>

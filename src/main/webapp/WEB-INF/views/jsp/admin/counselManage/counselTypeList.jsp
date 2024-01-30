@@ -142,7 +142,7 @@ table tfoot ol.page {
       margin: auto;
    }
    
-   #t1, t2 td{
+   #t1, td{
       border: 1px solid black;
       padding: 4px;
       height: 20px;
@@ -383,9 +383,9 @@ table tfoot ol.page {
             if(select == "1" || select == "3")
                list = "1";
             else if(select == "2")
-               list = "2";
+               location.href='counselDateSearch?value='+value;
             else
-               list = "3";
+               location.href='counselTraineeSearch?value='+value;
             if(value != null && value.trim().length > 0){
                
                $.ajax({
@@ -485,6 +485,7 @@ table tfoot ol.page {
                 }
             }
         });
+        
 
       function paging(str) {
          select = $("#searchType").val();

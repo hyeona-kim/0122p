@@ -43,7 +43,7 @@
         </tr>
         </thead>
          <tbody>
-            <c:forEach var="rvo" items="${ar }">
+            <c:forEach var="rvo" items="${ar2 }">
 
             <tr>
                 <td ></td>

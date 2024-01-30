@@ -26,7 +26,7 @@
                                  <c:if test="${bvo.bd_notice eq '1'}">
                                     <span id="notice">공지</span>
                                  </c:if>
-                                 <a href="javascript:viewContent('${bvo.bd_idx}', '${param.cPage}')">
+                                 <a href="javascript:viewContent('${bvo.bd_idx}', '${cPage}', '${c_idx}')">
                                     ${bvo.bd_subject}
                                  </a>
                               </td>                              
