@@ -81,8 +81,6 @@ public class CounselReciptController {
     @Autowired
     CourseTypeService ct_Service;
 
-    @Autowired
-    CourseService c_Service;
 
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect) {
