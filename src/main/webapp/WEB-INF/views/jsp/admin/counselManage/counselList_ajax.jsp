@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<h2 id="add_h2">상담관리보고서등록</h2>
+	<h2 id="add_h2">교육생 상담일지</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="t1">
 			<colgroup>
@@ -13,20 +13,20 @@
 			</colgroup>
 			<thead>
 				<tr>
-					<th >성명</th>
-					<td></td>
+					<th>성명</th>
+					<td>${tvo.tr_name}</td>
                 </tr>
                 <tr>
 					<th>주민번호</th>
-					<td></td>
+					<td>${tvo.tr_rrn}</td>
 				</tr>
                 <tr>
 					<th>주소</th>
-					<td></td>
+					<td>${tvo.tr_addr}</td>
 				</tr>
                 <tr>
 					<th>전화번호</th>
-					<td></td>
+					<td>${tvo.tr_hp}</td>
 				</tr>
 			</thead>
             <tr>
@@ -34,8 +34,8 @@
                 <td>${cvo.c_name}</td>
                 <th>교육기간</th>
                 <td>${cvo.start_date} ~ ${cvo.end_date}</td>
-                <td>총당담횟수</td>
-                <td></td>
+                <td>총상담횟수</td>
+                <td>${tvo.ss_num}</td>
             </tr>
 		</table>
 	</div>
@@ -50,64 +50,30 @@
 				<col width="25%"/>
 				<col width="25%"/>
 			</colgroup>
+
 			<thead id="t2head">
 				<tr>
-                    <th>회의일자</th>
-                    <td><input type="date" id="ss_mday" name="ss_mday"/></td>
-					<th>상담사</th>
-                    <td><input type="text" id="ss_tname" name="ss_tname" /></td>
+                    <th>상담일</th>
+					<th>구분</th>
+					<th>상담자</th>
+ 					<th>상담내용</th>
+        			<th>조치사항</th>    
                 </tr>
-                <tr>
-                    <th>훈련시간</th>
-                    <td><input type="time" id="ss_time" name="ss_time"/></td>
-					<th>훈련교사</th>
-                    <td>${cvo.svo.sf_name}<input type="hidden" id="sf_idx" name="sf_idx" value="${cvo.svo.sf_idx}"/></td>
+				<c:if test="${ar ne null}" >
+				<c:forEach var="vo" items="${ar}">
+				<tr>
+                    <th><a href="javascript:editCounsel('${vo.so_idx}', '${vo.tr_idx}')">${vo.so_day}</a></th>
+					<th>${vo.so_pp}</th>
+					<th>${vo.svo.sf_name}</th>
+ 					<th>${vo.so_subject}</th>
+        			<th>${vo.so_pd}</th>    
                 </tr>
-				<tr>
-                    <th>회의장소</th>
-                    <td><input type="text" id="ss_pa" name="ss_pa"/></td>
-                    <th>총회의회수</th>
-                    <td><input type="text" id="ss_cnt" name="ss_cnt"/></td>
-                </tr>
-                <tr>
-                    <th>상담회차</th>
-					<td><input type="text" id="ss_num" name="ss_num"/></td>
-                    <th>상담기간</th>
-					<td><input type="text" id="ss_day" name="ss_day"/></td>
-                </tr>
-				<tr>
-                	<th>회의참석자</th>
-					<td colspan ='3'><textarea type="text" id="ss_member" name="ss_member" cols="90" rows="10"></textarea></td>
-					
-				</tr>
-				<tr>
-					<th>상담목적</th>
-					<td colspan ='3'>
-						<textarea type="text" id="ss_p" name="ss_p" cols="90" rows="10"></textarea>
-					</td>
-				</tr>
-					<th>상담대상자</th>
-					<td colspan ='3'><textarea type="text" id="ss_name" name="ss_name" cols="90" rows="10"></textarea></td>
-				</tr>
-				<tr>
-					<th>상담내용전달사항</th>
-					<td colspan="3"><textarea type="text" id="ss_msg" name="ss_msg" cols="90" rows="10"></textarea></td>
-				</tr>
-				<tr>
-					<th>회의내용</th>
-					<td colspan ='3'><textarea type="text" id="ss_msubject" name="ss_msubject" cols="90" rows="10"></textarea></td>
-				</tr>
-				<tr>
-					<th>회의사진</th>
-					<td colspan ='3'><input type="file" id="ss_img1" name="ss_img1"/></td>
-				</tr>
-					
-			</thead>
-			<tbody>
-					<tr>
+				</c:forEach>
+				</c:if>
 						<td colspan="4">
-							<button type="submit">등록</button>
-							<button type="button" id="cc_close">취소</button>
+							<button type="button" onclick="counselListAdd('${tvo.tr_idx}')">상담등록</button>
+							<button type="button">인쇄</button>
+							<button type="button" id="cc_cancle">취소</button>
 						</td>
 					</tr>
 			</tbody>

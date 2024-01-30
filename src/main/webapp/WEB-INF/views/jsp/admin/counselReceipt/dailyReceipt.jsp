@@ -281,7 +281,90 @@ table tfoot ol.page {
 		border: 1px solid #2e2e2e;
 		height: 30px;
 	}
-	
+
+    #ttop{
+        margin: auto;
+        width: 95%;
+        height: 220px;
+        position: relative;
+    }
+    #ttop #t1{
+        position: absolute;
+        left: 0px;
+        top:10px;
+        width: 50%;
+        height: 110px;
+        text-align: left;
+    }
+    #ttop #t2{
+        position: absolute;
+        left: 3px;
+        bottom:9px;
+        width: 50%;
+        height: 110px;
+        text-align: left;
+    }
+    #ttop #t2 #top_table{
+        border-collapse: collapse;
+    }
+    #ttop #t2 #top_table th,#ttop #t2 #top_table td{
+        border: 1px solid #ababab;
+    }
+    #ttop #t2 #top_table th{
+        background-color: #dedede;
+        padding: 3px;
+    }
+    #ttop #t3{
+        position: absolute;
+        right: 10px;
+        top:10px;
+        width: 50%;
+        height: 110px;
+        text-align: right;
+    }
+    #ttop #t4{
+        position: absolute;
+        right: 0px;
+        bottom:0;
+        width: 50%;
+        height: 110px;
+        text-align: right;
+        
+    }
+    #ttop #t4 #right_table{
+        border: 1px solid blue;
+        position: absolute;
+        right: 0px;
+        bottom:0;
+        height: 90px;
+        border-collapse: collapse;
+    }
+    #ttop #t4 #right_table td{
+        border: 1px solid #ababab;
+    }
+    #ttop #t4 #right_table tr:first-child{
+        height: 30%;
+    }
+    #ttop #t4 #right_table tr:last-child{
+        height: 70%;
+    }
+    #reg_table{
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+    #reg_table td{
+        border: 1px solid #ababab;
+    }
+    #reg_table thead tr{
+        background-color: #dedede;
+    }
+    #reg_table tbody td:nth-child(12){
+        background-color: orange;
+    }
+    #reg_table tbody td:nth-child(16){
+        background-color: lightcoral;
+    }
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -298,51 +381,100 @@ table tfoot ol.page {
 			<div class="right">
 
 				<!--  여기서 표시될 테이블들 가지고오기 -->
-
 					<div id="staffWrap">
-						<div id="courseList_top">면접평가표리스트</div>
+						<div id="courseList_top">
+                            <!--자바스크립트 -->
+                        </div>
 						<div id="ttop">
-							<button type="button" onclick="setcr1()">평가표등록</button>	
+                            <div id="t1">
+                                검색
+                                <select name="" id="select">
+                                    <option value="0">전체</option>
+                                    <option value="1">모집중</option>
+                                    <option value="2">교육중</option>
+                                </select>
+                            </div>
+
+                            <article id="t2">
+                                <span>접수기준일: 당일0시~ 당일 24시까지</span>
+                                <table id="top_table">
+                                    <tr>
+                                        <th rowspan="4">접수현황</th>
+                                        <th colspan="5">일일 접수 현황</th>
+                                        <th colspan="5">일일 문의 현황</th>
+                                    </tr>
+                                    <tr>
+                                        <th>총계</th>
+                                        <th>국가기간</th>
+                                        <th>국민내일배움카드</th>
+                                        <th>일반과정</th>
+                                        <th>KDT</th>
+                                        <th>총계</th>
+                                        <th>국가기간</th>
+                                        <th>국민내일배움카드</th>
+                                        <th>일반과정</th>
+                                        <th>KDT</th>
+                                    </tr>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                </table>
+                            </article>
+                    
+                            <div id="t3">
+                                <a href=""><img alt="인쇄" src=""/></a>
+                                <a href=""><img alt="액셀다운" src=""/></a>
+                            </div>
+                            <article id="t4">
+                                <span id="nowDate"></span>
+                                <table id="right_table">
+                                    <tr>
+                                        <td rowspan="2">결재</td>
+                                        <td>담당</td>
+                                        <td>부장</td>
+                                        <td>원장</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </article>
 						</div>
 						<div id="counselReceipt_Table">
-						
+                            <!--과정에 대한 정보 가져오기 -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</article>
 		
-		<form name="frm" action="counselReceipt" method="post">
-			<input type="hidden" name="cr_idx" value="" />
-		</form>
-		
-		<div id="dialog" hidden="" title="면접평가표등록">	
-		</div>
 
-		<div id="dialog2" hidden="" title="면접평가표수정">	
-		</div>
-		
-		<div id="dialog3" hidden="" title="면접평가표">	
-		</div>
-
-		<div id="dialog4" hidden="" title="평가내용 등록/수정">	
-		</div>
-		
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 	<script>
-		let select ="";
-		let select_year = "";
-		let numPerPage = "";
-		let value ="";
-		let room_length =7;
 		$(function(){
+            let now = new Date();	
+            let year = now.getFullYear();   
+            $("#courseList_top").html("<strong>&nbsp;&nbsp;"+year+"년 일일모집현황</strong>");
+            $("#nowDate").html("Date:"+now.getFullYear()+"/"+now.getMonth()+"/"+now.getDate());
+            
 			$.ajax({
-				url: "counselReceiptMain",
+				url: "dailyReceipt",
 				type: "post",
-				data:"type="+encodeURIComponent("counselReceiptMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
+				data:"year="+year+"&selectList=3"
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
@@ -352,147 +484,20 @@ table tfoot ol.page {
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#firstmenu").addClass("selected");
-			$("#l_first").addClass("l_select");
+			$("#l_third").addClass("l_select");
+
+            $("#select").change(function(){
+                let select = $("#select").val();
+                $.ajax({
+                    url: "dailyReceipt",
+                    type: "post",
+                    data:"year="+year+"&selectList=3&select="+select,
+                }).done(function(result){
+                    $("#counselReceipt_Table").html(result);
+                });
+            });
 		});
 
-
-			
-		function setcr1() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("addCounselReceipt")
-			}).done(function(result){
-				$("#dialog").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
-				});
-			});
-
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr2(cr_idx) {
-			$.ajax({
-				url:"editCounselReceipt",
-				type:"post",
-				data:"&cr_idx="+cr_idx,
-			}).done(function(result){
-				$("#dialog2").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog2").dialog("close");
-				});
-			});
-
-            $("#dialog2").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr3() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("counselReceipt_file")
-			}).done(function(result){
-				$("#dialog3").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog3").dialog("close");
-				});
-			});
-
-            $("#dialog3").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr4() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("evaluationFactor")
-			}).done(function(result){
-				$("#dialog4").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog4").dialog("close");
-				});
-			});
-
-            $("#dialog4").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-
-		
-		
-		$( "#dialog" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		$( "#dialog2" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-		$( "#dialog3" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		$( "#dialog4" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		function addCounselReceipt(frm) {
-		    frm.action= "editCounselReceipt?edit=ok";
-		    frm.submit();
-		}
-
-		
-		function del(cr_idx){
-			if( confirm("삭제하시겠습니까?")){
-			frm.action = "delCounselReceipt";
-			document.frm.cr_idx.value = cr_idx; 
-			
-			document.frm.submit();
-			}
-		}
 
 	</script>
 </body>

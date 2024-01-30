@@ -2,33 +2,32 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
-		<h2 id="hd">유입경로항목 등록/수정</h2>
-		<form action="addInflowPath" method="post" name="rm">
-			<input type="hidden" name="id_idx" value="" />
+		<h2 id="hd">다음예정일 등록/수정</h2>
+		<form action="addNextscheduled" method="post" name="rm">
+			<input type="hidden" name="ns_idx" value="" />
 		<table id="makeTime">
 			<thead>
 				<tr bgcolor="lightgray">
 					<td>순번</td>
-					<td>유입경로항목</td>
+					<td>예정일항목</td>
 				</tr>
-					<c:forEach var="rvo" items="${ar3 }" varStatus="vs">
+					<c:forEach var="rvo" items="${ar }" varStatus="vs">
 						<tr>
 							<td><strong>${vs.index+1 }</strong><br/>
-								<button type="button" onclick="delId('${rvo.id_idx}')">삭제</button>
+								<button type="button" onclick="delNs('${rvo.ns_idx}')">삭제</button>
 							</td>
 
-							<td><input type="text" name="InflowPathName" value="${rvo.id_name }"> </td>
+							<td><input type="text" name="nextscheduledName" value="${rvo.ns_name }"> </td>
 						</tr>
 					</c:forEach>
 			</thead>
-					<tbody id="addInflowPath_tbody">
+					<tbody id="addNextscheduled_tbody">
 
 					</tbody>
-
 			<tfoot>
 				<tr>
 					<td colspan="4" align="left">
-						<input type="button" onclick="addInflowPath()" value="유입경로추가"/>
+						<input type="button" onclick="addNextscheduled()" value="항목추가"/>
 					</td>
 				</tr>
 				<tr>

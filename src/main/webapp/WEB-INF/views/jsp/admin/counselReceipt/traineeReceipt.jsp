@@ -281,7 +281,48 @@ table tfoot ol.page {
 		border: 1px solid #2e2e2e;
 		height: 30px;
 	}
-	
+	#counselReceipt_Table{
+		width: 100%;
+		height: 600px;
+		background-color: #ededed;
+	}
+	#counselReceipt_Table article:first-child{
+		margin: auto;
+		width: 98%;
+		height: 10%;
+		text-align: right;
+		line-height: 60px;
+	}
+	.btn{
+		background-color: #00acac;
+		border: 1px solid #00acac;
+		color: white;
+		padding: 7px;
+		border-radius: 5px 5px;
+		font-weight: bold;
+	}
+	#counselReceipt_Table article:last-child{
+		margin: auto;
+		height: 80%;
+		width: 98%;
+		background-color: white;
+	}
+	#counselReceipt_Table #exel_d{
+		width: 100%;
+		height: 400px;
+	}
+	#counselReceipt_Table #exel_t{
+		width: 100%;
+		height: 90px;
+		border-collapse: collapse;
+		margin: auto;
+	}
+	#counselReceipt_Table #exel_t th,#counselReceipt_Table #exel_t td{
+		border: 1px solid #dedede;
+	}
+	#counselReceipt_Table #exel_t th{
+		background-color: #dedede;
+	}
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -298,201 +339,72 @@ table tfoot ol.page {
 			<div class="right">
 
 				<!--  여기서 표시될 테이블들 가지고오기 -->
-
 					<div id="staffWrap">
-						<div id="courseList_top">면접평가표리스트</div>
-						<div id="ttop">
-							<button type="button" onclick="setcr1()">평가표등록</button>	
-						</div>
+						<div id="courseList_top">
+                            <strong>&nbsp;&nbsp;&nbsp;수강생 등록</strong>
+                        </div>
 						<div id="counselReceipt_Table">
-						
+                            <!--과정에 대한 정보 가져오기 -->
+							<article>
+								<button class="btn" id="exelDown_btn">수강생데이터입력샘플EXCEL</button>
+							</article>
+							<article>
+								<div id="exel_d">
+									<table id="exel_t">
+										<colgroup>
+											<col width="30%"/>
+											<col width="70%"/>
+										</colgroup>
+										<tr>
+											<th>
+												수강생일괄등록
+											</th>
+											<td >
+												<input type="file" name="t_file" style="border: 1px solid #ababab;"/><br/><br/>
+												<input type="button" class="btn" id="submit_btn" value="등록"/>
+											</td>
+										</tr>
+									</table>
+									<div>[파일 등록 시 아래사항들을 다시한번 확인해주세요!]</div>
+									<br/><br/>
+									<div>
+										*필수입력사항:성함,연락처,훈련과정명(코드값),수강상태<br/>
+										*훈련과정명(코드값)은 과정등록에 있는 과정코드값을 입력해야합니다, 과정명을 입력하면 저장되지 않습니다.<br/>
+										*수강상태는 수강,수료,조기수료,미수료,제적 중에 하나를 택하여 정확히 입력해주세요.<br/>
+										*카드유형을 취성패1,취성패2,국가취업지원제도1,국가취업지원제도2,내일배움카드(실업자),근로자카드,일반(근로복지공단),일반,일반(기타)중에 하나를 입력해주세요<br/>
+										*전체교육비가 없을경우 0을 입력합니다.<br/>
+										*주민번호,전화,우편번호,주소,상담메모,카드유형은 필수 입력값이 아니며 내용이 없으면 공란으로 작성해주세요.<br/>
+										*이외에 입력할 내용은 등록 후 수정바라며, 파일 업로드시 참고사항내용은 삭제 후 업로드 바랍니다.<br/>
+										*파일형식은 97-2003파일형식으로 저장하셔야 합니다.<br/>
+									</div>
+								</div>
+							</article>
 						</div>
 					</div>
 				</div>
 			</div>
 		</article>
 		
-		<form name="frm" action="counselReceipt" method="post">
-			<input type="hidden" name="cr_idx" value="" />
-		</form>
-		
-		<div id="dialog" hidden="" title="면접평가표등록">	
-		</div>
 
-		<div id="dialog2" hidden="" title="면접평가표수정">	
-		</div>
-		
-		<div id="dialog3" hidden="" title="면접평가표">	
-		</div>
-
-		<div id="dialog4" hidden="" title="평가내용 등록/수정">	
-		</div>
-		
 		
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 	<script>
-		let select ="";
-		let select_year = "";
-		let numPerPage = "";
-		let value ="";
-		let room_length =7;
 		$(function(){
-			$.ajax({
-				url: "counselReceiptMain",
-				type: "post",
-				data:"type="+encodeURIComponent("counselReceiptMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
-			}).done(function(result){
-				$("#counselReceipt_Table").html(result);
-			});
-			
-			
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#firstmenu").addClass("selected");
-			$("#l_first").addClass("l_select");
+			$("#l_five").addClass("l_select");
+			$("#submit_btn").click(function(){
+				console.log("저장버튼클릭");
+			});
+            $("#exelDown_btn").click(function(){
+				console.log("엑셀파일 다운로드");
+			});
 		});
 
-
-			
-		function setcr1() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("addCounselReceipt")
-			}).done(function(result){
-				$("#dialog").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
-				});
-			});
-
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr2(cr_idx) {
-			$.ajax({
-				url:"editCounselReceipt",
-				type:"post",
-				data:"&cr_idx="+cr_idx,
-			}).done(function(result){
-				$("#dialog2").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog2").dialog("close");
-				});
-			});
-
-            $("#dialog2").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr3() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("counselReceipt_file")
-			}).done(function(result){
-				$("#dialog3").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog3").dialog("close");
-				});
-			});
-
-            $("#dialog3").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-		function setcr4() {
-			$.ajax({
-				url:"cr_dialog",
-				type:"post",
-				data:"&select="+encodeURIComponent("evaluationFactor")
-			}).done(function(result){
-				$("#dialog4").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog4").dialog("close");
-				});
-			});
-
-            $("#dialog4").dialog("open",{
-            	width:500,
-            	height:600
-            });
-        }
-
-
-		
-		
-		$( "#dialog" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		$( "#dialog2" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-		$( "#dialog3" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		$( "#dialog4" ).dialog({
-            autoOpen: false,
-            width:1000,
-            modal: true,
-            buttons: {
-                "닫기": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
-
-		function addCounselReceipt(frm) {
-		    frm.action= "editCounselReceipt?edit=ok";
-		    frm.submit();
-		}
-
-		
-		function del(cr_idx){
-			if( confirm("삭제하시겠습니까?")){
-			frm.action = "delCounselReceipt";
-			document.frm.cr_idx.value = cr_idx; 
-			
-			document.frm.submit();
-			}
-		}
 
 	</script>
 </body>
