@@ -223,7 +223,7 @@ public class SuggestionController {
 		return mv;
 	}
 
-	@RequestMapping("download")
+	@RequestMapping("SuggDownload")
 	public ResponseEntity<Resource> fileDownload(String fname) {
 		String realPath = application.getRealPath("/upload_suggFile/"+fname);
 
