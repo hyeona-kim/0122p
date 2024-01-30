@@ -10,7 +10,12 @@
 					<td>교육기간</td>
 					<td>${cvo.start_date} ~ ${cvo.end_date}</td>
 					<td>총회의수</td>
+				<c:if test="${ss_cnt ne null}">
 					<td>${ss_cnt}</td>
+				</c:if>
+					<c:if test="${ss_cnt eq null}">
+					<td>0</td>
+				</c:if>
 				</tr>
 			</thead>
 		</table>
@@ -30,7 +35,7 @@
 			<thead id="t2head">
 				
 				<tr>
-                    <td>회의일:</td>
+                    <td>회의일</td>
 					<td>회차</td>
 					<td>상담기간</td>
 					<td>상담목적</td>
@@ -39,10 +44,10 @@
                 </tr>
 			</thead>	
 			<tbody>
-				<c:forEach items="${ar}" var="vo">
+				<c:forEach items="${ar}" var="vo" varStatus="vs">
 					<tr>
 						<td>${vo.ss_mday}</td>
-						<td>${vo.ss_cnt}</td>
+						<td>${ss_cnt-vs.index}</td>
 						<td>${vo.ss_day}</td>
 						<td>${vo.ss_p}</td>
 						<td>${cvo.svo.sf_name}</td>

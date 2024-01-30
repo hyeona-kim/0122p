@@ -111,8 +111,8 @@ public class TraineeService {
 
     }
 
-    public int getCounsel_date(String tr_idx, String ss_end){
-        return t_mapper.counsel_date(tr_idx, ss_end);
+    public int getCounsel_date(String tr_idx, String ss_end, String ss_num){
+        return t_mapper.counsel_date(tr_idx, ss_end, ss_num);
     }
 
     public int getTCount(String c_idx,String year,String ct_idx,String select,String value){

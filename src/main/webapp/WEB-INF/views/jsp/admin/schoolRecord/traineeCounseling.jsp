@@ -7,7 +7,7 @@
 				        <caption>신상기록부</caption>
 					<tbody>
 						<tr>
-							<th rowspan="5">이미지파일</th>
+							<th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></th>
                         </tr>
                         <tr>
 							<th>성명</th>
@@ -36,7 +36,12 @@
                         <th>교육기간</th>
                         <td>${cv.start_date}~${cv.end_date}</td>
                         <th>총상담횟수</th>
-                        <td></td>
+                        <c:if test="${vo11.ss_num eq null}">
+                           <td> 0회 </td>
+                        </c:if>
+                        <c:if test="${vo11.ss_num ne null}">
+                            <td>${vo11.ss_num}</td>
+                        </c:if>
                     </tr>
                 </tbody>
             </table>
@@ -52,16 +57,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>${so_day}</td>
+                        <td>${so_menu}</td>
+                        <td>${so_tname}</td>
+                        <td>${so_menu}</td>
+                        <td>${so_pd}</td>
                     </tr>
                 </tbody>
             </table>
             <div>
-                <button type="button" onclick="">상담등록</button>           
+                <button type="button" onclick="couupload('${vo11.tr_idx},${vo11.c_idx}')">상담등록</button>           
                 <button type="button" onclick="">엑셀</button>           
                 <button type="button" onclick="">인쇄</button>           
                 <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx">취소</button>           

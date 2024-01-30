@@ -161,7 +161,7 @@
 </select>
 
 <update id="counsel_date" parameterType="Map">
-	update trainee_t set ss_end = #{ss_end}
+	update trainee_t set ss_end = #{ss_end} , ss_num = #{ss_num}
 	where tr_idx = #{tr_idx}
 </update>
 
