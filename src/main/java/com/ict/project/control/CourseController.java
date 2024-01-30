@@ -179,7 +179,8 @@ public class CourseController {
 			value= null;
 			select=null;
 		}
-		if(year.equals("년도선택"))
+
+		if(year.equals("년도선택") || year.trim().length()==0)
 			year = null;
 		if(num.equals("표시개수"))
 			num = null;
