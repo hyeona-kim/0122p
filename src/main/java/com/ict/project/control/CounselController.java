@@ -355,12 +355,9 @@ public class CounselController {
     @RequestMapping("ss_dialog")
     public ModelAndView ss_dialog(String select,String c_idx, String tr_idx){
         ModelAndView mv = new ModelAndView();
+        System.out.println(select + "/" + c_idx + "/" + tr_idx);
         
-        
-        CourseVO cvo = c_Service.getCourse2(c_idx);
-        mv.addObject("cvo", cvo);
-        
-        
+       
         if(select.equals("addCounselFile"))
         mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
         else if(select.equals("counselAddMain"))
@@ -375,7 +372,9 @@ public class CounselController {
         else if(select.equals("counselList")){
             mv.setViewName("/jsp/admin/counselManage/counselList_ajax");
             TraineeVO tvo = t_Service.view(tr_idx);
-            CounselVO[] ar = cs_Service.counselList(tr_idx);
+            CounselVO[] ar = cs_Service.counselList(tr_idx);    
+            CourseVO cvo = c_Service.getCourse2(c_idx);
+     
             tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
             mv.addObject( "cvo", cvo);
             mv.addObject("tvo", tvo);
@@ -383,14 +382,21 @@ public class CounselController {
             
         }
         else if(select.equals("counselListAdd")){
-          System.out.println(select);
         mv.setViewName("/jsp/admin/counselManage/counselListAdd_ajax");
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        TraineeVO tvo = t_Service.view(tr_idx);
+        tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
+        mv.addObject("tvo",tvo);
+        mv.addObject("cvo",cvo );
+        System.out.println(cvo.getSf_idx() + "/" + cvo.getSvo().getSf_idx());
 
       }
 
         return mv;
     }
         
+
+    
         
     
   
@@ -445,4 +451,12 @@ public class CounselController {
 
     }
 
+    @RequestMapping("counselListAdd")
+    public ModelAndView counselListAdd(CounselVO vo){
+        ModelAndView mv = new ModelAndView();
+
+        int cnt = cs_Service.addCounsel(vo);
+        mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
+        return mv;
+    }
 }

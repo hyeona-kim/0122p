@@ -353,7 +353,7 @@ table tfoot ol.page {
 			$("#dialog3").dialog("open");
             $("#dialog3").html(result);
             
-            $("#cc_cancle").click(function(){
+            $("#close").click(function(){
                 $("#dialog3").dialog("close");
             });
          });
@@ -384,7 +384,7 @@ table tfoot ol.page {
 
 	  $("#dialog3").dialog({
 		autoOpen: false,
-            width:600,
+            width:1000,
             modal: true,
 
 	  })
