@@ -302,19 +302,28 @@ table tfoot ol.page {
 		let search_year = "";
 		let search_value = "";
 		let search_tag = "";
+		let add_flag = '${param.c_idx}';
+		
 		$(function() {
-            // 처음 게시판에 들어왔을 때
-            // 비동기식 통신을 이용해 과정의 내용들을 출력한다
+			$(".selected").removeClass("selected");
+			$(".l_select").removeClass("l_selected");
+			$("#thirdmenu").addClass("selected");
+			$("#l_five").addClass("l_select");
+			
+			// 게시판에 들어왔을 때 [글쓰기]를 하고 온 경우
+			// 과정별 게시판을 ajax를 이용해 목록을 출력한다
+			if(add_flag != "") {
+				test_viewBoardList(add_flag);
+			}else { // 처음 게시판에 들어왔을 때의 경우
+				// 비동기식 통신을 이용해 과정의 목록들을 출력한다
 				$.ajax({
 					url: "boardCourseAjax",
 					type: "post",
 				}).done(function(result) {
 					$("#board_main_list").html(result);
 				});
-
-				<c:if test="${param.re} == '1'">
-					test_viewBoardList('${param.c_idx}', 1);
-				</c:if>
+			};
+			
         });
 
         /* 목록 아래 [page번호]를 클릭할 때 수행
@@ -386,7 +395,6 @@ table tfoot ol.page {
 				$("#board_main_list").html(result);
 			});
 		};
-
 	</script>
 </body>
 </c:if>

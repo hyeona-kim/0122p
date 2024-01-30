@@ -247,7 +247,7 @@ table tfoot ol.page {
 						</thead>
 					</table>
 					<%-- ===== 비동기식 통신으로 출력할 테이블 시작 ===== --%>
-					<form action="download" name="downForm" method="get">
+					<form action="SuggDownload" name="downForm" method="get">
 						<input type="hidden" name="fname"/>
 						<div id="ajaxContent">
 						
