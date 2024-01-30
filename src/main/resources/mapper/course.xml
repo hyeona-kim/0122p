@@ -23,7 +23,7 @@
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
-							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+							<if test="year !=null">c.start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 				order by c_idx desc
@@ -99,10 +99,10 @@
 		select count(*) 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select sb.*, c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct,subject_t sb
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct
 				<where>
 					<trim suffixOverrides="and">
-							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and sb.c_idx= c.c_idx
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
