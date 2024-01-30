@@ -79,7 +79,7 @@ public class CounselController {
       
       cs_Service.deleteCounsel(so_idx);
       
-      return "redirect:counsel?listSelect=2";
+      return "redirect:counsel?listSelect=2&cPage="+cPage;
     }
     
     @RequestMapping("editCounsel")
@@ -89,7 +89,7 @@ public class CounselController {
             System.out.println(vo.getSo_day());
             if(listSelect.equals("3")) {
                 cs_Service.editCounsel(vo);
-                viewName =  "redirect:searchCounsel?listSelect=3&cPage="+cPage;
+                viewName =  "redirect:searchCounsel?listSelect=3";
             }else{
                 cs_Service.editCounsel(vo);
                 viewName = "redirect:counsel?listSelect=4&cPage="+cPage+"&c_idx="+vo.getC_idx();
@@ -145,10 +145,9 @@ public class CounselController {
             }
             vo.setSs_img(f_name);
         }
-
-      int cnt = ca_Service.add(vo);
-
-      //System.out.println(cnt);
+        if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0 && vo.getSs_cnt() !=null && vo.getSs_cnt().trim().length()>0){
+         int cnt = ca_Service.add(vo);
+        }
       mv.setViewName("redirect:counsel?listSelect=1&cPage=1");
 
         
@@ -381,7 +380,6 @@ public class CounselController {
             CourseVO cvo = c_Service.getCourse2(c_idx);
             TraineeVO tvo = t_Service.view(tr_idx);
             CounselVO[] ar = cs_Service.counselList(tr_idx);    
-            CourseVO cvo = c_Service.getCourse2(c_idx);
      
             tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
             mv.addObject( "cvo", cvo);
@@ -472,8 +470,9 @@ public class CounselController {
     @RequestMapping("counselListAdd")
     public ModelAndView counselListAdd(CounselVO vo){
         ModelAndView mv = new ModelAndView();
-
-        int cnt = cs_Service.addCounsel(vo);
+        if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
+            cs_Service.addCounsel(vo);
+        }
         mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
         return mv;
     }
