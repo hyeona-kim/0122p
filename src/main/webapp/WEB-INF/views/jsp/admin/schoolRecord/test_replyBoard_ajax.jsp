@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
-<form action="test_replyBoard" method="post" id="replyForm_t">
+<form action="test_replyBoard" method="post" id="replyForm_t" enctype="multipart/form-data">
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
 	<input type="hidden" name="writer" value="${bvo.bd_writer}">
 	<input type="hidden" name="c_idx" value="${bvo.c_idx}">
 	<table>
 		<caption>게시판 답변 작성 테이블</caption>
-		<thead>
-			
-		</thead>
 		<tbody>
 			<tr>
 				<th>제목</th>
@@ -27,13 +24,13 @@
 			</tr>
 			<tr>
 				<th>파일첨부</th>
-				<td class="left"><input type="file" id="bd_file" name="bd_file"/></td>
+				<td class="left"><input type="file" id="bd_file" name="file"/></td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<button type="button" class="bo_edit_btn bo_btn" onclick="addReply('${bvo.c_idx}')">등록</button>
+					<button type="button" class="bo_edit_btn bo_btn" onclick="addReply(this.form)">등록</button>
 					<button type="button" class="bo_del_btn bo_btn" id="cancel_btn">취소</a>
 				</td>
 			</tr>

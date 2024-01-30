@@ -28,6 +28,7 @@ import com.ict.project.service.EvaluationFactorService;
 import com.ict.project.service.InflowPathService;
 import com.ict.project.service.NextscheduledService;
 import com.ict.project.service.StaffService;
+import com.ict.project.service.TraineeService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselReceiptVO;
 import com.ict.project.vo.EvaluationFactorVO;
@@ -35,6 +36,7 @@ import com.ict.project.vo.InflowPathVO;
 import com.ict.project.vo.NextscheduledVO;
 import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
@@ -81,6 +83,9 @@ public class CounselReciptController {
     @Autowired
     CourseTypeService ct_Service;
 
+    @Autowired
+    TraineeService tn_Service;
+
 
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect) {
@@ -100,11 +105,18 @@ public class CounselReciptController {
              mv.addObject("ns_length", ar2.length);
         }else if(listSelect.equals("3"))
            mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
-        else if(listSelect.equals("4"))
-        mv.setViewName("/jsp/admin/counselReceipt/traineeRegReceipt");
+        else if(listSelect.equals("4")){
+            mv.setViewName("/jsp/admin/counselReceipt/traineeRegReceipt");
+            CourseTypeVO[] ct_ar = ct_Service.getList();
+            mv.addObject("ct_ar", ct_ar);
+            int totalCourse =c_Service.getSearchCount(null, null, null);
+            CourseVO[] c_ar = c_Service.searchCourse(null, null, null, "1", String.valueOf(totalCourse));
+            mv.addObject("c_ar", c_ar);
+        }
         else if(listSelect.equals("5"))
             mv.setViewName("/jsp/admin/counselReceipt/traineeReceipt");
         return mv;
+     
     }
 
      @RequestMapping("counselReceiptMain")
@@ -320,4 +332,35 @@ public class CounselReciptController {
         mv.setViewName("redirect:counselReceipt?listSelect=2&cPage=1");
 		return mv;
     }
+    @RequestMapping("trainee")
+    public ModelAndView trainee(String chk1,String num) {
+        //비동기통신 
+        ModelAndView mv = new ModelAndView();
+        String[] chk = chk1.split(",");
+        boolean[] b_ar = new boolean[21];
+        for(int i=0; i<b_ar.length;i++){
+            b_ar[i] =false;
+            for(int k=0; k<chk.length;k++){
+                if(chk[k].equals(String.valueOf(i))){
+                    b_ar[i] =true;
+                    break;
+                }
+            }
+        }
+        mv.addObject("cols", b_ar.length);
+        mv.addObject("b_ar", b_ar);
+        //이름0,주민번호0,전화번호0,전화,과정0,결재일0,지원경로,개강일0,HRD등록일0,현재상태0,제적일,제적사유0,수료일0,전체교육비,카드유형0,우편번호,주소,메모,이전직장명,학생코드,과정타입(1~18)
+        Paging page =new Paging(Integer.parseInt(num),5);
+        page.setTotalRecord(tn_Service.getTCount());
+        page.setNowPage(1);
+        TraineeVO[] ar =tn_Service.getTList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+
+        mv.addObject("page", page);
+        mv.addObject("t_ar", ar);
+       
+        
+        mv.setViewName("/jsp/admin/counselReceipt/trainee_ajax");
+        return mv;
+    }
+    
 }

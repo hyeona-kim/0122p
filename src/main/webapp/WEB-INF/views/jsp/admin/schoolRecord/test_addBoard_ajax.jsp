@@ -2,13 +2,11 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
-<form action="" method="post" id="addForm_t">
+<form action="test_addBoard" method="post" id="addForm_t" enctype="multipart/form-data">
+	<!-- 추가 인자로 보내기 위해 hidden으로 던진다 -->
 	<input type="hidden" name="c_idx" value="${param.c_idx}"/>
 	<table>
 		<caption>게시판 등록 테이블</caption>
-		<thead>
-			
-		</thead>
 		<tbody>
 			<tr>
 				<th>제목</th>
@@ -31,7 +29,7 @@
 			<tr>
 				<td colspan="2">
 					<!-- <a href="" class="bo_edit_btn bo_btn">등록</a> -->
-					<button type="button" onclick="addBoard('${c_idx}')" class="bo_edit_btn bo_btn">등록</button>
+					<button type="button" onclick="addBoard(this.form)" class="bo_edit_btn bo_btn">등록</button>
 					<!-- <button type="button" onclick="addBoard()" class="bo_edit_btn bo_btn">등록</button> -->
 					<a href="" class="bo_del_btn bo_btn">취소</a>
 				</td>

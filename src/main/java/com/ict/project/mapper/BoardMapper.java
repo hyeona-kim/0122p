@@ -10,7 +10,7 @@ public interface BoardMapper {
     int add(BoardVO vo);
     int addReply(BoardVO vo);
     int count();
-    List<BoardVO> search(String subject,String begin, String end);
+    List<BoardVO> searchBoard(String c_idx, String bd_subject,String begin, String end);
     int reCount(String c_idx, String bd_subject);
     BoardVO getBoard(String bd_idx);
     int cntNonNotice(String c_idx);

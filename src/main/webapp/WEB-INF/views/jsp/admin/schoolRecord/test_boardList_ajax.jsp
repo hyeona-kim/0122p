@@ -31,7 +31,9 @@
                                  </a>
                               </td>
                               <td>
-                                 ${bvo.bd_file}
+                                 <a href="javascript:download('${bvo.bd_fname}')">   
+                                    ${bvo.bd_fname}
+                                 </a>
                               </td>
                               <td>***</td>
                               <td>${bvo.bd_write_date}</td>
