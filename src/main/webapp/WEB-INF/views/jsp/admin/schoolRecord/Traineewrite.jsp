@@ -8,7 +8,7 @@
 				        <caption>신상기록부</caption>
 					<tbody>
 						<tr>
-							<th rowspan="5">이미지</th>
+							<th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></th>
                         </tr>
                         <tr>
 							<th>성명</th>
@@ -72,22 +72,18 @@
                 </tbody>
             </table>
             <table id="makeTime">
-                <thead>
                     <tr>
                         <th rowspan="2">최종학력</th>
-                        <th colspan="2">학교명</th>
-                        <th colspan="2">졸업년도</th>
-                        <th colspan="2">전공</th>
+                        <th >학교명</th>
+                        <th >졸업년도</th>
+                        <th >전공</th>
                     </tr>
-                </thead>
-                <tbody>
                     <tr>
                         
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                     </tr>
-                </tbody>
             </table>
             <table id="makeTime">
                 <thead>

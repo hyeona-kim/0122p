@@ -85,7 +85,7 @@ public class TraineeController {
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
 
-		mv.setViewName("jsp/admin/schoolRecord/traineeCurrent");
+		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent");
 
 		return mv;
 	}
@@ -223,7 +223,7 @@ public class TraineeController {
 		
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
-		mv.setViewName("jsp/admin/schoolRecord/trainconfirm");
+		mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
         return mv;
     }
 
@@ -402,7 +402,7 @@ public class TraineeController {
 				}
 			}
 			int cnt = t_Service.trainedit(tvo);
-			System.out.println(tvo.getTr_phone());
+			//System.out.println(tvo.getTr_phone());
 			viewPath=("redirect:traineecurrentbt1?c_idx="+c_idx);
 		}
 		mv.setViewName(viewPath);
@@ -417,7 +417,7 @@ public class TraineeController {
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		// 상담 vo 가져와서 넣어놔야함
 		
-		System.out.println(cvo.getC_name());
+		//System.out.println(cvo.getC_name());
 		
 		
 		mv.addObject("vo11", vo);
@@ -438,7 +438,7 @@ public class TraineeController {
 
 		mv.addObject("vo12", vo);
 		mv.addObject("cc", cvo);
-		mv.setViewName("jsp/admin/schoolRecord/traineewrite");
+		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
 		return mv;
 	}
 
@@ -462,8 +462,9 @@ public class TraineeController {
 	@RequestMapping("alledit")
 	public ModelAndView alledit(String c_idx, String cPage, String[] chk, String[] nowstatus,String[] tr_idx){
 		ModelAndView mv = new ModelAndView();
-System.out.println(tr_idx.length);
-System.out.println(nowstatus.length);
+		//System.out.println(tr_idx.length);
+		//System.out.println(nowstatus.length);
+
 		int cnt = 0;
 		for(String e: chk){
 			for(int i=0; i<tr_idx.length; i++){
@@ -474,6 +475,18 @@ System.out.println(nowstatus.length);
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 
 		return mv;
+	}
+
+	@RequestMapping("couupload")
+	public ModelAndView couupload(){
+		ModelAndView mv = new ModelAndView();
+
+
+
+		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
+
+		return mv;
+
 	}
 
 }
