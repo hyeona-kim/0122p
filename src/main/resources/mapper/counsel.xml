@@ -120,8 +120,4 @@
 		select count(*) from advice_t where tr_idx = #{tr_idx}
 	</select>
 
-	<select id="clist" parameterType="String" resultMap="map1">
-		select * from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t t 
-		where so_status = 0 and a.c_idx = c.c_idx and a.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx) a
-	</select>
 </mapper>

@@ -67,10 +67,10 @@ public class BoardController {
 		}
 		
 		CourseVO[] ar = c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
+	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_ajax");
+		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_Ajax");
 		
 		return mv;
 	}

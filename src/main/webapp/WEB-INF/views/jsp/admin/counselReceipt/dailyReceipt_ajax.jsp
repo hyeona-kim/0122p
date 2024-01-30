@@ -32,9 +32,9 @@
     </thead>
     
     <tbody>
-        <c:forEach var="cvo" items="${c_ar}">
+        <c:forEach var="cvo" items="${c_ar}" varStatus="vs">
             <tr>
-                <td>${cvo.ctvo.ct_name}</td>
+                <td bgcolor="${cvo.ctvo.ct_color}">${cvo.ctvo.ct_name}</td>
                 <td>${cvo.c_name}</td>
                 <td>${cvo.svo.sf_name}</td>
                 <td>${cvo.c_day}</td>
@@ -57,7 +57,7 @@
                 <td>0</td>
                 <td>HRD등록</td>
                 <td>${cvo.c_peo_num}</td>
-                <td>${cvo.c_peo_num}-재적인원</td>
+                <td>${cvo.c_peo_num}-(재적인원)</td>
                 <td>제적인원</td>
             </tr>
         </c:forEach>
