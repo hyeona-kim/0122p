@@ -452,6 +452,7 @@ public class CounselController {
         ModelAndView mv = new ModelAndView();
         CounselVO vo = new CounselVO();
         String ss_end;
+        String ss_num;
         if(date != null && date.length > 0){
             for(int i = 0;i < date.length; i++){
                 if(date[i] != null && date[i].trim().length() > 0){
@@ -466,7 +467,8 @@ public class CounselController {
                     vo.setSf_idx(sf_idx[i]);
                     cs_Service.addCounsel(vo);
                     ss_end = date[i];
-                    t_Service.getCounsel_date(tr_idx[i], ss_end, "!"); //(1, 2024-01-01)
+                    ss_num = Integer.toString(cs_Service.counselCount(tr_idx[i]));
+                    t_Service.getCounsel_date(tr_idx[i], ss_end, ss_num); //(1, 2024-01-01)
                 }
             }
         }

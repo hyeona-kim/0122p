@@ -254,6 +254,7 @@ table tfoot ol.page {
 		
 		<div id="dialog" hidden="" title="교육생 상담일지">	
 		<div id="dialog2" hidden="" title="상담등록">	
+		<div id="dialog3" hidden="" title="상담수정">
 		</div>
 		
 
@@ -374,6 +375,17 @@ table tfoot ol.page {
             });
          });
         }
+		function editCounsel(so_idx, tr_idx) {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+encodeURIComponent(tr_idx)+"&so_idx="+encodeURIComponent(so_idx),
+         }).done(function(result){
+         $("#dialog3").dialog("open");
+            $("#dialog3").html(result);
+
+         });
+        }
 
         function del(so_idx){
 			if( confirm("삭제하시겠습니까?")){
@@ -403,6 +415,12 @@ table tfoot ol.page {
 
      });
 	 $("#dialog2").dialog({
+      autoOpen: false,
+            width:1200,
+            modal: true,
+
+     });
+	 $("#dialog3").dialog({
       autoOpen: false,
             width:1200,
             modal: true,
