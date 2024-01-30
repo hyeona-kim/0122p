@@ -122,7 +122,7 @@ public class CounselController {
        
         return mv;
     }
-
+    
     @RequestMapping("counselsave")
     public ModelAndView counselsave(CounselAddVO vo,MultipartFile ss_img1) {
         ModelAndView mv = new ModelAndView();
@@ -353,28 +353,46 @@ public class CounselController {
     }
     
     @RequestMapping("ss_dialog")
-    public ModelAndView ss_dialog(String select,String c_idx){
+    public ModelAndView ss_dialog(String select,String c_idx, String tr_idx){
         ModelAndView mv = new ModelAndView();
-      
-   
-      CourseVO cvo = c_Service.getCourse2(c_idx);
-      mv.addObject("cvo", cvo);
+        
+        
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        
+        
+        if(select.equals("addCounselFile"))
+        mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
+        else if(select.equals("counselAddMain"))
+        mv.setViewName("/jsp/admin/counselManage/counselAddMain_ajax");
+        
+        else if(select.equals("uploadAllCounsel")) {
+            mv.setViewName("/jsp/admin/counselManage/uploadAllCounsel_ajax");
+            
+            TraineeVO[] vo = t_Service.clist(c_idx, null, null);
+            mv.addObject("ar", vo);
+        }
+        else if(select.equals("counselList")){
+            mv.setViewName("/jsp/admin/counselManage/counselList_ajax");
+            TraineeVO tvo = t_Service.view(tr_idx);
+            CounselVO[] ar = cs_Service.counselList(tr_idx);
+            tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
+            mv.addObject( "cvo", cvo);
+            mv.addObject("tvo", tvo);
+            mv.addObject("ar", ar);
+            
+        }
+        else if(select.equals("counselListAdd")){
+          System.out.println(select);
+        mv.setViewName("/jsp/admin/counselManage/counselListAdd_ajax");
 
-      
-      if(select.equals("addCounselFile"))
-      mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
-      else if(select.equals("counselAddMain"))
-      mv.setViewName("/jsp/admin/counselManage/counselAddMain_ajax");
-      else if(select.equals("counselList"))
-      mv.setViewName("/jsp/admin/counselManage/counselList_ajax");
-      else if(select.equals("uploadAllCounsel")) {
-          mv.setViewName("/jsp/admin/counselManage/uploadAllCounsel_ajax");
-          
-          TraineeVO[] vo = t_Service.clist(c_idx, null, null);
-          mv.addObject("ar", vo);
       }
+
         return mv;
     }
+        
+        
+    
   
     @RequestMapping("counselTraineeSearch")
     public ModelAndView counselTraineeSearch(String value){
@@ -386,6 +404,7 @@ public class CounselController {
 
         return mv;
     }
+
 
     @RequestMapping("counselDateSearch")
     public ModelAndView counselDateSearch(String value){
