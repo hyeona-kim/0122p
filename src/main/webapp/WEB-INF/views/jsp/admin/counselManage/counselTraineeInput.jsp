@@ -230,9 +230,10 @@ table tfoot ol.page {
       </form>
       
       
-      <div id="dialog" hidden="" title="상담일괄등록"></div>   
-      <div id="dialog2" hidden="" title="상담내역및등록"></div>
+      <div id="dialog" hidden="" title="상담 일괄등록"></div>   
+      <div id="dialog2" hidden="" title="상담내역 및 등록"></div>
       <div id="dialog3" hidden="" title="상담등록"></div>
+      <div id="dialog4" hidden="" title="상담수정"></div>
       
 
       
@@ -353,9 +354,20 @@ table tfoot ol.page {
 			$("#dialog3").dialog("open");
             $("#dialog3").html(result);
             
-            $("#cc_cancle").click(function(){
+            $("#close").click(function(){
                 $("#dialog3").dialog("close");
             });
+         });
+        }
+        function editCounsel(so_idx, tr_idx) {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+encodeURIComponent(tr_idx)+"&so_idx="+encodeURIComponent(so_idx),
+         }).done(function(result){
+			$("#dialog4").dialog("open");
+            $("#dialog4").html(result);
+
          });
         } 
 		function paging(str, c_idx) {
@@ -384,10 +396,17 @@ table tfoot ol.page {
 
 	  $("#dialog3").dialog({
 		autoOpen: false,
-            width:600,
+            width:1000,
             modal: true,
 
-	  })
+	  });
+
+	  $("#dialog4").dialog({
+		autoOpen: false,
+            width:1200,
+            modal: true,
+
+	  });
 
    </script>
 

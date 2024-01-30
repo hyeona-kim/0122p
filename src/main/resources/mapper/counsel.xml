@@ -74,7 +74,7 @@
    <update id="edit" parameterType="com.ict.project.vo.CounselVO">
     update advice_t
     <set>
-        ss_day = #{so_day},
+        so_day = #{so_day},
         so_menu = #{so_menu},
         so_subject = #{so_subject},
         so_pd = #{so_pd},
@@ -113,7 +113,7 @@
 
 
 	<select id="counselList" resultMap="map2" parameterType="String">
-			select * from (select a.*, s.sf_name from advice_t a, staff_t s where tr_idx = #{tr_idx}) a
+			select * from (select a.*, s.sf_name from advice_t a, staff_t s where tr_idx = #{tr_idx} and a.sf_idx = s.sf_idx) a where so_status = 0
 	</select>
 
 	<select id="counselCount" resultType="int" parameterType="String">

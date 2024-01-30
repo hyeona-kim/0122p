@@ -42,9 +42,9 @@ public class BoardService {
     }
 
     // 게시물 검색하는 기능
-    public BoardVO[] searchBoard(String subject, String begin, String end) {
+    public BoardVO[] searchBoard(String c_idx, String bd_subject, String begin, String end) {
         BoardVO[] ar = null;
-        List<BoardVO> list = b_mapper.search(subject, begin, end);
+        List<BoardVO> list = b_mapper.searchBoard(c_idx, bd_subject, begin, end);
         if(list != null && list.size() > 0) {
             ar = new BoardVO[list.size()];
             list.toArray(ar);
@@ -54,7 +54,7 @@ public class BoardService {
 
     // 게시물 검색 후 Paging기법을 다시 적용하기 위해
     // totalRecord를 다시 구하는 기능
-    public int reGetTotalRecord(String c_idx, String bd_subject) {
+    public int reCount(String c_idx, String bd_subject) {
         return b_mapper.reCount(c_idx, bd_subject);
     }
 

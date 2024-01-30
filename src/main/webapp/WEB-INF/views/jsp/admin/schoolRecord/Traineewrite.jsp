@@ -12,27 +12,27 @@
                         </tr>
                         <tr>
 							<th>성명</th>
-							<td></td>
+							<td>${vo12.tr_name}</td>
 							<th>교육과정</th>
-							<td></td>
+							<td>${cc.c_name}</td>
                         </tr>
                         <tr>
                             <th>교육타입</th>
 							<td></td>
                             <th>교육기간</th>
-							<td></td>
+							<td>${cc.start_date}~${cc.end_date}</td>
 						</tr>
                         <tr>
                             <th>주민등록번호</th>
-							<td></td>
+							<td>${vo12.tr_rrn}</td>
                             <th>주소</th>
-							<td></td>
+							<td>${vo12.tr_addr}</td>
 					    </tr>
                         <tr>
                             <th>본인휴대폰</th>
-							<td></td>
+							<td>${vo12.tr_hp}</td>
                             <th>집전화</th>
-							<td></td>
+							<td>${vo12.tr_phone}</td>
                         </tr>
 				</tbody>
 			</table>

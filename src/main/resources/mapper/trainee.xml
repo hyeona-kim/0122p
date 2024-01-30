@@ -28,7 +28,33 @@
 
 <select id="view" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
 	select * from trainee_t
-	where tr_idx = #{idx}
+	where tr_idx = #{tr_idx} 
+</select>
+
+<update id="trainedit" parameterType="String">
+	update trainee_t
+	<set>
+		tr_name = #{tr_name},
+		tr_rrn = #{tr_rrn},
+		tr_phone = #{tr_phone},
+		tr_hp = #{tr_hp},
+		<if test="tr_cancel_date != null">tr_cancel_date = #{tr_cancel_date},</if>
+		<if test="tr_cancel_text != null">tr_cancel_text = #{tr_cancel_text},</if>
+		<if test="tr_hrd != null">tr_hrd = #{tr_hrd},</if>
+		<if test="tr_refund != null">tr_refund = #{tr_refund},</if>
+		<if test="tr_bc != null">tr_bc = #{tr_bc},</if>
+		<if test="tr_charge != null">tr_charge = #{tr_charge},</if>
+		<if test="tr_total_fee != null">tr_total_fee = #{tr_total_fee},</if>
+		<if test="tr_card != null">tr_card = #{tr_card},</if>
+		t_path = #{t_path},
+		file_name = #{file_name},
+		ori_name = #{ori_name}
+	</set>
+	where tr_idx = #{tr_idx}
+</update>
+
+<select id="getcard" resultType="com.ict.project.vo.TraineeVO">
+	select * from trainee_t order by tr_idx
 </select>
 
 <!-- 훈련생현황에서 교육생 삭제할때 쓰임 -->
@@ -42,6 +68,11 @@
 <select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 	select * from trainee_t
 	where status = 0 and c_idx = ${c_idx}
+</select>
+
+<select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+	select * from trainee_t
+	where tr_idx = #{tr_idx} and c_idx = ${c_idx}
 </select>
 
 <update id="nowstatus" parameterType="String">
