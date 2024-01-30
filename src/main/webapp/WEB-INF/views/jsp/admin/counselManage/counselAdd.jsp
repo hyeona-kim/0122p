@@ -25,6 +25,7 @@
 	<div>
 	<form action="counselsave" method="post" enctype="multipart/form-data">
 		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
+		<input type="hidden" name = "ss_cnt" value="${ss_cnt+1}">
 		<table id="tt_add2" class="t1">
 			<colgroup>
 				<col width="25%"/>
@@ -49,13 +50,14 @@
                     <th>회의장소</th>
                     <td><input type="text" id="ss_pa" name="ss_pa"/></td>
                     <th>총회의회수</th>
-                    <td><input type="text" id="ss_cnt" name="ss_cnt"/></td>
+					<td>${ss_cnt+1}</td>
+					
                 </tr>
                 <tr>
                     <th>상담회차</th>
 					<td><input type="text" id="ss_num" name="ss_num"/></td>
                     <th>상담기간</th>
-					<td><input type="text" id="ss_day" name="ss_day"/></td>
+					<td><input type="date" id="ss_day1" name="ss_day1"/>~<input type="date" id="ss_day2" name="ss_day2"/></td>
                 </tr>
 				<tr>
                 	<th>회의참석자</th>

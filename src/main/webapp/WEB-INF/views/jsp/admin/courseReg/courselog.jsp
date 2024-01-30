@@ -472,7 +472,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent("1")
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
@@ -483,7 +483,7 @@ table tfoot ol.page {
 					url: "searchCourse",
 					type: "post",
 					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent(cPage)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent("1")
 				}).done(function(result){
 					$("#courseLog_Table").html(result);
 				});
