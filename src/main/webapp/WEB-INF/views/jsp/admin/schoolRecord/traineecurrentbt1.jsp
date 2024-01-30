@@ -164,7 +164,12 @@ table tfoot ol.page {
 						<td><label class="checkbox-inline"><input type="checkbox" name="chk" class="chk" onclick="chkClicked('${vo7.tr_idx}')" value="${vo7.tr_idx}"></label></td>
 						<!-- 학생에 대한 정보 입력  -->
 						<td>${num-(vs.index)-2 }</td>
+						<c:if test="${vo7.file_name eq null}">
+							<td></td>
+						</c:if>
+						<c:if test="${vo7.file_name ne null}">
 						<td><img src="${pageContext.request.contextPath }/upload_file/${vo7.file_name}" width="100" height="100"></td>
+						</c:if>
 						<td>${vo7.s_code}</td>
 						<td>${vo7.tr_name }</td>
 						<td>${vo7.tr_hp }</td>
@@ -189,6 +194,7 @@ table tfoot ol.page {
 							<input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
 						<input type="button" id="fset"  onclick="javascript:location.href='traineeEdit?tr_idx=${vo7.tr_idx}&c_idx=${aa.c_idx}'" value="정보수정"/>
 						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx},${aa.c_idx}')" value="신상기록부">
+						<input type="button" id="fset"  onclick="" value="서류관리">
 						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx},${aa.c_idx}')" value="상담일지">
 						<input type="button" id="fset"  onclick="" value="사후관리">
 						<input type="button" id="fset"  onclick="" value="면접평가표">
@@ -229,7 +235,7 @@ table tfoot ol.page {
 			$("#l_four").addClass("l_select");
 			let ar = $(".sts");
 			for(let k=0; k<ar.length;k++){
-				console.log($("#nowstatus"+k).val());
+				//console.log($("#nowstatus"+k).val());
 				for(let i=1;i<=10;i++){
 					if($("#op"+i+k).val() ==$("#nowstatus"+k).val()){
 						$("#op"+i+k).attr("selected",true);
@@ -381,6 +387,24 @@ table tfoot ol.page {
 		});
 
 	} 
+
+	function couupload(str){
+		$.ajax({
+            url: "couupload",
+            type: "post",
+            data:"type="+encodeURIComponent("couupload")+"&tr_idx="+str+"&c_idx="+str
+         }).done(function(result){
+            $("#m1").html(result);
+         });
+         
+		$( "#m1" ).dialog({
+				width:1000,
+            	height:600
+		});
+	}
+
+
+
     function paging(str) {
         location.href="traincurrent?cPage="+str
      }
