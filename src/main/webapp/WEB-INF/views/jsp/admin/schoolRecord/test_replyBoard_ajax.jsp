@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
 <form action="test_replyBoard" method="post" id="replyForm_t">
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
@@ -34,10 +33,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<!-- <button type="button" onclick="addReply('${bvo.c_idx}','${bvo.bd_subject}','${bvo.bd_notice}','${bvo.bd_content}','${bvo.bd_file}')" class="bo_edit_btn bo_btn">등록</button> -->
-					<a href="javascript:addReply()" class="bo_edit_btn bo_btn">등록</a>
-					<!-- <a href="" onclick="addReply('${c_idx}','${bvo.bd_subject}','${bvo.bd_notice}','${bvo.bd_content}','${bvo.bd_file}')" class="bo_edit_btn bo_btn">등록</a> -->
-					<!-- <a href="" class="bo_del_btn bo_btn">취소</a> -->
+					<button type="button" class="bo_edit_btn bo_btn" onclick="addReply('${bvo.c_idx}')">등록</button>
 					<button type="button" class="bo_del_btn bo_btn" id="cancel_btn">취소</a>
 				</td>
 			</tr>

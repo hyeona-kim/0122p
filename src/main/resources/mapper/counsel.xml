@@ -54,10 +54,11 @@
       where c.rnum between ${begin} and ${end}
    </select>
 
-   <insert id="add" parameterType="com.ict.project.vo.CounselVO">
-         INSERT INTO advice_t(so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status, so_tname )
-         values(#{so_day}, #{tr_idx}, #{so_menu}, #{so_pp}, #{so_subject}, #{so_pd}, #{c_idx}, 0, #{so_tname})
-   </insert>
+
+	<insert id="add" parameterType="com.ict.project.vo.CounselVO">
+			INSERT INTO advice_t(so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status, so_tname, sf_idx )
+			values(#{so_day}, #{tr_idx}, #{so_menu}, #{so_pp}, #{so_subject}, #{so_pd}, #{c_idx}, 0, #{so_tname}, #{sf_idx} )
+	</insert>
 
   <select id="getCounsel" parameterType="String" resultType="com.ict.project.vo.CounselVO">
     SELECT * FROM advice_t WHERE so_idx = #{so_idx}
@@ -117,5 +118,10 @@
 
 	<select id="counselCount" resultType="int" parameterType="String">
 		select count(*) from advice_t where tr_idx = #{tr_idx}
+	</select>
+
+	<select id="clist" parameterType="String" resultMap="map1">
+		select * from (select a.*, c.c_name, s.sf_name, t.tr_name from advice_t a,course_t c, staff_t s, trainee_t t 
+		where so_status = 0 and a.c_idx = c.c_idx and a.sf_idx = s.sf_idx and a.tr_idx = t.tr_idx) a
 	</select>
 </mapper>

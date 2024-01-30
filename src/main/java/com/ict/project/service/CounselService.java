@@ -88,4 +88,15 @@ public class CounselService {
         return c_mapper.counselCount(tr_idx);
     }
 
+    public CounselVO[] getClist(String c_idx){
+        CounselVO[] ar = null;
+
+        List<CounselVO> list = c_mapper.clist(c_idx);
+        if(list != null && list.size() > 0) {
+            ar = new CounselVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }

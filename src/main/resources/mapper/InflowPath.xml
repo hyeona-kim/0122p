@@ -5,7 +5,7 @@
 <mapper namespace="com.ict.project.mapper.InflowPathMapper">
 
 	<select id="all" resultType="com.ict.project.vo.InflowPathVO">
-		select * from inflowpath_t
+		select * from inflowpath_t where id_status = 0
 	</select>
 	
 	 <select id="key" parameterType="String" resultType="int">
@@ -13,8 +13,8 @@
        </select>
 
        <insert id="add" parameterType="com.ict.project.vo.InflowPathVO">
-              INSERT INTO inflowpath_t (id_idx, id_name)
-              VALUES (#{id_idx}, #{id_name})
+              INSERT INTO inflowpath_t (id_idx, id_name, id_status)
+              VALUES (#{id_idx}, #{id_name}, 0)
        </insert>
        <update id="update" parameterType="com.ict.project.vo.InflowPathVO">
               UPDATE inflowpath_t
@@ -25,5 +25,12 @@
        <select id="search" resultType="com.ict.project.vo.InflowPathVO" parameterType="String">
                      select * from inflowpath_t where id_name like concat('%',#{id_name},'%')
        </select>
+
+       
+        <update id="del" parameterType="String">
+			update inflowpath_t
+			set id_status = 1
+			where id_idx = #{id_idx}
+         </update>
 
 </mapper>

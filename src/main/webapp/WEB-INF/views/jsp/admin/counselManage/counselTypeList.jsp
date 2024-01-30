@@ -383,9 +383,9 @@ table tfoot ol.page {
             if(select == "1" || select == "3")
                list = "1";
             else if(select == "2")
-               list = "2";
+               location.href='counselDateSearch?value='+value;
             else
-               list = "3";
+               location.href='counselTraineeSearch?value='+value;
             if(value != null && value.trim().length > 0){
                
                $.ajax({

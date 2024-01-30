@@ -5,9 +5,11 @@
 
 <mapper namespace="com.ict.project.mapper.CourseMapper">  
 	<resultMap type="com.ict.project.vo.CourseVO" id="map1">
+		<result column="c_idx" property="c_idx" />
 		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
 		<association property="rvo" column="r_idx" javaType="com.ict.project.vo.RoomVO" select="room"></association>
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<collection property="sb_ar" column="c_idx" ofType="com.ict.project.vo.SubjectVO" select="subject"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -19,8 +21,8 @@
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
-							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%')</if>
-							<if test="select !=null and select == 3">r.r_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
 							<if test="year !=null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
@@ -38,7 +40,9 @@
 	<select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
 		select * from staff_t where sf_idx=#{str}
 	</select>
-	
+	<select id="subject" resultType="com.ict.project.vo.SubjectVO" parameterType="String">
+		select * from subject_t where c_idx=#{c_idx}
+	</select>
 	<select id="list" parameterType="Map" resultMap="map1">
 		select * 
 		from 
@@ -79,7 +83,9 @@
         course_fee = #{course_fee},
         c_peo_num = #{c_peo_num},
         c_round_num = #{c_round_num},
-        c_day = #{c_day}
+        c_day = #{c_day},
+		ct_idx = #{ct_idx},
+		sf_idx = #{sf_idx}
 	</set>
 	where c_idx = #{c_idx}
 	</update>
@@ -93,16 +99,50 @@
 		select count(*) 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+			from (select sb.*, c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct,subject_t sb
 				<where>
 					<trim suffixOverrides="and">
-							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and sb.c_idx= c.c_idx
 							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
-							<if test="select !=null and select == 3">r.r_name like concat('%',#{value},'%') and</if>
-							<if test="year !=null">start_date like concat(#{year},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
+							<if test="year != null">start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c 
 	</select>
+
+	<select id="reg_count" parameterType="String" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c.c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							(c.start_date like concat (#{year},'%') or c.end_date like concat (#{year},'%'))
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c 
+	</select>
+	<select id="reg_search" parameterType="String" resultMap="map1">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c.c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							(c.start_date like concat (#{year},'%') or c.end_date like concat (#{year},'%'))
+					</trim>
+				</where>
+				order by ct_idx asc
+			)a ,(select @RN:=0) b) c 
+	</select>
+
+
+	<select id="all" resultType="com.ict.project.vo.CourseVO">
+		select * from course_t
+	</select>
+
 </mapper>

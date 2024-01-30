@@ -9,9 +9,7 @@
 <!-- <link rel="stylesheet" type="text/css" href="../../css/header.css" /> -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
-
 </head>
-<c:if test="${sessionScope.vo ne null}">
 <body>
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -31,9 +29,4 @@
 		});
 	</script>
 </body>
-</c:if>
-<c:if test="${sessionScope.vo eq null }">
-	<c:redirect url="menu?select=counselReceipt">
-	</c:redirect>
-</c:if>
 </html>

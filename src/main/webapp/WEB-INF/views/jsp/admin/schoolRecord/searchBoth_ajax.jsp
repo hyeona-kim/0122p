@@ -31,6 +31,11 @@
                     <td><button id="board_btn" onclick="test_viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
                 </tr>
                 </c:forEach>
+                <c:if test="${ar eq null}">
+                <tr>
+                    <td colspan="9">검색 결과가 없습니다.</td>
+                </tr>
+                </c:if>
             </c:if>
         </tbody>
         <%-- 화면 하단 page 번호 출력하는 부분 --%>
@@ -46,8 +51,11 @@
                     </c:if>   
                     <%-- startPage가 5보다 같거나 클 경우
                         이전page로 돌아가는 버튼 활성화 후 생성 --%>
-                    <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+                    <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && searchBoth_flag eq null}">
                         <li><a href="javascript:paging('${page.startPage - page.pagePerBlock }')">&lt;</a></li>
+                    </c:if>
+                    <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && searchBoth_flag ne null}">
+                        <li><a href="javascript:searchBoth('${page.startPage - page.pagePerBlock }')">&lt;</a></li>
                     </c:if>
                     <%-- ========== 이전버튼 만드는 부분 끝 ========== --%>
                     
@@ -56,8 +64,11 @@
                         <c:if test="${vs.index eq page.nowPage }">
                         <li class="now">${vs.index }</li>
                         </c:if>
-                        <c:if test="${vs.index ne page.nowPage}">
+                        <c:if test="${vs.index ne page.nowPage && searchBoth_flag eq null}">
                         <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
+                        </c:if>
+                        <c:if test="${vs.index ne page.nowPage && searchBoth_flag ne null}">
+                        <li><a href="javascript:searchBoth('${vs.index}')">${vs.index}</a></li>
                         </c:if>
                     </c:forEach>
                     <%-- ========== page 번호 만드는 부분 끝 ==========--%>
@@ -65,8 +76,11 @@
                     <%-- ========== 다음버튼 만드는 부분 시작 ========== --%>
                     <%-- endPage가 마지막 끝나는 page보다 작을 경우
                         다음page로 가는 버튼 활성화 후 생성 --%>
-                    <c:if test="${page.endPage < page.totalPage }">
+                    <c:if test="${page.endPage < page.totalPage && searchBoth_flag eq null}">
                         <li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+                    </c:if>
+                    <c:if test="${page.endPage < page.totalPage && searchBoth_flag ne null}">
+                        <li><a href="javascript:searchBoth('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
                     </c:if>
                     <%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우
                         다음page로 가는 버튼 비활성화 후 생성 --%>

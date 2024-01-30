@@ -217,7 +217,7 @@ table tfoot ol.page {
                             <button type="button" onclick="printList()">상담일지 일괄출력</button>
                         </div>
                   <div id="counsel_Table">
-                            
+
                   </div>
                </div>
             </div>
@@ -299,37 +299,37 @@ table tfoot ol.page {
 
          });   
 
-       function set() {
-         $.ajax({
-            url:"ss_dialog",
-            type:"post",
-            data:"&select="+encodeURIComponent("uploadAllCounsel")+"&c_idx="+encodeURIComponent("${param.c_idx}"),
-         }).done(function(result){
-            $("#dialog").dialog("open");
-            $("#dialog").html(result);
-            
-            $("#cc_cancle").click(function(){
-                $("#dialog").dialog("close");
-            });
-         });
-         
+ function set() {
+			$.ajax({
+				url:"ss_dialog",
+				type:"post",
+				data:"&select="+encodeURIComponent("uploadAllCounsel")+"&c_idx="+encodeURIComponent("${param.c_idx}"),
+			}).done(function(result){
+				$("#dialog").dialog("open");
+				$("#dialog").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog").dialog("close");
+				});
+			});
+			
         }
-      
-      function printList() {
-         $.ajax({
-            url:"counselList",
-            type:"post",
-            data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
-         }).done(function(result){
-            $("#dialog2").html(result);
-            
-            $("#cc_cancle").click(function(){
-                $("#dialog2").dialog("close");
-            });
-         });
-        }   
+		
+		function printList() {
+			$.ajax({
+				url:"counselList",
+				type:"post",
+				data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
+			}).done(function(result){
+				$("#dialog2").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog2").dialog("close");
+				});
+			});
+        }	
 
-		 function counselList(tr_idx) {
+		function counselList(tr_idx) {
          $.ajax({
             url:"ss_dialog",
             type:"post",
@@ -342,7 +342,8 @@ table tfoot ol.page {
                 $("#dialog2").dialog("close");
             });
          });
-        }   
+        }   	
+
 		function counselListAdd(tr_idx) {
          $.ajax({
             url:"ss_dialog",
@@ -356,24 +357,22 @@ table tfoot ol.page {
                 $("#dialog3").dialog("close");
             });
          });
-        }   
-
-
-      function paging(str, c_idx) {
-         $.ajax({
-            url: "searchCounsel",
-            type: "post",
-            data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('4')+"&cPage="+encodeURIComponent(str)+"&c_idx="+encodeURIComponent(c_idx),
-         }).done(function(result){
-            $("#counsel_Table").html(result);
-         });
-      }
-      $("#dialog").dialog({
+        } 
+		function paging(str, c_idx) {
+			$.ajax({
+			   url: "searchCounsel",
+			   type: "post",
+			   data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('4')+"&cPage="+encodeURIComponent(str)+"&c_idx="+encodeURIComponent(c_idx),
+			}).done(function(result){
+			   $("#counsel_Table").html(result);
+			});
+		}
+		$("#dialog").dialog({
             autoOpen: false,
             width:1500,
             modal: true,
-      });
+		});
 
 
 	  $("#dialog2").dialog({
@@ -391,5 +390,6 @@ table tfoot ol.page {
 	  })
 
    </script>
+
 </body>
 </html>

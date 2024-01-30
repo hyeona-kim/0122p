@@ -244,8 +244,8 @@ table tfoot ol.page {
 								<tr>
 									<th>검색</th>
 									<td>
-										<select id="search_year">
-											<option>년도선택</option>
+										<select id="search_year" onchange="searchBoth()">
+											<option value="">년도선택</option>
 											<option>2024</option>
 											<option>2023</option>
 											<option>2022</option>
@@ -257,12 +257,12 @@ table tfoot ol.page {
 									</td>
 									<td>
 										<select id="search_tag">
-											<option>훈련강사</option>
-                                            <option>과정타입</option>
-                                            <option>과정명</option>
+											<option value="1">훈련강사</option>
+                                            <option value="2">과정타입</option>
+                                            <option value="3">과정명</option>
                                         </select>
-                                        <input type="text"/>
-                                        <button type="button" id="search_btn">검색</button>
+                                        <input type="text" id="search_value"/>
+                                        <button type="button" id="search_btn" onclick="searchBoth()">검색</button>
 									</td>
 								</tr>
 							</thead>
@@ -299,6 +299,9 @@ table tfoot ol.page {
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
+		let search_year = "";
+		let search_value = "";
+		let search_tag = "";
 		$(function() {
             // 처음 게시판에 들어왔을 때
             // 비동기식 통신을 이용해 과정의 내용들을 출력한다
@@ -309,18 +312,9 @@ table tfoot ol.page {
 					$("#board_main_list").html(result);
 				});
 
-/* 			if(reply_key == 1) { */
-				function test_viewBoardList(c_idx, cPage) {
-					$.ajax({
-						url: "test_viewBoardList",
-						type: "get",
-						data: "c_idx="+c_idx+
-								"&cPage="+cPage,
-					}).done(function(result){
-						$("#board_main_list").html(result);
-					})
-				}
-/* 			}; */
+				<c:if test="${param.re} == '1'">
+					test_viewBoardList('${param.c_idx}', 1);
+				</c:if>
         });
 
         /* 목록 아래 [page번호]를 클릭할 때 수행
@@ -335,71 +329,6 @@ table tfoot ol.page {
 				$("#board_main_list").html(result);
 			});
 		};
-		
-		// [과정별 게시판]을 클릭했을 때 수행
-		// 해당 과정의 게시물들의 목록이 출력
-		/* function viewBoardList(c_idx, cPage) {
-			$.ajax({
-				url: "boardList",
-				type: "post",
-				data: "cPage="+cPage+
-						"&c_idx="+c_idx,
-			}).done(function(result){
-				$("#board_main_list").html(result);
-				$("#boList_top").html("과정별 게시판");
-				$("#boList").html("");
-			});
-		}; */
-
-		/* 게시글 보기화면에서 [답변]을 눌렀을때 수행 */
-		/* function reply(idx, cPage) {
-			$("#replyForm").dialog({
-				title : '게시판 답변 작성',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
-
-			$.ajax({
-				url: "boardReplyAjax",
-				type: "post",
-				data: "bd_idx="+idx+
-						"&cPage="+cPage,
-			}).done(function(result){
-				$("#replyForm").html(result);
-				$("#cancel_btn").click(function() {
-					$("#replyForm").dialog("close");
-				})
-			});
-			
-		}; */
-
-		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
-		/* function addBoard() {
-			// 유효성 검사 해야함
-			
-			document.forms[0].submit();
-		}; */
-
-		/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-		/* function add_btn_click(c_idx){
-			let idx = document.getElementById("hidden_btn").value;
-			console.log("add="+idx);
-			$.ajax({
-				url: "addBoardAjax",
-				type: "post",
-				data: "c_idx="+c_idx,
-			}).done(function(result){
-				$("#addForm").html(result);
-			});
-			
-			$("#addForm").dialog({
-				title : '게시글 작성',
-				modal : true,
-				width : 1000,
-				height : 600
-			});
-		}; */
 		// ============================ 이 밑으로는 test중 ============================
 		function test_viewBoardList(c_idx, cPage) {
 			$.ajax({
@@ -409,8 +338,54 @@ table tfoot ol.page {
 						"&cPage="+cPage,
 			}).done(function(result){
 				$("#board_main_list").html(result);
-			})
-		}
+			});
+		};
+
+		function searchYear(cPage){
+			search_year = document.getElementById("search_year").value;
+
+			$.ajax({
+				url: "searchYear",
+				type: "post",
+				data: "year="+encodeURIComponent(search_year)+
+						"&cPage="+cPage+
+						"&value="+encodeURIComponent(search_value),
+			}).done(function(result){
+				$("#board_main_list").html(result);
+			});
+		};
+		
+		function searchValue(cPage) {
+			search_tag = document.getElementById("search_tag").value;
+			search_value = document.getElementById("search_value").value;
+			
+			$.ajax({
+				url: "searchValue",
+				type: "post",
+				data: "cPage="+cPage+
+						"&value="+encodeURIComponent(search_value)+
+						"&tag="+encodeURIComponent(search_tag),
+			}).done(function(result){
+				$("#board_main_list").html(result);
+			});
+		};
+		
+		function searchBoth(cPage) {
+			search_year = document.getElementById("search_year").value;
+			search_tag = document.getElementById("search_tag").value;
+			search_value = document.getElementById("search_value").value;
+			
+			$.ajax({
+				url: "searchBoth",
+				type: "post",
+				data: "cPage="+cPage+
+				"&tag="+search_tag+
+				"&value="+encodeURIComponent(search_value)+
+				"&year="+search_year,
+			}).done(function(result){
+				$("#board_main_list").html(result);
+			});
+		};
 
 	</script>
 </body>

@@ -15,4 +15,5 @@ public interface CounselMapper {
     int search_count(String select,String value,String year);
     List<CounselVO> counselList(String tr_idx);
     int counselCount(String tr_idx);
+    List<CounselVO> clist(String c_idx);
 }

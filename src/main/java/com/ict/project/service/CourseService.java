@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.CourseMapper;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.StaffVO;
 
 @Service
 public class CourseService {
@@ -39,6 +40,17 @@ public class CourseService {
             list.toArray(ar);
         }
 
+        return ar;
+    }
+
+     public CourseVO[] getList() {
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.all();
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
         return ar;
     }
 
@@ -75,5 +87,20 @@ public class CourseService {
     // 다시 totalRecord를 검색하는 기능
     public int getSearchCount(String select, String value, String year) {
         return c_mapper.search_count(select, value, year);
+    }
+
+    public int reg_count(String year){
+        return c_mapper.reg_count(year);
+    }
+    public CourseVO[] reg_search(String year){
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.reg_search(year);
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
     }
 }
