@@ -130,4 +130,18 @@ public class TraineeService {
     public int getCounsel_date(String tr_idx, String ss_end){
         return t_mapper.counsel_date(tr_idx, ss_end);
     }
+
+    public int getTCount(){
+        return t_mapper.traineeReg_count();
+    }
+
+    public TraineeVO[] getTList(String begin,String end){
+        TraineeVO[] ar = null;
+        List<TraineeVO> list = t_mapper.traineeReg(begin, end);
+        if(list != null && !list.isEmpty()){
+            ar = new TraineeVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
 }

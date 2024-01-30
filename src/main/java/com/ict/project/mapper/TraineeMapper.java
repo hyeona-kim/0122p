@@ -2,6 +2,7 @@ package com.ict.project.mapper;
 
 import java.util.List;
 
+import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.TraineeVO;
 
 public interface TraineeMapper {
@@ -28,6 +29,11 @@ public interface TraineeMapper {
     List<TraineeVO> course_search(String select,String value,String year,String begin, String end);
     List<TraineeVO> course_searchValue(String c_idx, String select,String value,String year,String begin, String end);
     int counsel_date(String tr_idx, String ss_end);
+    
+    //ge
+    List<TraineeVO> traineeReg(String begin,String end);
+    int traineeReg_count();
+    List<CourseTypeVO> courseType(String ct_idx);
 
 
 }
