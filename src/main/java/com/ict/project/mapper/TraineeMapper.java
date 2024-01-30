@@ -8,12 +8,17 @@ public interface TraineeMapper {
     List<TraineeVO> all();
     int count();
     List<TraineeVO> list();
-    TraineeVO view(String tr_idx);
     
     //ha
     int del(String tr_idx, String c_idx);
     List<TraineeVO> clist(String c_idx);
-
+    TraineeVO view(String tr_idx);
+    TraineeVO tlist(String tr_idx, String c_idx);
+    int trainedit(TraineeVO tvo);
+    TraineeVO getcard(String tr_idx);
+    int nowstatus(String tr_idx, String tr_nowstatus);
+    
+    
     //sw
     // resultMap관련 추가
     int course_count(String c_idx);
