@@ -30,6 +30,9 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CounselReciptController {
@@ -98,15 +101,17 @@ public class CounselReciptController {
 		CounselReceiptVO[] ar = null;
 		ar = cr_Service.getCounselReceiptList();
 		mv.addObject("ar", ar);
+
+        System.out.println("안들어옴"+listSelect);
+        
 		if(listSelect.equals("1"))
         mv.setViewName("/jsp/admin/counselReceipt/counselReceipt_ajax");
 		else if(listSelect.equals("2")){
+            System.out.println("들어옴");
+            CounselingdetailVO[] cd_ad = null;
+            cd_ad = cd_Service.getList();
+            mv.addObject("cd_ad", cd_ad);
             mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
-
-            CounselingdetailVO[] ar2 = null;
-            ar2 = cd_Service.getCounselingdetailList();
-            mv.addObject("ar", ar2);
-            
         }
 		else if(listSelect.equals("3"))
             mv.setViewName("/jsp/admin/counselReceipt/"); 
@@ -177,7 +182,6 @@ public class CounselReciptController {
 
     @RequestMapping("delCounselReceipt")
     public String delCounselReceipt(String cr_idx) {
-        System.out.println("에러");
 		int cnt = cr_Service.deleteCounselReceipt(cr_idx);
 		
 		return "redirect:counselReceipt?listSelect=1&cPage=1";
@@ -241,4 +245,62 @@ public class CounselReciptController {
         mv.setViewName("redirect:counselReceipt?listSelect=2&cPage=1");
 		return mv;
     }
+
+    @RequestMapping("addCounselingDetail")
+    public String addCounselingDetail(CounselingdetailVO dvo) {
+        cd_Service.add(dvo);
+        
+        return "redirect:counselReceipt?listSelect=2&cPage=1";
+    }
+    
+    @RequestMapping("viewCounselingDetail")
+    public String viewCounselingDetail(String cd_idx) {
+        String viewPath = null;
+
+        // c_idx를 기반으로 CourseVO 객체 가져오기
+        CounselingdetailVO cvo = cd_Service.getCounselingDetail(cd_idx);
+
+        request.setAttribute("select_cvo", cvo);
+
+        viewPath ="redirect:counselReceipt&listSelect=2";
+
+        return viewPath;
+    }
+
+    @RequestMapping("editCounselingDetail")
+    public ModelAndView editCounselingDetail(CounselingdetailVO cvo, String edit, String cd_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        
+            if(edit == null){
+                CounselingdetailVO vo = cd_Service.getCounselingDetail(cd_idx);
+                StaffVO[] s_ar = s_Service.getList();
+                CourseTypeVO[] ct_ar = ct_Service.getList();
+                CourseVO[] c_ar = c_Service.getList();
+                NextscheduledVO[] ns_ar = ns_Service.getList();
+                InflowPathVO[] id_ar = id_Service.getList();
+        
+                mv.addObject("c_idx",vo.getC_idx());
+                mv.addObject("sf_idx",vo.getSf_idx());
+                mv.addObject("ns_idx",vo.getNs_idx());
+                mv.addObject("id_idx",vo.getId_idx());
+                
+                mv.addObject("ct_ar", ct_ar);
+                mv.addObject("s_ar", s_ar);
+                mv.addObject("c_ar", c_ar);
+                mv.addObject("ns_ar", ns_ar);
+                mv.addObject("id_ar", id_ar);
+            request.setAttribute("edit_cdvo", vo);
+            
+            mv.setViewName("/jsp/admin/counselReceipt/editCounselingDetail_ajax");
+        }else{
+
+            System.out.println(cvo.getCd_idx() + "/" + cd_idx);
+            int cnt =cd_Service.editCounselingDetail(cvo);
+
+            mv.setViewName("redirect:counselReceipt?listSelect=2&cPage=1");
+        }
+		return mv;
+    }
+
 }

@@ -13,8 +13,8 @@ public interface CourseMapper {
     int del(String c_idx);
 	int edit(CourseVO vo);
     int count();
-    int search_count(String select,String value,String year);
     CourseVO getCourse2(String c_idx);
+    int search_count(String select,String value,String year);
     List<CourseVO> all();
 
 }

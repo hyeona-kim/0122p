@@ -152,7 +152,7 @@ public class CourseController {
 			}		
 			mv.setViewName("/jsp/admin/courseReg/editCourse_ajax");
         }else{
-            int cnt =c_Service.editCourse(cvo);
+            int cnt = c_Service.editCourse(cvo);
             mv.setViewName("redirect:course?listSelect=1&cPage="+cPage);
         }
 		return mv;
@@ -245,6 +245,7 @@ public class CourseController {
 		ar = c_Service.getCourseList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
+
 		if(listSelect.equals("1"))
 			mv.setViewName("/jsp/admin/courseReg/courseLog_ajax");
 		else if(listSelect.equals("2"))

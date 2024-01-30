@@ -465,8 +465,13 @@
 										</select>
 									</td>
 									<td>
-										<select id="searchType2">
-											<option value="1">여긴 나중에 과정명 반복문 처리</option>
+										<select name="searchType2">
+											<option value="0">선택하세요</option>
+											<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
+												<option value="${c_ar.c_idx }">
+														 ${c_ar.c_name } 
+												 </option>
+											</c:forEach>
 										</select>
 									</td>
 									<td>
@@ -509,6 +514,9 @@
 	</div>
 
 	<div id="dialog3" hidden="" title="등록">	
+	</div>
+
+	<div id="dialog4" hidden="" title="보기/수정">	
 	</div>
 
 </article>
@@ -649,12 +657,13 @@
 
 			});
         }
+
 		function setDB() {
             $("#dialog3").dialog("open");
             $.ajax({
 				url:"cr_dialog",
 				type:"post",
-				data:"&select="+encodeURIComponent("addCounselingDetail")+"&listSelect=1&cPage=1",
+				data:"&select="+encodeURIComponent("addCounselingDetail")+"&listSelect=2&cPage=1",
 			}).done(function(result){
 				$("#dialog3").html(result);
 				
@@ -670,6 +679,26 @@
 
 			});
         }
+
+		function editCd(cd_idx) {
+			$.ajax({
+				url:"editCounselingDetail",
+				type:"post",
+				data:"&cd_idx="+cd_idx,
+			}).done(function(result){
+				$("#dialog4").html(result);
+				
+				$("#cc_cancle").click(function(){
+					 $("#dialog4").dialog("close");
+				});
+			});
+
+            $("#dialog4").dialog("open",{
+            	width:500,
+            	height:600
+            });
+        }
+
 
 	$("#dialog").dialog({
 		autoOpen: false,
@@ -694,6 +723,17 @@
 	});
 
 	$("#dialog3").dialog({
+		autoOpen: false,
+		width:900,
+		modal: true,
+		buttons: {
+			"닫기": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+
+	$("#dialog4").dialog({
 		autoOpen: false,
 		width:900,
 		modal: true,
