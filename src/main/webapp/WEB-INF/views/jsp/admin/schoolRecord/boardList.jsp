@@ -363,8 +363,8 @@ table tfoot ol.page {
 		/* 게시글 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
 		function addBoard() {
 			// 유효성 검사 해야함
+			$("#addForm").dialog("close");
 			
-			document.forms[0].submit();
 		};
 		
 		/* 글의 제목을 클릭했을 때 내용 보기 */
@@ -410,6 +410,7 @@ table tfoot ol.page {
 		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
 			frm.submit();
+
 		};
 		
 		/* 게시글 목록에서 [검색]을 눌렀을때 수행 */

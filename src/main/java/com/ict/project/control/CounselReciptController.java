@@ -81,6 +81,7 @@ public class CounselReciptController {
     @Autowired
     CourseTypeService ct_Service;
 
+
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect) {
         ModelAndView mv = new ModelAndView();
@@ -99,6 +100,10 @@ public class CounselReciptController {
              mv.addObject("ns_length", ar2.length);
         }else if(listSelect.equals("3"))
            mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
+        else if(listSelect.equals("4"))
+        mv.setViewName("/jsp/admin/counselReceipt/traineeRegReceipt");
+        else if(listSelect.equals("5"))
+            mv.setViewName("/jsp/admin/counselReceipt/traineeReceipt");
         return mv;
     }
 
@@ -231,40 +236,11 @@ public class CounselReciptController {
     }
 
     @RequestMapping("dailyReceipt")
-    public ModelAndView requestMethodName(String listSelect,String year) {
+    public ModelAndView requestMethodName(String listSelect,String year,String select) {
         ModelAndView mv = new ModelAndView();
         CourseVO[] ar = c_Service.reg_search("2024");
-       
-        List<String> ct_idx = new ArrayList<>();
-        for(int i =0; i<ar.length; i++){
-            ct_idx.add(ar[i].getCtvo().getCt_idx());
-        }
-        Set<String> set = new HashSet<>(ct_idx);
-        ct_idx = new ArrayList<>(set);
-        
-        List<String> ct_name = new ArrayList<>();
-        for(int i =0; i<ar.length; i++){
-            ct_name.add(ar[i].getCtvo().getCt_name());
-        }
-        Set<String> set2 = new HashSet<>(ct_name);
-        ct_name = new ArrayList<>(set2);
-        
-
-        int[] size = new int[ct_idx.size()];
-
-        for(int i=0; i<ct_idx.size();i++){
-            size[i] =0;
-            for(int k=0; k<ar.length; k++){
-                if(ct_idx.get(i).equals(ar[k].getCtvo().getCt_idx()))
-                   size[i]++;
-            }
-        }
-        System.out.println(size[0]);
-        System.out.println(size[1]);
-        mv.addObject("ct_size", size);
-        mv.addObject("ct_name", ct_name);
+      
         //모집중,교육중 구분하기 
-        
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String now = formatter.format(new Date(System.currentTimeMillis()));
         try {
@@ -281,16 +257,43 @@ public class CounselReciptController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mv.addObject("c_ar", ar);
+        List<CourseVO> list = new ArrayList<>();
+        if(select == null || select.equals("0"))
+            mv.addObject("c_ar", ar);
+        else if(select.equals("1")){
+            for(int i=0; i<ar.length;i++){
+                if(!ar[i].isC_reg())
+                    list.add(ar[i]);
+            }
+            ar = null;
+            if(list!= null && !list.isEmpty()){
+                ar = new CourseVO[list.size()];
+                list.toArray(ar);
+            }
+            mv.addObject("c_ar", ar);
+        }else if(select.equals("2")){
+            for(int i=0; i<ar.length;i++){
+                if(ar[i].isC_reg())
+                    list.add(ar[i]);
+            }
+            ar = null;
+            if(list!= null && !list.isEmpty()){
+                ar = new CourseVO[list.size()];
+                list.toArray(ar);
+            }
+            mv.addObject("c_ar", ar);
+        }
         //시수 구하기 
-        for(int i=0; i<ar.length;i++){
-            int hour = 0;
-           if(ar[i].getSb_ar().length>0){
-             for( int k=0; k<ar[i].getSb_ar().length;k++){
-                hour += Integer.parseInt(ar[i].getSb_ar()[k].getHour());
-             }
-             ar[i].setTotal_hour(hour);
-           }
+        if(ar!= null){
+            for(int i=0; i<ar.length;i++){
+                int hour = 0;
+                if(ar[i].getSb_ar().length>0){
+                    for( int k=0; k<ar[i].getSb_ar().length;k++){
+                        hour += Integer.parseInt(ar[i].getSb_ar()[k].getHour());
+                    }
+                    ar[i].setTotal_hour(hour);
+                }
+            }
         }
         mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt_ajax");
         return mv;

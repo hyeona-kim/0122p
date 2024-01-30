@@ -74,7 +74,7 @@
    <update id="edit" parameterType="com.ict.project.vo.CounselVO">
     update advice_t
     <set>
-        ss_day = #{so_day},
+        so_day = #{so_day},
         so_menu = #{so_menu},
         so_subject = #{so_subject},
         so_pd = #{so_pd},

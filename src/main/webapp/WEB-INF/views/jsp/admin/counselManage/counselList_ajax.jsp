@@ -62,7 +62,7 @@
 				<c:if test="${ar ne null}" >
 				<c:forEach var="vo" items="${ar}">
 				<tr>
-                    <th>${vo.so_day}</th>
+                    <th><a href="javascript:editCounsel('${vo.so_idx}', '${vo.tr_idx}')">${vo.so_day}</a></th>
 					<th>${vo.so_pp}</th>
 					<th>${vo.svo.sf_name}</th>
  					<th>${vo.so_subject}</th>
