@@ -1,6 +1,17 @@
 package com.ict.project.control;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.security.auth.Subject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CounselReceiptService;
 import com.ict.project.service.CounselingdetailService;
+import com.ict.project.service.CourseService;
 import com.ict.project.service.EvaluationFactorService;
 import com.ict.project.service.InflowPathService;
 import com.ict.project.util.Paging;
@@ -17,11 +29,15 @@ import com.ict.project.vo.EvaluationFactorVO;
 import com.ict.project.vo.InflowPathVO;
 import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.CounselingdetailVO;
+import com.ict.project.vo.CourseVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CounselReciptController {
@@ -34,7 +50,8 @@ public class CounselReciptController {
 
     @Autowired
     ServletContext application;
-
+    @Autowired
+    CourseService c_Service;
     @Autowired
     CounselReceiptService cr_Service;
 
@@ -63,9 +80,8 @@ public class CounselReciptController {
              mv.setViewName("/jsp/admin/counselReceipt/counselingDetail");
              InflowPathVO[] ar = id_Service.getList();
              mv.addObject("id_length", ar.length);
-        }
-        else if(listSelect.equals("3"))
-             mv.setViewName("/jsp/admin/counselReceipt/");
+        }else if(listSelect.equals("3"))
+             mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
 
         
         return mv;
@@ -160,8 +176,8 @@ public class CounselReciptController {
 
         String[] id_name = InflowPathName;
 		InflowPathVO vo = new InflowPathVO();
-	System.out.println("id_name="+id_name);
-	System.out.println("id_name.length="+id_name.length);
+        System.out.println("id_name="+id_name);
+        System.out.println("id_name.length="+id_name.length);
 		if(id_name != null && !id_name.equals("")) {
 			for(int i = 0; i < id_name.length;i++) {
 				if(id_name[i] != null && !id_name[i].isEmpty()) {
@@ -178,5 +194,70 @@ public class CounselReciptController {
 		return mv;
     }
 
+    @RequestMapping("dailyReceipt")
+    public ModelAndView requestMethodName(String listSelect,String year) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO[] ar = c_Service.reg_search("2024");
+       
+        List<String> ct_idx = new ArrayList<>();
+        for(int i =0; i<ar.length; i++){
+            ct_idx.add(ar[i].getCtvo().getCt_idx());
+        }
+        Set<String> set = new HashSet<>(ct_idx);
+        ct_idx = new ArrayList<>(set);
+        
+        List<String> ct_name = new ArrayList<>();
+        for(int i =0; i<ar.length; i++){
+            ct_name.add(ar[i].getCtvo().getCt_name());
+        }
+        Set<String> set2 = new HashSet<>(ct_name);
+        ct_name = new ArrayList<>(set2);
+        
+
+        int[] size = new int[ct_idx.size()];
+
+        for(int i=0; i<ct_idx.size();i++){
+            size[i] =0;
+            for(int k=0; k<ar.length; k++){
+                if(ct_idx.get(i).equals(ar[k].getCtvo().getCt_idx()))
+                   size[i]++;
+            }
+        }
+        System.out.println(size[0]);
+        System.out.println(size[1]);
+        mv.addObject("ct_size", size);
+        mv.addObject("ct_name", ct_name);
+        //모집중,교육중 구분하기 
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String now = formatter.format(new Date(System.currentTimeMillis()));
+        try {
+            Date today = new Date(formatter.parse(now).getTime());
+            for(int i=0;i<ar.length;i++){
+                Date ar_date = new Date(formatter.parse(ar[i].getStart_date()).getTime());
+                int cm =ar_date.compareTo(today);
+                if(cm >0){//모집중
+                    ar[i].setC_reg(true);
+                }else{ //교육중
+                    ar[i].setC_reg(false);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mv.addObject("c_ar", ar);
+        //시수 구하기 
+        for(int i=0; i<ar.length;i++){
+            int hour = 0;
+           if(ar[i].getSb_ar().length>0){
+             for( int k=0; k<ar[i].getSb_ar().length;k++){
+                hour += Integer.parseInt(ar[i].getSb_ar()[k].getHour());
+             }
+             ar[i].setTotal_hour(hour);
+           }
+        }
+        mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt_ajax");
+        return mv;
+    }
     
 }
