@@ -440,7 +440,7 @@ table tfoot ol.page {
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#firstmenu").addClass("selected");
-			$("#l_third").addClass("l_select");
+			$("#l_four").addClass("l_select");
             
             $("#check_btn").click(function(){
                 console.log("체크박스 검색");
