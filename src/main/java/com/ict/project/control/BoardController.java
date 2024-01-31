@@ -1,13 +1,20 @@
 package com.ict.project.control;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +31,8 @@ import com.ict.project.vo.CourseVO;
 public class BoardController {
     @Autowired
     HttpServletRequest request;
+	@Autowired
+	HttpServletResponse response;
     @Autowired
     HttpSession session;
     @Autowired
@@ -34,17 +43,11 @@ public class BoardController {
 	CourseService c_Service;
 	
 	private List<BoardVO> bd_r_list;
-	int reply_key = 0;
 
 	// 처음 게시판 클릭했을 때 시작하는 곳
 	@RequestMapping("boardMainList")
 	public ModelAndView boardMainList(String cPage, String c_idx) {
 		ModelAndView mv = new ModelAndView();
-		/* if((c_idx != null && c_idx.equals("undefined")) && reply_key == 1){
-			mv.addObject("c_idx", c_idx);
-			mv.addObject("reply_key", reply_key);
-		} */
-		
 		mv.addObject("c_idx", c_idx);
 		mv.addObject("cPage", cPage);
 		mv.setViewName("/jsp/admin/schoolRecord/boardMain");
@@ -67,10 +70,10 @@ public class BoardController {
 		}
 		
 		CourseVO[] ar = c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
+	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_ajax");
+		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_Ajax");
 		
 		return mv;
 	}
@@ -220,7 +223,7 @@ public class BoardController {
         Paging page = null;
         boolean search_flag = true;
         
-        int cnt = b_Service.reGetTotalRecord(c_idx, value);
+        int cnt = b_Service.reCount(c_idx, value);
         
         if(cnt > 0) {
             page = new Paging();
@@ -230,7 +233,7 @@ public class BoardController {
             }else {
                 page.setNowPage(Integer.parseInt(cPage));								
             }
-            ar = b_Service.searchBoard(value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            ar = b_Service.searchBoard(c_idx, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
         }
         
         mv.addObject("search_flag", search_flag);
@@ -380,6 +383,20 @@ public class BoardController {
 
 		BoardVO bvo = b_Service.getBoard(bd_idx);
 
+		Object obj = session.getAttribute("bd_r_list");
+		if(obj == null) {
+			bd_r_list = new ArrayList<BoardVO>();
+			session.setAttribute("bd_r_list", bd_r_list);
+		}else {
+			bd_r_list = (ArrayList<BoardVO>) obj;
+		}
+
+		boolean read = CheckRead(bvo);
+		if(!read) {
+			bd_r_list.add(bvo);
+			b_Service.addHit(bd_idx);
+		}
+
 		mv.addObject("bvo", bvo);
 		mv.addObject("cPage", cPage);
 		mv.addObject("c_idx", c_idx);
@@ -398,11 +415,37 @@ public class BoardController {
 	}
 
 	// 게시글 등록 테이블에서 [등록] 버튼을 클릭했을 때 수행하는 곳
-	// [수정필요] 등록 후 과정목록 게시판이 아니라 과정별 게시판으로 가게 해야됨
     @RequestMapping("test_addBoard")
-    public String test_addBoard(BoardVO bvo, String cPage) {
+    public ModelAndView test_addBoard(BoardVO bvo) {
+		ModelAndView mv = new ModelAndView();
+		String encType = request.getContentType();
+
+		if(encType.startsWith("application")) {
+			
+		}else if(encType.startsWith("multipart")) {
+			MultipartFile mf = bvo.getFile();
+			String fname = null;
+
+			if(mf != null && mf.getSize() > 0) {
+				String realPath = application.getRealPath("upload_boardFile");
+	
+				String oname = mf.getOriginalFilename();
+
+				fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+				try {
+					mf.transferTo(new File(realPath, fname));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				bvo.setBd_fname(fname);
+				bvo.setBd_oname(oname);
+			}
+		}
+		
 		b_Service.addBoard(bvo);
-		return "redirect:test_viewBoardList?c_idx="+bvo.getC_idx();
+		mv.setViewName("/jsp/admin/schoolRecord/boardMain");
+		return mv;
     }
 
 	// 게시글 목록에서 [숨김] 체크박스를 클릭했을 때 수행하는 곳
@@ -437,8 +480,7 @@ public class BoardController {
 		Paging page = new Paging();
 		boolean search_flag = true;
 
-		int cnt = b_Service.reGetTotalRecord(c_idx, bd_subject);
-
+		int cnt = b_Service.reCount(c_idx, bd_subject);
 		if(cnt > 0) {
 			page.setTotalRecord(cnt);
 			if(cPage == null || cPage.equals("undefined")) {
@@ -446,7 +488,7 @@ public class BoardController {
 			}else {
 				page.setNowPage(Integer.parseInt(cPage));
 			}
-			ar = b_Service.searchBoard(bd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+			ar = b_Service.searchBoard(c_idx, bd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		}
 
 		mv.addObject("cPage", cPage);
@@ -476,9 +518,9 @@ public class BoardController {
 	}
 
 	@RequestMapping("test_replyBoard")
-	public String test_boardAddReply(BoardVO bvo, String cPage) {
+	public String test_boardAddReply(BoardVO bvo) {
 		b_Service.addReply(bvo);
-		return "redirect:test_viewBoardList?c_idx="+bvo.getC_idx();
+		return "/jsp/admin/schoolRecord/boardMain";
 	}
 
 	@RequestMapping("searchBoth")
@@ -504,5 +546,53 @@ public class BoardController {
 		mv.setViewName("/jsp/admin/schoolRecord/searchBoth_ajax");
 
 		return mv;
+	}
+
+	@RequestMapping("BoardDownload")
+	public ResponseEntity<Resource> fileDownload(String fname) {
+		String realPath = application.getRealPath("/upload_boardFile/"+fname);
+
+		File f = new File(realPath);
+
+		if(f.exists()) {
+			byte[] buf = new byte[4096];
+			int size = -1;
+
+			BufferedInputStream bis = null;
+			FileInputStream fis = null;
+
+			BufferedOutputStream bos = null;
+			ServletOutputStream sos = null;
+
+			try {
+				response.setContentType("application/x-msdownload");
+				response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(), "8859_1"));
+
+				fis = new FileInputStream(f);
+				bis = new BufferedInputStream(fis);
+
+				sos = response.getOutputStream();
+				bos = new BufferedOutputStream(sos);
+
+				while((size=bis.read(buf)) != -1) {
+					bos.write(buf, 0, size);
+					bos.flush();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (fis != null)
+						fis.close();
+					if (bis != null)
+						bis.close();
+					if (sos != null)
+						sos.close();
+					if (bos != null)
+						bos.close();
+				} catch (Exception e) { }
+			}
+		}
+		return null;
 	}
 }

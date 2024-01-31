@@ -425,7 +425,7 @@ table tfoot ol.page {
          $.ajax({
             url:"counselAddMain",
             type:"post",
-            data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselAddMain")+"&c_idx="+c_idx,
+            data:"&select="+encodeURIComponent("counselAddMain")+"&c_idx="+c_idx,
          }).done(function(result){
             $("#dialog2").html(result);
             
@@ -485,6 +485,7 @@ table tfoot ol.page {
                 }
             }
         });
+        
 
       function paging(str) {
          select = $("#searchType").val();

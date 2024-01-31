@@ -164,31 +164,38 @@ table tfoot ol.page {
 						<td><label class="checkbox-inline"><input type="checkbox" name="chk" class="chk" onclick="chkClicked('${vo7.tr_idx}')" value="${vo7.tr_idx}"></label></td>
 						<!-- 학생에 대한 정보 입력  -->
 						<td>${num-(vs.index)-2 }</td>
-						<td><!-- 이미지 --></td>
-						<td><!-- 학생코드 --></td>
+						<c:if test="${vo7.file_name eq null}">
+							<td></td>
+						</c:if>
+						<c:if test="${vo7.file_name ne null}">
+						<td><img src="${pageContext.request.contextPath }/upload_file/${vo7.file_name}" width="100" height="100"></td>
+						</c:if>
+						<td>${vo7.s_code}</td>
 						<td>${vo7.tr_name }</td>
 						<td>${vo7.tr_hp }</td>
 						<td>${vo7.tr_rrn }</td>
 						<td><!-- 상태 -->
-							<select name="status" class="nowsta">
-								<option value="0" name="접수" >접수</option>
-								<option value="1" name="예정">예정</option>
-								<option value="2" >수강</option>
-								<option value="3" >조기수료</option>
-								<option value="4" >조기취업</option>
-								<option value="5" >수료</option>
-								<option value="6" >수강포기</option>
-								<option value="7" >미수료</option>
-								<option value="8" >제적</option>
-								<option value="9" >취소</option>
-							</select>
+							<input type="hidden" id="nowstatus${vs.index}" value="${vo7.tr_nowstatus}" class="sts"/>
+								<select name="nowstatus" id="">
+									<option id="op1${vs.index}" value="0" >접수</option>
+									<option id="op2${vs.index}" value="1" >예정</option>
+									<option id="op3${vs.index}" value="2" >수강</option>
+									<option id="op4${vs.index}" value="3" >조기수료</option>
+									<option id="op5${vs.index}" value="4" >조기취업</option>
+									<option id="op6${vs.index}" value="5" >수료</option>
+									<option id="op7${vs.index}" value="6" >수강포기</option>
+									<option id="op8${vs.index}" value="7" >미수료</option>
+									<option id="op9${vs.index}" value="8" >제적</option>
+									<option id="op10${vs.index}" value="9" >취소</option>
+								</select>
 						</td>
 						<td><!-- 사유및날짜 --></td>
 						<td>
-						<input type="button" id="fset"  onclick="javascript:location.href='traineeEdit'" value="정보수정"/>
-						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx}')" value="신상기록부">
-						<input type="button" id="fset"  onclick="traineedocument('${vo7.tr_idx}')" value="서류관리">
-						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx}')" value="상담일지">
+							<input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
+						<input type="button" id="fset"  onclick="javascript:location.href='traineeEdit?tr_idx=${vo7.tr_idx}&c_idx=${aa.c_idx}'" value="정보수정"/>
+						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx},${aa.c_idx}')" value="신상기록부">
+						<input type="button" id="fset"  onclick="" value="서류관리">
+						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx},${aa.c_idx}')" value="상담일지">
 						<input type="button" id="fset"  onclick="" value="사후관리">
 						<input type="button" id="fset"  onclick="" value="면접평가표">
 						</td>
@@ -226,17 +233,41 @@ table tfoot ol.page {
 			$(".l_select").removeClass("l_selected");
 			$("#thirdmenu").addClass("selected");
 			$("#l_four").addClass("l_select");
+			let ar = $(".sts");
+			for(let k=0; k<ar.length;k++){
+				//console.log($("#nowstatus"+k).val());
+				for(let i=1;i<=10;i++){
+					if($("#op"+i+k).val() ==$("#nowstatus"+k).val()){
+						$("#op"+i+k).attr("selected",true);
+					}
+					
+				}
+			}
 
-
-			
 		});
 
+		
+
 		function alledit(){
+		//체크박스 체크된 항목
+		//console.log(tr_idx);
+		let query = 'input[name="chk"]:checked'
+        let selectedElements = document.querySelectorAll(query)
+		
+        //체크박스 체크된 항목의 개수
+        let selectedElementsCnt = selectedElements.length;
 
-
-
+        if(selectedElementsCnt == 0){
+            alert("수정할 항목을 선택해주세요.");
+            return false;
+        } else if(confirm("수정하시겠습니까?")) {
+			
+			document.fff.action = "alledit";
 
 			document.fff.submit();
+		}
+
+			
 		}
 
 		
@@ -329,7 +360,7 @@ table tfoot ol.page {
 		$.ajax({
             url: "counseling",
             type: "post",
-            data:"type="+encodeURIComponent("counseling")+"&select="+str
+            data:"type="+encodeURIComponent("counseling")+"&tr_idx="+str+"&c_idx="+str
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -345,33 +376,33 @@ table tfoot ol.page {
 		$.ajax({
             url: "traineewrite",
             type: "post",
-            data:"type="+encodeURIComponent("traineewrite")+"&select="+str
+            data:"type="+encodeURIComponent("traineewrite")+"&tr_idx="+str+"&c_idx="+str
          }).done(function(result){
             $("#m1").html(result);
          });
          
 		$( "#m1" ).dialog({
-				width:1400,
+				width:1600,
             	height:1000
 		});
 
 	} 
 
-	function traineedocument(str){
+	function couupload(str){
 		$.ajax({
-            url: "traineedocument",
+            url: "couupload",
             type: "post",
-            data:"type="+encodeURIComponent("traineedocument")+"&select="+str
+            data:"type="+encodeURIComponent("couupload")+"&tr_idx="+str+"&c_idx="+str
          }).done(function(result){
             $("#m1").html(result);
          });
          
 		$( "#m1" ).dialog({
-				width:800,
-            	height:500
+				width:1000,
+            	height:600
 		});
-
 	}
+
 
 
     function paging(str) {

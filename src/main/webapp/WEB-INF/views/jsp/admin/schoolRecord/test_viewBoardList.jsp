@@ -147,7 +147,6 @@ table tfoot ol.page {
 		height: 450px;
 		border-collapse: collapse;
 		position: absolute;
-		
 	}
 	#boContent table th, #boContent table td{
 		border: 1px solid #e9e9e6;
@@ -262,9 +261,12 @@ table tfoot ol.page {
 						<%-- ===== 검색하는 부분 ===== --%>
 						
 						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
-						<div id="board_list">
-							
-						</div>
+						<form action="BoardDownload" name="downForm" method="get">
+							<input type="hidden" name="fname"/>
+							<div id="board_list">
+								
+							</div>
+						</form>
 						<%-- ===== 비동기식으로 표현할 게시글 목록 끝 ===== --%>
 
 						<%-- ===== 게시글 작성 폼 시작 ===== --%>
@@ -290,6 +292,7 @@ table tfoot ol.page {
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
+		
 		$(function() {
 			/* 처음 게시판을 클릭했을 때
 				 비동기식통신을 수행해 전체 목록을 가져온다 */
@@ -332,12 +335,12 @@ table tfoot ol.page {
                         "&c_idx="+c_idx,
             }).done(function(result){
                 $("#boContent").html(result);
-                $("#boContent").dialog({
-                    title: '게시글 보기',
-                    modal: true,
-                    width: 1000,
-                    height: 600
-                });
+				$("#boContent").dialog({
+					title: '게시글 보기',
+					modal: true,
+					width: 1000,
+					height: 600
+				});
             });
         };
 
@@ -359,8 +362,12 @@ table tfoot ol.page {
         };
 
         /* 등록폼에서 [등록] 버튼을 클릭했을 때 수행하는 부분 */
-        function addBoard(c_idx) {
-            let checked = $("#bd_notice").is(":checked");
+        function addBoard(frm) {
+			frm.submit();
+			// 이 아래는 비동기식 통신으로 추가만 하는거
+			// dialog가 안꺼지는 문제점이 있어서 다시 수정함
+			// 이때는 인자로 form이 아니라 c_idx를 받았음
+            /* let checked = $("#bd_notice").is(":checked");
             let notice = 0;
             if(checked)
                 notice = 1;
@@ -378,14 +385,6 @@ table tfoot ol.page {
                         "&bd_content="+content+
                         "&bd_file="+file,
             }).done(function(result){
-                $("#board_list").html(result);
-            });
-
-			/* $.ajax({
-                url: "test_addBoard",
-                type: "post",
-            }).done(function(result){
-				addForm_t.submit();
                 $("#board_list").html(result);
             }); */
         };
@@ -430,7 +429,6 @@ table tfoot ol.page {
 
         /* 게시글 보기 상태에서 [답변] 버튼을 클릭해서 답변Form을 가져오는 기능 */
        /*  function reply(bd_idx, cPage, c_idx) {
-            let checked = $
             $.ajax({
                 url: "test_replyBoardAjax",
                 type: "post",
@@ -449,9 +447,32 @@ table tfoot ol.page {
             });
         }; */
 
+		/* 게시글 보기 상태에서 [답변] 버튼을 클릭해서 답변Form을 가져오는 기능 */
+		function reply(bd_idx, cPage, c_idx) {
+			$.ajax({
+				url: "test_replyBoardAjax",
+				type: "post",
+				data: "bd_idx="+bd_idx+
+						"&cPage="+cPage+
+						"&c_idx="+c_idx,
+			}).done(function(result){
+				$("#boContent").html(result);
+				$("#boContent").dialog({
+				title: '게시글 답변 작성',
+				modal: true,
+				width: 1000,
+				height: 600
+				});
+			});
+		};
+
         /* 답변 작성에서 [등록]을 눌렀을때 수행 */
-		function addReply(c_idx) {
-            let checked = $("#bd_notice").is(":checked");
+		function addReply(frm) {
+			frm.submit();
+			// 이 아래는 비동기식 통신으로 추가만 하는거
+			// dialog가 안꺼지는 문제점이 있어서 다시 수정함
+			// 이때는 인자로 form이 아니라 c_idx를 받았음
+            /* let checked = $("#bd_notice").is(":checked");
             let notice = 0;
             if(checked)
                 notice = 1;
@@ -471,8 +492,14 @@ table tfoot ol.page {
             }).done(function(result){
                 $("#board_list").html(result);
 				$("#replyForm").dialog("close");
-            });
+            }); */
 		};
+
+		function download(fname) {
+			document.downForm.fname.value = fname;
+			document.downForm.submit();
+		};
+		
 	</script>
 </body>
 </c:if>

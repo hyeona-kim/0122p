@@ -88,4 +88,19 @@ public class CourseService {
     public int getSearchCount(String select, String value, String year) {
         return c_mapper.search_count(select, value, year);
     }
+
+    public int reg_count(String year){
+        return c_mapper.reg_count(year);
+    }
+    public CourseVO[] reg_search(String year){
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.reg_search(year);
+        if(list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }
