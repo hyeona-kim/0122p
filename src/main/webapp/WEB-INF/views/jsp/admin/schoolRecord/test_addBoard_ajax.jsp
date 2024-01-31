@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery-ui.min.js"></script>
+<script src="js/summernote-lite.js"></script>
+<script src="js/lang/summernote-ko-KR.js"></script>
 <form action="test_addBoard" method="post" id="addForm_t" enctype="multipart/form-data">
 	<!-- 추가 인자로 보내기 위해 hidden으로 던진다 -->
 	<input type="hidden" name="c_idx" value="${param.c_idx}"/>

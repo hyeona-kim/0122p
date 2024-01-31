@@ -381,7 +381,7 @@ public class CounselController {
             CourseVO cvo = c_Service.getCourse2(c_idx);
             TraineeVO tvo = t_Service.view(tr_idx);
             CounselVO[] ar = cs_Service.counselList(tr_idx);    
-            CourseVO cvo = c_Service.getCourse2(c_idx);
+            /* CourseVO cvo = c_Service.getCourse2(c_idx); */
      
             tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
             mv.addObject( "cvo", cvo);

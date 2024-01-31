@@ -4,7 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,7 +76,7 @@ public class BoardController {
 	
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_Ajax");
+		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_ajax");
 		
 		return mv;
 	}
@@ -548,7 +551,7 @@ public class BoardController {
 		return mv;
 	}
 
-	@RequestMapping("BoardDownload")
+	@RequestMapping("boardDownload")
 	public ResponseEntity<Resource> fileDownload(String fname) {
 		String realPath = application.getRealPath("/upload_boardFile/"+fname);
 
@@ -594,5 +597,35 @@ public class BoardController {
 			}
 		}
 		return null;
+	}
+
+	// 글쓰기 또는 답변 작성시 에디터에 이미지를 추가할 때
+	// 해당 이미지를 서버에 업로드하여 해당 이미지의 위치를 반환하는 기능
+	@RequestMapping("saveBoardImg")
+	@ResponseBody
+	public Map<String, String> saveBoardImg(MultipartFile file) {
+		Map<String, String> map = new HashMap<String, String>();
+
+		// MultipartFile이 인자로 넘어오는 경우에는
+		// 무조건 생성해서 넘어오기 때문에 null과 비교하면 안된다
+		if(file.getSize() > 0) {
+			String realPath = application.getRealPath("upload_boardImage");
+
+			String oname = file.getOriginalFilename();
+
+			String fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+			try {
+				file.transferTo(new File(realPath, fname));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			String Path = request.getContextPath();
+
+			map.put("url", Path+"/upload_boardImage");
+			map.put("fname", fname);
+		}
+		return map;
 	}
 }
