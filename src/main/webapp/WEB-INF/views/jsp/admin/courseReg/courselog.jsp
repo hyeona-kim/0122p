@@ -338,7 +338,6 @@ table tfoot ol.page {
 										<th>검색</th>
 										<td>
 											<select id="numPerPage">
-			
 												<option value="5">표시개수</option>
 												<option>5</option>
 												<option>10</option>
