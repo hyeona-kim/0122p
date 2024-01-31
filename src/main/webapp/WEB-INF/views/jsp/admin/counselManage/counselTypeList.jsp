@@ -193,14 +193,14 @@ table tfoot ol.page {
      #t1 tfoot{
         border: none;
     }
+    
+    
     .t1 th, .t1 td {
        margin: 0;
         padding: 0;
         border: 1px solid black;
         text-align: center;
       height: 40px;
-
-
     }
    .t1 td input{
       width: 85%;
@@ -236,9 +236,13 @@ table tfoot ol.page {
       background-color: black;
       color: white;
    }
+   #t2 tfoot td{
+      border: none;
+   }
+   #d1{
+      margin-bottom: 15px;
+   }
 
-   
-   
 
 </style>
 
