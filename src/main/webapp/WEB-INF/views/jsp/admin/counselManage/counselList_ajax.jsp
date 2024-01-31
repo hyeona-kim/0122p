@@ -2,56 +2,63 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<h2 id="add_h2">교육생 상담일지</h2>
-	<div id="add_top">
-		<table id="tt_add1" class="t1">
+	<h2 id="add_h2">&nbsp;&nbsp;교육생 상담일지</h2>
+	<div id="add_d1">
+		<table class="add">
 			<colgroup>
-				<col width="25%"/>
-				<col width="35%"/>
-				<col width="20%"/>
-				<col width="*"/>
+				<col width ="50%" />
+				<col width ="50%" />
 			</colgroup>
-			<thead>
-				<tr>
-					<th>성명</th>
-					<td>${tvo.tr_name}</td>
-                </tr>
-                <tr>
-					<th>주민번호</th>
-					<td>${tvo.tr_rrn}</td>
-				</tr>
-                <tr>
-					<th>주소</th>
-					<td>${tvo.tr_addr}</td>
-				</tr>
-                <tr>
-					<th>전화번호</th>
-					<td>${tvo.tr_hp}</td>
-				</tr>
-			</thead>
-            <tr>
-                <th >교육과정명</th>
-                <td>${cvo.c_name}</td>
-                <th>교육기간</th>
-                <td>${cvo.start_date} ~ ${cvo.end_date}</td>
-                <td>총상담횟수</td>
-                <td>${tvo.ss_num}</td>
-            </tr>
+			<tr>
+				<th>성명</th>
+				<td>${tvo.tr_name}</td>
+			</tr>
+			<tr>
+				<th>주민번호</th>
+				<td>${tvo.tr_rrn}</td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td>${tvo.tr_addr}</td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td>${tvo.tr_hp}</td>
+			</tr>
+		</table>
+		<table class="add">	
+			<colgroup>
+				<col width="17%"/>
+				<col width="17%"/>
+				<col width="17%"/>
+				<col width="17%"/>
+				<col width="16%"/>
+				<col width="16%"/>
+			</colgroup>		
+			<tr>
+				<th >교육과정명</th>
+				<td>${cvo.c_name}</td>
+				<th>교육기간</th>
+				<td>${cvo.start_date} ~ ${cvo.end_date}</td>
+				<th>총상담횟수</th>
+				<td>${tvo.ss_num}</td>
+			</tr>	
 		</table>
 	</div>
-	
-	<div>
+	<div id="add_d2">
 	<form action="counselsave" method="post" enctype="multipart/form-data">
 		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
-		<table id="tt_add2" class="t1">
+		<table class="add" id="add_t1">
 			<colgroup>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
+				<col width="10%"/>
+				<col width="10%"/>
+				<col width="10%"/>
+				<col width="35%"/>
+				<col width="35%"/>
+				
 			</colgroup>
 
-			<thead id="t2head">
+			<thead>
 				<tr>
                     <th>상담일</th>
 					<th>구분</th>
@@ -59,24 +66,30 @@
  					<th>상담내용</th>
         			<th>조치사항</th>    
                 </tr>
+			</thead>
+			<tbody>
 				<c:if test="${ar ne null}" >
 				<c:forEach var="vo" items="${ar}">
 				<tr>
-                    <th><a href="javascript:editCounsel('${vo.so_idx}', '${vo.tr_idx}')">${vo.so_day}</a></th>
-					<th>${vo.so_pp}</th>
-					<th>${vo.svo.sf_name}</th>
- 					<th>${vo.so_subject}</th>
-        			<th>${vo.so_pd}</th>    
-                </tr>
+                    <td><a href="javascript:editCounsel('${vo.so_idx}', '${vo.tr_idx}')">${vo.so_day}</a></td>
+					<td>${vo.so_pp}</td>
+					<td>${vo.svo.sf_name}</td>
+ 					<td>${vo.so_subject}</td>
+        			<td>${vo.so_pd}</td>    
+        </tr>
 				</c:forEach>
 				</c:if>
-						<td colspan="4">
-							<button type="button" onclick="counselListAdd('${tvo.tr_idx}')">상담등록</button>
-							<button type="button">인쇄</button>
-							<button type="button" id="cc_cancle">취소</button>
-						</td>
-					</tr>
+        
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5">
+						<button type="button" onclick="counselListAdd('${tvo.c_idx}', '${tvo.tr_idx}')">상담등록</button>
+						<button type="button">인쇄</button>
+						<button type="button" id="cc_cancle">취소</button>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</form>
 	</div>

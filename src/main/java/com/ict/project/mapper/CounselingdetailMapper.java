@@ -10,4 +10,9 @@ public interface CounselingdetailMapper {
 
     List<CounselingdetailVO> all();
     int add(CounselingdetailVO vo);
+    List<CounselingdetailVO> list();
+    CounselingdetailVO getCounselingDetail(String cd_idx);
+    CounselingdetailVO getCounselingDetail2(String cd_idx);
+	int edit(CounselingdetailVO cvo);
     }
+ 

@@ -725,7 +725,11 @@ table tfoot ol.page {
 				});
 			});
 			$("#dialog4").dialog("open");	
-        }$( "#dialog" ).dialog({
+        }
+
+		
+		
+		$( "#dialog" ).dialog({
             autoOpen: false,
             width:1200,
             modal: true,

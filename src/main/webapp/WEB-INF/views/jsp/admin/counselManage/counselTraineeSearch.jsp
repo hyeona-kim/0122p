@@ -253,6 +253,8 @@ table tfoot ol.page {
 		
 		
 		<div id="dialog" hidden="" title="교육생 상담일지">	
+		<div id="dialog2" hidden="" title="상담등록">	
+		<div id="dialog3" hidden="" title="상담수정">
 		</div>
 		
 
@@ -266,7 +268,6 @@ table tfoot ol.page {
 		let value ="";
 		$(function(){
 			if('${value}' != null && '${value}' != ""){
-				console.log(1);
 				$.ajax({
 					url: "searchCounsel",
 					type: "post",
@@ -346,23 +347,45 @@ table tfoot ol.page {
 			
 		});
 		
-		function set() {
-			$.ajax({
-				url:"addCounselFile",
-				type:"post",
-				data:"type="+encodeURIComponent("c_dialog")+"&select="+encodeURIComponent("addCounselFile")
-			}).done(function(result){
-				$("#dialog").html(result);
-				
-				$("#cc_cancle").click(function(){
-					 $("#dialog").dialog("close");
-				});
-			});
-            $("#dialog").dialog("open",{
-            	width:500,
-            	height:600
+		function counselList(tr_idx, c_idx) {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("counselList")+"&c_idx="+encodeURIComponent(c_idx)+"&tr_idx="+encodeURIComponent(tr_idx),
+         }).done(function(result){
+			$("#dialog").dialog("open");
+            $("#dialog").html(result);
+            
+            $("#cc_cancle").click(function(){
+                $("#dialog").dialog("close");
             });
-        }	
+         });
+        }  
+		function counselListAdd(tr_idx, c_idx) {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("counselListAdd")+"&c_idx="+encodeURIComponent(c_idx)+"&tr_idx="+encodeURIComponent(tr_idx),
+         }).done(function(result){
+         $("#dialog2").dialog("open");
+            $("#dialog2").html(result);
+            
+            $("#close").click(function(){
+                $("#dialog2").dialog("close");
+            });
+         });
+        }
+		function editCounsel(so_idx, tr_idx) {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+encodeURIComponent(tr_idx)+"&so_idx="+encodeURIComponent(so_idx),
+         }).done(function(result){
+         $("#dialog3").dialog("open");
+            $("#dialog3").html(result);
+
+         });
+        }
 
         function del(so_idx){
 			if( confirm("삭제하시겠습니까?")){
@@ -384,8 +407,25 @@ table tfoot ol.page {
 				$("#counsel_Table").html(result);
 			});
 		}
-		let num = '${num}'	
-		console.log(num);
+
+		$("#dialog").dialog({
+      autoOpen: false,
+            width:1200,
+            modal: true,
+
+     });
+	 $("#dialog2").dialog({
+      autoOpen: false,
+            width:1200,
+            modal: true,
+
+     });
+	 $("#dialog3").dialog({
+      autoOpen: false,
+            width:1200,
+            modal: true,
+
+     });
 	</script>
 </body>
 </html>
