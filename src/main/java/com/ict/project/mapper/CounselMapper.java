@@ -16,4 +16,6 @@ public interface CounselMapper {
     List<CounselVO> counselList(String tr_idx);
     int counselCount(String tr_idx);
     List<CounselVO> clist(String c_idx);
+    List<CounselVO> counsetr_idx(String tr_idx);
+
 }

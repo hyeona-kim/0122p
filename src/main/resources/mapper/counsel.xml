@@ -120,4 +120,8 @@
 		select count(*) from advice_t where tr_idx = #{tr_idx}
 	</select>
 
+   <select id="counsetr_idx" resultType="String" parameterType="com.ict.project.vo.CounselVO">
+      select * from advice_t where tr_idx = #{tr_idx}
+   </select>
+
 </mapper>
