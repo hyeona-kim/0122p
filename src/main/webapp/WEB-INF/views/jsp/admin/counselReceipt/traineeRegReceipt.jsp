@@ -308,7 +308,7 @@ table tfoot ol.page {
 	}
     #select_top{
         margin-top: 20px;
-        height: 150px;
+        height: auto;
     }
     #select_top #select_table{
         width: 100%;
@@ -461,7 +461,8 @@ table tfoot ol.page {
         let yearSelect="0";
         let ctSelect="";
         let cSelect="";
-
+        let cPage ="";
+        let str = "";
 		$(function(){
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
@@ -470,7 +471,7 @@ table tfoot ol.page {
 			$("#l_four").addClass("l_select");
 
             let ar = document.frm.chk1;
-            let str = "";
+            
 
             for(let i=0; i<ar.length;i++){
                 if(ar[i].checked){
@@ -480,7 +481,7 @@ table tfoot ol.page {
 
             let now = new Date();	// 현재 날짜 및 시간
 			let year = now.getFullYear();
-            let str2 ="<option value=0>년도선택</option>";
+            let str2 ="<option value='0'>년도선택</option>";
             for(let i=year+1; i>year-5; i--){
 				str2+= "<option value="+i+">"+i+"</option>";
 			}
@@ -489,24 +490,52 @@ table tfoot ol.page {
             $.ajax({
                 url:"trainee",
                 type:"post",
-                data:"chk1="+str+"&num="+numSelect,
+                data:"chk1="+str+"&num="+numSelect+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
             }).done(function(result){
                 $("#traineeReceipt_Table").html(result);
             });
             
             $("#num_select").change(function(){
                 numSelect =this.value;
+                $.ajax({
+                    url:"trainee",
+                    type:"post",
+                    data:"chk1="+str+"&num="+numSelect+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+                }).done(function(result){
+                    $("#traineeReceipt_Table").html(result);
+                });
             });
 
             $("#selectYear").change(function(){
                 yearSelect =this.value;
+                $.ajax({
+                    url:"trainee",
+                    type:"post",
+                    data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+                }).done(function(result){
+                    $("#traineeReceipt_Table").html(result);
+                });
             });
             $("#ct_select").change(function(){
                 ctSelect =this.value;
+                $.ajax({
+                    url:"trainee",
+                    type:"post",
+                    data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+                }).done(function(result){
+                    $("#traineeReceipt_Table").html(result);
+                });
             });
 
             $("#c_select").change(function(){
                 cSelect =this.value;
+                $.ajax({
+                    url:"trainee",
+                    type:"post",
+                    data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+                }).done(function(result){
+                    $("#traineeReceipt_Table").html(result);
+                });
             });
 
             $("#check_btn").click(function(){
@@ -520,7 +549,7 @@ table tfoot ol.page {
                 $.ajax({
                     url:"trainee",
                     type:"post",
-                    data:"chk1="+str+"&num="+numSelect,
+                    data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
                 }).done(function(result){
                     $("#traineeReceipt_Table").html(result);
                 });
@@ -528,11 +557,28 @@ table tfoot ol.page {
             $("#search_btn").click(function(){
                searchType = $("#searchType").val();
                searchValue =$("#searchValue").val();
+               $.ajax({
+                    url:"trainee",
+                    type:"post",
+                    data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+                }).done(function(result){
+                    $("#traineeReceipt_Table").html(result);
+                });
             });
             
 		});
 
-
+        function paging(page) {
+            console.log(str);
+			cPage=page;
+			$.ajax({
+                url:"trainee",
+                type:"post",
+                data:"chk1="+str+"&num="+numSelect+"&cPage="+cPage+"&c_idx="+cSelect+"&year="+yearSelect+"&ct_idx="+ctSelect+"&select="+searchType+"&value="+searchValue,
+            }).done(function(result){
+                $("#traineeReceipt_Table").html(result);
+            });
+		}
 	</script>
 </body>
 </html>

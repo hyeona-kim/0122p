@@ -350,21 +350,23 @@ table tfoot ol.page {
 							</article>
 							<article>
 								<div id="exel_d">
-									<table id="exel_t">
-										<colgroup>
-											<col width="30%"/>
-											<col width="70%"/>
-										</colgroup>
-										<tr>
-											<th>
-												수강생일괄등록
-											</th>
-											<td >
-												<input type="file" name="t_file" style="border: 1px solid #ababab;"/><br/><br/>
-												<input type="button" class="btn" id="submit_btn" value="등록"/>
-											</td>
-										</tr>
-									</table>
+									<form action="t_exelDown" method="post" enctype="multipart/form-data" name="frm">
+										<table id="exel_t">
+											<colgroup>
+												<col width="30%"/>
+												<col width="70%"/>
+											</colgroup>
+											<tr>
+												<th>
+													수강생일괄등록
+												</th>
+												<td >
+													<input type="file" name="t_file" style="border: 1px solid #ababab;"/><br/><br/>
+													<input type="button" class="btn" id="submit_btn" value="등록"/>
+												</td>
+											</tr>
+										</table>
+									</form>
 									<div>[파일 등록 시 아래사항들을 다시한번 확인해주세요!]</div>
 									<br/><br/>
 									<div>
@@ -398,10 +400,10 @@ table tfoot ol.page {
 			$("#firstmenu").addClass("selected");
 			$("#l_five").addClass("l_select");
 			$("#submit_btn").click(function(){
-				console.log("저장버튼클릭");
+				document.frm.submit();
 			});
             $("#exelDown_btn").click(function(){
-				console.log("엑셀파일 다운로드");
+				
 			});
 		});
 
