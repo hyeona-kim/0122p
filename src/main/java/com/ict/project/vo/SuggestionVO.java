@@ -11,4 +11,5 @@ public class SuggestionVO {
 	private String sg_idx, sg_writer, sg_write_date, sg_hit, sg_content, c_code, sg_subject, notice, status;
 	private String sg_file_name, sg_ori_name;
 	private MultipartFile file;
+	private String c_idx, c_name;
 }

@@ -55,4 +55,23 @@ public class CounselingdetailService {
     public int editCounselingDetail(CounselingdetailVO cvo) {
         return cd_mapper.edit(cvo);
     }
+
+    public int deletetCounselingDetail(String cd_idx) {
+        return cd_mapper.del(cd_idx);
+    }
+    public int getSearchCount(String select, String value, String year) {
+        return cd_mapper.search_count(select, value, year);
+    }
+
+    public CounselingdetailVO[] searchCounseldetail(String select, String value, String year, String begin, String end) {
+        CounselingdetailVO[] ar = null;
+
+        List<CounselingdetailVO> list = cd_mapper.search(select, value, year, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new CounselingdetailVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }

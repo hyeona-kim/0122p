@@ -446,7 +446,6 @@
 									<th>검색</th>
 									<td>
 										<select id="numPerPage">
-											
 											<option>표시개수</option>
 											<option>5</option>
 											<option>10</option>
@@ -455,19 +454,24 @@
 										<select id="selectYear">
 
 										</select>
+
+
+
 									</td>
 									<td>
-										<select id="searchType">
-											<option value="1">국가기간</option>
-											<option value="2">국민내일배움카드</option>
-											<option value="3">일반과정</option>
-											<option value="4">KDT</option>
+										<select name="ct_idx" id="">
+											<option value="0">선택하세요</option>
+											<c:forEach items="${requestScope.ct_ar1}" var="ct_ar"  varStatus="loop">
+												<option value="${ct_ar.ct_idx }">
+														 ${ct_ar.ct_name } 
+												 </option>
+											</c:forEach>
 										</select>
 									</td>
 									<td>
-										<select name="searchType2">
+										<select name="searchType2" id="">
 											<option value="0">선택하세요</option>
-											<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
+											<c:forEach items="${requestScope.c_ar1}" var="c_ar"  varStatus="loop">
 												<option value="${c_ar.c_idx }">
 														 ${c_ar.c_name } 
 												 </option>
@@ -490,8 +494,6 @@
 							<tbody>
 								<tr>	
 									<th>
-										<button type="button">선택삭제</button>
-										<button type="button">선택 접수처리</button>
 										<button type="button" id="btn_right" onclick="setid()">유입경로항목관리</button>
 										<button type="button" id="btn_right" onclick="setNs()">다음예정일항목관리</button>
 										<button type="button" id="btn_right" onclick="setDB()">입학상담등록</button>
@@ -506,6 +508,10 @@
 			</div>
 		</div>
 	</div>
+
+	<form name="frm" action="counselReceipt" method="post">
+		<input type="hidden" name="cd_idx" value="" />
+	</form>
 
 	<div id="dialog" hidden="" title="유입경로항목 등록/수정">	
 	</div>
@@ -563,10 +569,10 @@
 			select_year = this.value;
 			console.log("dd");
 			$.ajax({
-				url: "searchCourse",
+				url: "searchCounseldetail",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
@@ -574,22 +580,23 @@
 		$("#numPerPage").on("change",function(){
 			numPerPage = this.value;
 			$.ajax({
-				url: "searchCourse",
+				url: "searchCounseldetail",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
 		});
+
 		$("#search_bt").click(function(){
 			let value = $("#searchValue").val();
 			
 			$.ajax({
-				url: "searchCourse",
+				url: "searchCounseldetail",
 				type: "post",
 				data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
@@ -605,7 +612,7 @@
 	function paging(str) {
 		cPage = str;
 		$.ajax({
-			url:"searchCourse",
+			url:"searchCounseldetail",
 			type:"post",
 			data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
 				+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
@@ -782,8 +789,14 @@
 
 			rm.action = "delNextscheduled";
 			document.rm.ns_idx.value = ns_idx; 
-			
 			document.rm.submit();
+			}
+		}
+	function delCd(cd_idx){
+			if( confirm("삭제하시겠습니까?")){
+			frm.action = "delCounselingDetail";
+			document.frm.cd_idx.value =cd_idx; 
+			document.frm.submit();
 			}
 		}
 

@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
+<link rel="stylesheet" href="css/summernote-lite.css">
 <style>
 table tfoot ol.page {
 	    list-style:none;
@@ -261,7 +262,7 @@ table tfoot ol.page {
 						<%-- ===== 검색하는 부분 ===== --%>
 						
 						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
-						<form action="BoardDownload" name="downForm" method="get">
+						<form action="boardDownload" name="downForm" method="get">
 							<input type="hidden" name="fname"/>
 							<div id="board_list">
 								
@@ -352,6 +353,20 @@ table tfoot ol.page {
                 data: "c_idx="+c_idx,
             }).done(function(result){
                 $("#addForm").html(result);
+				$("#bd_content").summernote({
+					height: 200,
+					focus: true,
+					lang: "ko-KR",
+					dialogsInBody: true,
+					callbacks: {
+						onImageUpload: function(files, editor) {
+							for (let i=0; i<files.length; i++) {
+								sendImage(files[i], editor);
+							}
+						}
+					}
+				});
+				$("#bd_content").summernote("lineHeight", 0.7);
                 $("#addForm").dialog({
                     title: '게시글 등록',
                     modal: true,
@@ -360,6 +375,30 @@ table tfoot ol.page {
                 });
             });
         };
+
+		// [글쓰기] 또는 [답변]을 할 때
+		// 에디터에 이미지가 업로드되면 내용에 추가하는 기능
+		function sendImage(file, editor, reply){
+			let frm = new FormData();
+
+			frm.append("file", file);
+
+			$.ajax({
+				url: "saveBoardImg",
+				type: "post",
+				data: frm,
+				contentType: false,
+				processData: false,
+				cache: false,
+				dataType: "json",
+			}).done(function(data) {
+				if(reply != null){
+					$("#reply_content").summernote("editor.insertImage", data.url+"/"+data.fname);
+				}else {
+					$("#bd_content").summernote("editor.insertImage", data.url+"/"+data.fname);
+				}
+			});
+		};
 
         /* 등록폼에서 [등록] 버튼을 클릭했을 때 수행하는 부분 */
         function addBoard(frm) {
@@ -427,28 +466,9 @@ table tfoot ol.page {
             });
         };
 
-        /* 게시글 보기 상태에서 [답변] 버튼을 클릭해서 답변Form을 가져오는 기능 */
-       /*  function reply(bd_idx, cPage, c_idx) {
-            $.ajax({
-                url: "test_replyBoardAjax",
-                type: "post",
-                data: "bd_idx="+bd_idx+
-                        "&cPage="+cPage+
-                        "&c_idx="+c_idx,
-            }).done(function(result){
-                $("#replyForm").html(result);
-				$("#boContent").dialog("close");
-                $("#replyForm").dialog({
-                    title: '게시글 답변 작성',
-                    modal: true,
-                    width: 1000,
-                    height: 600
-                });
-            });
-        }; */
-
 		/* 게시글 보기 상태에서 [답변] 버튼을 클릭해서 답변Form을 가져오는 기능 */
 		function reply(bd_idx, cPage, c_idx) {
+			let reply = "reply";
 			$.ajax({
 				url: "test_replyBoardAjax",
 				type: "post",
@@ -457,6 +477,20 @@ table tfoot ol.page {
 						"&c_idx="+c_idx,
 			}).done(function(result){
 				$("#boContent").html(result);
+				$("#reply_content").summernote({
+					height: 200,
+					focus: true,
+					lang: "ko-KR",
+					dialogsInBody: true,
+					callbacks: {
+						onImageUpload: function(files, editor) {
+							for (let i=0; i<files.length; i++) {
+								sendImage(files[i], editor, reply);
+							}
+						}
+					}
+				});
+				$("#reply_content").summernote("lineHeight", 0.7);
 				$("#boContent").dialog({
 				title: '게시글 답변 작성',
 				modal: true,
