@@ -145,7 +145,7 @@
                 <input type="button" value="인쇄" onclick="">
                 <input type="button" value="취소" onclick="">
             </div>
-            <input type="hidden" name="c_idx" value="${}">
-            <input type="hidden" name="tr_idx" value="${}">
+            <input type="hidden" name="c_idx">
+            <input type="hidden" name="tr_idx">
         </form>
 	
