@@ -1,7 +1,20 @@
 package com.ict.project.control;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,11 +81,105 @@ public class CounselController {
     }
 
     @RequestMapping("addCounselFile")
-    public ModelAndView addCounsel() {
-        ModelAndView mv = new ModelAndView();
-              
-        mv.setViewName("/jsp/admin/counselManage/addCounselFile_ajax");
+    public ModelAndView addCounsel(MultipartFile addFile) {
+		ModelAndView mv = new ModelAndView();
+		String realPath = application.getRealPath("subject_ex_upload");
+		if(addFile.getSize()>0){
+			String fname = addFile.getOriginalFilename();
+			fname = FileRenameUtil.checkSameFileName(fname, realPath);
+			try {
+				File f = new File(realPath,fname);
+				addFile.transferTo(f);
+				FileInputStream fis = new FileInputStream(f.getAbsolutePath());
+				IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+				XSSFWorkbook workbook = new XSSFWorkbook(fis);
+				XSSFSheet sheet = workbook.getSheetAt(0);
+				
+				Iterator<Row> it = sheet.iterator();
+				List<CounselVO> list = new ArrayList<CounselVO>();
+					while(it.hasNext()) {
+						Row row = it.next();
+						// 첫번째 행은 머릿글이므로 제외
+						if(row.getRowNum()==0)
+							continue;
+						//cell들을 한번에 반복자로 얻어낸다.
+						Iterator<Cell> it2 = row.cellIterator();
+						CounselVO vo = new CounselVO();
+						int i=0;
+						while(it2.hasNext()) {
+							//하나의 cell을 얻어낸다 
+							Cell cell = it2.next();
+							String val = null;
+							switch (cell.getCellType()) {
+								case NUMERIC:
+                                    if(DateUtil.isCellDateFormatted(cell))			
+                                        val = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());			
+                                    else
+									    val = String.valueOf((int)cell.getNumericCellValue());
+									break;
+								case STRING:
+									val = cell.getStringCellValue();
+									break;
+								case BLANK:
+									val = null;
+								default:
+									val = null;
+									break;
+							}//switch문의 끝
+
+							switch(i) {
+								case 0:
+									vo.setC_idx(val); // 과정코드
+									break;
+								case 1:
+									vo.setTr_idx(val); // 훈련생코드
+									break;
+								case 2:
+									vo.setSo_day(val); // 상담일    
+									break;
+								case 3:
+									vo.setSo_tname(val); // 상담자
+									break;
+								case 4:
+									vo.setSo_menu(val); // 상담종류
+									break;
+								case 5:
+                                    vo.setSo_pd(val); // 상담목적
+                                    break;
+								case 6:
+                                    vo.setSo_subject(val); // 상담내용
+									break;
+                                case 7:
+                                    vo.setSo_pp(val);
+								default:
+									break;
+                            }
+                            i++;
+                        }// 열반복의 끝
+                        vo.setSf_idx(c_Service.getCourse(vo.getC_idx()).getSf_idx());
+                        if(vo.getSo_day() != null  && vo.getSo_day().trim().length() > 0) { // 상담일(필수값)의 값이 들어있지 않다면 list에 저장할 필요가 x
+                            t_Service.setCounsel_date(vo.getTr_idx(), vo.getSo_day(), Integer.toString(cs_Service.counselCount(vo.getTr_idx()))); // 상담일 최신화
+                            list.add(vo); //리스트에 저장
+                        }
+					}//행 반복의 끝
+					// 리스트에 있는 정보들을 db에 저장하기위해
+
+					HashMap<String,List<CounselVO>> map = new HashMap<>();
+					map.put("list", list);
+					cs_Service.addCounselFile(map);
+					
+
+					fis.close();
+					workbook.close();
+					f.delete(); //파일 삭제
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+				
+		}
+		mv.setViewName("redirect:counsel?listSelect=1&cPage=1"); // 첫 화면으로 돌아가기
         return mv;
+    
     }
      @RequestMapping("delCounsel")
     public String delCounsel(String so_idx,String cPage) {
@@ -86,7 +193,6 @@ public class CounselController {
     public String editCounsel(CounselVO vo,String listSelect, String cPage) {
         String viewName = "";
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
-            System.out.println(vo.getSo_day());
             if(listSelect.equals("3")) {
                 cs_Service.editCounsel(vo);
                 viewName =  "redirect:searchCounsel?listSelect=3";
@@ -174,46 +280,6 @@ public class CounselController {
         return mv;  
     }
 
-    
-    @RequestMapping("viewCounsel")
-    public String viewCounsel(String so_idx) {
-        String viewPath = null;
-
-        // so_idx를 기반으로 CounselVO 객체 가져오기
-        CounselVO vo = cs_Service.getCounsel(so_idx);
-
-
-      
-        request.setAttribute("select_vo", vo);
-
-        viewPath ="redirect:counsel&listSelect=1";
-
-        return viewPath;
-    }
-
-    @RequestMapping("traineeList")
-    public ModelAndView traineeList(String cPage){
-        ModelAndView mv = new ModelAndView();
-       Paging page = new Paging();
-		
-		page.setTotalRecord(t_Service.getCount());
-		
-		if(cPage == null || cPage.length()==0) {
-			page.setNowPage(1);
-		}else {
-			int nowPage = Integer.parseInt(cPage);
-			page.setNowPage(nowPage);
-			
-		}
-		
-		TraineeVO[] tv = t_Service.getTraineeList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
-		mv.addObject("ar", tv);
-		mv.addObject("page", page);
-        
-        mv.setViewName( "jsp/admin/counselManage/counselTraineeSearch_ajax");
-		return mv;
-    }
     
     @RequestMapping("searchCounsel")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage, String c_idx){
@@ -367,7 +433,6 @@ public class CounselController {
     @RequestMapping("ss_dialog")
     public ModelAndView ss_dialog(String select,String c_idx, String tr_idx, String so_idx){
         ModelAndView mv = new ModelAndView();
-        System.out.println(select + "/" + c_idx + "/" + tr_idx);
         
 
         if(select.equals("addCounselFile"))
@@ -395,7 +460,6 @@ public class CounselController {
         else if(select.equals("counselListAdd")){
 
         mv.setViewName("/jsp/admin/counselManage/counselListAdd_ajax");
-        System.out.println(c_idx + "????????");
         CourseVO cvo = c_Service.getCourse2(c_idx);
         TraineeVO tvo = t_Service.view(tr_idx);
         tvo.setSs_num(Integer.toString(cs_Service.counselCount(tr_idx)));
@@ -466,7 +530,7 @@ public class CounselController {
                     cs_Service.addCounsel(vo);
                     ss_end = date[i];
                     ss_num = Integer.toString(cs_Service.counselCount(tr_idx[i]));
-                    t_Service.getCounsel_date(tr_idx[i], ss_end, ss_num); //(1, 2024-01-01)
+                    t_Service.setCounsel_date(tr_idx[i], ss_end, ss_num); //(1, 2024-01-01)
                 }
             }
         }
@@ -478,13 +542,12 @@ public class CounselController {
     @RequestMapping("counselListAdd")
     public ModelAndView counselListAdd(CounselVO vo, String ss_num){
         ModelAndView mv = new ModelAndView();
-        System.out.println(vo.getSo_day() + "/" + vo.getC_idx());
         
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() >0){
         
          cs_Service.addCounsel(vo);
 
-         t_Service.getCounsel_date(vo.getTr_idx(), vo.getSo_day(),ss_num);
+         t_Service.setCounsel_date(vo.getTr_idx(), vo.getSo_day(),ss_num);
 
         }
         mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
