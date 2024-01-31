@@ -3,7 +3,7 @@
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-	<form>
+	<form action="Traineewrite_ajax" method="post" name="qqq">
 				    <table id="makeTime">
 				        <caption>신상기록부</caption>
 					<tbody>
@@ -43,23 +43,23 @@
                         </tr>
                         <tr>
                             <th>업체명</th>
-							<td><input type="text"></td>
+							<td><input type="text" value="${bvo.bs_name}" name="bs_name"></td>
                             <th>직종</th>
-							<td><input type="text"></td>
+							<td><input type="text" value="${bvo.bs_job}" name="bs_job"></td>
                             <th>대표자</th>
-							<td><input type="text"></td>
+							<td><input type="text" value="${bvo.bs_re}" name="bs_re"></td>
                         </tr>
                         <tr>
                             <th>근무부서</th>
-							<td><input type="text"></td>
+							<td><input type="text" value="${bvo.bs_workdpt}" name="bs_workdpt"></td>
                             <th>직위</th>
-							<td><input type="text"></td>
+							<td><input type="text"  value="${bvo.bs_position}" name="bs_position"></td>
                             <th>전화번호</th>
-							<td><input type="text"></td>
+							<td><input type="text" value="${bvo.bs_phone}" name="bs_phone"></td>
                         </tr>
                         <tr>
                             <th>소재지</th>
-							<td colspan="5"><input type="text"></td>
+							<td colspan="5"><input type="text" value="${bvo.bs_location}" name="bs_location"></td>
                         </tr>
                     </tbody>
             </table>
@@ -67,22 +67,22 @@
                 <tbody>
                     <tr>
                         <th colspan="2">훈련신청사유</th>
-                        <td colspan="4"><input type="text"></td>
+                        <td colspan="4"><input type="text" value="${vo12.tr_memo}" name="tr_memo"></td>
                     </tr>
                 </tbody>
             </table>
             <table id="makeTime">
                     <tr>
                         <th rowspan="2">최종학력</th>
-                        <th >학교명</th>
-                        <th >졸업년도</th>
-                        <th >전공</th>
+                        <th>학교명</th>
+                        <th>졸업년도</th>
+                        <th>전공</th>
                     </tr>
                     <tr>
                         
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
+                        <td><input type="text" value="${tfvo.tf_name}" name="tf_name"></td>
+                        <td><input type="text"  value="${tfvo.tf_year}" name="tf_year"></td>
+                        <td><input type="text" value="${tfvo.tf_major}" name="tf_major"></td>
                     </tr>
                     
             </table>
@@ -104,7 +104,16 @@
                         <th>직급</th>
                     </tr>
                     <tr>
-                        <td><input type="text"></td>
+                        <td><input type="text" value="${qvo.qc_name}" name="qc_name"></td>
+                        <td><input type="text" value="${qvo.qc_date}" name="qc_date"></td>
+                        <td><input type="text" value="${qvo.qc_place}" name="qc_place"></td>
+                        <td><input type="text" value="${qvo.qc_cname}" name="qc_cname"></td>
+                        <td><input type="text" value="${qvo.qc_day}" name="qc_day"></td>
+                        <td><input type="text" value="${qvo.qc_job}" name="qc_job"></td>
+                        <td><input type="text" value="${qvo.qc_position}" name="qc_position"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" ></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
@@ -113,16 +122,7 @@
                         <td><input type="text"></td>
                     </tr>
                     <tr>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text"></td>
+                        <td><input type="text" ></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                         <td><input type="text"></td>
@@ -137,13 +137,15 @@
                     <th >메모</th>
                 </tr>
                 <tr>
-                    <td><textarea rows="8" cols="180"></textarea></td>
+                    <td><textarea rows="8" cols="180" value="${tmvo.tm_memo}"></textarea></td>
                 </tr>
              </table>
              <div>
-                <input type="button" value="저장" onclick="">
+                <input type="button" value="저장" onclick="sendDate(this.form)">
                 <input type="button" value="인쇄" onclick="">
                 <input type="button" value="취소" onclick="">
-             </div>
+            </div>
+            <input type="hidden" name="c_idx" value="${}">
+            <input type="hidden" name="tr_idx" value="${}">
         </form>
 	
