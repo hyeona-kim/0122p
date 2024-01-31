@@ -12,6 +12,42 @@
 		<association property="idvo" column="id_idx" javaType="com.ict.project.vo.InflowPathVO" select="inflowPath"></association>
 	</resultMap>
 
+  <select id="search" parameterType="Map" resultType="com.ict.project.vo.CounselingdetailVO">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+		from (select * from counselingdetail_t
+				<where>
+				<trim suffixOverrides="and">
+							cd_status2 = 0 and
+							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">cd_phone like concat('%',#{value},'%') and</if>
+							<if test="year != null">cd_date like concat(#{year},'%') and</if>
+					</trim>
+				</where>
+				order by cd_idx desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end} 
+	</select>
+
+  
+
+   <select id="search_count" parameterType="Map" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select * from counselingdetail_t
+				<where>
+					<trim suffixOverrides="and">
+							cd_status2 = 0 and
+							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">cd_phone like concat('%',#{value},'%') and</if>
+							<if test="year != null">cd_date like concat(#{year},'%') and</if>
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c
+	</select>
+
   <select id="all" resultType="com.ict.project.vo.CounselingdetailVO">
     select * from counselingdetail_t
   </select>
@@ -77,5 +113,13 @@
 	    </set>
 	    where cd_idx = #{cd_idx}
 	  </update>
+
+    <update id="del" parameterType="String">
+			update counselingdetail_t
+			set cd_status2 = 1
+			where cd_idx = #{cd_idx}
+	  </update>
+
+   
 
 </mapper>

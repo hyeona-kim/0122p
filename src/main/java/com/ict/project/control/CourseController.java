@@ -175,6 +175,11 @@ public class CourseController {
     @RequestMapping("searchCourse")
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
 		//System.out.println(value);
+
+		
+        System.out.println(value);
+		System.out.println(year);
+
 		if(value== null || value.trim().length()==0){
 			value= null;
 			select=null;

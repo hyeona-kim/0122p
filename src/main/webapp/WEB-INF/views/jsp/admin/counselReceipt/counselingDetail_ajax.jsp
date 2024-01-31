@@ -5,7 +5,7 @@
 					<caption>과정별 교수계획서 및 학습 안내서 리스트</caption>
 						<thead>
 							<tr>
-								<th>선택<br> <input type="checkbox"> </th>
+								<th>삭제<br></th>
 								<th>번호</th>
 								<th>최초상담자</th>
 								<th>상담날짜</th>
@@ -26,7 +26,7 @@
 							<c:forEach var="vo2" items="${cd_ad }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
-								<td><input type="checkbox"></td>
+								<td><input type="button" value="삭제" onclick="delCd('${vo2.cd_idx}')"></td>
 								<td>
 									${vs.index+1}<br>
 									<input type="button" value="보기/수정" onclick="editCd('${vo2.cd_idx}')">

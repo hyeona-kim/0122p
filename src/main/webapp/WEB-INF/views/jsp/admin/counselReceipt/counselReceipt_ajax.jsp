@@ -14,7 +14,7 @@
 							</thead>
 							<tbody>
 							<c:if test="${ar ne null }">
-							<c:forEach var="cvo" items="${ar }" varStatus="vs">
+							<c:forEach var="cvo" items="${cs_ar }" varStatus="vs">
 								<tr>
 									<td>${vs.index+1 }</td>
 									<td>${cvo.cr_name }</td>

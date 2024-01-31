@@ -106,9 +106,15 @@ public class CounselReciptController {
     public ModelAndView counselReceipt(String listSelect) {
         ModelAndView mv = new ModelAndView();
 
+        
+        CourseTypeVO[] ct_ar1 = ct_Service.getList();
+        CourseVO[] c_ar1 = c_Service.getList();
         LocalDate now = LocalDate.now();
-        mv.addObject("now", now);
 
+        mv.addObject("c_ar1", c_ar1);
+        mv.addObject("ct_ar1", ct_ar1);
+        mv.addObject("now", now);
+        
 
         if(listSelect.equals("1"))
              mv.setViewName("/jsp/admin/counselReceipt/counselReceipt");
@@ -139,8 +145,8 @@ public class CounselReciptController {
         ModelAndView mv = new ModelAndView();
 		
 		CounselReceiptVO[] ar = null;
+		mv.addObject("ar2", ar);
 		ar = cr_Service.getCounselReceiptList();
-		mv.addObject("ar", ar);
 
         System.out.println("안들어옴"+listSelect);
         
@@ -151,6 +157,7 @@ public class CounselReciptController {
             CounselingdetailVO[] cd_ad = null;
             cd_ad = cd_Service.getList();
             mv.addObject("cd_ad", cd_ad);
+            System.out.println(cd_ad.length);
             mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
         }
         return mv;
@@ -167,13 +174,13 @@ public class CounselReciptController {
         CourseTypeVO[] ct_ar = ct_Service.getList();
         CourseVO[] c_ar = c_Service.getList();
 
+        mv.addObject("c_ar", c_ar);
+        mv.addObject("ct_ar", ct_ar);
 		mv.addObject("ar", ar);
 		mv.addObject("ar2", ar2);
 		mv.addObject("ar3", ar3);
 		mv.addObject("ar", ar4);
-        mv.addObject("ct_ar", ct_ar);
         mv.addObject("s_ar", s_ar);
-        mv.addObject("c_ar", c_ar);
 		
 		if(select.equals("addCounselReceipt"))
 			mv.setViewName("/jsp/admin/counselReceipt/addCounselReceipt_ajax");
@@ -621,5 +628,51 @@ public class CounselReciptController {
 		mv.setViewName("redirect:counselReceipt?listSelect=5");
         return mv;
     }
+
+    @RequestMapping("delCounselingDetail")
+    public String delCounselingDetail(String cd_idx) {
+		int cnt = cd_Service.deletetCounselingDetail(cd_idx);
+		
+		return "redirect:counselReceipt?listSelect=2&cPage=1";
+    }
+
+
+    @RequestMapping("searchCounseldetail")
+    public ModelAndView searchCounseldetail(String num,String year,String select,String value,String listSelect,String cPage){
+		
+		System.out.println(year);
+
+		if(value== null || value.trim().length()==0){
+			value= null;
+			select=null;
+		}
+
+		if(year.equals("년도선택") || year.trim().length()==0)
+			year = null;
+		if(num.equals("표시개수"))
+			num = null;
+		ModelAndView mv = new ModelAndView();
+		Paging page = null;
+		if(num!=null && num.length()>0 )
+			page = new Paging(Integer.parseInt(num),5);
+		else 
+			page = new Paging();
+		
+		page.setTotalRecord(cd_Service.getSearchCount(select, value, year));
+		page.setNowPage(Integer.parseInt(cPage));
+		CounselingdetailVO[] ar =null;
+	
+		ar = cd_Service.searchCounseldetail(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+	
+		mv.addObject("cd_ad", ar);
+		mv.addObject("page", page);
+	
+		//비동기 통신할 jsp로 보내기
+		if(listSelect.equals("1"))
+            mv.setViewName("/jsp/admin/counselReceipt/counselReceipt_ajax");
+		else if(listSelect.equals("2"))
+            mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
+        return mv;
+	}
     
 }
