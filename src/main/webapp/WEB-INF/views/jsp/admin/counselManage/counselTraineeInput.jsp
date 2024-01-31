@@ -374,7 +374,7 @@ table tfoot ol.page {
          });
         }      
 
-      function counselListAdd(tr_idx) {
+      function counselListAdd(tr_idx, c_idx) {
          $.ajax({
             url:"ss_dialog",
             type:"post",
