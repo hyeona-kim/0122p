@@ -45,9 +45,7 @@ public class TraineeService {
     public int status(String tr_idx, String tr_nowstatus){
         return t_mapper.nowstatus(tr_idx,tr_nowstatus);
     }
-
-
-
+    
     public TraineeVO[] all(){
         TraineeVO[] aa = null;
 
