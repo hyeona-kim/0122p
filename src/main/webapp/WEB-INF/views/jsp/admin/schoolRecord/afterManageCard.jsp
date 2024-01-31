@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <h2>사후관리카드</h2>
     <!-- colgroup으로 비율 맞춰놔서 width만 100%맞추면 돼요-->
-    <table class="after">
+    <table class="after" id="makeTime">
         <colgroup>
             <col width="16%"/>
             <col width="18%"/>
@@ -13,38 +14,38 @@
         </colgroup>
         <tr>
             <th>성명</th>
-            <td></td>
+            <td>${vo15.tr_name}</td>
             <th>전화번호</th>
-            <td></td>
+            <td>${vo15.tr_hp}</td>
             <th>집전화번호</th>
-            <td></td>
+            <td>${vo15.tr_phone}</td>
         </tr>
         <tr>
-            <th>성명</th>
+            <th>성별</th>
             <td></td>
             <th>생년월일</th>
-            <td></td>
+            <td>${fn:substring(vo15.tr_rrn,0,6)}</td>
             <th>주소(상세)</th>
-            <td></td>
+            <td>${vo15.tr_addr}</td>
         </tr>
         <tr>
             <th>훈련과정명</th>
-            <td></td>
+            <td>${cvo2.c_name}</td>
             <th>교육기간</th>
-            <td></td>
+            <td>${cvo2.start_date}~${cvo2.end_date}</td>
             <th>수료일</th>
-            <td></td>
+            <td>${cvo2.end_date}</td>
         </tr>
         <tr>
             <th>최종학력<br/>(학교명)</th>
-            <td></td>
+            <td>${tfvo.tf_name}</td>
             <th>전공</th>
-            <td></td>
+            <td>${tfvo.tf_major}</td>
             <th>제적일</th>
-            <td></td>
+            <td>${vo15.tr_cancel_date}</td>
         </tr>
     </table>
-    <table class="after">
+    <table class="after" id="makeTime">
         <colgroup>
             <col width="16%"/>
             <col width="20%"/>
@@ -62,11 +63,11 @@
             <th>급여수준</th>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>${qvo.qc_cname}</td>
+            <td>${qvo.qc_day}</td>
+            <td>${qvo.qc_position}</td>
+            <td>${qvo.qc_job}</td>
+            <td>${qvo.qc_sal}</td>
         </tr>
         <tr>
             <td></td>
@@ -77,7 +78,7 @@
         </tr>
         <tr>
             <th>보유자격증</th>
-            <td>1.</td>
+            <td>1.${qvo.qc_name}</td>
             <td colspan="2">2.</td>
             <td colspan="2">3.</td>
         </tr>
@@ -125,7 +126,7 @@
             </td>
         </tr>
     </table>
-    <table class="after">
+    <table class="after" id="makeTime">
         <colgroup>
             <col width="15%"/>
             <col width="35%"/>
@@ -158,7 +159,7 @@
             </td>
         </tr>
     </table>
-    <table class="after">
+    <table class="after" id="makeTime">
         <colgroup>
             <col width="10%"/>
             <col width="30%"/>
@@ -181,7 +182,7 @@
             <td colspan="3"><input type="text" style="width: 600px;"/></td>
         </tr>
     </table>
-    <table class="after">
+    <table class="after" id="makeTime">
         <colgroup>
             <col width="15%"/>
             <col width="12%"/>
@@ -245,7 +246,7 @@
             </td>
         </tr>
     </table>
-    <table class="after">
+    <table class="after" id="makeTime">
         <tr>
             <th colspan="6">※취업 관리 사항</th>
         </tr>

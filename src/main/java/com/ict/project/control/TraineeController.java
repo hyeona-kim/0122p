@@ -547,4 +547,26 @@ public class TraineeController {
 		return mv;
 	}
 
+	@RequestMapping("mangecard")
+	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
+		ModelAndView mv = new ModelAndView();
+
+		TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		TrfinalVO tfvo = tf_Service.list(tr_idx);
+		QcVO qvo = q_Service.list(tr_idx);
+
+
+		mv.addObject("qvo", qvo);
+		mv.addObject("tfvo", tfvo);
+		mv.addObject("tr_idx", tr_idx);
+		mv.addObject("c_idx", c_idx);
+		mv.addObject("cvo2", cvo);
+		mv.addObject("vo15", vo);
+		mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
+		return mv;
+	}
+
+
+
 }
