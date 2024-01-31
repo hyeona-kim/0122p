@@ -5,18 +5,21 @@
 			<caption>교육과정리스트</caption>
 							<thead>
 								<tr>
-									<th>번호</th>
+									<th>연번</th>
 									<th>과정명</th>
-									<th>과정코드</th>
-									<th>과정타입</th>
-									<th>담당교수</th>
+									<th>회차</th>
 									<th>개강일</th>
 									<th>종료일</th>
-									<th>요일</th>
-									<th>회차</th>
-									<th>모집인원</th>
-									<th>강의실</th>
-									<th>관리</th>
+									<th>과정타입</th>
+									<th>담당교수</th>
+									<th>모집인원<br/>/실시(수료)인원</th>
+									<th>사전평가</th>
+									<th>평가관리</th>
+									<th>상담관리</th>
+									<th>훈련일자</th>
+									<th>보강훈련</th>
+									<th>사후취업지원</th>
+									<th>훈련생별</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -32,18 +35,13 @@
 									<td>${cvo.start_date }</td>
 									<td>${cvo.end_date }</td>
 									<td>${cvo.c_day }</td>
-									<td>${cvo.c_round_num }</td>
-									<td>${cvo.c_peo_num }</td>
-									<td>${cvo.rvo.r_name} </td>
-									<td>
-										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
-										<input type="hidden" name="cPage" value="${page.nowPage}"/>
-										<button type="button" onclick="set4('${cvo.c_idx}')">교과목 등록/수정</button>
-										<button type="button" onclick="set6('${cvo.c_idx}')">학습안내서 등록/수정</button>
-										<button type="button" id="upskill_bt" onclick="upskill()">능력단위 요소 등록/수정</button>
-										<button type="button" onclick="editC('${cvo.c_idx}','${page.nowPage}')">수정</button>
-										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}','${page.nowPage}')">삭제</button>
-									</td>
+									<td><button type="button">사전평가 평가현황</button></td>
+									<td><button type="button">교과목별 평가현황</button></td>
+									<td><button type="button">미작성</button></td>
+									<td><button type="button">미작성</button></td>
+									<td><button type="button">미작성</button></td>
+									<td><button type="button">미작성</button></td>
+									<td><button type="button">훈련생별보기</button></td>
 								</tr>
 							</c:forEach>
 							</c:if>
