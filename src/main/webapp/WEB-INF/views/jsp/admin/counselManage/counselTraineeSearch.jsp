@@ -10,123 +10,123 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
 table tfoot ol.page {
-	    list-style:none;
-	    width: 300px;
-	    margin: auto;
-	}
-	
-	table tfoot ol.page li {
-	    float:left;
-	    margin-right:8px;
-	}
-	
-	table tfoot ol.page li a {
-	    display:block;
-	    padding:3px 7px;
-	    color:gray;
-	    font-weight:bold;
-	    text-decoration: none;
-	}
-	
-	table tfoot ol.page li a:hover {
-		color:black;
-	    font-weight:bold;
-	}
-	.disable {
-	    padding:3px 7px;
-	    color:white;
-	}
-	
-	.now {
-	   padding:3px 7px;
-	    color:#46ade1;
-	    font-weight:bold;
-	}
+       list-style:none;
+       width: 300px;
+       margin: auto;
+   }
+   
+   table tfoot ol.page li {
+       float:left;
+       margin-right:8px;
+   }
+   
+   table tfoot ol.page li a {
+       display:block;
+       padding:3px 7px;
+       color:gray;
+       font-weight:bold;
+       text-decoration: none;
+   }
+   
+   table tfoot ol.page li a:hover {
+      color:black;
+       font-weight:bold;
+   }
+   .disable {
+       padding:3px 7px;
+       color:white;
+   }
+   
+   .now {
+      padding:3px 7px;
+       color:#46ade1;
+       font-weight:bold;
+   }
 
-	#counselWrap{
-		width: 95%;
-		margin: auto;
-		margin-top: 20px;
-	}
-	#counselList_top {
-		background: black;
-		color: white;
-		height: 40px;
-		line-height: 40px;
-	}
-	
-	#searchCounsel, #makeCounsel{
-		margin-top:10px;
-		border-collapse: collapse;
-		width: 100%;
-	}
-	
-	#searchCounsel td, #searchCounsel th, #makeCounsel td, #makeCounsel th{
-		border: 1px solid #ddd;
-		height: 20px;
-		padding-left: 10px;
-	}
+   #counselWrap{
+      width: 95%;
+      margin: auto;
+      margin-top: 20px;
+   }
+   #counselList_top {
+      background: black;
+      color: white;
+      height: 40px;
+      line-height: 40px;
+   }
+   
+   #searchCounsel, #makeCounsel{
+      margin-top:10px;
+      border-collapse: collapse;
+      width: 100%;
+   }
+   
+   #searchCounsel td, #searchCounsel th, #makeCounsel td, #makeCounsel th{
+      border: 1px solid #ddd;
+      height: 20px;
+      padding-left: 10px;
+   }
     #makeCounsel {text-align: center;}
-	#makeCounsel th{
-		height: 40px;
-	}
+   #makeCounsel th{
+      height: 40px;
+   }
     #peo_num{
         font-weight: bold;
         color: #0000ff;
     }
-	#searchCounsel th, #makeCounsel th{background-color: #ddd;}
-	
-	#searchCounsel caption, #makeCounsel caption{
-		text-indent: -9999px;
-		height: 0;
-	}
+   #searchCounsel th, #makeCounsel th{background-color: #ddd;}
+   
+   #searchCounsel caption, #makeCounsel caption{
+      text-indent: -9999px;
+      height: 0;
+   }
 
-	
-	#table{
-		width:100%;
-		border: 1px solid #EAEAEA;
-		border-collapse: collapse;
-		margin-top: 50px;
+   
+   #table{
+      width:100%;
+      border: 1px solid #EAEAEA;
+      border-collapse: collapse;
+      margin-top: 50px;
 
-	}
-	
-	#table th,td{
-		border-bottom : 1px solid #EAEAEA;
-		padding:10px;
-	}
+   }
+   
+   #table th,td{
+      border-bottom : 1px solid #EAEAEA;
+      padding:10px;
+   }
 
-	#table th{
-		background-color: #D6F0FF;
-	}
-	
-	div#box{
-		display: inline-block;
-		color: red;
-		width: 300px;
-		height: 20px;
-		padding:0;
-		margin:0;
-		margin-left:6px;
-		font-weight: bold; 
-	
-	}
-	
-	#table tfoot>tr:first-child td{
-		
-		color:blue;
-		font-weight: bold;
-		border-bottom: none;
-		font-size: 15px;
-		padding-top:10px;
-	}
-	
-	#table thead tr{
-		font-weight: bold;
-		border-bottom: 1px solid black;
-	}
-	
+   #table th{
+      background-color: #D6F0FF;
+   }
+   
+   div#box{
+      display: inline-block;
+      color: red;
+      width: 300px;
+      height: 20px;
+      padding:0;
+      margin:0;
+      margin-left:6px;
+      font-weight: bold; 
+   
+   }
+   
+   #table tfoot>tr:first-child td{
+      
+      color:blue;
+      font-weight: bold;
+      border-bottom: none;
+      font-size: 15px;
+      padding-top:10px;
+   }
+   
+   #table thead tr{
+      font-weight: bold;
+      border-bottom: 1px solid black;
+   }
+   
 
-	 #hd{
+    #hd{
       background-color: #2e2e2e;
       color: #fff;
       width: 100%;
@@ -188,8 +188,41 @@ table tfoot ol.page {
        text-align: center;
     }
      #t1 tfoot{
-     	border: none;
+        border: none;
      }
+     #ttop{
+      margin-top:10px;
+      text-align: right;
+   }
+   #add_d1,#add_d2{
+      width: 100%;
+   }
+   .add{
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+   }
+   .add td,.add th{
+      border: 1px solid #ababab; 
+      padding: 10px;
+   }
+   .add th{
+      background-color: #dedede;
+   }
+   .add td{
+      text-align: center;
+   }
+   #add_h2{
+      background-color: black;
+      color: white;
+      font-size: 20px;
+      height: 35px;
+      line-height: 35px;
+   }
+   #add_t1 tfoot td{
+      border: none;
+      
+   }
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -224,7 +257,7 @@ table tfoot ol.page {
 												<option>15</option>
 											</select>
 											<select id="selectYear">
-	
+
 											</select>
 										</td>
 										<td>
@@ -311,10 +344,10 @@ table tfoot ol.page {
 				$.ajax({
 					url: "searchCounsel",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('1')
 				}).done(function(result){
-					$("counsel_Table").html(result);
+					$("#counsel_Table").html(result);
 				});
 			});
 			$("#numPerPage").on("change",function(){
@@ -322,8 +355,8 @@ table tfoot ol.page {
 				$.ajax({
 					url: "searchCounsel",
 					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('1')
 				}).done(function(result){
 					$("#counsel_Table").html(result);
 				});

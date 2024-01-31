@@ -10,5 +10,9 @@ public interface CounselAddMapper {
     
     List<CounselAddVO> list(String c_idx);
 
+    CounselAddVO one(String ss_idx);
     
+    int edit(CounselAddVO vo);
+
+    int del(String ss_idx);
 }

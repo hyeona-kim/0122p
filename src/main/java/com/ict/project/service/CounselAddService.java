@@ -29,6 +29,17 @@ public class CounselAddService {
 
         return ar;
     }
+
+    public CounselAddVO getCounselAdd(String ss_idx){
+        return c_Mapper.one(ss_idx);
+    }
+
+    public int editCounselAdd(CounselAddVO vo){
+        return c_Mapper.edit(vo);
+    }
     
+    public int delCounselAdd(String ss_idx){
+        return c_Mapper.del(ss_idx);
+    }
 }
 

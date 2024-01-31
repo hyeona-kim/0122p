@@ -6,15 +6,34 @@
 
 
 	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">  
-        INSERT INTO  advice_sst( ss_time, ss_tname, ss_name, ss_msg, ss_msubject, ss_img, ss_member, ss_mday, ss_pa, ss_cnt, ss_day, sf_idx, c_idx,ss_p)
-          values(#{ss_time}, #{ss_tname}, #{ss_name}, #{ss_msg}, #{ss_msubject}, #{ss_img}, #{ss_member}, #{ss_mday}, #{ss_pa}, #{ss_cnt}, #{ss_day}, #{sf_idx}, #{c_idx},#{ss_p})
+        INSERT INTO  advice_sst( ss_time, ss_tname, ss_name, ss_msg, ss_msubject, ss_img, ss_member, ss_mday, ss_pa, ss_cnt, ss_day, sf_idx, c_idx,ss_p, ss_status)
+          values(#{ss_time}, #{ss_tname}, #{ss_name}, #{ss_msg}, #{ss_msubject}, #{ss_img}, #{ss_member}, #{ss_mday}, #{ss_pa}, #{ss_cnt}, #{ss_day}, #{sf_idx}, #{c_idx},#{ss_p}, 0)
 	</insert>
 
     <select id ="list" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
         SELECT * FROM advice_sst
-        WHERE c_idx = #{idx} order by ss_mday desc
+        WHERE c_idx = #{idx} and ss_status = 0 order by ss_mday desc
 
     </select>
+
+    <select id = "one" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
+        select * from advice_sst where ss_idx = #{idx}
+    </select>
+
+    <update id = "edit" parameterType = "com.ict.project.vo.CounselAddVO">
+      update advice_sst
+      <set>
+        ss_time = #{ss_time}, ss_tname = #{ss_tname}, ss_name = #{ss_name}, ss_msg = #{ss_msg}, ss_msubject = #{ss_msubject}, ss_img = #{ss_img}, ss_member = #{ss_member}, ss_mday = #{ss_mday},
+        ss_pa = #{ss_pa}, ss_cnt = #{ss_cnt}, ss_day = #{ss_day}, sf_idx = #{sf_idx}, ss_p = #{ss_p}
+      </set>
+      where ss_idx = #{ss_idx}
+    </update>
+
+    <update id = "del" parameterType = "String">
+      update advice_sst
+        set ss_status = 1
+        where ss_idx = #{ss_idx}
+    </update>
 
     
 	
