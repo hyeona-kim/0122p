@@ -81,7 +81,7 @@
 						<td><input type="text" name="cd_personalNum"></td>
 						<th><label>카드유형</label></th>
 						<td>
-							<select name="cd_result">
+							<select name="cd_cardType">
 								<option value="취성패1">취성패1</option>
 								<option value="국민취업카드">국민취업카드</option>
 								<option value="내일배움카드">내일배움카드</option>
@@ -96,10 +96,10 @@
 						</td>
 						<th><label>다음예정일</label></th>
 						<td>
-							<select name="cd_nextDate">
+							<select name="ns_idx">
 								<option value="0">선택하세요</option>
 							<c:forEach items="${ar}" var="ar4"  varStatus="loop">
-								<option value="${ar4.ns_idx }">
+								<option value="${ar4.ns_idx } ">
 								 		${ar4.ns_name } 
 								 </option>
 							</c:forEach>
@@ -114,12 +114,12 @@
 						<th><label>유입경로</label></th>
 					<td colspan="3">
 						<c:forEach items="${ar3}" var="ar3"  varStatus="loop">
-						<input type="checkbox" value="${ar3.id_idx}" name="cd_inflowPath">${ar3.id_name}
+						<input type="checkbox" value="${ar3.id_idx}" name="id_idx">${ar3.id_name}
 						</c:forEach>
 					</td>
 					</tr>
 					<tr>
-						<th><label>상남내용</label></th>
+						<th><label>상담내용</label></th>
 					<td colspan="3">
 						<input type="text" name="cd_subject">
 					</td>
@@ -127,7 +127,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="2" align="right" id="course_add_btn">
+						<td colspan="2" align="right" id="counselDetail_add_btn">
 							<input type="submit" value="등록">
 						</td>
 						<td colspan="2" align="left">

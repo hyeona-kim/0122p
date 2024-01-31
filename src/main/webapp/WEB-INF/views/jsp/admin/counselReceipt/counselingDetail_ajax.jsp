@@ -5,7 +5,7 @@
 					<caption>과정별 교수계획서 및 학습 안내서 리스트</caption>
 						<thead>
 							<tr>
-								<th>선택<br> <input type="checkbox"> </th>
+								<th>삭제<br></th>
 								<th>번호</th>
 								<th>최초상담자</th>
 								<th>상담날짜</th>
@@ -23,21 +23,24 @@
 						</thead>
 						
 						<tbody>
-							<c:forEach var="vo2" items="${ar }" varStatus="vs">
+							<c:forEach var="vo2" items="${cd_ad }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
-								<td><input type="checkbox"></td>
-								<td>${vs.index+1}</td>
-								<td>${vo2.sf_idx}</td>
+								<td><input type="button" value="삭제" onclick="delCd('${vo2.cd_idx}')"></td>
+								<td>
+									${vs.index+1}<br>
+									<input type="button" value="보기/수정" onclick="editCd('${vo2.cd_idx}')">
+								</td>
+								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.cd_date}</td>
 								<td>${vo2.cd_name}</td>
 								<td>${vo2.cd_phone }</td>
-								<td>${vo2.cd_sep }</td>
-								<td>${vo2.c_idx}</td>
+								<td>${vo2.ctvo.ct_name }</td>
+								<td>${vo2.cvo.c_name}</td>
 								<td>${vo2.cd_status }</td>
 								<td>${vo2.cd_manageStatus}</td>
 								<td>${vo2.cd_cancel}</td>
-								<td>${vo2.cd_nextDate}</td>
+								<td>${vo2.nsvo.ns_name}</td>
 								<td>${vo2.cd_subject}</td>
 								<td><input type="checkbox"></td>
 							</tr>

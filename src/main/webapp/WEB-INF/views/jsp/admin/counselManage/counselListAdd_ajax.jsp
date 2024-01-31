@@ -7,18 +7,18 @@
 	
 	<div>
 	<form action="counselListAdd" method="post">
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="add_l">
 			<colgroup>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
+				<col width="50%"/>
+				<col width="50%"/>
+				
 			</colgroup>
 
 			<thead id="t2head">
                 <input type="hidden" name="c_idx" value="${cvo.c_idx}"/>
                 <input type="hidden" name="sf_idx" value="${cvo.svo.sf_idx}"/>
                 <input type="hidden" name="tr_idx" value="${tvo.tr_idx}"/>
+                <input type="hidden" name="ss_num" value="${tvo.ss_num+1}"/>
                 <tr>
                     <th>상담일</th>
                     <td><input type="date" id="so_day" name="so_day" /></td>
@@ -42,7 +42,7 @@
                     </td>
                 <tr>
  					<th>총상담횟수</th>
-        			<td>${tvo.ss_num}</td>       
+        			<td>${tvo.ss_num+1}</td>       
                 </tr>
                 </tr>
                 <tr>

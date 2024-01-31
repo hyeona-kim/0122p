@@ -209,7 +209,7 @@ table tfoot ol.page {
 			
 		}
 		function edit(ed){
-			console.log(ed);
+			//console.log(ed);
 			$.ajax({
 				url:"trainuploadedit",
 				type:"post",
