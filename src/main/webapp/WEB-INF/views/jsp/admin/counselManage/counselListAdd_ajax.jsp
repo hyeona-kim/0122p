@@ -7,12 +7,11 @@
 	
 	<div>
 	<form action="counselListAdd" method="post">
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="add_l">
 			<colgroup>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
-				<col width="25%"/>
+				<col width="50%"/>
+				<col width="50%"/>
+				
 			</colgroup>
 
 			<thead id="t2head">

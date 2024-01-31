@@ -1,6 +1,8 @@
 package com.ict.project.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,7 @@ public class TraineeService {
     public int status(String tr_idx, String tr_nowstatus){
         return t_mapper.nowstatus(tr_idx,tr_nowstatus);
     }
-    
+  
     public TraineeVO[] all(){
         TraineeVO[] aa = null;
 
@@ -125,21 +127,24 @@ public class TraineeService {
 
     }
 
-    public int getCounsel_date(String tr_idx, String ss_end, String ss_num){
+    public int setCounsel_date(String tr_idx, String ss_end, String ss_num){
         return t_mapper.counsel_date(tr_idx, ss_end, ss_num);
     }
 
-    public int getTCount(){
-        return t_mapper.traineeReg_count();
+    public int getTCount(String c_idx,String year,String ct_idx,String select,String value){
+        return t_mapper.traineeReg_count(c_idx,year,ct_idx,select,value);
     }
 
-    public TraineeVO[] getTList(String begin,String end){
+    public TraineeVO[] getTList(String begin,String end,String c_idx,String year,String ct_idx,String select,String value){
         TraineeVO[] ar = null;
-        List<TraineeVO> list = t_mapper.traineeReg(begin, end);
+        List<TraineeVO> list = t_mapper.traineeReg(begin, end,c_idx,year,ct_idx,select,value);
         if(list != null && !list.isEmpty()){
             ar = new TraineeVO[list.size()];
             list.toArray(ar);
         }
         return ar;
+    }
+    public int addTrainee(Map<String,List<TraineeVO>> map){
+        return t_mapper.add(map);
     }
 }

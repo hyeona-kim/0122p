@@ -352,12 +352,12 @@ public class TraineeController {
 		String viewPath = null;
 		
 		if(edit == null && enc_type ==null){
-			TraineeVO vo = t_Service.tlist(tvo.getTr_idx(),c_idx);
+			//TraineeVO vo = t_Service.(tvo.getTr_idx(),c_idx);
 			CourseVO vo2 = c_Service.getCourse(c_idx);
 			
 			mv.addObject("c_idx",c_idx);
 			mv.addObject("vo2", vo2);
-			mv.addObject("vo9", vo);
+			//mv.addObject("vo9", vo);
 			if(tvo.getT_path()!= null){
 				if(tvo.getT_path().contains("인터넷"))
 				mv.addObject("ch1",true);
@@ -405,6 +405,7 @@ public class TraineeController {
 					e.printStackTrace();
 				}
 			}
+
 			int cnt = t_Service.trainedit(tvo);
 			//System.out.println(tvo.getTr_phone());
 			viewPath=("redirect:traineecurrentbt1?c_idx="+c_idx);
@@ -471,8 +472,8 @@ public class TraineeController {
 		int cnt = 0;
 		for(String e: chk){
 			for(int i=0; i<tr_idx.length; i++){
-				if(tr_idx[i].equals(e))
-					cnt += t_Service.status(e,nowstatus[i]);
+				//if(tr_idx[i].equals(e))
+					//cnt += t_Service.status(e,nowstatus[i]);
 			}
 		}
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
