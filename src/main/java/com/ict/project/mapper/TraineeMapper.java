@@ -21,6 +21,7 @@ public interface TraineeMapper {
     int trainedit(TraineeVO tvo);
     TraineeVO getcard(String tr_idx);
     int nowstatus(String tr_idx, String tr_nowstatus);
+    int etcedit(TraineeVO tvo);
     
     
     //sw

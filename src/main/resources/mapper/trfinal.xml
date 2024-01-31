@@ -7,5 +7,14 @@
 		select * from trfinal_t
 		where tr_idx = #{tr_idx}
 	</select>
-	
+
+	<update id="edit" parameterType="String">
+		update trfinal_t
+		<set>
+			<if test="tf_name != null">tf_name = #{tf_name},</if>
+            <if test="tf_year != null">tf_year = #{tf_year},</if>
+            <if test="tf_major != null">tf_major = #{tf_major},</if>
+		</set>
+		where tf_idx = #{tf_idx}
+	</update>
 </mapper>

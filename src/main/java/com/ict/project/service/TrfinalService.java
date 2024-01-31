@@ -14,5 +14,9 @@ public class TrfinalService {
     public TrfinalVO list(String tr_idx){
         return tf_mapper.list(tr_idx);
     }
+
+    public int tfedit(TrfinalVO tfvo){
+        return tf_mapper.edit(tfvo);
+    }
     
 }

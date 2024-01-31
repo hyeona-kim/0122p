@@ -7,5 +7,19 @@
 		select * from business_t
 		where tr_idx = #{tr_idx}
 	</select>
+
+    <update id="edit" parameterType="String">
+        update business_t
+        <set>
+            <if test="bs_name != null">bs_name = #{bs_name},</if>
+            <if test="bs_job != null">bs_job = #{bs_job},</if>
+            <if test="bs_re != null">bs_re = #{bs_re},</if>
+            <if test="bs_workdpt != null">bs_workdpt = #{bs_workdpt},</if>
+            <if test="bs_position != null">bs_position = #{bs_position},</if>
+            <if test="bs_phone != null">bs_phone = #{bs_phone},</if>
+            <if test="bs_location != null">bs_location = #{bs_location},</if>
+        </set>
+        where bs_idx = #{bs_idx}
+    </update>
 	
 </mapper>

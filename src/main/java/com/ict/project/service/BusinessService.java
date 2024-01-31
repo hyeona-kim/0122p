@@ -15,5 +15,9 @@ public class BusinessService {
         
         return bs_mapper.list(tr_idx);
     }
+
+    public int bedit(BusinessVO bvo){
+        return bs_mapper.edit(bvo);
+    }
     
 }
