@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.ict.project.service.CourseService;
 import com.ict.project.util.Paging;
-import com.ict.project.util.Paging2;
 import com.ict.project.vo.CourseVO;
 
 @Controller
@@ -55,9 +53,8 @@ public ModelAndView courseList(String cPage, String year, String select, String 
     CourseVO[] ar = cs_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
     mv.addObject("c_ar", ar);
 
-    mv.setViewName("jsp/admin/totalManage/table");
-    
-        return mv;
+    mv.setViewName("jsp/admin/totalManage/coursetTotal_ajax");
+    return mv;
     }
 
     

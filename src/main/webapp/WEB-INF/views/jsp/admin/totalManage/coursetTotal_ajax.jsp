@@ -23,21 +23,21 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:if test="${ar ne null }">
-							<c:forEach var="cvo" items="${ar }" varStatus="vs">
+							<c:if test="${c_ar ne null }">
+							<c:forEach var="cvo" items="${c_ar }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 								<tr>
 									<td>${num-vs.index}</td>
 									<td>${cvo.c_name }</td>
-									<td>W1805300001</td>
-									<td>${cvo.ctvo.ct_name} </td>
-									<td>${cvo.svo.sf_name} </td>
-									<td>${cvo.start_date }</td>
-									<td>${cvo.end_date }</td>
-									<td>${cvo.c_day }</td>
+									<td>${cvo.c_round_num}</td>
+									<td>${cvo.start_date} </td>
+									<td>${cvo.end_date} </td>
+									<td>${cvo.ctvo.ct_name }</td>
+									<td>${cvo.svo.sf_name }</td>
+									<td>${cvo.c_peo_num }</td>
 									<td><button type="button">사전평가 평가현황</button></td>
 									<td><button type="button">교과목별 평가현황</button></td>
-									<td><button type="button">미작성</button></td>
+									<td><button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'">미작성</button></td>
 									<td><button type="button">미작성</button></td>
 									<td><button type="button">미작성</button></td>
 									<td><button type="button">미작성</button></td>
@@ -45,15 +45,15 @@
 								</tr>
 							</c:forEach>
 							</c:if>
-							<c:if test="${ar eq null }">
+							<c:if test="${c_ar eq null }">
 								<tr>
-									<td colspan="12">검색 결과가 없습니다</td>
+									<td colspan="15">검색 결과가 없습니다</td>
 								</tr>
 							</c:if>
 							</tbody>
 							<tfoot>
 						<tr>
-							<td colspan="12">
+							<td colspan="15">
 								<ol class="page">
 			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
 				<li class="disable">&lt;</li>
