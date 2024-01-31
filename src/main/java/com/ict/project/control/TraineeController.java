@@ -25,7 +25,6 @@ import com.ict.project.service.TrainConfirmService;
 import com.ict.project.service.TraineeCurrentService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrfinalService;
-import com.ict.project.service.TrmemoService;
 import com.ict.project.service.UploadService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
@@ -37,7 +36,6 @@ import com.ict.project.vo.QcVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainuploadVO;
 import com.ict.project.vo.TrfinalVO;
-import com.ict.project.vo.TrmemoVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletOutputStream;
@@ -78,8 +76,7 @@ public class TraineeController {
 	QcService q_Service;
 	@Autowired
 	TrfinalService tf_Service;
-	@Autowired
-	TrmemoService tm_Service;
+	
 
 	private String editor_img =	"/editor_img";
 	private String upload_file = "/upload_file";
@@ -540,8 +537,11 @@ public class TraineeController {
 		int cnt = bs_Service.bedit(bvo);
 		int cnt1= q_Service.qedit(qvo);
 		int cnt2 = tf_Service.tfedit(tfvo);
+		if(tvo.getTr_etc() !=null){
+			int cnt3 = t_Service.etcedit(tvo);
+		}
 		
-
+		System.out.println(cnt+"/"+cnt1+"/"+cnt2);
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 		return mv;
 	}
