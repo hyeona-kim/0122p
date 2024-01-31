@@ -99,8 +99,17 @@ public class CounselService {
 
         return ar;
     }
+    public CounselVO[] trlist(String tr_idx){
+        CounselVO[] ar = null;
 
+        List<CounselVO> list = c_mapper.counsetr_idx(tr_idx);
+        if(list !=null && !list.isEmpty()){
+            ar = new CounselVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
     public int addCounselFile(Map<String,List<CounselVO>> map){
         return c_mapper.addCounselFile(map);
+
     }
 }

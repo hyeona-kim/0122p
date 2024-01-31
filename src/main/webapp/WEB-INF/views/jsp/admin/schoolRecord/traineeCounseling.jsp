@@ -56,17 +56,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <c:forEach var="ccv1" items="${ccvo}">
                     <tr>
-                        <td>${so_day}</td>
-                        <td>${so_menu}</td>
-                        <td>${so_tname}</td>
-                        <td>${so_menu}</td>
-                        <td>${so_pd}</td>
+                        <td>${ccv1.so_day}</td>
+                        <td>${ccv1.so_menu}</td>
+                        <td>${ccv1.so_tname}</td>
+                        <td>${ccv1.so_menu}</td>
+                        <td>${ccv1.so_pd}</td>
                     </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div>
-                <button type="button" onclick="couupload('${vo11.tr_idx},${vo11.c_idx}')">상담등록</button>           
+                <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}')">상담등록</button>           
                 <button type="button" onclick="">엑셀</button>           
                 <button type="button" onclick="">인쇄</button>           
                 <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx">취소</button>           

@@ -120,6 +120,11 @@
 		select count(*) from advice_t where tr_idx = #{tr_idx}
 	</select>
 
+
+   <select id="counsetr_idx" resultType="String" parameterType="com.ict.project.vo.CounselVO">
+      select * from advice_t where tr_idx = #{tr_idx}
+   </select>
+
    <insert id="addCounselFile" parameterType="Map">
          INSERT INTO advice_t(so_day, tr_idx, so_menu, so_pp, so_subject, so_pd, c_idx, so_status, so_tname, sf_idx )
 			values
@@ -127,5 +132,6 @@
             (#{vo.so_day}, #{vo.tr_idx}, #{vo.so_menu}, #{vo.so_pp}, #{vo.so_subject}, #{vo.so_pd}, #{vo.c_idx}, 0, #{vo.so_tname}, #{vo.sf_idx} )
          </foreach>
    </insert>
+
 
 </mapper>
