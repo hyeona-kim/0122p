@@ -194,6 +194,35 @@ table tfoot ol.page {
       margin-top:10px;
       text-align: right;
    }
+   #add_d1,#add_d2{
+      width: 100%;
+   }
+   .add{
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+   }
+   .add td,.add th{
+      border: 1px solid #ababab; 
+      padding: 10px;
+   }
+   .add th{
+      background-color: #dedede;
+   }
+   .add td{
+      text-align: center;
+   }
+   #add_h2{
+      background-color: black;
+      color: white;
+      font-size: 20px;
+      height: 35px;
+      line-height: 35px;
+   }
+   #add_t1 tfoot td{
+      border: none;
+      
+   }
 </style>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
@@ -389,7 +418,7 @@ table tfoot ol.page {
 
      $("#dialog2").dialog({
       autoOpen: false,
-            width:1200,
+            width:1500,
             modal: true,
 
      });
