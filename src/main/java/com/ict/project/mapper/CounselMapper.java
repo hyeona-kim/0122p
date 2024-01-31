@@ -1,6 +1,7 @@
 package com.ict.project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ict.project.vo.CounselVO;
 
@@ -16,4 +17,5 @@ public interface CounselMapper {
     List<CounselVO> counselList(String tr_idx);
     int counselCount(String tr_idx);
     List<CounselVO> clist(String c_idx);
+    int addCounselFile(Map<String,List<CounselVO>> map);
 }

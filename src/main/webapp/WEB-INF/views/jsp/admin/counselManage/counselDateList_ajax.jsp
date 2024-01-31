@@ -23,7 +23,7 @@
 								<tr>
 									<td>${num-vs.index}</td>
 									<td>${vo.so_day }</td>
-									<td>${vo.tvo.tr_name} </td>
+									<td><a href="javascript:counselList('${vo.cvo.c_idx}', '${vo.tvo.tr_idx}')">${vo.tvo.tr_name}</a></td>
 									<td>${vo.cvo.c_name }</td>
 									<td>${vo.so_menu }</td>
 									<td>${vo.so_tname }</td>

@@ -260,7 +260,7 @@ table tfoot ol.page {
                   <div id="counselList_top">상담 관리</div>
                   <div id="ttop">
                      <button type="button" onclick="set()">상담파일등록</button>   
-                     <button type="button" onclick="downloadFile()">상담파일등록 샘플</button>
+                     <button type="button" onclick="location.href='../../sample2.xlsx'">상담파일등록 샘플</button>
                   </div>
                   <form>
                      <table id="searchCounsel">
@@ -410,8 +410,9 @@ table tfoot ol.page {
       
       function set() {
          $.ajax({
-            url:"addCounselFile",
+            url:"ss_dialog",
             type:"post",
+            data:"select="+encodeURIComponent("addCounselFile")
          }).done(function(result){
             $("#dialog").html(result);
             

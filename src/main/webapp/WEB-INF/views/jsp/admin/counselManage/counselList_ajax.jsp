@@ -71,7 +71,7 @@
 				</c:forEach>
 				</c:if>
 						<td colspan="4">
-							<button type="button" onclick="counselListAdd('${tvo.tr_idx}', '${tvo.c_idx}')">상담등록</button>
+							<button type="button" onclick="counselListAdd('${tvo.c_idx}', '${tvo.tr_idx}')">상담등록</button>
 							<button type="button">인쇄</button>
 							<button type="button" id="cc_cancle">취소</button>
 						</td>
