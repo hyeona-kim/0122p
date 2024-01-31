@@ -3,7 +3,7 @@
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-	
+	<form>
 				    <table id="makeTime">
 				        <caption>신상기록부</caption>
 					<tbody>
@@ -84,6 +84,7 @@
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                     </tr>
+                    
             </table>
             <table id="makeTime">
                 <thead>
@@ -111,6 +112,38 @@
                         <td><input type="text"></td>
                         <td><input type="text"></td>
                     </tr>
+                    <tr>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
                 </tbody>
              </table>
+             <table id="makeTime">
+                <tr>
+                    <th >메모</th>
+                </tr>
+                <tr>
+                    <td><textarea rows="8" cols="180"></textarea></td>
+                </tr>
+             </table>
+             <div>
+                <input type="button" value="저장" onclick="">
+                <input type="button" value="인쇄" onclick="">
+                <input type="button" value="취소" onclick="">
+             </div>
+        </form>
 	

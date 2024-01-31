@@ -32,6 +32,22 @@ public class TraineeService {
         return t_mapper.view(tr_idx);
     }
 
+    public TraineeVO tlist(String tr_idx, String c_idx){
+        return t_mapper.tlist(tr_idx, c_idx);
+    }
+
+    public int trainedit(TraineeVO tvo){
+        return t_mapper.trainedit(tvo);
+    }
+    
+    public TraineeVO getCard(String tr_idx){
+        return t_mapper.getcard(tr_idx);
+    }
+
+    public int status(String tr_idx, String tr_nowstatus){
+        return t_mapper.nowstatus(tr_idx,tr_nowstatus);
+    }
+  
     public TraineeVO[] all(){
         TraineeVO[] aa = null;
 
@@ -111,7 +127,7 @@ public class TraineeService {
 
     }
 
-    public int getCounsel_date(String tr_idx, String ss_end, String ss_num){
+    public int setCounsel_date(String tr_idx, String ss_end, String ss_num){
         return t_mapper.counsel_date(tr_idx, ss_end, ss_num);
     }
 

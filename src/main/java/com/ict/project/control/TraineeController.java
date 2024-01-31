@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.ConfirmService;
+import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
 import com.ict.project.service.TrainConfirmService;
@@ -24,6 +25,7 @@ import com.ict.project.service.TraineeService;
 import com.ict.project.service.UploadService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.TraineeVO;
@@ -60,6 +62,8 @@ public class TraineeController {
 	CourseService c_Service;
 	@Autowired
 	CourseTypeService ct_Service;
+	@Autowired
+	CounselService cc_Service;
 
 	private String editor_img =	"/editor_img";
 	private String upload_file = "/upload_file";
@@ -411,16 +415,15 @@ public class TraineeController {
 	}
 	
 	@RequestMapping("counseling")
-	public ModelAndView counseling(String tr_idx, String c_idx){
+	public ModelAndView counseling(String tr_idx, String c_idx, String so_idx){
 		ModelAndView mv = new ModelAndView();
-		
 		TraineeVO vo = t_Service.view(tr_idx);
 		CourseVO cvo = c_Service.getCourse(c_idx);
-		// 상담 vo 가져와서 넣어놔야함
+		CounselVO[] ccvo = cc_Service.counselList(tr_idx);
 		
 		//System.out.println(cvo.getC_name());
 		
-		
+		mv.addObject("ccvo", ccvo);
 		mv.addObject("vo11", vo);
 		mv.addObject("cv", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/traineeCounseling");
@@ -479,15 +482,34 @@ public class TraineeController {
 	}
 
 	@RequestMapping("couupload")
-	public ModelAndView couupload(){
+	public ModelAndView couupload(String tr_idx, String c_idx, CounselVO ccvo, String so_idx, String cPage){
 		ModelAndView mv = new ModelAndView();
+		
 
-
-
+		CounselVO cvo = cc_Service.getCounsel(so_idx);
+		CourseVO vvo = c_Service.getCourse(c_idx);
+		
+		mv.addObject("vvo", vvo);
+		mv.addObject("tr_idx", tr_idx);
+		mv.addObject("c_idx", c_idx);
+		mv.addObject("cvo", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
 
 		return mv;
 
+	}
+
+	@RequestMapping("counseling_ajax")
+	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
+		ModelAndView mv = new ModelAndView();
+		System.out.println(c_idx+"/"+tr_idx);
+		
+
+		int cnt = cc_Service.addCounsel(ccvo);
+
+
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+		return mv;
 	}
 
 }

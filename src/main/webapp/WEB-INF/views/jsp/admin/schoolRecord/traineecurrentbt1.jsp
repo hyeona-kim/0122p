@@ -193,9 +193,9 @@ table tfoot ol.page {
 						<td>
 							<input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
 						<input type="button" id="fset"  onclick="javascript:location.href='traineeEdit?tr_idx=${vo7.tr_idx}&c_idx=${aa.c_idx}'" value="정보수정"/>
-						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx},${aa.c_idx}')" value="신상기록부">
+						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx}','${aa.c_idx}')" value="신상기록부">
 						<input type="button" id="fset"  onclick="" value="서류관리">
-						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx},${aa.c_idx}')" value="상담일지">
+						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx}','${aa.c_idx}')" value="상담일지">
 						<input type="button" id="fset"  onclick="" value="사후관리">
 						<input type="button" id="fset"  onclick="" value="면접평가표">
 						</td>
@@ -245,8 +245,12 @@ table tfoot ol.page {
 			}
 
 		});
-
 		
+		function sendData(ddd){
+    		
+    		ddd.submit();
+		}
+
 
 		function alledit(){
 		//체크박스 체크된 항목
@@ -269,10 +273,6 @@ table tfoot ol.page {
 
 			
 		}
-
-		
-
-		
 
 		function allChecked(target){
 
@@ -356,11 +356,11 @@ table tfoot ol.page {
 	
 
 		
-	function counseling(str){
+	function counseling(str,str1){
 		$.ajax({
             url: "counseling",
             type: "post",
-            data:"type="+encodeURIComponent("counseling")+"&tr_idx="+str+"&c_idx="+str
+            data:"tr_idx="+str+"&c_idx="+str1
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -371,6 +371,10 @@ table tfoot ol.page {
 		});
 
 	} 
+
+	function sendDate(ddd){
+		ddd.submit();   
+	}
 
 	function traineewrite(str){
 		$.ajax({
@@ -388,11 +392,11 @@ table tfoot ol.page {
 
 	} 
 
-	function couupload(str){
+	function couupload(tr,tr1){
 		$.ajax({
             url: "couupload",
             type: "post",
-            data:"type="+encodeURIComponent("couupload")+"&tr_idx="+str+"&c_idx="+str
+            data:"tr_idx="+tr+"&c_idx="+tr1
          }).done(function(result){
             $("#m1").html(result);
          });
