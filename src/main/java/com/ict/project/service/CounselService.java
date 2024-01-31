@@ -108,6 +108,7 @@ public class CounselService {
             list.toArray(ar);
         }
         return ar;
+    }
     public int addCounselFile(Map<String,List<CounselVO>> map){
         return c_mapper.addCounselFile(map);
 
