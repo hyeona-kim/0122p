@@ -16,5 +16,9 @@ public class QcService {
     public QcVO list(String tr_idx){
         return q_mapper.list(tr_idx);
     }
+
+    public int qedit(QcVO qvo){
+        return q_mapper.edit(qvo);
+    }
     
 }

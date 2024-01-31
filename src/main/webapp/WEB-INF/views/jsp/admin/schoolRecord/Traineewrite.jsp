@@ -137,15 +137,16 @@
                     <th >메모</th>
                 </tr>
                 <tr>
-                    <td><textarea rows="8" cols="180" value="${tmvo.tm_memo}"></textarea></td>
+                    <td><textarea rows="8" cols="180" value="${vo12.tr_etc}"></textarea></td>
                 </tr>
              </table>
              <div>
-                <input type="button" value="저장" onclick="sendDate(this.form)">
+                <input type="button" value="저장" onclick="sendwrite(this.form)">
                 <input type="button" value="인쇄" onclick="">
                 <input type="button" value="취소" onclick="">
             </div>
-            <input type="hidden" name="c_idx">
-            <input type="hidden" name="tr_idx">
+            <input type="hidden" name="c_idx" value="${cc.c_idx}">
+            <input type="hidden" name="tr_idx" value="${vo12.tr_idx}">
+            <input type="hidden" name="tm_idx" value="${tmvo.tm_idx}">
         </form>
 	

@@ -246,9 +246,14 @@ table tfoot ol.page {
 
 		});
 		
+		// form 데이터들 보내기 함수들 
 		function sendData(ddd){
     		
     		ddd.submit();
+		}
+
+		function sendwrite(qqq){
+			qqq.submit();
 		}
 
 

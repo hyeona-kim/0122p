@@ -164,7 +164,6 @@ public class TraineeController {
 				tvo.setFile_name(fname);
 				tvo.setOri_name(oname);
 				int cnt = u_Service.add(tvo);
-				System.out.println(cnt);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -456,15 +455,12 @@ public class TraineeController {
 		BusinessVO bvo = bs_Service.list(tr_idx);
 		QcVO qvo = q_Service.list(tr_idx);
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
-		TrmemoVO tmvo = tm_Service.list(tr_idx);
 
-
-		System.out.println(tmvo.getTm_memo());
+	
 
 		mv.addObject("bvo", bvo);
 		mv.addObject("qvo", qvo);
 		mv.addObject("tfvo", tfvo);
-		mv.addObject("tmvo", tmvo);
 		mv.addObject("vo12", vo);
 		mv.addObject("cc", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
@@ -527,11 +523,24 @@ public class TraineeController {
 	@RequestMapping("counseling_ajax")
 	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
 		ModelAndView mv = new ModelAndView();
-		System.out.println(c_idx+"/"+tr_idx);
 		
 
 		int cnt = cc_Service.addCounsel(ccvo);
 
+
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+		return mv;
+	}
+
+
+	@RequestMapping("Traineewrite_ajax")
+	public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,QcVO qvo,TrfinalVO tfvo, TraineeVO tvo){
+		ModelAndView mv = new ModelAndView();
+
+		int cnt = bs_Service.bedit(bvo);
+		int cnt1= q_Service.qedit(qvo);
+		int cnt2 = tf_Service.tfedit(tfvo);
+		
 
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 		return mv;

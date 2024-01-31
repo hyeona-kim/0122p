@@ -5,5 +5,6 @@ import com.ict.project.vo.BusinessVO;
 public interface BusinessMapper {
 
     BusinessVO list(String tr_idx);
+    int edit(BusinessVO bvo);
     
 }
