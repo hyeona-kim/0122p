@@ -7,9 +7,14 @@ import lombok.Setter;
 @Setter
 public class CounselingdetailVO {
 	
-	private String cd_idx, sf_idx, cd_date, cd_name, cd_phone, cd_sep, 
-					c_idx, cd_status, cd_manageStatus, cd_cancel, cd_nextDate, 
+	private String cd_idx, sf_idx, cd_date, cd_name, cd_phone, ct_idx, 
+					c_idx, cd_status, cd_manageStatus, cd_cancel, ns_idx, 
 					cd_subject, cd_status2, cd_personalNum, cd_card, cd_address, 
-					cd_inflowPath, cd_result, cd_cardType;
+					id_idx, cd_result, cd_cardType;
+	private CourseTypeVO ctvo;
+	private CourseVO cvo;
+	private StaffVO svo;
+	private NextscheduledVO nsvo;
+	private InflowPathVO idvo;
 
 }

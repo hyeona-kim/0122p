@@ -10,9 +10,7 @@
 	<thead>
 		<tr>
 			<th>과정명</th>
-			<%-- [수정필요] 
-			 	 훈련과정명을 가져와야함 --%>
-			<td colspan="2">훈련과정테스트</td>
+			<td colspan="2">${vo.c_name}</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,7 +21,7 @@
 			<td class="left" colspan="3">작성자:***&nbsp;|&nbsp;등록일:${vo.sg_write_date}&nbsp;|&nbsp;조회수:${vo.sg_hit}</td>
 		</tr>
 		<tr>
-			<td class="left" colspan="3"><textarea rows="10" cols="100">${vo.sg_content}</textarea></td>
+			<td class="left" colspan="3">${vo.sg_content}</td>
 		</tr>
 	</tbody>
 	<tfoot>

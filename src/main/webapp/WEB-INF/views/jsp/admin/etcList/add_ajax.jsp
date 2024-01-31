@@ -27,20 +27,21 @@
 				<th>입사일</th>
 				<td class="left"><input class="input" type="date" placeholder="2023-01-01" data-str="입사일" name="sf_hire_date"/></td>
 				<th>퇴사일</th>
-				<td class="left"><input class="input" type="date" disabled="disabled" name="sf_fire_date"/></td>
+				<!-- <td class="left"><input class="input" type="date" disabled="disabled" name="sf_fire_date"/></td> -->
+				<td class="left">년-월-일</td>
 			</tr>
 			<tr>
 				<th>연락처</th>
 				<td class="left">
-					<input class="phone" type="text" placeholder="010" name="sf_phone"/>
-					<input class="phone" type="text" placeholder="1234" name="sf_phone"/>
-					<input class="phone" type="text" placeholder="5678" name="sf_phone"/>
+					<input class="phone" type="text" placeholder="010" name="sf_phone" data-str="연락처"/>
+					<input class="phone" type="text" placeholder="1234" name="sf_phone" data-str="연락처"/>
+					<input class="phone" type="text" placeholder="5678" name="sf_phone" data-str="연락처"/>
 				</td>
 				<th>사용권한</th>
 				<td class="left">
 					<select name="rt_idx">
-						<option value="0">사무원</option>
-						<option value="1">교강사</option>
+						<option value="0">기본(일반행정 및 보조직원)</option>
+						<option value="1">교직원</option>
 						<option value="9">총책임자</option>
 					</select>
 				</td>
@@ -59,8 +60,6 @@
 		<tfoot>
 			<tr>
 				<td colspan="4">
-					<!-- <button type="button" onclick="addStaff()" class="staff_edit_btn staff_btn">저장</button>
-					<button type="button" onclose="" class="staff_del_btn staff_btn">취소</button> -->
 					<a href="javascript:addStaff()" class="staff_edit_btn staff_btn">등록</a>
 					<a href="" class="staff_del_btn staff_btn">취소</a>
 				</td>

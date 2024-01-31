@@ -116,6 +116,14 @@
 		font-size: 14px;
 		color: white; 
 	}
+	#faculty{
+		background-color: #322eee;
+		border-radius: 3px;
+		padding: 5px 7px;
+		font-weight: bold;
+		font-size: 14px;
+		color: white; 
+	}
 	#block_btn{
 		background-color: #4c5bcf;
 		border-radius: 3px;
@@ -183,28 +191,31 @@
 											<%-- [수정필요]
 												 사용권한 번호를 이용해서
 												 사용권한명을 가져와야함 --%>
-											<sf:if test="${vo.rt_idx ne null}">
-												<td>${vo.rt_idx}</td>
+											<sf:if test="${vo.rt_name ne null}">
+												<td>${vo.rt_name}</td>
 											</sf:if>
-											<sf:if test="${vo.rt_idx eq null}">
+											<sf:if test="${vo.rt_name eq null}">
 												<td></td>
 											</sf:if>
 											<%-- sf_link가 1인 사람만 ON 마크 표시 --%>
 											<sf:if test="${vo.sf_link eq '1'}">
-												<td><span id="block_btn">ON</span></td>
+												<td><button type="button" id="block_btn" onclick="unblockStaff('${vo.sf_idx}')">ON</button></td>
 											</sf:if>
 											<sf:if test="${vo.sf_link eq '0'}">
 												<td></td>
 											</sf:if>
-											<%-- 사용권한이 9인 사람만 총책임자 마크 표시 --%>
-											<sf:if test="${vo.sf_mgr eq '9'}">
+											<%-- 사용권한이 9인 사람은 총책임자, 1인 사람은 교직원 마크 표시 --%>
+											<sf:if test="${vo.rt_idx eq '1'}">
+												<td><span id="faculty">교직원</span></td>
+											</sf:if>
+											<sf:if test="${vo.rt_idx eq '9'}">
 												<td><span id="director">총책임자</span></td>
 											</sf:if>
-											<sf:if test="${vo.sf_mgr ne '9'}">
+											<sf:if test="${vo.rt_idx ne '9' and vo.rt_idx ne '1'}">
 												<td></td>
 											</sf:if>
 											<td colspan="2">
-												<a href="javascript:editStaff('${vo.sf_idx}')" class="staff_edit_btn staff_btn">수정</a>
+												<a href="javascript:editStaffForm('${vo.sf_idx}')" class="staff_edit_btn staff_btn">수정</a>
 												<a href="javascript:delStaff('${vo.sf_idx}')" class="staff_del_btn staff_btn">삭제</a>
 											</td>
 										</tr>
@@ -218,11 +229,11 @@
 			</div>
 		</div>
 		
-		<%-- ========== 교직원 등록 폼 시작 ========== --%>
+		<%-- ========== 교직원 등록,수정 폼 시작 ========== --%>
 		<div id="addForm">
 			
 		</div>
-		<%-- ========== 교직원 등록 폼 끝 ========== --%>
+		<%-- ========== 교직원 등록,수정 폼 끝 ========== --%>
 		
 	</article>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" 
@@ -230,7 +241,6 @@
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 		$(function(){
-			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#etclist").addClass("selected");
 			
@@ -255,7 +265,7 @@
 		
 		/* 교직원현황 - [수정]버튼을 클릭했을 때
 		 비동기통신을 이용해 dialog를 띄우는 기능 */
-		function editStaff(idx) {
+		function editStaffForm(idx) {
 			$.ajax({
 				url: "staffEditForm",
 				type: "post",
@@ -270,6 +280,38 @@
 				width : 1000,
 				height : 600
 			});
+		};
+
+		/* 교직원수정 폼에서 [수정]버튼을 클릭했을 때 수행하는 곳 */
+		function editStaff(idx) {
+			// 이름, 직급, 아이디, 암호, 입사일 유효성 검사
+			// 퇴사일은 값이 없어도 Controller에서 처리함
+			let ar = document.forms[0].elements;
+			for(let i=0 ; i<ar.length-8; i++){
+				if(ar[i].value ==""){
+					alert(ar[i].dataset.str+"을 입력하세요");
+					ar[i].focus();
+					return; // 수행 중단
+				};
+			};
+
+			// 연락처 맨 앞자리 유효성 검사
+			if(ar[7].value.trim().length != '3'){
+					alert(ar[7].dataset.str+"을 입력하세요");
+					ar[7].focus();
+					return; // 수행 중단
+			};
+
+			// 연락처 가운데, 뒷자리 유효성 검사
+			for(let i=8 ; i<ar.length-4; i++){
+				if(ar[i].value.trim().length != '4'){
+						alert(ar[i].dataset.str+"을 입력하세요");
+						ar[i].focus();
+						return; // 수행 중단
+				};
+			};
+
+			document.forms[0].submit();
 		};
 		
 		/* 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
@@ -319,19 +361,46 @@
 		};
 			
 		/* 교직원등록에서 [저장]버튼을 눌렀을 때 수행하는 곳 */
+		/* 또는 교직원수정에서 [수정]버튼을 눌렀을 때 수행하는 곳 */
 		function addStaff() {
-			// 유효성 검사
-/* 			let ar = document.forms[0].elements;
-			for(let i=0 ; i<ar.length-4; i++){
+			// 이름, 직급, 아이디, 암호, 입사일 유효성 검사
+			let ar = document.forms[0].elements;
+			for(let i=0 ; i<ar.length-8; i++){
 				if(ar[i].value ==""){
-						alert(ar[i].dataset.str+
-								"을 입력하세요");
+					alert(ar[i].dataset.str+"을 입력하세요");
+					ar[i].focus();
+					return; // 수행 중단
+				};
+			};
+
+			// 연락처 맨 앞자리 유효성 검사
+			if(ar[5].value.trim().length != '3'){
+					alert(ar[5].dataset.str+"을 입력하세요");
+					ar[5].focus();
+					return; // 수행 중단
+			};
+
+			// 연락처 가운데, 뒷자리 유효성 검사
+			for(let i=6 ; i<ar.length-5; i++){
+				if(ar[i].value.trim().length != '4'){
+						alert(ar[i].dataset.str+"을 입력하세요");
 						ar[i].focus();
 						return; // 수행 중단
-				}
-			} */
+				};
+			};
+
 			document.forms[0].submit();
 		};
+
+		/* 교직원현황에서 차단여부 [ON]버튼을 눌렀을 때 수행하는 곳 */
+		function unblockStaff(idx) {
+			if(confirm("해제하시겠습니까?")){
+				location.href="unblockStaff?sf_idx="+idx;
+			}else{
+				return false;
+			};
+		};
+
 		// 서명저장 --후에 수정후 사용하거나 다른 프로그램 사용
 		/*  (function(obj){
 			 obj.init();

@@ -6,8 +6,10 @@
 	<!-- 교직원 목록을 반환하는 기능 
 		 삭제되지 않은 교직원만 반환-->
 	<select id="all" resultType="com.ict.project.vo.StaffVO">
-		select * from staff_t
-		where status = 0 
+		select a.*, b.rt_name from
+			(select * from staff_t where status = 0) a,
+			(select * from right_t) b
+		where a.rt_idx = b.rt_idx
 	</select>
 	
 	<!-- 관리자 모드로 로그인하는 기능 -->
@@ -25,7 +27,7 @@
 	<update id="login_unblock" parameterType="String">
 		update staff_t 
 		set sf_link = 0
-		where sf_id =#{sf_id}
+		where sf_id = #{sf_id}
 	</update>
 	<select id="sf_link" parameterType="String" resultType="String">
 		select sf_link from staff_t where sf_id=#{sf_id}
@@ -66,10 +68,7 @@
 		where sf_idx = #{idx}
 	</update>
 
-	<!-- 교직원 수정하는 기능 
-		[수정필요]
-		연락처 부분 내용 출력하고 수정해야함
-	-->
+	<!-- 교직원 수정하는 기능 -->
 	<update id="editStaff" parameterType="com.ict.project.vo.StaffVO">
 		update staff_t
 		<trim prefix="set" suffixOverrides=",">
@@ -87,4 +86,10 @@
 		where sf_idx = #{sf_idx}
 	</update>
 
+	<!-- 교직원 차단여부 해제하는 기능 (차단해제 버튼 클릭시)-->
+	<update id="unblockStaff" parameterType="String">
+		update staff_t
+		set sf_link = 0
+		where sf_idx = #{sf_idx}
+	</update>
 </mapper>

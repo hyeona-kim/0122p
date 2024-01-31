@@ -14,5 +14,8 @@ public class CourseVO {
 	private boolean c_reg;
 	private int total_hour;
 	private SubjectVO[] sb_ar;
+	private TraineeVO[] tr_ar;//취소된 인원 제외.
+	private TraineeVO[] tr_ar2;//제적된 인원
+	private TraineeVO[] tr_ar3;//현재 수강중인 인원
 
 }

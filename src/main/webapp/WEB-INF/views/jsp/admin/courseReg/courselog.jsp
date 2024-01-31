@@ -338,7 +338,6 @@ table tfoot ol.page {
 										<th>검색</th>
 										<td>
 											<select id="numPerPage">
-			
 												<option value="5">표시개수</option>
 												<option>5</option>
 												<option>10</option>
@@ -725,7 +724,11 @@ table tfoot ol.page {
 				});
 			});
 			$("#dialog4").dialog("open");	
-        }$( "#dialog" ).dialog({
+        }
+
+		
+		
+		$( "#dialog" ).dialog({
             autoOpen: false,
             width:1200,
             modal: true,

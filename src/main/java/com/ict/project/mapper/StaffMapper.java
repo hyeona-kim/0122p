@@ -17,4 +17,5 @@ public interface StaffMapper {
     int login_block(String sf_id);
     int login_unblock(String sf_id);
     String sf_link(String sf_id);
+    int unblockStaff(String sf_idx);
 }

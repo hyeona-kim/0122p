@@ -15,46 +15,46 @@
 		<tbody>
 			<tr>
 				<th>이름</th>
-				<td class="left"><input class="input" type="text" id="sf_name" name="sf_name" value="${vo.sf_name}"/></td>
+				<td class="left"><input class="input" type="text" id="sf_name" name="sf_name" data-str="이름" value="${vo.sf_name}"/></td>
 				<th>직급</th>
-				<td class="left"><input class="input" type="text" name="sf_job" value="${vo.sf_job}"/></td>
+				<td class="left"><input class="input" type="text" name="sf_job" data-str="직급" value="${vo.sf_job}"/></td>
 			</tr>
 			<tr>
 				<th>아이디</th>
-				<td class="left"><input class="input" type="text" name="sf_id" value="${vo.sf_id}"/></td>
+				<td class="left"><input class="input" type="text" name="sf_id" data-str="아이디" value="${vo.sf_id}"/></td>
 				<th>암호</th>
-				<td class="left"><input class="input" type="text" name="sf_pwd" value="${vo.sf_pwd}"/></td>
+				<td class="left"><input class="input" type="text" name="sf_pwd" data-str="암호" value="${vo.sf_pwd}"/></td>
 			</tr>
 			<tr>
 				<th>입사일</th>
-				<td class="left"><input class="input" type="date" name="sf_hire_date" value="${vo.sf_hire_date}"/></td>
+				<td class="left"><input class="input" type="date" name="sf_hire_date" data-str="입사일" value="${vo.sf_hire_date}"/></td>
 				<th>퇴사일</th>
-				<td class="left"><input class="input" type="date" name="sf_fire_date" value="${vo.sf_fire_date}"/></td>
+				<td class="left"><input class="input" type="date" name="sf_fire_date" data-str="퇴사일" value="${vo.sf_fire_date}"/></td>
 			</tr>
 			<tr>
 				<th>연락처</th>
 				<td class="left">
-					<input class="phone" type="text" placeholder="010" name="sf_phone" value="${phone1}"/>
-					<input class="phone" type="text" placeholder="1234" name="sf_phone" value="${phone2}"/>
-					<input class="phone" type="text" placeholder="5678" name="sf_phone" value="${phone3}"/>
+					<input class="phone" type="text" placeholder="010" name="sf_phone" data-str="연락처" value="${phone1}"/>
+					<input class="phone" type="text" placeholder="1234" name="sf_phone" data-str="연락처" value="${phone2}"/>
+					<input class="phone" type="text" placeholder="5678" name="sf_phone" data-str="연락처" value="${phone3}"/>
 				</td>
 				<th>사용권한</th>
 				<td class="left">
 					<select name="rt_idx">
 						<c:choose>
 							<c:when test="${vo.rt_idx eq '9'}" >
-								<option value="0">기본(교직원)</option>
-								<option value="1">임직원</option>
+								<option value="0">기본(일반행정 및 보조직원)</option>
+								<option value="1">교직원</option>
 								<option value="9" selected>총책임자</option>
 							</c:when>
 							<c:when test="${vo.rt_idx eq '1'}" >
-								<option value="0">기본(교직원)</option>
-								<option value="1" selected>임직원</option>
+								<option value="0">기본(일반행정 및 보조직원)</option>
+								<option value="1" selected>교직원</option>
 								<option value="9">총책임자</option>
 							</c:when>
 							<c:when test="${vo.rt_idx eq '0'}" >
-								<option value="0" selected>기본(교직원)</option>
-								<option value="1">임직원</option>
+								<option value="0" selected>기본(일반행정 및 보조직원)</option>
+								<option value="1">교직원</option>
 								<option value="9">총책임자</option>
 							</c:when>
 						</c:choose>
@@ -75,9 +75,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="4">
-					<!-- <button type="button" onclick="addStaff()" class="staff_edit_btn staff_btn">저장</button>
-					<button type="button" onclose="" class="staff_del_btn staff_btn">취소</button> -->
-					<a href="javascript:addStaff()" class="staff_edit_btn staff_btn">수정</a>
+					<a href="javascript:editStaff()" class="staff_edit_btn staff_btn">수정</a>
 					<a href="" class="staff_del_btn staff_btn">취소</a>
 				</td>
 			</tr>

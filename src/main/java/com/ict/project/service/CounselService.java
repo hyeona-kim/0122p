@@ -1,13 +1,13 @@
 package com.ict.project.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.CounselMapper;
 import com.ict.project.vo.CounselVO;
-import com.ict.project.vo.TraineeVO;
 
 @Service
 public class CounselService {
@@ -99,7 +99,6 @@ public class CounselService {
 
         return ar;
     }
-
     public CounselVO[] trlist(String tr_idx){
         CounselVO[] ar = null;
 
@@ -109,5 +108,9 @@ public class CounselService {
             list.toArray(ar);
         }
         return ar;
+    }
+    public int addCounselFile(Map<String,List<CounselVO>> map){
+        return c_mapper.addCounselFile(map);
+
     }
 }

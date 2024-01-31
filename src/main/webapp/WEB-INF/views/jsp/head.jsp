@@ -21,7 +21,7 @@
       <li class="menubar 10" id="etclist"><a href="">설문관리</a></li>
       <li class="menubar 11" id="etclist"><a href="">증서관리</a></li>
       <li class="menubar 12" id="etclist"><a href="">사후관리</a></li>
-      <li class="menubar 13" id="etclist"><a href="">통합관리</a></li>
+      <li class="menubar 13" id="thirteenmenu"><a href="menu?select=totalManage">통합관리</a></li>
       <li class="menubar 13" id="etclist"><a href="">자료함</a></li>
       <li class="menubar 13" id="etclist"><a href="">커뮤니티</a></li>
       <li class="menubar 13" id="etclist"><a href="">로그현황</a></li>

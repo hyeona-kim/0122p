@@ -26,7 +26,7 @@
                                 ${vo.tr_name}
                                 <input type="hidden" name="tr_idx" value="${vo.tr_idx}"/>
                             </td>
-							<td><input type="text" name="date"/></td>
+							<td><input type="date" name="date"/></td>
                             <td>
                                 <input type="text" name="sf_name" value="${cvo.svo.sf_name}"/>
                                 <input type="hidden" name="sf_idx" value="${cvo.svo.sf_idx}"/>

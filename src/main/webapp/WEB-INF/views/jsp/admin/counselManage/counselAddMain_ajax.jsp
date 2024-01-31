@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+	<div id ="d1">
 		<table id="t1">
-			<thead>
+			<thead id="t2head">
 				<tr>
 					<td >교육과정명</td>
 					<td>${cvo.c_name}</td>
@@ -21,7 +21,7 @@
 		</table>
 	</div>
 	
-	<div>
+	<div id="d2">
 	<form action="counselAdd" method="post">
 		<table id="t2">
 			<colgroup>
@@ -58,7 +58,6 @@
 				<tr>
 					<td colspan="5">
 						<button type="button" onclick="counselA('${cvo.c_idx}')">보고서등록</button>
-
 						<button type="button" onclick="">인쇄</button>
 						<button type="button" id="cc_cancle">취소</button>
 					</td>

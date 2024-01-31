@@ -1,6 +1,9 @@
 package com.ict.project.mapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.TraineeVO;
@@ -30,11 +33,13 @@ public interface TraineeMapper {
     List<TraineeVO> course_search(String select,String value,String year,String begin, String end);
     List<TraineeVO> course_searchValue(String c_idx, String select,String value,String year,String begin, String end);
 
+    //ge
+    List<TraineeVO> traineeReg(String begin,String end,String c_idx,String year,String ct_idx,String select,String value);
+    int traineeReg_count(String c_idx,String year,String ct_idx,String select,String value);
     int counsel_date(String tr_idx, String ss_end, String ss_num);
    
-    List<TraineeVO> traineeReg(String begin,String end);
-    int traineeReg_count();
     List<CourseTypeVO> courseType(String ct_idx);
+    int add(Map<String,List<TraineeVO>> map);
 
 
 

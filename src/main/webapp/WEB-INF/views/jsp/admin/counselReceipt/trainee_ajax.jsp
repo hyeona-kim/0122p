@@ -102,6 +102,7 @@
             </tr>
 </tfoot>    
 <tbody>
+    <c:if test="${t_ar ne null}">
     <c:forEach var="tvo" items="${t_ar}">
     <tr>
         <c:if test="${b_ar[0] eq true}">
@@ -120,7 +121,7 @@
             <td>${tvo.cvo.c_name}</td>
         </c:if>
         <c:if test="${b_ar[5] eq true}">
-            <td>결재일칼럼 추가</td>
+            <td>${tvo.tr_payment_date}</td>
         </c:if>
         <c:if test="${b_ar[6] eq true}">
             <td>${tvo.t_path}</td>
@@ -156,7 +157,7 @@
             <td>${tvo.tr_addr}</td>
         </c:if>
         <c:if test="${b_ar[17] eq true}">
-            <td>학생별 메모</td>
+            <td>${tvo.memo}</td>
         </c:if>
         <c:if test="${b_ar[18] eq true}">
             <td>${tvo.tr_bc}</td>
@@ -169,5 +170,9 @@
         </c:if>
     </tr>
     </c:forEach>
+    </c:if>
+    <c:if test="${t_ar eq null}">
+        <tr><td colspan="${cols}">검색결과 없음.</td></tr>
+    </c:if>
 </tbody>
 </table>
