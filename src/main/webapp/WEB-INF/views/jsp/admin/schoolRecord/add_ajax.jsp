@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <form action="addSuggestion" method="post" enctype="multipart/form-data" name="addForm">
+	<input type="hidden" name="c_idx" value="52"/>
 	<table>
 		<caption>고충 및 건의사항 등록 테이블</caption>
 		<thead>
@@ -8,7 +9,7 @@
 				<th>과정명</th>
 				<%-- [수정필요] 
 				 	 훈련과정명을 가져와야함 --%>
-				<td>훈련과정테스트</td>
+				<td>훈련과정명</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,7 +23,7 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td class="left"><textarea rows="10" cols="70" name="sg_content"></textarea></td>
+				<td class="left"><textarea rows="10" cols="70" name="sg_content" id="sg_content"></textarea></td>
 			</tr>
 			<tr>
 				<th>파일첨부</th>

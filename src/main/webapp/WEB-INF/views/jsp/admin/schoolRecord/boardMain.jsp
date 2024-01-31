@@ -323,7 +323,7 @@ table tfoot ol.page {
 					$("#board_main_list").html(result);
 				});
 			};
-    });
+    	});
 
         /* 목록 아래 [page번호]를 클릭할 때 수행
 		 str를 변수로 가지고 새롭게 비동기통신을 해서

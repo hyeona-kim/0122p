@@ -65,12 +65,12 @@ public class StraffController {
 		}
         svo.setSf_code("tc"+code);
 
-        //전화번호 합쳐서 보내기.
+        // 전화번호 합쳐서 보내기.
         String[] ar = request.getParameterValues("sf_phone");
         String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
         svo.setSf_phone(phone);
 
-		s_Service.addStaff(svo);              
+		s_Service.addStaff(svo);
         return "redirect:staffList";
     }
     
@@ -82,10 +82,12 @@ public class StraffController {
 		mv.setViewName("redirect:staffList");
         return mv;
     }
+
     @RequestMapping("staffAddForm")
     public String staffAddForm() {
         return "/jsp/admin/etcList/add_ajax";
     }
+
     @RequestMapping("staffEditForm")
     public ModelAndView staffEditForm(String sf_idx) {
         ModelAndView mv = new ModelAndView();
@@ -139,6 +141,11 @@ public class StraffController {
         s_Service.editStaff(vo);
         return "redirect:staffList";
     }
-    
+
+    @RequestMapping("unblockStaff")
+    public String unblockStaff(String sf_idx) {
+		s_Service.unblockStaff(sf_idx);
+        return "redirect:staffList";
+    }
     
 }

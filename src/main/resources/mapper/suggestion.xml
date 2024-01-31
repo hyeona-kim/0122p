@@ -15,14 +15,14 @@
 	
 	<!-- 고충 및 건의사항 추가하는 기능 -->
 	<insert id="add" parameterType="com.ict.project.vo.SuggestionVO">
-		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status)
-		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0)
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status, c_idx)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0, #{c_idx})
 	</insert>
 	
 	<!-- 건의사항 답변 추가하는 기능 -->
 	<insert id="addReply" parameterType="com.ict.project.vo.SuggestionVO">
-		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status)
-		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0)
+		insert into suggestion_t (sg_subject, sg_writer, sg_write_date, sg_hit, sg_content, sg_file_name, sg_ori_name, notice, status, c_idx)
+		values (#{sg_subject}, #{sg_writer}, now(), 0, #{sg_content}, #{sg_file_name}, #{sg_ori_name}, #{notice}, 0, #{c_idx})
 	</insert>
 	
 	<!-- Paging객체를 생성하기 위해 totalRecord를 구하는 기능 -->
@@ -54,8 +54,10 @@
 
 	<!-- 글보기 를 하기 위해 해당 글을 구하는 기능 -->
 	<select id="view" parameterType="String" resultType="com.ict.project.vo.SuggestionVO">
-		select * from suggestion_t
-		where sg_idx = #{sg_idx}
+		select a.*, b.c_name from
+			(select * from suggestion_t where sg_idx = #{sg_idx}) a,
+			(select c_idx, c_name from course_t) b
+		where a.c_idx = b.c_idx
 	</select>
 
 	<!-- 공지 체크 안되어있는 건의사항들의 목록을 얻어내는 기능 -->

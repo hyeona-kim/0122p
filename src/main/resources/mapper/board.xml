@@ -55,9 +55,12 @@
 
 	<!-- 게시물 보기를 위해 해당 게시물을 얻어내는 기능 -->
 	<select id="getBoard" parameterType="String" resultType="com.ict.project.vo.BoardVO">
-		select * from board_t
-		where bd_idx = #{bd_idx}
+		select a.*, b.c_name from
+			(select * from board_t where bd_idx = #{bd_idx}) a,
+			(select c_idx, c_name from course_t where c_status = 0) b
+		where a.c_idx = b.c_idx;
 	</select>
+	
 
 	<!-- 공지 체크 안되어있는 게시물들의 총 개수를 구하는 기능 -->
 	<select id="cntNonNotice" parameterType="String" resultType="int">

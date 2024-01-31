@@ -3,15 +3,14 @@
 <%@ taglib prefix="rp" uri="http://java.sun.com/jsp/jstl/core" %>
 <form action="addReply" method="post">
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
-	<input type="hidden" name="writer" value="${vo.sg_writer}">
+	<input type="hidden" name="sg_writer" value="${vo.sg_writer}"/>
+	<input type="hidden" name="c_idx" value="52"/>
 	<table>
 		<caption>고충 및 건의사항 답변 작성 테이블</caption>
 		<thead>
 			<tr>
 				<th>과정명</th>
-				<%-- [수정필요] 
-				 	 훈련과정명을 가져와야함 --%>
-				<td>훈련과정테스트</td>
+				<td>${vo.c_name}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,7 +25,7 @@
 			<tr>
 				<th>내용</th>
 				<td class="left">
-					<textarea rows="10" cols="70" name="sg_content">
+					<textarea rows="10" cols="70" name="sg_content" id="reply_content">
 						========================================
 *** 님이 작성한 글
 						========================================

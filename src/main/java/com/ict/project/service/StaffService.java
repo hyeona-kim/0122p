@@ -62,13 +62,24 @@ public class StaffService {
     public int editStaff(StaffVO vo) {
         return s_mapper.editStaff(vo);
     }
+
+    // 로그인 5회 실패시 차단하는 기능
     public int block(String sf_id){
         return s_mapper.login_block(sf_id);
     }
+
+    // 로그인 차단을 해제하는 기능(로그인 성공시)
     public int unblock(String sf_id){
         return s_mapper.login_unblock(sf_id);
     }
+
+    // 로그인 성공시 차단을 해제하기 위해 sf_link값을 검색하는 기능
     public String sf_link(String sf_id){
         return s_mapper.sf_link(sf_id);
+    }
+
+    // 로그인 차단을 해제하는 기능(차단해제 버튼 클릭시)
+    public int unblockStaff(String sf_idx) {
+        return s_mapper.unblockStaff(sf_idx);
     }
 }

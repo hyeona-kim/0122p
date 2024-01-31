@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/summernote-lite.css">
 <style>
 table tfoot ol.page {
 	    list-style:none;
@@ -278,6 +279,8 @@ table tfoot ol.page {
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script src="js/summernote-lite.js"></script>
+	<script src="js/lang/summernote-ko-KR.js"></script>
 	<script>
 		$(function() {
 			//$().removeClass("selected");
@@ -299,11 +302,26 @@ table tfoot ol.page {
 			$("#sug_add_btn").bind("click", function(){
 				$.ajax({
 					url: "sugAddForm",
-					type: "post"
+					type: "post",
 				}).done(function(result){
 					$("#addForm").html(result);
+					// 글쓰기에 [에디터] 추가
+					$("#sg_content").summernote({
+						height: 200,
+						focus: true,
+						lang: "ko-KR",
+						dialogsInBody: true,
+						callbacks: {
+							onImageUpload: function(files, editor) {
+								for (let i=0; i<files.length; i++) {
+									sendImage(files[i], editor);
+								}
+							}
+						}
+					});
+					$("#sg_content").summernote("lineHeight", 0.7);
 				});
-				
+
 				$("#addForm").dialog({
 					title : '고충 및 건의사항 작성',
 					modal : true,
@@ -313,6 +331,30 @@ table tfoot ol.page {
 			});
 			
 		});
+
+		// [글쓰기] 또는 [답변]을 할 때
+		// 에디터에 이미지가 업로드되면 내용에 추가하는 기능
+		function sendImage(file, editor, reply){
+			let frm = new FormData();
+
+			frm.append("file", file);
+
+			$.ajax({
+				url: "saveSuggImg",
+				type: "post",
+				data: frm,
+				contentType: false,
+				processData: false,
+				cache: false,
+				dataType: "json",
+			}).done(function(data) {
+				if(reply != null){
+					$("#reply_content").summernote("editor.insertImage", data.url+"/"+data.fname);
+				}else {
+					$("#sg_content").summernote("editor.insertImage", data.url+"/"+data.fname);
+				}
+			});
+		};
 		
 		/* 목록 아래 [page번호]를 클릭할 때 수행
 			 cPage를 변수로 가지고 새롭게 비동기통신을 해서
@@ -343,7 +385,6 @@ table tfoot ol.page {
 			}).done(function(result){
 				$("#sugContent").html(result);
 			});
-			
 			$("#sugContent").dialog({
 				title : '고충 및 건의사항',
 				modal : true,
@@ -354,12 +395,27 @@ table tfoot ol.page {
 		
 		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
 		function reply(sg_idx) {
+			let reply = "reply";
 			$.ajax({
 				url: "reply",
 				type: "post",
 				data: "sg_idx="+sg_idx
 			}).done(function(result){
 				$("#replyForm").html(result);
+				$("#reply_content").summernote({
+						height: 200,
+						focus: true,
+						lang: "ko-KR",
+						dialogsInBody: true,
+						callbacks: {
+							onImageUpload: function(files, editor) {
+								for (let i=0; i<files.length; i++) {
+									sendImage(files[i], editor, reply);
+								}
+							}
+						}
+				});
+				$("#reply_content").summernote("lineHeight", 0.7);
 			});
 			
 			$("#replyForm").dialog({

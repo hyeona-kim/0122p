@@ -11,9 +11,7 @@
 	<thead>
 		<tr>
 			<th>과정명</th>
-			<%-- [수정필요] 
-			 	 훈련과정명을 가져와야함 --%>
-			<td colspan="2">훈련과정테스트</td>
+			<td colspan="2">${bvo.c_name}</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +22,7 @@
 			<td class="left" colspan="3">작성자:***&nbsp;|&nbsp;등록일:${bvo.bd_write_date}&nbsp;|&nbsp;조회수:${bvo.bd_hit}</td>
 		</tr>
 		<tr>
-			<td class="left" colspan="3"><textarea rows="10" cols="100">${bvo.bd_content}</textarea></td>
+			<td class="left" colspan="3" id="bd_content">${bvo.bd_content}</td>
 		</tr>
 	</tbody>
 	<tfoot>
