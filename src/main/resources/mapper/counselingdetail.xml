@@ -4,17 +4,78 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.CounselingdetailMapper">
 
+  <resultMap type="com.ict.project.vo.CounselingdetailVO" id="map1">
+		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<association property="cvo" column="c_idx" javaType="com.ict.project.vo.CourseVO" select="course"></association>
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<association property="nsvo" column="ns_idx" javaType="com.ict.project.vo.NextscheduledVO" select="nextScheduled"></association>
+		<association property="idvo" column="id_idx" javaType="com.ict.project.vo.InflowPathVO" select="inflowPath"></association>
+	</resultMap>
+
   <select id="all" resultType="com.ict.project.vo.CounselingdetailVO">
     select * from counselingdetail_t
   </select>
   
   <insert id="add" parameterType="com.ict.project.vo.CounselingdetailVO">
 			INSERT INTO counselingdetail_t(sf_idx, cd_date, cd_name, cd_phone, c_idx, ct_idx, cd_result,
-                                     cd_personalNum, cd_cardType, cd_card, cd_nextDate,
-                                      cd_address, cd_inflowPath, cd_subject, cd_status2 )
+                                     cd_personalNum, cd_cardType, cd_card, ns_idx,
+                                      cd_address, id_idx, cd_subject, cd_status2 )
 			values(#{sf_idx}, #{cd_date}, #{cd_name}, #{cd_phone}, #{c_idx}, #{ct_idx}, #{cd_result},
-                                     #{cd_personalNum}, #{cd_cardType}, #{cd_card}, #{cd_nextDate},
-                                      #{cd_address}, #{cd_inflowPath}, #{cd_subject}, 0)
+                                     #{cd_personalNum}, #{cd_cardType}, #{cd_card}, #{ns_idx},
+                                      #{cd_address}, #{id_idx}, #{cd_subject}, 0)
 	</insert>
+
+  <select id="list" resultMap="map1">
+		select * from 
+    (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name from counselingdetail_t cd, course_t c, staff_t s, course_type_t ct,
+    nextscheduled_t ns, inflowpath_t id
+		where cd_status2 = 0 and cd.c_idx = c.c_idx and cd.sf_idx = s.sf_idx and cd.ct_idx = ct.ct_idx and cd.ns_idx = ns.ns_idx and cd.id_idx = id.id_idx) cd
+	</select>
+
+  <select id="staff" parameterType="String" resultType="com.ict.project.vo.StaffVO">
+		select * from staff_t where sf_idx = #{sf_idx}
+	</select>
+  <select id="course" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+		select * from course_t where c_idx = #{c_idx}
+	</select>
+  <select id="courseType" parameterType="String" resultType="com.ict.project.vo.CourseTypeVO">
+		select * from course_type_t where ct_idx = #{ct_idx}
+	</select>
+  <select id="nextScheduled" parameterType="String" resultType="com.ict.project.vo.NextscheduledVO">
+		select * from nextscheduled_t where ns_idx = #{ns_idx}
+	</select>
+  <select id="inflowPath" parameterType="String" resultType="com.ict.project.vo.InflowPathVO">
+		select * from inflowPath_t where id_idx = #{id_idx}
+	</select>
+
+
+   <select id="getCounselingDetail" parameterType="String" resultType="com.ict.project.vo.CounselingdetailVO">
+    SELECT * FROM counselingdetail_t WHERE cd_idx = #{cd_idx}
+  </select>
+
+  <select id="getCounselingDetail2" parameterType="String" resultMap="map1">
+    SELECT * FROM counselingdetail_t WHERE cd_idx = #{cd_idx}
+  </select>
+
+  <update id="edit" parameterType="com.ict.project.vo.CounselingdetailVO">
+    update counselingdetail_t
+      <set>
+        sf_idx = #{sf_idx},
+        cd_date = #{cd_date},
+        cd_name = #{cd_name},
+        cd_phone = #{cd_phone},
+        c_idx = #{c_idx},
+        cd_result = #{cd_result},
+        cd_cancel = #{cd_cancel},
+        cd_personalNum = #{cd_personalNum},
+        cd_cardType = #{cd_cardType},
+        cd_card = #{cd_card},
+        ns_idx = #{ns_idx},
+        cd_address = #{cd_address},
+        id_idx = #{id_idx},
+        cd_subject = #{cd_subject}
+	    </set>
+	    where cd_idx = #{cd_idx}
+	  </update>
 
 </mapper>

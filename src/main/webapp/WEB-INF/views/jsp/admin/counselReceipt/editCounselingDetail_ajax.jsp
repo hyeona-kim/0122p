@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<h2 id="table_h2">상담DB 등록</h2>
-	<form action="addCounselingDetail" method="post" name="frm02">
+	<h2 id="table_h2">상담DB 상세보기/수정</h2>
+	<form action="editCounselingDetail?edit=1" method="post" name="frm02">
 			<table id="table">
 				<colgroup>
 					<col width="10%"/>
@@ -22,51 +22,53 @@
 						<th><label>최초상담자</label></th>
 						<td>
 								<select name="sf_idx">
-									<option value="t1">선택하세요</option>
 									<c:forEach items="${requestScope.s_ar}" var="s_ar" varStatus="loop">
-										<option value="${s_ar.sf_idx }">
-											${s_ar.sf_name }
-										</option>
+										<c:if test="${sf_idx eq s_ar.sf_idx}">
+											<option value="${s_ar.sf_idx }" selected>
+												${s_ar.sf_name }
+											</option>
+										</c:if>
+										<c:if test="${sf_idx ne s_ar.sf_idx}">
+											<option value="${s_ar.sf_idx }" >
+												${s_ar.sf_name }
+											</option>
+										</c:if>
 									</c:forEach>
 								</select>
 						</td>
 						<th><label>상담날짜</label></th>
 						<td>
-							<input type="text" name="cd_date" />
+							<input type="text" name="cd_date" value="${edit_cdvo.cd_date}"/>
 						</td>
 					</tr>
 					<tr>
 						<th><label>지원자성명</label></th>
-						<td><input type="text" name="cd_name">
+						<td><input type="text" name="cd_name" value="${edit_cdvo.cd_name}">
 						</td>
 						<th><label>연락처</label></th>
 						
-						<td><input type="text" name="cd_phone">
+						<td><input type="text" name="cd_phone" value="${edit_cdvo.cd_phone}">
 						</td>
 					</tr>
 					<tr>
 						<th><label>과정명</label></th>
 						<td>
-						<select name="ct_idx">
-							<option value="0">선택하세요</option>
-							<c:forEach items="${requestScope.ct_ar}" var="ct_ar"  varStatus="loop">
-								<option value="${ct_ar.ct_idx }">
-								 		${ct_ar.ct_name } 
-								 </option>
-							</c:forEach>
-						</select>
-						<br>
 						<select name="c_idx">
-							<option value="0">선택하세요</option>
-							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
-								<option value="${c_ar.c_idx }">
-								 		${c_ar.c_name } 
-								 </option>
+							<c:forEach items="${c_ar}" var="c_ar"  varStatus="loop">
+								<c:if test="${c_idx eq c_ar.c_idx}">
+											<option value="${c_ar.c_idx }" selected>
+												${c_ar.c_name }
+											</option>
+										</c:if>
+										<c:if test="${c_idx ne c_ar.c_idx}">
+											<option value="${c_ar.c_idx }" >
+												${c_ar.c_name }
+											</option>
+								</c:if>
 							</c:forEach>
 						</select>
 						</td>
 						<th><label>상담결과</label></th>
-						
 						<td>
 							<select name="cd_result">
 								<option value="과정만문의(단순문의)">과정만문의(단순문의)</option>
@@ -75,10 +77,25 @@
 							</select>
 						</td>
 					</td>
+
+					<tr>
+						<th><label>HRD등록일</label></th>
+						<td><input type="text" name=""></td>
+						<th><label>취소사유</label></th>
+						<td>
+							<select name="cd_cancel" >
+								<option value="0">취소시 선택하세요</option>
+								<option value="그냥">그냥</option>
+								<option value="그냥2">그냥2</option>
+								<option value="그냥3">그냥3</option>
+							</select>
+						</td>
+					</tr>
+
 					</tr>
 					<tr>
 						<th><label>주민번호</label></th>
-						<td><input type="text" name="cd_personalNum"></td>
+						<td><input type="text" name="cd_personalNum" value="${edit_cdvo.cd_personalNum}"></td>
 						<th><label>카드유형</label></th>
 						<td>
 							<select name="cd_cardType">
@@ -97,23 +114,29 @@
 						<th><label>다음예정일</label></th>
 						<td>
 							<select name="ns_idx">
-								<option value="0">선택하세요</option>
-							<c:forEach items="${ar}" var="ar4"  varStatus="loop">
-								<option value="${ar4.ns_idx } ">
-								 		${ar4.ns_name } 
-								 </option>
-							</c:forEach>
+								<c:forEach items="${ns_ar}" var="ns_ar"  varStatus="loop">
+									<c:if test="${ns_idx eq ns_ar.ns_idx}">
+												<option value="${ns_ar.ns_idx }" selected>
+													${ns_ar.ns_name }
+												</option>
+											</c:if>
+											<c:if test="${ns_idx ne ns_ar.ns_idx}">
+												<option value="${ns_ar.ns_idx }" >
+													${ns_ar.ns_name }
+												</option>
+									</c:if>
+								</c:forEach>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<th><label>주소</label></th>
-						<td colspan="3"><input type="text" name="cd_address"></td>
+						<td colspan="3"><input type="text" name="cd_address" value="${edit_cdvo.cd_address}" ></td>
 					</tr>
 					<tr>
 						<th><label>유입경로</label></th>
 					<td colspan="3">
-						<c:forEach items="${ar3}" var="ar3"  varStatus="loop">
+						<c:forEach items="${id_ar}" var="ar3"  varStatus="loop">
 						<input type="checkbox" value="${ar3.id_idx}" name="id_idx">${ar3.id_name}
 						</c:forEach>
 					</td>
@@ -121,7 +144,7 @@
 					<tr>
 						<th><label>상담내용</label></th>
 					<td colspan="3">
-						<input type="text" name="cd_subject">
+						<input type="text" name="cd_subject" value="${edit_cdvo.cd_subject}">
 					</td>
 					</tr>
 				</tbody>
@@ -137,6 +160,7 @@
 				</tfoot>	
 			</table>
 			
+			<input type="hidden" name="cd_idx" value="${param.cd_idx}"/>
 			<input type="hidden" name="cPage" value="${param.cPage}"/>
 			<input type="hidden" name="select" value="${param.select}"/>
 			<input type="hidden" name="year" value="${param.year}"/>
