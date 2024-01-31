@@ -150,8 +150,6 @@ public class CounselReciptController {
             mv.addObject("ar", ar2);
             
         }
-		else if(listSelect.equals("3"))
-            mv.setViewName("/jsp/admin/counselReceipt/"); 
         return mv;
     }
 
@@ -263,12 +261,13 @@ public class CounselReciptController {
 
     @RequestMapping("dailyReceipt")
     public ModelAndView requestMethodName(String listSelect,String year,String select) {
-        ModelAndView mv = new ModelAndView();
-        CourseVO[] ar = c_Service.reg_search("2024");
-      
         //모집중,교육중 구분하기 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String now = formatter.format(new Date(System.currentTimeMillis()));
+        ModelAndView mv = new ModelAndView();
+        CourseVO[] ar = c_Service.reg_search(now.substring(0,4)); //접수 취소한 인원은 sql문장에서 제거해주었다.
+        //제적된 인원 구하기. 
+        
         try {
             Date today = new Date(formatter.parse(now).getTime());
             for(int i=0;i<ar.length;i++){
@@ -382,6 +381,43 @@ public class CounselReciptController {
 
         TraineeVO[] ar =tn_Service.getTList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()),c_idx,year,ct_idx,select,value);
         
+        for(TraineeVO tvo :ar){
+            switch (tvo.getTr_nowstatus()) {
+                case "0":
+                    tvo.setTr_nowstatus("접수");
+                    break;
+                case "1":
+                    tvo.setTr_nowstatus("예정");
+                    break;
+                case "2":
+                    tvo.setTr_nowstatus("수강");
+                    break;
+                case "3":
+                    tvo.setTr_nowstatus("조기수료");    
+                    break;
+                case "4":
+                    tvo.setTr_nowstatus("조기취업");    
+                    break;
+                case "5":
+                    tvo.setTr_nowstatus("수료");    
+                    break;
+                case "6":
+                    tvo.setTr_nowstatus("수강포기");    
+                    break;
+                case "7":
+                    tvo.setTr_nowstatus("미수료");    
+                    break;
+                case "8":
+                    tvo.setTr_nowstatus("제적");    
+                    break;
+                case "9":
+                    tvo.setTr_nowstatus("취소");    
+                    break;
+                default:
+                    break;
+            }
+        }
+
         mv.addObject("page", page);
         mv.addObject("t_ar", ar);
         
