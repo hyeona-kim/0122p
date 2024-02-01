@@ -24,8 +24,7 @@
 	
 	<div>
 	<form action="editCounselAdd" method="post" enctype="multipart/form-data">
-		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
-		<input type="hidden" name = "ss_cnt" value="${ss_cnt+1}">
+        <input type="hidden" name="ss_idx" value="${vo.ss_idx}"/>
 		<table id="tt_add2" class="t1">
 			<colgroup>
 				<col width="25%"/>
@@ -44,7 +43,7 @@
                     <th>훈련시간</th>
                     <td><input type="time" id="ss_time" name="ss_time" value="${vo.ss_time}"/></td>
 					<th>훈련교사</th>
-                    <td>${cvo.svo.sf_name}<input type="hidden" id="sf_idx" name="sf_idx" value="${cvo.svo.sf_idx}"/></td>
+                    <td>${svo.sf_name}</td>
                 </tr>
 				<tr>
                     <th>회의장소</th>
@@ -55,7 +54,7 @@
                 </tr>
                 <tr>
                     <th>상담회차</th>
-					<td><input type="text" id="ss_num" name="ss_num" value=""/></td>
+					<td><input type="text" id="ss_num" name="ss_num" value="${vo.ss_num}"/></td>
                     <th>상담기간</th>
 					<td><input type="date" id="ss_day1" name="ss_day1" value="${ss_day1}"/>~<input type="date" id="ss_day2" name="ss_day2" value="${ss_day2}"/></td>
                 </tr>
@@ -83,7 +82,8 @@
 				</tr>
 				<tr>
 					<th>회의사진</th>
-					<td colspan ='3'><input type="file" id="ss_img1" name="ss_img1" value="${pageContext.request.contextPath}/counselimg/${vo.ss_img}"/></td>
+					<td colspan ='3'><input type="file" id="ss_img1" name="ss_img1"/><br/>현재 파일: ${vo.ss_img}</td>
+                    <input type="hidden" name="ss_img" value="${vo.ss_img}"/>
 				</tr>
 					
 			</thead>
