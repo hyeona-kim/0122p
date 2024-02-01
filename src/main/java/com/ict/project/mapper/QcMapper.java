@@ -12,5 +12,6 @@ public interface QcMapper {
     List<QcVO> list(String tr_idx);
     int editWrite(QcVO qvo);
     int addWrite(QcVO qvo);
+    int add(QcVO qvo);
 
 }

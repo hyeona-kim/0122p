@@ -5,7 +5,7 @@
 <mapper namespace="com.ict.project.mapper.QcMapper">
 	<select id="list" parameterType="String" resultType="com.ict.project.vo.QcVO">
 		select * from qc_t
-		where tr_idx = #{tr_idx}
+		where tr_idx = #{tr_idx} order by qc_tridx
 	</select>
 
 	<update id="editWrite" parameterType="com.ict.project.vo.QcVO">
