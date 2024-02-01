@@ -172,7 +172,7 @@
 			 order by c_idx desc) d;
 	</select>
 
-	<select id="searchBoth" parameterType="Map" resultMap="board_map">
+	<select id="searchBothBoard" parameterType="Map" resultMap="board_map">
 		select * from (select @RN:=@RN+1 as rnum, d.* from 
 			(select a.*,b.sf_name, c.ct_name from
 				(select * from course_t where c_status = 0) a,

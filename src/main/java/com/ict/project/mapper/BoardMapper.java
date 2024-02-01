@@ -23,5 +23,5 @@ public interface BoardMapper {
     List<CourseVO> searchValue(String tag, String value, String begin, String end);
     int search_total_count(String tag, String value);
     int search_both_count(String year, String tag, String value);
-    List<CourseVO> searchBoth(String year, String tag, String value, String begin, String end);
+    List<CourseVO> searchBothBoard(String year, String tag, String value, String begin, String end);
 }

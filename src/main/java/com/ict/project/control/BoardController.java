@@ -541,7 +541,7 @@ public class BoardController {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
 
-		ar = b_Service.searchBoth(year, tag, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		ar = b_Service.searchBothBoard(year, tag, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
