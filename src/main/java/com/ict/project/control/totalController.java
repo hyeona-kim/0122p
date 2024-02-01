@@ -11,7 +11,7 @@ import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.TraineeVO;
 
 @Controller
-public class totalController {
+public class TotalController {
     @Autowired
     CourseService cs_Service;
     @Autowired
@@ -29,6 +29,7 @@ public class totalController {
             int totalCourse =cs_Service.getSearchCount(null, null, null);
             CourseVO[] c_ar = cs_Service.searchCourse(null, null, null, "1", String.valueOf(totalCourse));
             mv.addObject("c_ar", c_ar);
+           
         }else if (listSelect.equals("3")){
             mv.setViewName("jsp/admin/totalManage/courseTotal");
         }

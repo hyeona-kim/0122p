@@ -27,6 +27,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#thirteenmenu").addClass("selected");
+			location.href ="total?listSelect=1";
 		});
 	</script>
 </body>
