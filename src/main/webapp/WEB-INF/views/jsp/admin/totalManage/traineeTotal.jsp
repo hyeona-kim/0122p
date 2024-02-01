@@ -102,13 +102,14 @@
 	#after{
 		background-color:aquamarine;
 	}
-    .man{color: purple;}
-    .woman{color: red;}
-    .giveup{color: yellow;}
-    .employ{color: blue;}
-    .finish{color: coral;}
-    .none{color: green;}
-    .weeding{color: aquamarine;}
+    .man{color: #032c94;}
+    .woman{color: #ed091c;}
+    .giveup{color:  #fcb60b;}
+    .employ{color: #4e8ede;}
+    .finish{color: #df6c69;}
+    .none{color: #c3db94;}
+    .weeding{color: #76c2c3;}
+    
     .btn{
         padding:5px 11px;
         border-radius: 3px 3px;
@@ -169,7 +170,7 @@
         border-bottom: 1px solid #ababab;
     }
     .tr_select{
-        background-color: black;
+        background-color: #999999;
         color: white;
         border: none;
     }
@@ -246,7 +247,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-	let selectTr="";
+	let selectTr=""; //훈련생
     let selectCourse="";
     let searchType ="";
     let searchValue ="";

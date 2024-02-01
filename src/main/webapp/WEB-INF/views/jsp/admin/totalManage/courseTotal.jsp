@@ -108,6 +108,18 @@
 	#after{
 		background-color:aquamarine;
 	}
+	.btn{
+        padding:5px 11px;
+        border-radius: 3px 3px;
+        border: none;
+        color: white;
+        background-color: #00acac;
+        margin-left: 2px;
+    }
+	.red{background-color:  #d43f3a}
+	.blue{ background-color: #2e6da4;}
+	.yellow{background-color: #eea236;}
+	.green{background-color: #5cb85c;}
 </style>
 
 </head>
@@ -143,7 +155,7 @@
 											<option value="3">과정명</option>
 										</select>
 										<input type="text" id="searchValue"/>
-										<button type="button" id="search_bt">검 색</button>
+										<button type="button" id="search_bt" class="btn">검 색</button>
 									</td>
 								</tr>
 							</thead>

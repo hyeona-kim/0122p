@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 		<table id="makeCourse">
 			<caption>교육과정리스트</caption>
 							<thead>
@@ -29,19 +31,19 @@
 								<tr>
 									<td>${num-vs.index}</td>
 									<td>${cvo.c_name }</td>
-									<td>${cvo.c_round_num}</td>
+									<td>${cvo.c_round_num}/${fn:length(cvo.tr_ar)}</td>
 									<td>${cvo.start_date} </td>
 									<td>${cvo.end_date} </td>
 									<td>${cvo.ctvo.ct_name }</td>
 									<td>${cvo.svo.sf_name }</td>
 									<td>${cvo.c_peo_num }</td>
-									<td><button type="button">사전평가 평가현황</button></td>
-									<td><button type="button">교과목별 평가현황</button></td>
-									<td><button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'">미작성</button></td>
-									<td><button type="button">미작성</button></td>
-									<td><button type="button">미작성</button></td>
-									<td><button type="button">미작성</button></td>
-									<td><button type="button">훈련생별보기</button></td>
+									<td><button type="button" class="btn blue">사전평가 평가현황</button></td>
+									<td><button type="button" class="btn blue">교과목별 평가현황</button></td>
+									<td><button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn red">미작성</button></td>
+									<td><button type="button" class="btn red">미작성</button></td>
+									<td><button type="button" class="btn red">미작성</button></td>
+									<td><button type="button" class="btn red">미작성</button></td>
+									<td><button type="button" class="btn yellow">훈련생별보기</button></td>
 								</tr>
 							</c:forEach>
 							</c:if>
