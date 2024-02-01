@@ -81,77 +81,77 @@ public class CounselController {
 
     @RequestMapping("addCounselFile")
     public ModelAndView addCounsel(MultipartFile addFile) {
-		ModelAndView mv = new ModelAndView();
-		String realPath = application.getRealPath("subject_ex_upload");
-		if(addFile.getSize()>0){
-			String fname = addFile.getOriginalFilename();
-			fname = FileRenameUtil.checkSameFileName(fname, realPath);
-			try {
-				File f = new File(realPath,fname);
-				addFile.transferTo(f);
-				FileInputStream fis = new FileInputStream(f.getAbsolutePath());
-				IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
-				XSSFWorkbook workbook = new XSSFWorkbook(fis);
-				XSSFSheet sheet = workbook.getSheetAt(0);
-				
-				Iterator<Row> it = sheet.iterator();
-				List<CounselVO> list = new ArrayList<CounselVO>();
-					while(it.hasNext()) {
-						Row row = it.next();
-						// 첫번째 행은 머릿글이므로 제외
-						if(row.getRowNum()==0)
-							continue;
-						//cell들을 한번에 반복자로 얻어낸다.
-						Iterator<Cell> it2 = row.cellIterator();
-						CounselVO vo = new CounselVO();
-						int i=0;
-						while(it2.hasNext()) {
-							//하나의 cell을 얻어낸다 
-							Cell cell = it2.next();
-							String val = null;
-							switch (cell.getCellType()) {
-								case NUMERIC:
-                                    if(DateUtil.isCellDateFormatted(cell))			
-                                        val = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());			
+      ModelAndView mv = new ModelAndView();
+      String realPath = application.getRealPath("subject_ex_upload");
+      if(addFile.getSize()>0){
+         String fname = addFile.getOriginalFilename();
+         fname = FileRenameUtil.checkSameFileName(fname, realPath);
+         try {
+            File f = new File(realPath,fname);
+            addFile.transferTo(f);
+            FileInputStream fis = new FileInputStream(f.getAbsolutePath());
+            IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            
+            Iterator<Row> it = sheet.iterator();
+            List<CounselVO> list = new ArrayList<CounselVO>();
+               while(it.hasNext()) {
+                  Row row = it.next();
+                  // 첫번째 행은 머릿글이므로 제외
+                  if(row.getRowNum()==0)
+                     continue;
+                  //cell들을 한번에 반복자로 얻어낸다.
+                  Iterator<Cell> it2 = row.cellIterator();
+                  CounselVO vo = new CounselVO();
+                  int i=0;
+                  while(it2.hasNext()) {
+                     //하나의 cell을 얻어낸다 
+                     Cell cell = it2.next();
+                     String val = null;
+                     switch (cell.getCellType()) {
+                        case NUMERIC:
+                                    if(DateUtil.isCellDateFormatted(cell))         
+                                        val = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());         
                                     else
-									    val = String.valueOf((int)cell.getNumericCellValue());
-									break;
-								case STRING:
-									val = cell.getStringCellValue();
-									break;
-								case BLANK:
-									val = null;
-								default:
-									val = null;
-									break;
-							}//switch문의 끝
+                               val = String.valueOf((int)cell.getNumericCellValue());
+                           break;
+                        case STRING:
+                           val = cell.getStringCellValue();
+                           break;
+                        case BLANK:
+                           val = null;
+                        default:
+                           val = null;
+                           break;
+                     }//switch문의 끝
 
-							switch(i) {
-								case 0:
-									vo.setC_idx(val); // 과정코드
-									break;
-								case 1:
-									vo.setTr_idx(val); // 훈련생코드
-									break;
-								case 2:
-									vo.setSo_day(val); // 상담일    
-									break;
-								case 3:
-									vo.setSo_tname(val); // 상담자
-									break;
-								case 4:
-									vo.setSo_menu(val); // 상담종류
-									break;
-								case 5:
+                     switch(i) {
+                        case 0:
+                           vo.setC_idx(val); // 과정코드
+                           break;
+                        case 1:
+                           vo.setTr_idx(val); // 훈련생코드
+                           break;
+                        case 2:
+                           vo.setSo_day(val); // 상담일    
+                           break;
+                        case 3:
+                           vo.setSo_tname(val); // 상담자
+                           break;
+                        case 4:
+                           vo.setSo_menu(val); // 상담종류
+                           break;
+                        case 5:
                                     vo.setSo_pd(val); // 상담목적
                                     break;
-								case 6:
+                        case 6:
                                     vo.setSo_subject(val); // 상담내용
-									break;
+                           break;
                                 case 7:
                                     vo.setSo_pp(val);
-								default:
-									break;
+                        default:
+                           break;
                             }
                             i++;
                         }// 열반복의 끝
@@ -160,23 +160,23 @@ public class CounselController {
                             t_Service.setCounsel_date(vo.getTr_idx(), vo.getSo_day(), Integer.toString(cs_Service.counselCount(vo.getTr_idx()))); // 상담일 최신화
                             list.add(vo); //리스트에 저장
                         }
-					}//행 반복의 끝
-					// 리스트에 있는 정보들을 db에 저장하기위해
+               }//행 반복의 끝
+               // 리스트에 있는 정보들을 db에 저장하기위해
 
-					HashMap<String,List<CounselVO>> map = new HashMap<>();
-					map.put("list", list);
-					cs_Service.addCounselFile(map);
-					
+               HashMap<String,List<CounselVO>> map = new HashMap<>();
+               map.put("list", list);
+               cs_Service.addCounselFile(map);
+               
 
-					fis.close();
-					workbook.close();
-					f.delete(); //파일 삭제
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-				
-		}
-		mv.setViewName("redirect:counsel?listSelect=1&cPage=1"); // 첫 화면으로 돌아가기
+               fis.close();
+               workbook.close();
+               f.delete(); //파일 삭제
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+            
+      }
+      mv.setViewName("redirect:counsel?listSelect=1&cPage=1"); // 첫 화면으로 돌아가기
         return mv;
     
     }
