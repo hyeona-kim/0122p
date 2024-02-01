@@ -181,24 +181,37 @@ public class CounselController {
     
     }
      @RequestMapping("delCounsel")
-    public String delCounsel(String so_idx,String cPage) {
-      
-      cs_Service.deleteCounsel(so_idx);
-      
-      return "redirect:counsel?listSelect=2&cPage="+cPage;
+    public String delCounsel(String so_idx,String cPage,String total,String c_idx,String listSelect) {
+        if(cPage == null)
+            cPage ="1";
+    
+        cs_Service.deleteCounsel(so_idx);
+        if(total==null){
+            return "redirect:counsel?listSelect="+listSelect+"&cPage="+cPage+"&c_idx="+c_idx;            
+        }
+        else 
+            return  "redirect:total?listSelect=2&c_idx="+c_idx;       
+        
     }
     
+    
     @RequestMapping("editCounsel")
-    public String editCounsel(CounselVO vo,String listSelect, String cPage) {
+    public String editCounsel(CounselVO vo,String listSelect, String cPage,String total) {
         String viewName = "";
-        if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
+        
+        if(total != null && total.equals("total")){
+            //ge,sg
+            System.out.println("들어옴 ");
+            cs_Service.editCounsel(vo);
+            viewName = "redirect:total?listSelect=2&c_idx="+vo.getC_idx();
+        }else if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
             cs_Service.editCounsel(vo);
             if(listSelect.equals("3")) {
                 viewName =  "redirect:searchCounsel?listSelect=3";
             }else{
                 viewName = "redirect:counsel?listSelect=4&cPage="+cPage+"&c_idx="+vo.getC_idx();
             }
-        } else {
+        }else {
             viewName = "redirect:counsel?listSelect=1&cPage=1";
         }
 
@@ -448,7 +461,7 @@ public class CounselController {
         mv.addObject("tvo",tvo);
         mv.addObject("cvo",cvo );
        
-
+            
             mv.setViewName("/jsp/admin/counselManage/counselListAdd_ajax");
 
       } else if(select.equals("editCounsel")){
@@ -544,7 +557,7 @@ public class CounselController {
     }
 
     @RequestMapping("counselListAdd")
-    public ModelAndView counselListAdd(CounselVO vo, String ss_num){
+    public ModelAndView counselListAdd(CounselVO vo, String ss_num,String total){
         ModelAndView mv = new ModelAndView();
         
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() >0){
@@ -554,7 +567,13 @@ public class CounselController {
          t_Service.setCounsel_date(vo.getTr_idx(), vo.getSo_day(),ss_num);
 
         }
-        mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
+        if(total==null){
+            mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");        
+        }else{
+            mv.setViewName("redirect:total?listSelect=2&c_idx="+vo.getC_idx());
+        }
+
+       
         return mv;
     }
 

@@ -282,6 +282,7 @@ table tfoot ol.page {
 		<form name="frm" action="counsel" method="post">
 			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="so_idx" value="" />
+			<input type="hidden" name="listSelect" value="3" />
 		</form>
 		
 		
@@ -428,7 +429,9 @@ table tfoot ol.page {
                 document.frm.submit();
 			}
 		}
-		
+		function update(frm){
+         frm.submit();
+      }
 
 		function paging(cPage) {
 			$.ajax({

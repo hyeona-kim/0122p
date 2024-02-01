@@ -174,6 +174,71 @@
         color: white;
         border: none;
     }
+    .t1{
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .t1 td,.t1 th{
+        border: 1px solid #ababab;
+        text-align:center;
+    }
+    .t1 th{
+        background-color: #dedede;
+    }
+    .t1 tfoot td,.t1 tfoot th{
+        border: none;
+    }
+
+    #staffWrap{
+		width: 95%;
+		margin: auto;
+		margin-top: 20px;
+	}
+	#staffList_top {
+		background: black;
+		color: white;
+		height: 40px;
+		line-height: 40px;
+	}
+	
+	#searchTime, #makeTime{
+		margin-top:10px;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	#searchTime td, #searchTime th, #makeTime td, #makeTime th{
+		border: 1px solid #ddd;
+		height: 40px;
+		padding-left: 10px;
+	}
+	#searchTime th, #makeTime th{background-color: #EBF7FF;}
+	
+	#searchTime caption, #makeTime caption{
+		text-indent: -9999px;
+		height: 0;
+	}
+	.ck.ck-editor {
+    	max-width: 100%;
+    	padding: 8px;
+    	
+	}
+	.ck-editor__editable {
+	    min-height: 300px;
+	}
+	
+	#t2{
+		margin-top:10px;
+		border-collapse: collapse;
+		width: 99%;
+		margin-bottom: 10px;
+	}
+	
+	#t2 th{
+	width: 100px;
+	background-color: #EBF7FF;
+	
+	}
 </style>
 
 </head>
@@ -194,7 +259,7 @@
                         </colgroup>
 							<thead>
 								<tr>
-									<td>ㅣ훈련과정:
+									<td>훈련과정:
 										<select id="searchCourse" style="width: 600px;" class="search_tag">
                                             <option value="0">-과정을 선택해주세요-</option>
                                             <c:forEach var="cvo" items="${c_ar}">
@@ -231,11 +296,11 @@
                             </div>
 						</div>
                         <div id="btn_area">
-                            <button type="button" class="btn" >정보변경</button> 
+                            <button type="button" class="btn" id="traineeEdit" >정보변경</button> 
                             <button type="button" class="btn">신상기록부</button> 
                             <button type="button" class="btn">사후관리카드</button> 
                             <button type="button" class="btn">사후관리취업지원</button> 
-                            <button type="button" class="btn">상담관리</button> 
+                            <button type="button" class="btn" id ="ss_dialog">상담관리</button> 
                             <button type="button" class="btn">설문관리</button> 
                             <button type="button" class="btn">사전평가</button> 
                             <button type="button" class="btn">성적표</button> 
@@ -244,14 +309,22 @@
 				</div>
 			</div>	
 		</div>
-		<div id="dialog" hidden title="액셀등록">
-		<div id="dialog2" hidden title="주별 시간표 보기">
-			
-		</div>
+		<div id="dialog" hidden title="훈련생별상담관리"></div>
+		<div id="dialog2" hidden title="훈련생별상담등록"></div>
+		<div id="dialog3" hidden title="상담일지"></div>
+		<div id="dialog4" hidden title="정보수정"></div>
+        <form name="frm" action="counsel" method="post">
+			<input type="hidden" name="type"  value=""/> 
+			<input type="hidden" name="so_idx" value="" />
+            <input type="hidden" name="total" value="total"/>
+            <input type="hidden" name="c_idx" value=""/>
+		</form>
+		
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
+        
 	let selectTr=""; //훈련생
     let selectCourse="${param.c_idx}";
     let searchType ="";
@@ -319,6 +392,44 @@
             });
    
         });
+
+
+        	
+        $("#ss_dialog").click(function(){
+            $("#dialog").dialog("open");
+            
+            $.ajax({
+                url: "ss_dialog",
+                type: "post",
+                data:"listSelect="+encodeURIComponent("2")+"&c_idx="+selectCourse+"&tr_idx="+selectTr+"&select=counselList"
+            }).done(function(result){
+              $("#dialog").html(result);
+              $("#cc_cancle").click(function(){
+                    $("#dialog").dialog("close");
+                });
+            
+            });
+   
+        });
+
+        $("#traineeEdit").click(function(){
+            $("#dialog4").dialog("open");
+            
+            $.ajax({
+                url: "totaledit",
+                type: "post",
+                data:"listSelect="+encodeURIComponent("2")+"&c_idx="+selectCourse+"&tr_idx="+selectTr
+            }).done(function(result){
+              $("#dialog4").html(result);
+              $("#cc_cancle").click(function(){
+                    $("#dialog4").dialog("close");
+                });
+            
+            });
+   
+        });
+       
+        
 		//$().removeClass("selected");
 		$(".selected").removeClass("selected");
 		$(".l_select").removeClass("l_selected");
@@ -327,12 +438,91 @@
 		
 		
 	});
-	
+
+	$("#dialog").dialog({
+        autoOpen: false,
+		width:1000,
+		modal: true,
+    });
+    
+
+    $("#dialog2").dialog({
+        autoOpen: false,
+		width:1000,
+		modal: true,
+    });
+
+    $("#dialog3").dialog({
+        autoOpen: false,
+		width:1000,
+		modal: true,
+    });
+    $("#dialog4").dialog({
+        autoOpen: false,
+		width:1000,
+		modal: true,
+    });
     function traineeSelect(tr_idx,tt){
         selectTr =tr_idx;
         $(".tr_select").removeClass("tr_select");
         tt.setAttribute('class','info tr_select');
     }
+
+    function counselListAdd() {
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("counselListAdd")+"&c_idx="+selectCourse+"&tr_idx="+encodeURIComponent(selectTr)+"&total=total",
+         }).done(function(result){
+         $("#dialog2").dialog("open");
+            $("#dialog2").html(result);
+            
+            $("#close").click(function(){
+                $("#dialog2").dialog("close");
+            });
+         });
+        }
+        function total_add(frm){
+            frm.total.value="total";
+            frm.submit();
+        }
+
+        function update(frm){
+            frm.total.value ="total";
+            frm.submit();
+        }
+
+
+        function editCounsel(so_idx) {
+            $.ajax({
+                url:"ss_dialog",
+                type:"post",
+                data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+selectTr+"&so_idx="+encodeURIComponent(so_idx),
+            }).done(function(result){
+            $("#dialog3").dialog("open");
+                $("#dialog3").html(result);
+
+                $("#cancle").click(function(){
+                    $("#dialog3").dialog("close");
+                });
+            });
+
+        }
+        function del(so_idx){
+			if( confirm("삭제하시겠습니까?")){
+                frm.action = "delCounsel";
+                document.frm.so_idx.value =so_idx;
+                document.frm.c_idx.value= selectCourse;
+                
+                document.frm.submit();
+			}
+		}
+
+        function sendData(ddd){
+    		
+    		ddd.submit();
+		}
+
 	</script>
 </body>
 </c:if>

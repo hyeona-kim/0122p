@@ -552,6 +552,9 @@ public class TraineeController {
 		return mv;
 	}
 
+<<<<<<< HEAD
+	
+=======
 	@RequestMapping("mangecard")
 	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
 		ModelAndView mv = new ModelAndView();
@@ -574,5 +577,6 @@ public class TraineeController {
 	}
 
 
+>>>>>>> c32b4423b24591808a40de2bea9f50282d1c6e23
 
 }
