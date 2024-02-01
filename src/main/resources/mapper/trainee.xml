@@ -46,6 +46,8 @@
 		<if test="tr_charge != null">tr_charge = #{tr_charge},</if>
 		<if test="tr_total_fee != null">tr_total_fee = #{tr_total_fee},</if>
 		<if test="tr_card != null">tr_card = #{tr_card},</if>
+		<if test="tr_pos_code !=null">tr_pos_code = #{tr_pos_code},</if>
+		<if test="tr_addr != null">tr_addr = #{tr_addr},</if>
 		t_path = #{t_path},
 		file_name = #{file_name},
 		ori_name = #{ori_name}

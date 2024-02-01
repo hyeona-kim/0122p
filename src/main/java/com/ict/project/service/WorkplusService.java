@@ -16,4 +16,8 @@ public class WorkplusService {
         return w_mapper.list(tr_idx, c_idx);
     }
 
+    public int addwork(WorkplusVO wvo){
+        return w_mapper.add(wvo);
+    }
+
 }

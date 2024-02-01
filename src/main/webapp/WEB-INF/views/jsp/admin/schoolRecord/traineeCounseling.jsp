@@ -1,14 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 				    <table id="makeTime">
 				        <caption>신상기록부</caption>
 					<tbody>
-						<tr>
-							<th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></th>
-                        </tr>
+                        <c:if test="${vo11.file_name eq null}">
+                            <tr>
+                                <th rowspan="5" width="125"></th>
+                            </tr>
+                        </c:if>
+                        <c:if test="${vo11.file_name ne null}">
+                            <tr>
+                                <th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></th>
+                            </tr>
+                        </c:if>
                         <tr>
 							<th>성명</th>
 							<td>${vo11.tr_name}</td>

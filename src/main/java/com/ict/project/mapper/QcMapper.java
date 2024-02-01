@@ -6,5 +6,7 @@ public interface QcMapper {
 
     QcVO list(String tr_idx);
     int edit(QcVO qvo);
+    int qedit(QcVO qvo);
+    int add(QcVO qvo);
 
 }

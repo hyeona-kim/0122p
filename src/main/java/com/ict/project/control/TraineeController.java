@@ -362,15 +362,13 @@ public class TraineeController {
 		String enc_type = request.getContentType();
 		String viewPath = null;
 		
-		//System.out.println(":"+"/"+tvo.getTr_idx());
-		System.out.println(tvo.getTr_name());
 		if(edit == null && enc_type ==null){
-			//TraineeVO vo = t_Service.(tvo.getTr_idx(),c_idx);
+			TraineeVO vo = t_Service.tlist(tvo.getTr_idx(),c_idx);
 			CourseVO vo2 = c_Service.getCourse(c_idx);
 			
 			mv.addObject("c_idx",c_idx);
 			mv.addObject("vo2", vo2);
-			//mv.addObject("vo9", vo);
+			mv.addObject("vo9", vo);
 			if(tvo.getT_path()!= null){
 				if(tvo.getT_path().contains("인터넷"))
 				mv.addObject("ch1",true);
@@ -455,8 +453,6 @@ public class TraineeController {
 		QcVO qvo = q_Service.list(tr_idx);
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
 
-	
-
 		mv.addObject("bvo", bvo);
 		mv.addObject("qvo", qvo);
 		mv.addObject("tfvo", tfvo);
@@ -492,8 +488,8 @@ public class TraineeController {
 		int cnt = 0;
 		for(String e: chk){
 			for(int i=0; i<tr_idx.length; i++){
-				//if(tr_idx[i].equals(e))
-					//cnt += t_Service.status(e,nowstatus[i]);
+				if(tr_idx[i].equals(e))
+					cnt += t_Service.status(e,nowstatus[i]);
 			}
 		}
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
@@ -549,7 +545,7 @@ public class TraineeController {
 	}
 
 	@RequestMapping("mangecard")
-	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
+	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
 		ModelAndView mv = new ModelAndView();
 
 		TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
@@ -557,6 +553,8 @@ public class TraineeController {
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
 		QcVO qvo = q_Service.list(tr_idx);
 		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+
+
 
 		mv.addObject("wvo", wvo);
 		mv.addObject("qvo", qvo);
@@ -569,6 +567,31 @@ public class TraineeController {
 		return mv;
 	}
 
+	@RequestMapping("afterManage_axaj")
+	public ModelAndView afterManage_axaj(String tr_idx,String c_idx, String cPage, WorkplusVO wvo, String[] r10, QcVO qvo){
+		ModelAndView mv = new ModelAndView();
 
+		int cnt = 0;
+		/*for(String wp_idx: r10){
+			cnt += w_Service.addwork(wp_idx,tr_idx);
+		} */
+		int cnt2 = w_Service.addwork(wvo);
+		int cnt3 = q_Service.add(qvo);
+
+
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+		return mv;
+	}
+
+	@RequestMapping("afterManage_axaj_edit")
+	public ModelAndView afterManage_axaj_edit(String c_idx, String cPage, String tr_idx){
+		ModelAndView mv = new ModelAndView();
+
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+
+		return mv;
+	}
+
+	
 
 }

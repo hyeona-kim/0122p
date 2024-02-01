@@ -21,5 +21,22 @@
 		</set>
 		where qc_idx = #{qc_idx}
 	</update>
-	
+
+	<insert id="add" parameterType="com.ict.project.vo.QcVO">
+		insert into qc_t(qc_elevel, qc_flevel, qc_wlevel,qc_memo,qc_plevel,qc_xlevel,tr_idx,c_idx)
+		value(#{qc_elevel}, #{qc_flevel}, #{qc_wlevel},#{qc_memo},#{qc_plevel},#{qc_xlevel},#{tr_idx},#{c_idx})
+	</insert>
+
+	<update id="qedit" parameterType="String">
+		update qc_t
+		<set>
+		<if test="qc_elevel !=null">qc_elevel = #{qc_elevel},</if>
+		<if test="qc_flevel !=null">qc_flevel = #{qc_flevel},</if>
+		<if test="qc_wlevel !=null">qc_wlevel = #{qc_wlevel},</if>
+		<if test="qc_memo !=null">qc_memo = #{qc_memo},</if>
+		<if test="qc_plevel !=null">qc_plevel = #{qc_plevel},</if>
+		<if test="qc_xlevel !=null">qc_xlevel = #{qc_xlevel},</if>
+		</set>
+		where qc_idx = #{qc_idx}
+	</update>
 </mapper>

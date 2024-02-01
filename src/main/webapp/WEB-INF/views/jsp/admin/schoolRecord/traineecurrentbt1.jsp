@@ -255,6 +255,21 @@ table tfoot ol.page {
 		function sendwrite(qqq){
 			qqq.submit();
 		}
+
+		function sendDate(ddd){
+			ddd.submit();
+
+		}
+
+		function saveform(qwe){
+			qwe.submit();
+		}
+
+		function formseve(qwe){
+			qwe.type.action="afterManage_axaj_edit";
+			//document.frm.submit();
+		}
+		
 		
 		function alledit(){
 		//체크박스 체크된 항목
