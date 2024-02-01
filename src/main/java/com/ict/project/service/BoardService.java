@@ -14,18 +14,6 @@ public class BoardService {
     @Autowired
     private BoardMapper b_mapper;
 
-    // 게시판 목록 출력하는 기능
-    public BoardVO[] list(String begin, String end) {
-        BoardVO[] ar = null;
-
-        List<BoardVO> list = b_mapper.all(begin, end);
-        if(list != null && list.size() > 0){
-            ar = new BoardVO[list.size()];
-            list.toArray(ar);
-        }
-        return ar;
-    }
-
     // 게시글 추가하는 기능
     public int addBoard(BoardVO vo) {
         return b_mapper.add(vo);
@@ -34,28 +22,6 @@ public class BoardService {
     // 답변 등록하는 기능
     public int addReply(BoardVO vo) {
         return b_mapper.addReply(vo);
-    }
-
-    // paging 객체 생성을 위한 totalRecord를 구하는 기능
-    public int getTotalRecord() {
-        return b_mapper.count();
-    }
-
-    // 게시물 검색하는 기능
-    public BoardVO[] searchBoard(String c_idx, String bd_subject, String begin, String end) {
-        BoardVO[] ar = null;
-        List<BoardVO> list = b_mapper.searchBoard(c_idx, bd_subject, begin, end);
-        if(list != null && list.size() > 0) {
-            ar = new BoardVO[list.size()];
-            list.toArray(ar);
-        }
-        return ar;
-    }
-
-    // 게시물 검색 후 Paging기법을 다시 적용하기 위해
-    // totalRecord를 다시 구하는 기능
-    public int reCount(String c_idx, String bd_subject) {
-        return b_mapper.reCount(c_idx, bd_subject);
     }
 
     // 게시물 보기 기능을 위해 해당 게시물 검색하는 기능
@@ -102,41 +68,6 @@ public class BoardService {
     // 조회수 증가하는 기능
     public int addHit(String bd_idx) {
         return b_mapper.addHit(bd_idx);
-    }
-
-    // 게시판에서 년도선택 으로 검색하는 기능
-    public CourseVO[] searchYear(String year, String begin, String end){
-        CourseVO[] ar = null;
-
-        List<CourseVO> list = b_mapper.searchYear(year, begin, end);
-        if(list != null && list.size() > 0) {
-            ar = new CourseVO[list.size()];
-            list.toArray(ar);
-        }
-
-        return ar;
-    }
-
-    // 게시판에서 년도선택 으로 검색할 때의 totalRecord를 구하는 기능
-    public int cntSearchYear(String year) {
-        return b_mapper.cntSearchYear(year);
-    }
-
-    // 게시판에서 훈련강사, 과정타입, 과정명 등으로 검색하는 기능
-    public CourseVO[] searchValue(String tag, String value, String begin, String end) {
-        CourseVO[] ar = null;
-
-        List<CourseVO> list = b_mapper.searchValue(tag, value, begin, end);
-        if(list != null && list.size() > 0){
-            ar = new CourseVO[list.size()];
-            list.toArray(ar);
-        }
-        return ar;
-    }
-
-    // 게시판에서 검색 버튼을 클릭해서 검색할 때의 totalRecord를 구하는 기능
-    public int search_total_count(String tag, String value) {
-        return b_mapper.search_total_count(tag, value);
     }
 
     public int search_both_count(String tag, String value, String year){

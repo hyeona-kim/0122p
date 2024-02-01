@@ -47,18 +47,16 @@ public class formDownController {
         return mv;
     }
 
-    // 메인페이지로 이동할때 비동기식 통신으로 전체목록을 반환하는 기능
+    // 메인페이지로 이동할때 비동기식 통신으로 목록을 반환하는 기능
     @RequestMapping("formMainAjax")
     public ModelAndView formMainAjax(String cPage, String numPerPage, String value) {
         ModelAndView mv = new ModelAndView();
         Paging page = null;
         FormDownVO[] ar = null;
-        System.out.println("cPage="+cPage);
         if(numPerPage != null || value != null) { // 표시개수를 변경하거나 검색을 했을 때
             boolean change_flag = true;
             mv.addObject("change_flag", change_flag);
             
-            System.out.println("npp="+numPerPage+" / sub="+value);
             page = new Paging(Integer.parseInt(numPerPage), 5);
             page.setTotalRecord(fd_Service.searchBothCnt(value));
             if(cPage == null || cPage.equalsIgnoreCase("undefined")) {
@@ -200,15 +198,4 @@ public class formDownController {
         }
         return null;
     }
-
-    /* @RequestMapping("changeViewNum")
-    public ModelAndView changeViewNum(String numPerPage) {
-        ModelAndView mv = new ModelAndView();
-
-        Paging page = new Paging(Integer.parseInt(numPerPage), 5);
-
-
-        return mv;
-    } */
-
 }

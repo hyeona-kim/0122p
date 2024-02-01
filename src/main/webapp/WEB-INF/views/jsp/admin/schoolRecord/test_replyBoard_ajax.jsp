@@ -12,7 +12,7 @@
 		<tbody>
 			<tr>
 				<th>제목</th>
-				<td class="left"><input class="input" type="text" id="bd_subject" name="bd_subject" value="re:${bvo.bd_subject}"/></td>
+				<td class="left"><input class="input" type="text" id="bd_replySubject" name="bd_subject" value="re:${bvo.bd_subject}"/></td>
 			</tr>
 			<tr>
 				<th>전체공지</th>
