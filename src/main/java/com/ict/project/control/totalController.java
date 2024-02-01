@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.ict.project.service.CourseService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.util.Paging;
@@ -56,14 +55,16 @@ public class totalController {
         else
             page = new Paging();
 
+
         page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
         page.setNowPage(Integer.parseInt(cPage));
         mv.addObject("page", page);
         CourseVO[] ar = cs_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
         mv.addObject("c_ar", ar);
 
-        mv.setViewName("jsp/admin/totalManage/table");
+        mv.setViewName("jsp/admin/totalManage/coursetTotal_ajax");
         return mv;
+
     }
 
     @RequestMapping("traineeTotal")

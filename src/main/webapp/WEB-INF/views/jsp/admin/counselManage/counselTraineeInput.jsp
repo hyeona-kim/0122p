@@ -243,7 +243,6 @@ table tfoot ol.page {
                   <div id="counselList_top">교육생별 상담관리 검색</div>
                         <div id="ttop">
                             <button type="button" onclick="set()">상담일괄등록</button>   
-                            <button type="button" onclick="printList()">상담일지 일괄출력</button>
                         </div>
                   <div id="counsel_Table">
 
@@ -296,35 +295,7 @@ table tfoot ol.page {
          
          for(let i=year+1; i>year-5; i--){
             str+= "<option value="+i+">"+i+"</option>";
-         }
-         $("#selectYear").html(str);
-         
-         $("#searchType").on("change",function(){
-            select = this.value;
-         });
-         $("#selectYear").on("change",function(){
-            select_year = this.value;
-            $.ajax({
-               url: "searchCounsel",
-               type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-            }).done(function(result){
-               $("counsel_Table").html(result);
-               
-            });
-         });
-         $("#numPerPage").on("change",function(){
-            numPerPage = this.value;
-            $.ajax({
-               url: "searchCounsel",
-               type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-            }).done(function(result){
-               $("#counsel_Table").html(result);
-            });
-         });
+         }      
          
 
          });   
@@ -344,21 +315,6 @@ table tfoot ol.page {
          });
          
         }
-      
-      function printList() {
-         $.ajax({
-            url:"counselList",
-            type:"post",
-            data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
-         }).done(function(result){
-            $("#dialog2").html(result);
-            
-            $("#cc_cancle").click(function(){
-                $("#dialog2").dialog("close");
-            });
-         });
-        }   
-
       function counselList(tr_idx) {
          $.ajax({
             url:"ss_dialog",
@@ -397,8 +353,12 @@ table tfoot ol.page {
          $("#dialog4").dialog("open");
             $("#dialog4").html(result);
 
+            $("#close").click(function(){
+                $("#dialog4").dialog("close");
+            });
          });
-        } 
+        }
+        
       function paging(str, c_idx) {
          $.ajax({
             url: "searchCounsel",

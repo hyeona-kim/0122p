@@ -111,7 +111,6 @@
 </style>
 
 </head>
-<c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -164,30 +163,91 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-	
+		let select_num="";
+		let selectYear="";
+		let searchType="";
+		let searchValue="";
 	$(function() {
-        /*
+        let now = new Date();	// 현재 날짜 및 시간
+		let year = now.getFullYear();
+		let str = "<option>년도선택</option>";
+		
+		for(let i=year+1; i>year-5; i--){
+			str+= "<option value="+i+">"+i+"</option>";
+		}
+		$("#selectYear").html(str);
+	
+
 		$.ajax({
-			url: "courseMain",
+			url: "courseList",
 			type: "post",
-			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')
+			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year=&num=",
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
-		});*/
+		});
+
+
 		
+		$("#numPerPage").change(function(){
+			select_num=$("#numPerPage").val();
+			
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+		});
+
+		$("#selectYear").change(function(){
+			selectYear= $("#selectYear").val();
+
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+			
+		});
 		
+		$("#search_bt").click(function(){
+			searchType = $("#searchType").val();
+			searchValue = $("#searchValue").val();
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+			
+			
+		});
+	
+
 		//$().removeClass("selected");
 		$(".selected").removeClass("selected");
 		$(".l_select").removeClass("l_selected");
 		$("#thirteenmenu").addClass("selected");
 		$("#l_first").addClass("l_select");
 		
+
 		
 	});
 	
+	function paging(cPage){
+		$.ajax({
+			url: "courseList",
+			type: "post",
+			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent(cPage)+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+		}).done(function(result){
+			$("#courseLog_Table").html(result);
+		});
 
+	}
 	</script>
 </body>
-</c:if>
-
 </html>
