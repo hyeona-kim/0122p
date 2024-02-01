@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <h2>사후관리카드</h2>
     <!-- colgroup으로 비율 맞춰놔서 width만 100%맞추면 돼요-->
@@ -85,44 +86,45 @@
         <tr>
             <th>외국어능력</th>
             <td>
-                영어 
-                <input type="radio" name="r1"/>상
-                <input type="radio" name="r1"/>중
-                <input type="radio" name="r1"/>하
+                영어
+                <input> 
+                <input type="radio"  value="상"/>상
+                <input type="radio"  value="중"/>중
+                <input type="radio"  value="하"/>하
             </td>
             <td colspan="4">
-                기타외국어(<input type="text" style="width: 100px;"/>)
-                <input type="radio" name="r2"/>&nbsp;상&nbsp;
-                <input type="radio" name="r2"/>&nbsp;중&nbsp;
-                <input type="radio" name="r2"/>&nbsp;하&nbsp;
+                기타외국어(<input type="text" style="width: 100px;" name="r1"/>)
+                <input type="radio" name="r1"/>&nbsp;상&nbsp;
+                <input type="radio" name="r1"/>&nbsp;중&nbsp;
+                <input type="radio" name="r1"/>&nbsp;하&nbsp;
             </td>
         </tr>
         <tr>
             <th>컴퓨터능력</th>
             <td>
                 엑셀
-                <input type="radio" name="r3"/>상
-                <input type="radio" name="r3"/>중
-                <input type="radio" name="r3"/>하
+                <input type="radio" name="r2" value="상"/>상
+                <input type="radio" name="r2" value="중"/>중
+                <input type="radio" name="r2" value="하"/>하
             </td>
             <td colspan="2">
                 파워포인트
-                <input type="radio" name="r4"/>&nbsp;상&nbsp;
-                <input type="radio" name="r4"/>&nbsp;중&nbsp;
-                <input type="radio" name="r4"/>&nbsp;하&nbsp;
+                <input type="radio" name="r3" value="상"/>&nbsp;상&nbsp;
+                <input type="radio" name="r3" value="중"/>&nbsp;중&nbsp;
+                <input type="radio" name="r3" value="하"/>&nbsp;하&nbsp;
             </td>
             <td colspan="2">
                 워드
-                <input type="radio" name="r5"/>&nbsp;상&nbsp;
-                <input type="radio" name="r5"/>&nbsp;중&nbsp;
-                <input type="radio" name="r5"/>&nbsp;하&nbsp;
+                <input type="radio" name="r4" value="상"/>&nbsp;상&nbsp;
+                <input type="radio" name="r4" value="중"/>&nbsp;중&nbsp;
+                <input type="radio" name="r4" value="하"/>&nbsp;하&nbsp;
             </td>
         </tr>
         <tr>
             <th colspan="2">기타추가내용</th>
             <th>(취업예정자격증)</th>
             <td colspan="4">
-                <input type="text" style="width: 350px;"/>
+                <input type="text" style="width: 350px;" neme="qc_memo"/>
             </td>
         </tr>
     </table>
@@ -138,8 +140,18 @@
                 고용지원금 대상자 여부(지원프로그램명 기재)
             </th>
             <td>
-                <input type="radio" name="r6"/>Y
-                <input type="radio" name="r6"/>N
+            <c:if test="${wvo.wp_re eq null}">
+                <input type="radio" name="re_check" />Y
+                <input type="radio" name="re_check" />N
+            </c:if>
+            <c:if test="${wvo.wp_re eq 'Y'}">
+                <input type="radio" value="Y" checked />Y
+                <input type="radio" value="N"/>N
+            </c:if>
+            <c:if test="${wvo.wp_re eq 'N'}">
+                <input type="radio" value="Y" />Y
+                <input type="radio" value="N" checked />N
+            </c:if>
             </td>
             <th>
                 소속기관명(취업성공패키지 등)
@@ -153,9 +165,21 @@
                 워크넷취업활동 여부(구인구직기간만료확인)
             </th>
             <td colspan="3">
+            <c:if test="${wvo.wp_work eq null}">
                 <input type="checkbox" name="r7"/>Y
                 <input type="checkbox" name="r7"/>N
                 (워크넷에서 구직인증기간 만료확인 꼭 해주세요.)
+            </c:if>
+            <c:if test="${wvo.wp_work eq 'Y'}">
+                <input type="checkbox" name="r7" checked/>Y
+                <input type="checkbox" name="r7"/>N
+                (워크넷에서 구직인증기간 만료확인 꼭 해주세요.)
+            </c:if>
+            <c:if test="${wvo.wp_work eq 'N'}">
+                <input type="checkbox" name="r7" />Y
+                <input type="checkbox" name="r7" checked/>N
+                (워크넷에서 구직인증기간 만료확인 꼭 해주세요.)
+            </c:if>
             </td>
         </tr>
     </table>
@@ -217,26 +241,86 @@
             <td><input type="checkbox"/>회사내규</td>
         </tr>
         <tr>
-            <th>가능 근무형태</th>
+            <th>가능 고용형태</th>
             <td colspan="5">
+            <c:if test="${wvo.wp_form eq null}">
                 <input type="checkbox"/>정규직
                 <input type="checkbox"/>계약직
                 <input type="checkbox"/>인턴직
                 <input type="checkbox"/>아르바이트
+            </c:if>
+            <c:if test="${wvo.wp_form eq '정규직'}">
+                <input type="checkbox" checked/>정규직
+                <input type="checkbox"/>계약직
+                <input type="checkbox"/>인턴직
+                <input type="checkbox"/>아르바이트
+            </c:if>
+            <c:if test="${wvo.wp_form eq '계약직'}">
+                <input type="checkbox"/>정규직
+                <input type="checkbox" checked/>계약직
+                <input type="checkbox"/>인턴직
+                <input type="checkbox"/>아르바이트
+            </c:if>
+            <c:if test="${wvo.wp_form eq '인턴직'}">
+                <input type="checkbox"/>정규직
+                <input type="checkbox"/>계약직
+                <input type="checkbox" checked/>인턴직
+                <input type="checkbox"/>아르바이트
+            </c:if>
+            <c:if test="${wvo.wp_form eq '아르바이트'}">
+                <input type="checkbox"/>정규직
+                <input type="checkbox"/>계약직
+                <input type="checkbox"/>인턴직
+                <input type="checkbox" checked/>아르바이트
+            </c:if>
             </td>
         </tr>
         <tr>
             <th>가능 근무형태</th>
             <td colspan="3">
+            <c:if test="${wvo.wp_week eq 'null'}">
                 <input type="checkbox"/>주 5일
                 <input type="checkbox"/>주 6일
                 <input type="checkbox"/>격주휴무
+            </c:if>
+            <c:if test="${wvo.wp_week eq '주 5일'}">
+                <input type="checkbox" checked/>주 5일
+                <input type="checkbox"/>주 6일
+                <input type="checkbox"/>격주휴무
+            </c:if>
+            <c:if test="${wvo.wp_week eq '주 6일'}">
+                <input type="checkbox"/>주 5일
+                <input type="checkbox" checked/>주 6일
+                <input type="checkbox"/>격주휴무
+            </c:if>
+            <c:if test="${wvo.wp_week eq '격주휴무'}">
+                <input type="checkbox"/>주 5일
+                <input type="checkbox"/>주 6일
+                <input type="checkbox" checked/>격주휴무
+            </c:if>
             </td>
             <th>가능 근무시간</th>
             <td>
+            <c:if test="${wvo.wp_time eq 'null'}">
                 <input type="checkbox"/>주간
                 <input type="checkbox"/>야간
                 <input type="checkbox"/>심야
+            </c:if>
+            <c:if test="${wvo.wp_time eq '주간'}">
+                <input type="checkbox" checked/>주간
+                <input type="checkbox"/>야간
+                <input type="checkbox"/>심야
+            </c:if>
+            <c:if test="${wvo.wp_time eq '야간'}">
+                <input type="checkbox"/>주간
+                <input type="checkbox" checked/>야간
+                <input type="checkbox"/>심야
+            </c:if>
+            <c:if test="${wvo.wp_time eq '심야'}">
+                <input type="checkbox"/>주간
+                <input type="checkbox"/>야간
+                <input type="checkbox" checked/>심야
+            </c:if>
             </td>
         </tr>
         <tr>
