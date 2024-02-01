@@ -85,4 +85,20 @@ public class BoardService {
 
         return ar;
     }
+
+    public int reCount(String c_idx, String bd_subject) {
+        return b_mapper.reCount(c_idx, bd_subject);
+    }
+
+    public BoardVO[] searchBoard(String c_idx, String bd_subject,String begin, String end) {
+        BoardVO[] ar = null;
+
+        List<BoardVO> list = b_mapper.searchBoard(c_idx, bd_subject, begin, end);
+        if(list != null && list.size() > 0) {
+            ar = new BoardVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }

@@ -325,7 +325,6 @@
 		function changeViewNum(cPage) {
 			let num = document.getElementById("viewNum").value;
 			let value = document.getElementById("search_value").value;
-			console.log("num="+num+" / value="+value);
 			$.ajax({
 				url: "formMainAjax",
 				type: "post",
