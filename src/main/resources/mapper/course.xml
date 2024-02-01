@@ -14,6 +14,7 @@
 		<collection property="tr_ar2" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee2"></collection>
 		<collection property="tr_ar3" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee3"></collection>
 		<collection property="cs_ar" column="c_idx" ofType="com.ict.project.vo.CounselVO" select="counsel"></collection>
+		<collection property="td_ar" column="c_idx" ofType="com.ict.project.vo.TrainingDiaryVO" select="trainingDiary"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -50,6 +51,10 @@
 	<select id="subject" resultType="com.ict.project.vo.SubjectVO" parameterType="String">
 		select * from subject_t where c_idx=#{c_idx}
 	</select>
+	<select id="trainingDiary" resultType="com.ict.project.vo.TrainingDiaryVO" parameterType="String">
+		select * from trainingdiary_t where c_idx=#{c_idx} order by write_date desc
+	</select>
+
 	<select id="trainee" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus !=9
 	</select>
@@ -67,9 +72,6 @@
 		WHERE c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx order by c_idx desc)a ,(select @RN:=0) b) c 
 		where c.rnum between ${begin} and ${end} 
 	</select>
-
-	
-
 	<insert id="add" parameterType="com.ict.project.vo.CourseVO">
 			INSERT INTO course_t(c_name,start_date,end_date,course_fee,c_peo_num, c_round_num, c_status, ct_idx, sf_idx,r_idx ,c_day)
 			values(#{c_name}, #{start_date}, #{end_date}, #{course_fee}, #{c_peo_num}, #{c_round_num}, 0, #{ct_idx}, #{sf_idx}, 3 ,#{c_day})

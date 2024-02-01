@@ -117,12 +117,54 @@
         color: white;
         background-color: #00acac;
         margin-left: 2px;
+        font-weight: bold;
     }
     .red{background-color:  #d43f3a}
 	.blue{ background-color: #2e6da4;}
 	.yellow{background-color: #eea236;}
 	.green{background-color: #5cb85c;}
     .gray{background-color: #e5e5e5;}
+    #search_area{
+        display: flex;
+        width: 100%;
+    }
+    #search_area div{
+        margin-top: 10px;
+        display: inline-block;
+        width: 50%;
+    }
+    #search_area div:last-child{
+        text-align: right;
+    }
+    .t1{
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .t1 td,.t1 th{
+        border: 1px solid #ababab;
+        padding:10px;
+        text-align: center;
+    }
+    .t1 tfoot td{
+        border: none;
+    }
+    .t1 th{
+        background-color: #dedede;
+        padding:3px;
+    }
+    .search{
+        height: 25px;
+        margin-right: 8px;
+    }
+    .tr_li{
+        display: inline-block;
+        margin-right: 3px;
+    }
+    .tr_ul{
+        list-style-type: none;
+        display: flex;
+    }
 </style>
 
 </head>
@@ -134,128 +176,118 @@
 			<jsp:include page="./leftList.jsp"></jsp:include>
 			<div class="right">
 				<div id="staffWrap">
-					<article>
-						<div id="staffList_top">과정별시간표만들기</div>
-						<table id="searchCourse">
-						<caption>과정검색</caption>
-							<thead>
-								<tr>
-									<th>검색</th>
-									<td>
-										<select id="numPerPage">
-											
-											<option>표시개수</option>
-											<option>5</option>
-											<option>10</option>
-											<option>15</option>
-										</select>
-										<select id="selectYear">
-										</select>
-									</td>
-									<td>
-										<select id="searchType">
-											<option value="1">훈련강사</option>
-											<option value="2">과정타입</option>
-											<option value="3">과정명</option>
-										</select>
-										<input type="text" id="searchValue"/>
-										<button type="button" id="search_bt" class="btn">검색</button>
-									</td>
-								</tr>
-							</thead>
-						</table>
-						<div id="courseLog_Table">
-							
-						</div>
-					</article>
-				</div>
+                    <article> 
+                        <div id="staffList_top" style="font-weight: bold;">&nbsp;&nbsp;"${cvo.c_name}"훈련일지</div>
+                        <div id="search_area">
+                            <div>
+                                <select id="numPerPage" class="search">						
+                                    <option>표시개수</option>
+                                    <option>5</option>
+                                    <option>10</option>
+                                    <option>15</option>
+                                </select>
+                                <select id="searchType" class="search">
+                                    <option value="0">작성일</option>
+                                </select>
+                                <input type="date" id="searchValue" class="search"/>
+                                <button type="button" id="search_bt" class="btn">검색</button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn" onclick="javascript:location.href='t_log?listSelect=1'">목록</button>
+                                <button type="button" class="btn blue">훈련일지 일괄출력</button>
+                                <button type="button" class="btn" id="write_btn">훈련일지 등록</button>
+                            </div>
+                        </div>
+                        <div id="courseLog_Table">
+                            <!--비동기 통신으로 가져올 내용 -->
+                        </div>
+                    </article>
+                </div>
 			</div>	
 		</div>
 	</article>
+    <div id="dialog" hidden></div>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 
 	let searchType ="";
-	let selectYear = "";
 	let numPerPage = "";
 	let searchValue ="";
     let cPage = "1";
-	
+	let c_idx = "${cvo.c_idx}"
 	$(function() {
-        
+
         $.ajax({
-			url: "trainingLog",
+			url: "diary_ajax",
 			type:"post",
-			data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+			data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&c_idx="+c_idx,
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
-		
-		
+
 		//$().removeClass("selected");
 		$(".selected").removeClass("selected");
 		$(".l_select").removeClass("l_selected");
 		$("#sixmenu").addClass("selected");
 		$("#l_first").addClass("l_select");
 		
-		let now = new Date();	// 현재 날짜 및 시간
-		let year = now.getFullYear();
-		let str = "<option>년도선택</option>";
-		
-		for(let i=year+1; i>year-5; i--){
-			str+= "<option value="+i+">"+i+"</option>";
-		}
-		$("#selectYear").html(str);
-		
-		$("#selectYear").on("change",function(){
-			selectYear = this.value;
-			$.ajax({
-				url: "trainingLog",
-			    type:"post",
-			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
-			}).done(function(result){
-				$("#courseLog_Table").html(result);
-			});
-		});
 		$("#numPerPage").on("change",function(){
 			numPerPage = this.value;
-			$.ajax({
-                url: "trainingLog",
-			    type:"post",
-			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+            $.ajax({
+                url: "diary_ajax",
+                type:"post",
+                data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&c_idx="+c_idx,
             }).done(function(result){
                 $("#courseLog_Table").html(result);
             });
+
 		});
 		$("#search_bt").click(function(){
             searchType = $("#searchType").val();
 			searchValue = $("#searchValue").val();
-			
-			$.ajax({
-                url: "trainingLog",
-			    type:"post",
-			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+            $.ajax({
+                url: "diary_ajax",
+                type:"post",
+                data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&c_idx="+c_idx,
             }).done(function(result){
                 $("#courseLog_Table").html(result);
             });
+			
 		});	
+        $("#write_btn").click(function(){
+            $("#dialog").dialog("open");
+            // /tl_dialog
+            $.ajax({
+                url: "tl_dialog",
+                type:"post",
+                data:"c_idx="+c_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+                $("#cc_cancle").click(function(){
+                    $("#dialog").dialog("close");
+                });
+            });
+        });
 		
 	});
 	
 	function paging(str) {
         cPage =str;
-		$.ajax({
-			url: "trainingLog",
+        $.ajax({
+			url: "diary_ajax",
 			type:"post",
-			data:"listSelect=1&cPage="+cPage+"&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+			data:"listSelect=1&cPage="+cPage+"&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&c_idx="+c_idx,
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
+		
 	}
-	function trainingDaily(c_idx){
-		location.href="trainingDiary?c_idx="+c_idx;
-	}
+    $("#dialog").dialog({
+        autoOpen: false,
+		width:1200,
+		modal: true,
+    });
 	</script>
 </body>
 </c:if>

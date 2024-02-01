@@ -6,11 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
+import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.TrainingDiaryVO;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TrainingLogController {
     @Autowired
     CourseService c_Service;
+    @Autowired
+    TrainingDiaryService td_Service;
 
     @RequestMapping("t_log")
     public ModelAndView t_log(String listSelect) {
@@ -56,6 +61,52 @@ public class TrainingLogController {
             mv.setViewName("/jsp/admin/trainingLog/traineeLog_ajax");
         else if(listSelect.equals("2"))
             mv.setViewName("/jsp/admin/trainingLog/plusTraining_ajax");
+        return mv;
+    }
+    
+    @RequestMapping("trainingDiary")
+    public ModelAndView trainingDiary(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/trainingLog/trainingDiary");
+        return mv;
+    }
+
+    @RequestMapping("diary_ajax")
+    public ModelAndView diary(String listSelect,String select,String value,String num,String cPage,String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        if(value == null || value.trim().length() <1 )
+        select = null;
+        if(num == null || num.trim().length() <1 || num.equals("표시개수"))
+            num = null;
+        if(cPage == null)
+            cPage ="1";    
+        
+        Paging page = null;
+        if(num == null)
+            page = new Paging();
+        else 
+            page = new Paging(Integer.parseInt(num),5);
+        
+        page.setTotalRecord(td_Service.searchCount(c_idx, select, value));
+        page.setNowPage(Integer.parseInt(cPage));    
+        mv.addObject("page", page);
+        
+        TrainingDiaryVO[] td_ar =td_Service.searchList(c_idx, select, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        mv.addObject("td_ar", td_ar);
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+
+        mv.setViewName("/jsp/admin/trainingLog/trainingDairy_ajax");
+        return mv;
+    }
+    @RequestMapping("tl_dialog")
+    public ModelAndView tl_dialog(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/trainingLog/writeDiary");
         return mv;
     }
     
