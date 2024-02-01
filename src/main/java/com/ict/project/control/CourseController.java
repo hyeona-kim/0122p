@@ -181,7 +181,7 @@ public class CourseController {
 		System.out.println(year);
 
 		if(value== null || value.trim().length()==0){
-			value= null;
+			value= null; 
 			select=null;
 		}
 

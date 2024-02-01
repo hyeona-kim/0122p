@@ -33,8 +33,7 @@ import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselAddVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseVO;
-
-
+import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.TraineeVO;
 
 
@@ -82,77 +81,77 @@ public class CounselController {
 
     @RequestMapping("addCounselFile")
     public ModelAndView addCounsel(MultipartFile addFile) {
-		ModelAndView mv = new ModelAndView();
-		String realPath = application.getRealPath("subject_ex_upload");
-		if(addFile.getSize()>0){
-			String fname = addFile.getOriginalFilename();
-			fname = FileRenameUtil.checkSameFileName(fname, realPath);
-			try {
-				File f = new File(realPath,fname);
-				addFile.transferTo(f);
-				FileInputStream fis = new FileInputStream(f.getAbsolutePath());
-				IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
-				XSSFWorkbook workbook = new XSSFWorkbook(fis);
-				XSSFSheet sheet = workbook.getSheetAt(0);
-				
-				Iterator<Row> it = sheet.iterator();
-				List<CounselVO> list = new ArrayList<CounselVO>();
-					while(it.hasNext()) {
-						Row row = it.next();
-						// 첫번째 행은 머릿글이므로 제외
-						if(row.getRowNum()==0)
-							continue;
-						//cell들을 한번에 반복자로 얻어낸다.
-						Iterator<Cell> it2 = row.cellIterator();
-						CounselVO vo = new CounselVO();
-						int i=0;
-						while(it2.hasNext()) {
-							//하나의 cell을 얻어낸다 
-							Cell cell = it2.next();
-							String val = null;
-							switch (cell.getCellType()) {
-								case NUMERIC:
-                                    if(DateUtil.isCellDateFormatted(cell))			
-                                        val = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());			
+      ModelAndView mv = new ModelAndView();
+      String realPath = application.getRealPath("subject_ex_upload");
+      if(addFile.getSize()>0){
+         String fname = addFile.getOriginalFilename();
+         fname = FileRenameUtil.checkSameFileName(fname, realPath);
+         try {
+            File f = new File(realPath,fname);
+            addFile.transferTo(f);
+            FileInputStream fis = new FileInputStream(f.getAbsolutePath());
+            IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            
+            Iterator<Row> it = sheet.iterator();
+            List<CounselVO> list = new ArrayList<CounselVO>();
+               while(it.hasNext()) {
+                  Row row = it.next();
+                  // 첫번째 행은 머릿글이므로 제외
+                  if(row.getRowNum()==0)
+                     continue;
+                  //cell들을 한번에 반복자로 얻어낸다.
+                  Iterator<Cell> it2 = row.cellIterator();
+                  CounselVO vo = new CounselVO();
+                  int i=0;
+                  while(it2.hasNext()) {
+                     //하나의 cell을 얻어낸다 
+                     Cell cell = it2.next();
+                     String val = null;
+                     switch (cell.getCellType()) {
+                        case NUMERIC:
+                                    if(DateUtil.isCellDateFormatted(cell))         
+                                        val = new SimpleDateFormat("yyyy-MM-dd").format(cell.getDateCellValue());         
                                     else
-									    val = String.valueOf((int)cell.getNumericCellValue());
-									break;
-								case STRING:
-									val = cell.getStringCellValue();
-									break;
-								case BLANK:
-									val = null;
-								default:
-									val = null;
-									break;
-							}//switch문의 끝
+                               val = String.valueOf((int)cell.getNumericCellValue());
+                           break;
+                        case STRING:
+                           val = cell.getStringCellValue();
+                           break;
+                        case BLANK:
+                           val = null;
+                        default:
+                           val = null;
+                           break;
+                     }//switch문의 끝
 
-							switch(i) {
-								case 0:
-									vo.setC_idx(val); // 과정코드
-									break;
-								case 1:
-									vo.setTr_idx(val); // 훈련생코드
-									break;
-								case 2:
-									vo.setSo_day(val); // 상담일    
-									break;
-								case 3:
-									vo.setSo_tname(val); // 상담자
-									break;
-								case 4:
-									vo.setSo_menu(val); // 상담종류
-									break;
-								case 5:
+                     switch(i) {
+                        case 0:
+                           vo.setC_idx(val); // 과정코드
+                           break;
+                        case 1:
+                           vo.setTr_idx(val); // 훈련생코드
+                           break;
+                        case 2:
+                           vo.setSo_day(val); // 상담일    
+                           break;
+                        case 3:
+                           vo.setSo_tname(val); // 상담자
+                           break;
+                        case 4:
+                           vo.setSo_menu(val); // 상담종류
+                           break;
+                        case 5:
                                     vo.setSo_pd(val); // 상담목적
                                     break;
-								case 6:
+                        case 6:
                                     vo.setSo_subject(val); // 상담내용
-									break;
+                           break;
                                 case 7:
                                     vo.setSo_pp(val);
-								default:
-									break;
+                        default:
+                           break;
                             }
                             i++;
                         }// 열반복의 끝
@@ -161,23 +160,23 @@ public class CounselController {
                             t_Service.setCounsel_date(vo.getTr_idx(), vo.getSo_day(), Integer.toString(cs_Service.counselCount(vo.getTr_idx()))); // 상담일 최신화
                             list.add(vo); //리스트에 저장
                         }
-					}//행 반복의 끝
-					// 리스트에 있는 정보들을 db에 저장하기위해
+               }//행 반복의 끝
+               // 리스트에 있는 정보들을 db에 저장하기위해
 
-					HashMap<String,List<CounselVO>> map = new HashMap<>();
-					map.put("list", list);
-					cs_Service.addCounselFile(map);
-					
+               HashMap<String,List<CounselVO>> map = new HashMap<>();
+               map.put("list", list);
+               cs_Service.addCounselFile(map);
+               
 
-					fis.close();
-					workbook.close();
-					f.delete(); //파일 삭제
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-				
-		}
-		mv.setViewName("redirect:counsel?listSelect=1&cPage=1"); // 첫 화면으로 돌아가기
+               fis.close();
+               workbook.close();
+               f.delete(); //파일 삭제
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+            
+      }
+      mv.setViewName("redirect:counsel?listSelect=1&cPage=1"); // 첫 화면으로 돌아가기
         return mv;
     
     }
@@ -193,11 +192,10 @@ public class CounselController {
     public String editCounsel(CounselVO vo,String listSelect, String cPage) {
         String viewName = "";
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
+            cs_Service.editCounsel(vo);
             if(listSelect.equals("3")) {
-                cs_Service.editCounsel(vo);
                 viewName =  "redirect:searchCounsel?listSelect=3";
             }else{
-                cs_Service.editCounsel(vo);
                 viewName = "redirect:counsel?listSelect=4&cPage="+cPage+"&c_idx="+vo.getC_idx();
             }
         } else {
@@ -253,7 +251,7 @@ public class CounselController {
         }
         if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0 && vo.getSs_cnt() !=null && vo.getSs_cnt().trim().length()>0){
 
-            vo.setSs_day(ss_day1 + "~" + ss_day2);
+            vo.setSs_day(ss_day1 + " ~ " + ss_day2);
             int cnt = ca_Service.add(vo);
 
         }
@@ -285,9 +283,10 @@ public class CounselController {
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage, String c_idx){
         if(cPage == null || cPage.trim().length() < 1)
             cPage = "1";
-      if(value.trim().length()==0){
-         value= null;
-      }
+        if(value == null || value.trim().length() == 0) {
+            value = null;
+            select = null;
+        }
       if(year.equals("년도선택"))
          year = null;
       if(num.equals("표시개수"))
@@ -301,32 +300,15 @@ public class CounselController {
             page = new Paging();
         }
       
-
-      if(value == null || value.length()<1) {
-        value = null;
-        select = null;
-      }
-      if(select == null || select.length()<1){
-         select = null;
-      }
-      
-      if(year == null || year.length()==0) {
-          year = null;
-        }
         //비동기 통신할 jsp로 보내기
         if(listSelect.equals("1")) {
-            
             mv.setViewName("/jsp/admin/counselManage/counselTypeList_ajax");
             CourseVO[] ar = null;
-            if(value == null){
-                page.setTotalRecord(c_Service.getCount());
-                page.setNowPage(Integer.parseInt(cPage));
-                ar= c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-            }else{
+            
                 page.setTotalRecord(c_Service.getSearchCount(select, value, year));
-                page.setNowPage(Integer.parseInt(cPage));
-                ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-            }
+            page.setNowPage(Integer.parseInt(cPage));
+            ar = c_Service.searchCourse(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            
             
             mv.addObject("ar", ar);
             mv.addObject("page", page);
@@ -431,7 +413,7 @@ public class CounselController {
     }
     
     @RequestMapping("ss_dialog")
-    public ModelAndView ss_dialog(String select,String c_idx, String tr_idx, String so_idx){
+    public ModelAndView ss_dialog(String select,String c_idx, String tr_idx, String so_idx, String ss_idx){
         ModelAndView mv = new ModelAndView();
         
 
@@ -476,6 +458,28 @@ public class CounselController {
             CounselVO vo = cs_Service.getCounsel(so_idx);
             mv.addObject("ss_num", cs_Service.counselCount(tr_idx));
             mv.addObject("vo", vo);
+      } else if (select.equals("viewCounselAdd")) {
+            mv.setViewName("/jsp/admin/counselManage/viewCounselAdd_ajax");
+            CounselAddVO vo = ca_Service.getCounselAdd(ss_idx);
+            StaffVO svo = s_service.getStaff(vo.getSf_idx());
+            CourseVO cvo = c_Service.getCourse2(vo.getC_idx());
+
+            mv.addObject("vo", vo);
+            mv.addObject("cvo", cvo);
+            mv.addObject("svo", svo);
+      }else if(select.equals("editCounselAdd")){
+            mv.setViewName("/jsp/admin/counselManage/editCounselAdd_ajax");
+
+            CounselAddVO vo = ca_Service.getCounselAdd(ss_idx);
+            String ss_day1 = vo.getSs_day().substring(0, 10);
+            String ss_day2 = vo.getSs_day().replace(" ~ ", "").substring(10, 20);
+            StaffVO svo = s_service.getStaff(vo.getSf_idx());
+            CourseVO cvo = c_Service.getCourse(vo.getC_idx());
+            mv.addObject("vo", vo);
+            mv.addObject("cvo", cvo);
+            mv.addObject("svo", svo);
+            mv.addObject("ss_day1", ss_day1);
+            mv.addObject("ss_day2", ss_day2);
       }
 
         return mv;
@@ -552,5 +556,39 @@ public class CounselController {
         }
         mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");
         return mv;
+    }
+
+    @RequestMapping("editCounselAdd")
+    public String editCounselAdd(CounselAddVO vo, MultipartFile ss_img1, String ss_day1, String ss_day2){
+        String realPath = application.getRealPath("counselimg");
+        if(ss_img1 != null && ss_img1.getSize() > 0){
+
+            String f_name = FileRenameUtil.checkSameFileName(ss_img1.getOriginalFilename(), realPath);//이름바꿔준거 
+            try {//파일업로드 
+                ss_img1.transferTo(new File(realPath,f_name));
+    
+            } catch (Exception e) {
+                 e.printStackTrace();
+            }
+            vo.setSs_img(f_name);
+        }
+        if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0){
+
+            vo.setSs_day(ss_day1 + " ~ " + ss_day2);
+            int cnt = ca_Service.editCounselAdd(vo);
+
+        }
+        
+
+        return "redirect:counsel?listSelect=1&cPage=1";
+    }
+    
+    @RequestMapping("delCounselAdd")
+    public String delCounselAdd(String ss_idx){
+
+        if(ss_idx != null && ss_idx.trim().length() > 0)
+            ca_Service.delCounselAdd(ss_idx);
+        
+        return "redirect:counsel?listSelect=1&cPage=1";
     }
 }

@@ -25,10 +25,10 @@
                      <if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
                      <if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
                      <if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
-                     <if test="year !=null">start_date like concat(#{year},'%') and</if>
+                     <if test="year !=null">so_day like concat(#{year},'%') and</if>
                </trim>
             </where>
-            order by so_idx desc
+            order by so_day desc
          )a ,(select @RN:=0) b) c 
          where c.rnum between ${begin} and ${end}
    </select>
@@ -100,7 +100,7 @@
                      <if test="select !=null and select == 2">so_day like concat('%', #{value}, '%') and</if>
                      <if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
                      <if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
-                     <if test="year !=null">start_date like concat(#{year},'%') and</if>
+                     <if test="year !=null">so_day like concat(#{year},'%') and</if>
                </trim>
             </where>
          )a ,(select @RN:=0) b) c 
@@ -113,7 +113,7 @@
 
 
 	<select id="counselList" resultMap="map2" parameterType="String">
-			select * from (select a.*, s.sf_name from advice_t a, staff_t s where tr_idx = #{tr_idx} and a.sf_idx = s.sf_idx) a where so_status = 0
+			select * from (select a.*, s.sf_name from advice_t a, staff_t s where tr_idx = #{tr_idx} and a.sf_idx = s.sf_idx) a where so_status = 0 order by so_day desc
 	</select>
 
 	<select id="counselCount" resultType="int" parameterType="String">

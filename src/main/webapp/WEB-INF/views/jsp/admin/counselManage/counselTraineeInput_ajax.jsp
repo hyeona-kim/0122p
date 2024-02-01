@@ -22,10 +22,10 @@
                     <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
                         <tr>
                             <td>${num-vs.index}</td>
-                            <c:if test="${vo.c_img ne null}">
-                                <td>${vo.c_img} </td>
+                            <c:if test="${vo.file_name ne null}">
+                                <td><img src="${pageContext.request.contextPath }/upload_file/${vo.file_name}" alt="학생이미지" width="80" height="80"/></td>
                             </c:if>
-                            <c:if test="${vo.c_img eq null}">
+                            <c:if test="${vo.file_name eq null}">
                                 <td>No Image</td>
                             </c:if>
                             <td>W1805300001</td>

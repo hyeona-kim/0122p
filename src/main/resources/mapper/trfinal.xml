@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.TrfinalMapper">
+	<select id="list" resultType="com.ict.project.vo.TrfinalVO">
+		select * from trfinal_t
+		where tr_idx = #{tr_idx}
+	</select>
+
+	<update id="edit" parameterType="String">
+		update trfinal_t
+		<set>
+			<if test="tf_name != null">tf_name = #{tf_name},</if>
+            <if test="tf_year != null">tf_year = #{tf_year},</if>
+            <if test="tf_major != null">tf_major = #{tf_major},</if>
+		</set>
+		where tf_idx = #{tf_idx}
+	</update>
+</mapper>

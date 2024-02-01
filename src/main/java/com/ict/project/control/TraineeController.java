@@ -15,21 +15,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.BusinessService;
 import com.ict.project.service.ConfirmService;
 import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
+import com.ict.project.service.QcService;
 import com.ict.project.service.TrainConfirmService;
 import com.ict.project.service.TraineeCurrentService;
 import com.ict.project.service.TraineeService;
+import com.ict.project.service.TrfinalService;
 import com.ict.project.service.UploadService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.BusinessVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.QcVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainuploadVO;
+import com.ict.project.vo.TrfinalVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletOutputStream;
@@ -64,6 +70,13 @@ public class TraineeController {
 	CourseTypeService ct_Service;
 	@Autowired
 	CounselService cc_Service;
+	@Autowired
+	BusinessService bs_Service;
+	@Autowired
+	QcService q_Service;
+	@Autowired
+	TrfinalService tf_Service;
+	
 
 	private String editor_img =	"/editor_img";
 	private String upload_file = "/upload_file";
@@ -148,7 +161,6 @@ public class TraineeController {
 				tvo.setFile_name(fname);
 				tvo.setOri_name(oname);
 				int cnt = u_Service.add(tvo);
-				System.out.println(cnt);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -438,8 +450,15 @@ public class TraineeController {
 
 		TraineeVO vo = t_Service.view(tr_idx);
 		CourseVO cvo = c_Service.getCourse(c_idx);
-		
+		BusinessVO bvo = bs_Service.list(tr_idx);
+		QcVO qvo = q_Service.list(tr_idx);
+		TrfinalVO tfvo = tf_Service.list(tr_idx);
 
+	
+
+		mv.addObject("bvo", bvo);
+		mv.addObject("qvo", qvo);
+		mv.addObject("tfvo", tfvo);
 		mv.addObject("vo12", vo);
 		mv.addObject("cc", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
@@ -502,12 +521,28 @@ public class TraineeController {
 	@RequestMapping("counseling_ajax")
 	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
 		ModelAndView mv = new ModelAndView();
-		System.out.println(c_idx+"/"+tr_idx);
 		
 
 		int cnt = cc_Service.addCounsel(ccvo);
 
 
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+		return mv;
+	}
+
+
+	@RequestMapping("Traineewrite_ajax")
+	public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,QcVO qvo,TrfinalVO tfvo, TraineeVO tvo){
+		ModelAndView mv = new ModelAndView();
+
+		int cnt = bs_Service.bedit(bvo);
+		int cnt1= q_Service.qedit(qvo);
+		int cnt2 = tf_Service.tfedit(tfvo);
+		if(tvo.getTr_etc() !=null){
+			int cnt3 = t_Service.etcedit(tvo);
+		}
+		
+		System.out.println(cnt+"/"+cnt1+"/"+cnt2);
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 		return mv;
 	}

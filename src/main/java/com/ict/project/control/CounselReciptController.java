@@ -447,41 +447,43 @@ public class CounselReciptController {
         page.setNowPage(Integer.parseInt(cPage));
 
         TraineeVO[] ar =tn_Service.getTList(String.valueOf(page.getBegin()),String.valueOf(page.getEnd()),c_idx,year,ct_idx,select,value);
-        
-        for(TraineeVO tvo :ar){
-            switch (tvo.getTr_nowstatus()) {
-                case "0":
-                    tvo.setTr_nowstatus("접수");
-                    break;
-                case "1":
-                    tvo.setTr_nowstatus("예정");
-                    break;
-                case "2":
-                    tvo.setTr_nowstatus("수강");
-                    break;
-                case "3":
-                    tvo.setTr_nowstatus("조기수료");    
-                    break;
-                case "4":
-                    tvo.setTr_nowstatus("조기취업");    
-                    break;
-                case "5":
-                    tvo.setTr_nowstatus("수료");    
-                    break;
-                case "6":
-                    tvo.setTr_nowstatus("수강포기");    
-                    break;
-                case "7":
-                    tvo.setTr_nowstatus("미수료");    
-                    break;
-                case "8":
-                    tvo.setTr_nowstatus("제적");    
-                    break;
-                case "9":
-                    tvo.setTr_nowstatus("취소");    
-                    break;
-                default:
-                    break;
+        if(ar != null){
+            for(TraineeVO tvo :ar){
+                switch (tvo.getTr_nowstatus()) {
+                    case "0":
+                        tvo.setTr_nowstatus("접수");
+                        break;
+                    case "1":
+                        tvo.setTr_nowstatus("예정");
+                        break;
+                    case "2":
+                        tvo.setTr_nowstatus("수강");
+                        break;
+                    case "3":
+                        tvo.setTr_nowstatus("조기수료");    
+                        break;
+                    case "4":
+                        tvo.setTr_nowstatus("조기취업");    
+                        break;
+                    case "5":
+                        tvo.setTr_nowstatus("수료");    
+                        break;
+                    case "6":
+                        tvo.setTr_nowstatus("수강포기");    
+                        break;
+                    case "7":
+                        tvo.setTr_nowstatus("미수료");    
+                        break;
+                    case "8":
+                        tvo.setTr_nowstatus("제적");    
+                        break;
+                    case "9":
+                        tvo.setTr_nowstatus("취소");    
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
 
