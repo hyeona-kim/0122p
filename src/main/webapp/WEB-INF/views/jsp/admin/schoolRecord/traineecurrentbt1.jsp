@@ -196,7 +196,7 @@ table tfoot ol.page {
 						<input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx}','${aa.c_idx}')" value="신상기록부">
 						<input type="button" id="fset"  onclick="" value="서류관리">
 						<input type="button" id="fset"  onclick="counseling('${vo7.tr_idx}','${aa.c_idx}')" value="상담일지">
-						<input type="button" id="fset"  onclick="" value="사후관리">
+						<input type="button" id="fset"  onclick="mange('${vo7.tr_idx}','${aa.c_idx}')" value="사후관리">
 						<input type="button" id="fset"  onclick="" value="면접평가표">
 						</td>
 					</tr>
@@ -255,8 +255,7 @@ table tfoot ol.page {
 		function sendwrite(qqq){
 			qqq.submit();
 		}
-
-
+		
 		function alledit(){
 		//체크박스 체크된 항목
 		//console.log(tr_idx);
@@ -377,9 +376,6 @@ table tfoot ol.page {
 
 	} 
 
-	function sendDate(ddd){
-		ddd.submit();   
-	}
 
 	function traineewrite(str){
 		$.ajax({
@@ -397,11 +393,12 @@ table tfoot ol.page {
 
 	} 
 
-	function couupload(tr,tr1){
+	function couupload(tr,tr1,num,so){
+		console.log(num);
 		$.ajax({
             url: "couupload",
             type: "post",
-            data:"tr_idx="+tr+"&c_idx="+tr1
+            data:"tr_idx="+tr+"&c_idx="+tr1+"&ss_num="+num+"&so_idx="+so
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -409,6 +406,22 @@ table tfoot ol.page {
 		$( "#m1" ).dialog({
 				width:1000,
             	height:600
+		});
+	}
+
+	
+	function mange(tt,tt1){
+		$.ajax({
+            url: "mangecard",
+            type: "post",
+            data:"tr_idx="+tt+"&c_idx="+tt1
+         }).done(function(result){
+            $("#m1").html(result);
+         });
+         
+		$( "#m1" ).dialog({
+				width:1000,
+            	height:1000
 		});
 	}
 

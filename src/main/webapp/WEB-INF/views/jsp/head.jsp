@@ -13,19 +13,19 @@
       <li class="menubar" id="secondmenu"><a href="menu?select=courseReg">과정등록</a></li>
       <li class="menubar" id="thirdmenu"><a href="menu?select=schoolRecord">학적부</a></li>
       <li class="menubar" id="fourthmenu"><a href="menu?select=counselManage">상담관리</a></li>
-      <li class="menubar 5"><a href="menu?select=trainingLog">훈련일지</a></li>
+      <li class="menubar" id="sixmenu"><a href="menu?select=trainingLog">훈련일지</a></li>
       <li class="menubar 6" id="etclist"><a href="menu?select=etcList">기타관리</a></li>
-      <li class="menubar 7" id="etclist"><a href="">사전평가</a></li>
-      <li class="menubar 8" id="etclist"><a href="">자기/수행평가</a></li>
-      <li class="menubar 9" id="etclist"><a href="">평가관리</a></li>
-      <li class="menubar 10" id="etclist"><a href="">설문관리</a></li>
-      <li class="menubar 11" id="etclist"><a href="">증서관리</a></li>
-      <li class="menubar 12" id="etclist"><a href="">사후관리</a></li>
+      <li class="menubar 7" id=""><a href="">사전평가</a></li>
+      <li class="menubar 8" id=""><a href="">자기/수행평가</a></li>
+      <li class="menubar 9" id=""><a href="">평가관리</a></li>
+      <li class="menubar 10" id=""><a href="">설문관리</a></li>
+      <li class="menubar 11" id=""><a href="">증서관리</a></li>
+      <li class="menubar 12" id=""><a href="">사후관리</a></li>
       <li class="menubar 13" id="thirteenmenu"><a href="menu?select=totalManage">통합관리</a></li>
-      <li class="menubar 13" id="etclist"><a href="">자료함</a></li>
-      <li class="menubar 13" id="etclist"><a href="">커뮤니티</a></li>
-      <li class="menubar 13" id="etclist"><a href="">로그현황</a></li>
-      <li class="menubar 13" id="etclist"><a href="">시스템문의</a></li>
-      <li class="menubar 13" id="etclist"><a ></a></li>
+      <li class="menubar 13" id=""><a href="">자료함</a></li>
+      <li class="menubar 13" id=""><a href="">커뮤니티</a></li>
+      <li class="menubar 13" id=""><a href="">로그현황</a></li>
+      <li class="menubar 13" id=""><a href="">시스템문의</a></li>
+      <li class="menubar 13" id=""><a ></a></li>
    </ul>
 </header>

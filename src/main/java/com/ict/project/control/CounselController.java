@@ -264,7 +264,7 @@ public class CounselController {
         }
         if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0 && vo.getSs_cnt() !=null && vo.getSs_cnt().trim().length()>0){
 
-            vo.setSs_day(ss_day1 + "~" + ss_day2);
+            vo.setSs_day(ss_day1 + " ~ " + ss_day2);
             int cnt = ca_Service.add(vo);
 
         }
@@ -485,7 +485,7 @@ public class CounselController {
 
             CounselAddVO vo = ca_Service.getCounselAdd(ss_idx);
             String ss_day1 = vo.getSs_day().substring(0, 10);
-            String ss_day2 = vo.getSs_day().substring(13, 23);
+            String ss_day2 = vo.getSs_day().replace(" ~ ", "").substring(10, 20);
             StaffVO svo = s_service.getStaff(vo.getSf_idx());
             CourseVO cvo = c_Service.getCourse(vo.getC_idx());
             mv.addObject("vo", vo);
@@ -578,23 +578,36 @@ public class CounselController {
     }
 
     @RequestMapping("editCounselAdd")
-    public String editCounselAdd(CounselAddVO vo){
+    public String editCounselAdd(CounselAddVO vo, MultipartFile ss_img1, String ss_day1, String ss_day2){
+        String realPath = application.getRealPath("counselimg");
+        if(ss_img1 != null && ss_img1.getSize() > 0){
 
-        String viewName = "redirect:counsel?listSelect=1&cPage=1";
-        if(vo.getSs_mday() != null && vo.getSs_mday().trim().length() > 0){
-            ca_Service.editCounselAdd(vo);
+            String f_name = FileRenameUtil.checkSameFileName(ss_img1.getOriginalFilename(), realPath);//이름바꿔준거 
+            try {//파일업로드 
+                ss_img1.transferTo(new File(realPath,f_name));
+    
+            } catch (Exception e) {
+                 e.printStackTrace();
+            }
+            vo.setSs_img(f_name);
+        }
+        if(vo.getSs_mday() !=null && vo.getSs_mday().trim().length() >0){
+
+            vo.setSs_day(ss_day1 + " ~ " + ss_day2);
+            int cnt = ca_Service.editCounselAdd(vo);
+
         }
         
 
-        return viewName;
+        return "redirect:counsel?listSelect=1&cPage=1";
     }
     
     @RequestMapping("delCounselAdd")
     public String delCounselAdd(String ss_idx){
-        String viewName = "redirect:counsel?listSelect=1&cPage=1";
+
         if(ss_idx != null && ss_idx.trim().length() > 0)
             ca_Service.delCounselAdd(ss_idx);
         
-            return viewName;
+        return "redirect:counsel?listSelect=1&cPage=1";
     }
 }

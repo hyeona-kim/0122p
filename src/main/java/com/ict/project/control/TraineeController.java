@@ -26,6 +26,7 @@ import com.ict.project.service.TraineeCurrentService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrfinalService;
 import com.ict.project.service.UploadService;
+import com.ict.project.service.WorkplusService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.BusinessVO;
@@ -36,6 +37,7 @@ import com.ict.project.vo.QcVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainuploadVO;
 import com.ict.project.vo.TrfinalVO;
+import com.ict.project.vo.WorkplusVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletOutputStream;
@@ -76,7 +78,8 @@ public class TraineeController {
 	QcService q_Service;
 	@Autowired
 	TrfinalService tf_Service;
-	
+	@Autowired
+	WorkplusService w_Service;
 
 	private String editor_img =	"/editor_img";
 	private String upload_file = "/upload_file";
@@ -356,13 +359,11 @@ public class TraineeController {
 	@ResponseBody
 	public ModelAndView traineeEdit(TraineeVO tvo,String tr_idx,String c_idx, String cPage, String edit){
 		ModelAndView mv = new ModelAndView();
-	
-		
-			
-
 		String enc_type = request.getContentType();
 		String viewPath = null;
 		
+		//System.out.println(":"+"/"+tvo.getTr_idx());
+		System.out.println(tvo.getTr_name());
 		if(edit == null && enc_type ==null){
 			//TraineeVO vo = t_Service.(tvo.getTr_idx(),c_idx);
 			CourseVO vo2 = c_Service.getCourse(c_idx);
@@ -434,7 +435,8 @@ public class TraineeController {
 		CounselVO[] ccvo = cc_Service.counselList(tr_idx);
 		
 		//System.out.println(cvo.getC_name());
-		
+		if(ccvo != null)
+			mv.addObject("ss_num", ccvo.length);
 		mv.addObject("ccvo", ccvo);
 		mv.addObject("vo11", vo);
 		mv.addObject("cv", cvo);
@@ -501,16 +503,17 @@ public class TraineeController {
 	}
 
 	@RequestMapping("couupload")
-	public ModelAndView couupload(String tr_idx, String c_idx, CounselVO ccvo, String so_idx, String cPage){
+	public ModelAndView couupload(String tr_idx, String c_idx, String ss_num, String so_idx){
 		ModelAndView mv = new ModelAndView();
 		
 
 		CounselVO cvo = cc_Service.getCounsel(so_idx);
 		CourseVO vvo = c_Service.getCourse(c_idx);
-		
+		System.out.println(ss_num);
 		mv.addObject("vvo", vvo);
 		mv.addObject("tr_idx", tr_idx);
 		mv.addObject("c_idx", c_idx);
+		mv.addObject("ss_num", ss_num);
 		mv.addObject("cvo", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
 
@@ -519,15 +522,17 @@ public class TraineeController {
 	}
 
 	@RequestMapping("counseling_ajax")
-	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
+	public ModelAndView counseling_ajax(CounselVO ccvo, String ss_num){
 		ModelAndView mv = new ModelAndView();
 		
+		if(ccvo.getSo_day() != null && ccvo.getSo_day().trim().length() > 1){
+			t_Service.setCounsel_date(ccvo.getTr_idx(), ccvo.getSo_day(), ss_num);
+			cc_Service.addCounsel(ccvo);
+		}	
 
-		int cnt = cc_Service.addCounsel(ccvo);
 
-
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-		return mv;
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+ccvo.getC_idx());
+		return mv;	
 	}
 
 
@@ -547,6 +552,31 @@ public class TraineeController {
 		return mv;
 	}
 
+<<<<<<< HEAD
 	
+=======
+	@RequestMapping("mangecard")
+	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
+		ModelAndView mv = new ModelAndView();
+
+		TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		TrfinalVO tfvo = tf_Service.list(tr_idx);
+		QcVO qvo = q_Service.list(tr_idx);
+		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+
+		mv.addObject("wvo", wvo);
+		mv.addObject("qvo", qvo);
+		mv.addObject("tfvo", tfvo);
+		mv.addObject("tr_idx", tr_idx);
+		mv.addObject("c_idx", c_idx);
+		mv.addObject("cvo2", cvo);
+		mv.addObject("vo15", vo);
+		mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
+		return mv;
+	}
+
+
+>>>>>>> c32b4423b24591808a40de2bea9f50282d1c6e23
 
 }

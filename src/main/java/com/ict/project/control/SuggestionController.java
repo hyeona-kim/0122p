@@ -188,14 +188,13 @@ public class SuggestionController {
     public ModelAndView requestMethodName(String cPage,String tag,String value) {
         ModelAndView mv = new ModelAndView();
         SuggestionVO[] ar = null;
-		Paging page = null;
+		Paging page = new Paging();
 		boolean search_flag = true;
 		
 		// Paging을 다시 만들기 위해 totalRecord를 다시 구한다
 		int cnt = s_Service.reGetTotalRecord(value);
 		
 		if(cnt > 0) {
-			page = new Paging();
 			page.setTotalRecord(cnt);
 			if(cPage == null || cPage.equals("undefined")) {
 				page.setNowPage(1);	

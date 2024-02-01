@@ -18,7 +18,6 @@
 	</div>
 	
 	<div>
-	<form action="delCounselAdd?ss_idx=${vo.ss_idx}" method="post">
 		<table id="tt_add2" class="t1">
 			<colgroup>
 				<col width="25%"/>
@@ -63,7 +62,7 @@
                     <th>회의사진</th>
                     <td colspan ='3'>
                         <c:if test="${vo.ss_img ne null}">
-                            <img src="${pageContext.request.contextPath}/counselimg/${vo.ss_img}">
+                            <img src="${pageContext.request.contextPath}/counselimg/${vo.ss_img}" width="100%">
                         </c:if>
                         <c:if test="${vo.ss_img eq null}">
                             No Image
@@ -86,12 +85,12 @@
 					<tr>
 						<td colspan="4">
 							<button type="button" onclick="editCounselAdd('${vo.ss_idx}')">수정</button>
-                            <button type="submit">삭제</button>
+                            <button type="button" onclick="del('${vo.ss_idx}')">삭제</button>
+                            <input type="hidden" name="ss_idx" value="${vo.ss_idx }"/>
 							<button type="button" id="close">목록</button>
 						</td>
 					</tr>
 			</tbody>
 		</table>
-	</form>
 	</div>
 	

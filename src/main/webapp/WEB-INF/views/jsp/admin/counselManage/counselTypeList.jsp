@@ -475,7 +475,6 @@ table tfoot ol.page {
          });
         }
         function editCounselAdd(ss_idx){
-         console.log(ss_idx);
          $.ajax({
             url:"ss_dialog",
             type:"post",
@@ -564,6 +563,13 @@ table tfoot ol.page {
          });
          
       }
+
+      function del(ss_idx){
+			if( confirm("삭제하시겠습니까?")){
+               frm.action = "delCounselAdd?ss_idx="+ss_idx;
+               frm.submit();
+			}
+		}
    </script>
 </body>
 </html>

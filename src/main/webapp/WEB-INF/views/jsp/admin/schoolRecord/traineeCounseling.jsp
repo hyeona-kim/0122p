@@ -37,10 +37,12 @@
                         <td>${cv.start_date}~${cv.end_date}</td>
                         <th>총상담횟수</th>
                         <c:if test="${vo11.ss_num eq null}">
-                           <td> 0회 </td>
+                           <td>${ss_num}회</td>
+                           <input type="hidden" id="ss_num" value="${ss_num}"/>
                         </c:if>
                         <c:if test="${vo11.ss_num ne null}">
                             <td>${vo11.ss_num}</td>
+                            <input type="hidden" id="ss_num" value="${vo11.ss_num}"/>
                         </c:if>
                     </tr>
                 </tbody>
@@ -68,7 +70,7 @@
                 </tbody>
             </table>
             <div>
-                <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}')">상담등록</button>           
+                <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}', ss_num.value, '${ccv1.so_idx}')">상담등록</button>           
                 <button type="button" onclick="">엑셀</button>           
                 <button type="button" onclick="">인쇄</button>           
                 <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx">취소</button>           
