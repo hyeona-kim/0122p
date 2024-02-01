@@ -151,38 +151,6 @@ public class formDownController {
         return mv;
     }
 
-    // 서식자료실 메인페이지에서 [검색]을 클릭했을 때
-    // 해당 자료를 제목으로 검색하는 기능
-    @RequestMapping("searchFormDown")
-    public ModelAndView searchFormDown(String fd_subject, String cPage) {
-        ModelAndView mv = new ModelAndView();
-        FormDownVO[] ar = null;
-        Paging page = new Paging();
-        boolean search_flag = true;
-        
-        int cnt = fd_Service.getSearchCount(fd_subject);
-        if(cnt > 0) {
-            page.setTotalRecord(cnt);
-            if(cPage == null || cPage.equalsIgnoreCase("undefined")){
-                page.setNowPage(1);
-            }else {
-                page.setNowPage(Integer.parseInt(cPage));
-            }
-            ar = fd_Service.searchFormDown(fd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-        }
-        
-        mv.addObject("search_flag", search_flag);
-        mv.addObject("page", page);
-        mv.addObject("ar", ar);
-        if(fd_subject.trim().length() > 0) {
-            mv.setViewName("/jsp/admin/etcList/formDownload/formMain_ajax");
-        }else {
-            mv.setViewName("redirect:formDownload");
-        }
-        
-        return mv;
-    }
-
     // 서식자료실 메인페이지에서 [첨부파일]을 클릭했을 때
     // 해당 자료를 다운로드하는 기능
     @RequestMapping("formFileDown")

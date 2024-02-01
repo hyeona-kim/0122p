@@ -42,20 +42,6 @@
         select count(*) from formdownload_t
     </select>
 
-    <!-- 서식파일을 제목으로 검색하는 기능 -->
-    <select id="searchFormDown" parameterType="Map" resultType="com.ict.project.vo.FormDownVO">
-        select * from
-	        (select @RN:=@RN+1 as rnum, a.* from
-		        (select * from formdownload_t where fd_subject like concat ('%', #{fd_subject}, '%') order by fd_idx desc) a,
-		        (select @RN:=0) b) c
-        where rnum between #{begin} and #{end};
-    </select>
-
-    <!-- 검색했을 때 totalRecord를 다시 구하는 기능 -->
-    <select id="getSearchCount" parameterType="String" resultType="int">
-        select count(*) from formdownload_t where fd_subject like concat ('%', #{fd_subject}, '%')
-    </select>
-
     <!-- 표시갯수를 변경하거나 제목으로 검색했을 때 totalRecord를 다시 구하는 기능 -->
     <select id="searchBothCnt" parameterType="String" resultType="int">
         select count(*) from formdownload_t
