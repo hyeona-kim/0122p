@@ -34,5 +34,11 @@ public class QcService {
     public int addWrite(QcVO qvo){
         return q_mapper.addWrite(qvo);
     }
+    public int qqedit(QcVO qvo){
+        return q_mapper.qedit(qvo);
+    }
+    public int add(QcVO qvo){
+        return q_mapper.add(qvo);
+    }
     
 }
