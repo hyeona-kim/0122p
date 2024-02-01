@@ -188,9 +188,6 @@
 											<td>${vo.sf_phone}</td>
 											<td>${vo.sf_hire_date}</td>
 											<td>${vo.sf_fire_date}</td>
-											<%-- [수정필요]
-												 사용권한 번호를 이용해서
-												 사용권한명을 가져와야함 --%>
 											<sf:if test="${vo.rt_name ne null}">
 												<td>${vo.rt_name}</td>
 											</sf:if>
@@ -243,6 +240,7 @@
 		$(function(){
 			$(".selected").removeClass("selected")
 			$("#etclist").addClass("selected");
+			$("#l_first").addClass("l_select");
 			
 			/* [교직원등록]버튼을 클릭했을 때
 			 비동기통신을 이용해 dialog를 띄우는 기능 */
