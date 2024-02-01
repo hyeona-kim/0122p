@@ -402,6 +402,14 @@ table tfoot ol.page {
 
         /* 등록폼에서 [등록] 버튼을 클릭했을 때 수행하는 부분 */
         function addBoard(frm) {
+			// 제목만 유효성 검사
+			let subject = document.getElementById("bd_subject").value;
+
+			if(!subject.trim().length > 0) {
+				alert("제목을 입력하세요");
+				return;
+			}
+			
 			frm.submit();
 			// 이 아래는 비동기식 통신으로 추가만 하는거
 			// dialog가 안꺼지는 문제점이 있어서 다시 수정함
@@ -502,6 +510,13 @@ table tfoot ol.page {
 
         /* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
+			// 제목만 유효성 검사
+			let subject = document.getElementById("bd_replySubject").value;
+
+			if(!subject.trim().length > 0) {
+				alert("제목을 입력하세요");
+				return;
+			}
 			frm.submit();
 			// 이 아래는 비동기식 통신으로 추가만 하는거
 			// dialog가 안꺼지는 문제점이 있어서 다시 수정함
