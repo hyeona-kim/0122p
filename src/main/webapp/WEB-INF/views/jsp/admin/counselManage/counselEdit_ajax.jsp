@@ -48,7 +48,7 @@
                     <th bgcolor="lightgray">지도관리 및 피드백</th>
                     <td colspan="3"><textarea type="text" id="so_pd" name="so_pd" cols="90" rows="10">${vo.so_pd}</textarea></td>
 				</tr>
-			</tbody>
+			</thead>
 			<tfoot>
 				<tr>
 					<td colspan="8" align="center">

@@ -60,15 +60,19 @@
 				<td colspan="6">
 					<ol class="page">
 						<%-- ========== 이전버튼 만드는 부분 시작 ========== --%>
-						<%-- startPage가 5보다 작을 경우
-							 이전page로 돌아가는 버튼 비활성화 후 생성 --%>
-						<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+						<%-- startPage가 5보다 작을 경우 이전page로 돌아가는 버튼 비활성화 후 생성 --%>
+						<c:if test="${page.startPage < page.pagePerBlock}">
 							<li class="disable">&lt;</li>
 						</c:if>	
-						<%-- startPage가 5보다 같거나 클 경우
-							 이전page로 돌아가는 버튼 활성화 후 생성 --%>
-						<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+						<%-- startPage가 5보다 같거나 클 경우 이전page로 돌아가는 버튼 활성화 후 생성 --%>
+						<c:if test="${page.startPage >= page.pagePerBlock && search_flag eq null && notice_flag eq null }">
 							<li><a href="javascript:paging('${page.startPage-page.pagePerBlock}')">&lt;</a></li>
+						</c:if>
+						<c:if test="${page.startPage >= page.pagePerBlock && search_flag ne null && notice_flag eq null}">
+							<li><a href="javascript:searchSugg('${page.startPage-page.pagePerBlock}')">&lt;</a></li>
+						</c:if>
+						<c:if test="${page.startPage >= page.pagePerBlock && search_flag eq null && notice_flag ne null}">
+							<li><a href="javascript:checkNotice('${page.startPage-page.pagePerBlock}')">&lt;</a></li>
 						</c:if>
 						<%-- ========== 이전버튼 만드는 부분 끝 ========== --%>
 						
@@ -90,13 +94,17 @@
 						<%-- ========== page 번호 만드는 부분 끝 ==========--%>
 						
 						<%-- ========== 다음버튼 만드는 부분 시작 ========== --%>
-						<%-- endPage가 마지막 끝나는 page보다 작을 경우
-							 다음page로 가는 버튼 활성화 후 생성 --%>
-						<c:if test="${page.endPage < page.totalPage }">
+						<%-- endPage가 마지막 끝나는 page보다 작을 경우 다음page로 가는 버튼 활성화 후 생성 --%>
+						<c:if test="${page.endPage < page.totalPage && search_flag eq null && notice_flag eq null}">
 							<li><a href="javascript:paging('${page.startPage + page.pagePerBlock}')">&gt;</a></li>
 						</c:if>
-						<%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우
-							 다음page로 가는 버튼 비활성화 후 생성 --%>
+						<c:if test="${page.endPage < page.totalPage && search_flag ne null && notice_flag eq null}">
+							<li><a href="javascript:searchSugg('${page.startPage + page.pagePerBlock}')">&gt;</a></li>
+						</c:if>
+						<c:if test="${page.endPage < page.totalPage && search_flag eq null && notice_flag ne null}">
+							<li><a href="javascript:checkNotice('${page.startPage + page.pagePerBlock}')">&gt;</a></li>
+						</c:if>
+						<%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우 다음page로 가는 버튼 비활성화 후 생성 --%>
 						<c:if test="${page.endPage >= page.totalPage }">
 							<li class="disable">&gt;</li>	
 						</c:if>

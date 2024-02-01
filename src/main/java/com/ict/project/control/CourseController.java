@@ -176,7 +176,7 @@ public class CourseController {
 
 
 		if(value== null || value.trim().length()==0){
-			value= null;
+			value= null; 
 			select=null;
 		}
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.QcMapper">
+	<select id="list" resultType="com.ict.project.vo.QcVO">
+		select * from qc_t
+		where tr_idx = #{tr_idx}
+	</select>
+
+	<update id="edit" parameterType="String">
+		update qc_t
+		<set>
+			<if test="qc_name != null">qc_name = #{qc_name},</if>
+			<if test="qc_date != null">qc_date = #{qc_date},</if>
+			<if test="qc_place != null">qc_place = #{qc_place},</if>
+			<if test="qc_cname != null">qc_cname = #{qc_cname},</if>
+			<if test="qc_day != null">qc_day = #{qc_day},</if>
+			<if test="qc_job != null">qc_job = #{qc_job},</if>
+			<if test="qc_position != null">qc_position = #{qc_position},</if>
+		</set>
+		where qc_idx = #{qc_idx}
+	</update>
+	
+</mapper>

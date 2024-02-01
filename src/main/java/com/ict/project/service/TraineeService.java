@@ -77,6 +77,10 @@ public class TraineeService {
     public int delete(String tr_idx, String c_idx){
         return t_mapper.del(tr_idx, c_idx);
     }
+
+    public int etcedit(TraineeVO tvo){
+        return t_mapper.etcedit(tvo);
+    }
   
     public TraineeVO[] getCourseTraineeList(String c_idx, String begin, String end){
         TraineeVO[] ar = null;

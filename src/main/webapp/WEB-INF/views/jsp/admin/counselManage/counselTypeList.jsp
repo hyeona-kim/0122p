@@ -320,6 +320,9 @@ table tfoot ol.page {
         
         <div id="dialog3" hidden="" title="상담결과보고">
       </div>
+
+      <div id="dialog4" hidden="" title="상담결과보고서"></div>
+      <div id="dialog5" hidden="" title="상담결과보고서 수정"></div>
       
    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -362,10 +365,10 @@ table tfoot ol.page {
             $.ajax({
                url: "searchCounsel",
                type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+               data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent('1')
             }).done(function(result){
-               $("counsel_Table").html(result);
+               $("#counsel_Table").html(result);
             });
          });
          $("#numPerPage").on("change",function(){
@@ -373,8 +376,8 @@ table tfoot ol.page {
             $.ajax({
                url: "searchCounsel",
                type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
+               data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('1')+"&cPage="+encodeURIComponent('1')
             }).done(function(result){
                $("#counsel_Table").html(result);
                
@@ -457,6 +460,34 @@ table tfoot ol.page {
       });
          $("#dialog3").dialog("open");
       }
+      function viewCounselAdd(ss_idx){
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("viewCounselAdd")+"&ss_idx="+encodeURIComponent(ss_idx),
+         }).done(function(result){
+            $("#dialog4").dialog("open");
+            $("#dialog4").html(result);
+
+            $("#close").click(function(){
+                $("#dialog4").dialog("close");
+            });
+         });
+        }
+        function editCounselAdd(ss_idx){
+         $.ajax({
+            url:"ss_dialog",
+            type:"post",
+            data:"&select="+encodeURIComponent("editCounselAdd")+"&ss_idx="+encodeURIComponent(ss_idx),
+         }).done(function(result) {
+            $("#dialog5").dialog("open");
+            $("#dialog5").html(result);
+
+            $("#close").click(function(){
+                $("#dialog5").dialog("close");
+            });
+         })
+        } 
 
       $( "#dialog" ).dialog({
          autoOpen: false,
@@ -491,6 +522,28 @@ table tfoot ol.page {
             }
         });
         
+        $( "#dialog4" ).dialog({
+            autoOpen: false,
+            width:1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+        
+        $( "#dialog5" ).dialog({
+            autoOpen: false,
+            width:1200,
+            modal: true,
+            buttons: {
+                "닫기": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+        
 
       function paging(str) {
          select = $("#searchType").val();
@@ -510,6 +563,13 @@ table tfoot ol.page {
          });
          
       }
+
+      function del(ss_idx){
+			if( confirm("삭제하시겠습니까?")){
+               frm.action = "delCounselAdd?ss_idx="+ss_idx;
+               frm.submit();
+			}
+		}
    </script>
 </body>
 </html>

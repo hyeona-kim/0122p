@@ -348,35 +348,6 @@ table tfoot ol.page {
 				$("#board_main_list").html(result);
 			});
 		};
-
-		function searchYear(cPage){
-			search_year = document.getElementById("search_year").value;
-
-			$.ajax({
-				url: "searchYear",
-				type: "post",
-				data: "year="+encodeURIComponent(search_year)+
-						"&cPage="+cPage+
-						"&value="+encodeURIComponent(search_value),
-			}).done(function(result){
-				$("#board_main_list").html(result);
-			});
-		};
-		
-		function searchValue(cPage) {
-			search_tag = document.getElementById("search_tag").value;
-			search_value = document.getElementById("search_value").value;
-			
-			$.ajax({
-				url: "searchValue",
-				type: "post",
-				data: "cPage="+cPage+
-						"&value="+encodeURIComponent(search_value)+
-						"&tag="+encodeURIComponent(search_tag),
-			}).done(function(result){
-				$("#board_main_list").html(result);
-			});
-		};
 		
 		function searchBoth(cPage) {
 			search_year = document.getElementById("search_year").value;

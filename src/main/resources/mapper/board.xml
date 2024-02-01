@@ -3,54 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.BoardMapper">
-  	
-  	<!-- 게시판 전체 목록 출력하는 기능
-  		 page객체에서 begin과 end를 받아서 Paging기법을 쓴다
-  		 status가 1인 게시물은 삭제된 게시물 -->
-	<select id="all" parameterType="Map" resultType="com.ict.project.vo.BoardVO">
-	    select * from 
-	    (select @RN:=@RN+1 as rnum, a.* from (select * from board_t where bd_status = 0 order by bd_idx desc) a, (select @RN:=0) b) c
-	    where c.rnum between #{begin} and #{end}
+
+	<resultMap id="board_map" type="com.ict.project.vo.CourseVO">
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<association property="ctvo" column="cf_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+	</resultMap>
+	<select id="staff" parameterType="String" resultType="com.ict.project.vo.StaffVO">
+	select * from staff_t where sf_idx = #{sf_idx}
 	</select>
-	
-	<!-- 게시판 추가하는 기능 -->
-	<insert id="add" parameterType="com.ict.project.vo.BoardVO">
-		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_fname, bd_oname , bd_notice, bd_status, c_idx)
-		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_fname}, #{bd_oname}, #{bd_notice}, 0, #{c_idx})
-	</insert>
-	
-	<!-- 게시물 답변 추가하는 기능 -->
-	<insert id="addReply" parameterType="com.ict.project.vo.BoardVO">
-		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_fname, bd_oname, bd_notice, bd_status, c_idx)
-		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_fname}, #{bd_oname}, #{bd_notice}, 0, #{c_idx})
-	</insert>
-	
-	<!-- Paging객체를 생성하기 위해 totalRecord를 구하는 기능 -->
-	<select id="count" resultType="int">
-		select count(*) from board_t
-		where bd_status = 0
-	</select>
-	
-	<!-- 게시물 검색하는 기능 -->
-	<select id="searchBoard" parameterType="Map" resultType="com.ict.project.vo.BoardVO">
-		select * from
-			(select @RN:=@RN+1 as rnum,	a.*from (select * from board_t
-			<trim prefix="where" suffixOverrides="and">
-				c_idx = #{c_idx} and
-				<if test="bd_subject != null">bd_subject like concat ('%', #{bd_subject}, '%') and</if>
-			</trim> order by bd_idx desc) a,
-			(select @RN:=0) b) c
-		where c.rnum between #{begin} and #{end} and bd_status = 0
-	</select>
-	
-	<!-- 게시물 검색 후 totalRecord를 다시 구하는 기능 -->
-	<select id="reCount" parameterType="Map" resultType="int">
-		select count(*) from
-			(select * from board_t
-			<trim prefix="where" suffixOverrides="and">
-				c_idx = #{c_idx} and bd_status = 0 and
-				<if test="bd_subject != null">bd_subject like concat ('%', #{bd_subject}, '%')</if>
-			</trim>) a
+	<select id="courseType" parameterType="String" resultType="com.ict.project.vo.CourseTypeVO">
+		select * from course_type_t where ct_idx = #{ct_idx}
 	</select>
 
 	<!-- 게시물 보기를 위해 해당 게시물을 얻어내는 기능 -->
@@ -60,21 +22,21 @@
 			(select c_idx, c_name from course_t where c_status = 0) b
 		where a.c_idx = b.c_idx;
 	</select>
-	
+
 
 	<!-- 공지 체크 안되어있는 게시물들의 총 개수를 구하는 기능 -->
 	<select id="cntNonNotice" parameterType="String" resultType="int">
 		select count(*) from (select @RN:=@RN+1 as rnum, a.* from
 		(select * from board_t where c_idx = #{c_idx} and bd_status = 0 and ifnull(bd_notice, 2) not in (1) order by bd_idx desc) a,
-    	(select @RN:=0) b) c
+		(select @RN:=0) b) c
 	</select>
 
 	<!-- 공지 체크 안되어있는 게시물들의 목록을 얻어내는 기능 -->
 	<select id="checkNotice" parameterType="Map" resultType="com.ict.project.vo.BoardVO">
 		select * from (select @RN:=@RN+1 as rnum, a.* from
 		(select * from board_t where c_idx = #{c_idx} and bd_status = 0 and ifnull(bd_notice, 2) not in (1) order by bd_idx desc) a,
-   		(select @RN:=0) b) c
-    	where c.rnum between #{begin} and #{end}
+		(select @RN:=0) b) c
+		where c.rnum between #{begin} and #{end}
 	</select>
 
 	<!-- 과정별 게시판의 목록을 얻어내는 기능 -->
@@ -97,34 +59,7 @@
 		where bd_idx = #{bd_idx}
 	</update>
 
-	<!-- 게시판에서 년도선택으로 검색하는 기능 -->
-	<select id="searchYear" parameterType="Map" resultType="com.ict.project.vo.CourseVO">
-		select * from (select @RN:=@RN+1 as rnum, a.* from
-			(select * from course_t	where c_status = 0 and start_date like concat (#{year}, '%') order by start_date desc) a,
-    		(select @RN:=0) b) c
-    		where c.rnum between #{begin} and #{end};
-	</select>
-
-	<!-- 게시판에서 년도선택으로 검색할 때
-		Paging을 위해 검색 결과의 totalRecord를 구하는 기능 -->
-	<select id="cntSearchYear" parameterType="String" resultType="int">
-		select count(*) from course_t
-		where c_status = 0 and start_date like concat (#{year}, '%')
-	</select>
-
-	<resultMap id="board_map" type="com.ict.project.vo.CourseVO">
-		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
-		<association property="ctvo" column="cf_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
-	</resultMap>
-	<select id="staff" parameterType="String" resultType="com.ict.project.vo.StaffVO">
-		select * from staff_t where sf_idx = #{sf_idx}
-	</select>
-	<select id="courseType" parameterType="String" resultType="com.ict.project.vo.CourseTypeVO">
-		select * from course_type_t where ct_idx = #{ct_idx}
-	</select>
-	
-	<!-- 게시판에서 검색버튼을 클릭해서 검색하는 기능 -->
-	<select id="searchValue" parameterType="Map" resultMap="board_map">
+	<select id="searchBothBoard" parameterType="Map" resultMap="board_map">
 		select * from (select @RN:=@RN+1 as rnum, d.* from 
 			(select a.*,b.sf_name, c.ct_name from
 				(select * from course_t where c_status = 0) a,
@@ -132,6 +67,7 @@
 				(select ct_idx, ct_name from course_type_t) c
 				where a.sf_idx = b.sf_idx and a.ct_idx = c.ct_idx
 				<trim prefix="and" suffixOverrides="and">
+					<if test="year != null">start_date like concat (#{year}, '%') and </if>
 					<if test="tag == 1">sf_name like concat ('%', #{value}, '%')</if>
 					<if test="tag == 2">ct_name like concat ('%', #{value}, '%')</if>
 					<if test="tag == 3">c_name like concat ('%', #{value}, '%')</if>
@@ -139,22 +75,6 @@
 			 order by c_idx desc) d,
 			(select @RN:=0) e) f
 		where f.rnum between #{begin} and #{end};
-	</select>
-
-	<!-- 게시판에서 검색버튼을 클릭해서 검색할 때
-		Paging을 위해 검색 결과의 totalRecord를 구하는 기능-->
-	<select id="search_total_count" parameterType="Map" resultType="int">
-		select count(*) from (select a.*,b.sf_name, c.ct_name from
-			(select * from course_t where c_status = 0) a,
-			(select sf_idx, sf_name from staff_t where status = 0) b,
-			(select ct_idx, ct_name from course_type_t) c
-			where a.sf_idx = b.sf_idx and a.ct_idx = c.ct_idx
-			<trim prefix="and" suffixOverrides="and">
-				<if test="tag == 1">sf_name like concat ('%', #{value}, '%')</if>
-				<if test="tag == 2">ct_name like concat ('%', #{value}, '%')</if>
-				<if test="tag == 3">c_name like concat ('%', #{value}, '%')</if>
-			</trim>
-			 order by c_idx desc) d;
 	</select>
 
 	<select id="search_both_count" parameterType="Map" resultType="int">
@@ -172,21 +92,15 @@
 			 order by c_idx desc) d;
 	</select>
 
-	<select id="searchBoth" parameterType="Map" resultMap="board_map">
-		select * from (select @RN:=@RN+1 as rnum, d.* from 
-			(select a.*,b.sf_name, c.ct_name from
-				(select * from course_t where c_status = 0) a,
-				(select sf_idx, sf_name from staff_t where status = 0) b,
-				(select ct_idx, ct_name from course_type_t) c
-				where a.sf_idx = b.sf_idx and a.ct_idx = c.ct_idx
-				<trim prefix="and" suffixOverrides="and">
-					<if test="year != null">start_date like concat (#{year}, '%') and </if>
-					<if test="tag == 1">sf_name like concat ('%', #{value}, '%')</if>
-					<if test="tag == 2">ct_name like concat ('%', #{value}, '%')</if>
-					<if test="tag == 3">c_name like concat ('%', #{value}, '%')</if>
-				</trim>
-			 order by c_idx desc) d,
-			(select @RN:=0) e) f
-		where f.rnum between #{begin} and #{end};
-	</select>
+	<!-- 게시판 추가하는 기능 -->
+	<insert id="add" parameterType="com.ict.project.vo.BoardVO">
+		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_fname, bd_oname , bd_notice, bd_status, c_idx)
+		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_fname}, #{bd_oname}, #{bd_notice}, 0, #{c_idx})
+	</insert>
+
+	<!-- 게시물 답변 추가하는 기능 -->
+	<insert id="addReply" parameterType="com.ict.project.vo.BoardVO">
+		insert into board_t (bd_subject, bd_writer, bd_write_date, bd_hit, bd_content, bd_fname, bd_oname, bd_notice, bd_status, c_idx)
+		values (#{bd_subject}, #{bd_writer}, now(), 0, #{bd_content}, #{bd_fname}, #{bd_oname}, #{bd_notice}, 0, #{c_idx})
+	</insert>
 </mapper>

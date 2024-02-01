@@ -63,7 +63,7 @@
 	#searchCourse td, #searchTime th, #makeCourse td, #makeCourse th{
 		border: 1px solid #ddd;
 		height: 40px;
-		padding-left: 10px;
+		text-align: center;
 	}
 	#searchCourse th, #makeCourse th{background-color: #ddd;}
 	
@@ -108,10 +108,21 @@
 	#after{
 		background-color:aquamarine;
 	}
+	.btn{
+        padding:5px 11px;
+        border-radius: 3px 3px;
+        border: none;
+        color: white;
+        background-color: #00acac;
+        margin-left: 2px;
+    }
+	.red{background-color:  #d43f3a}
+	.blue{ background-color: #2e6da4;}
+	.yellow{background-color: #eea236;}
+	.green{background-color: #5cb85c;}
 </style>
 
 </head>
-<c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -144,7 +155,7 @@
 											<option value="3">과정명</option>
 										</select>
 										<input type="text" id="searchValue"/>
-										<button type="button" id="search_bt">검 색</button>
+										<button type="button" id="search_bt" class="btn">검 색</button>
 									</td>
 								</tr>
 							</thead>
@@ -164,30 +175,91 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-	
+		let select_num="";
+		let selectYear="";
+		let searchType="";
+		let searchValue="";
 	$(function() {
-        /*
+        let now = new Date();	// 현재 날짜 및 시간
+		let year = now.getFullYear();
+		let str = "<option>년도선택</option>";
+		
+		for(let i=year+1; i>year-5; i--){
+			str+= "<option value="+i+">"+i+"</option>";
+		}
+		$("#selectYear").html(str);
+	
+
 		$.ajax({
-			url: "courseMain",
+			url: "courseList",
 			type: "post",
-			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('${param.cPage}')
+			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year=&num=",
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
-		});*/
+		});
+
+
 		
+		$("#numPerPage").change(function(){
+			select_num=$("#numPerPage").val();
+			
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+		});
+
+		$("#selectYear").change(function(){
+			selectYear= $("#selectYear").val();
+
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+			
+		});
 		
+		$("#search_bt").click(function(){
+			searchType = $("#searchType").val();
+			searchValue = $("#searchValue").val();
+			$.ajax({
+				url: "courseList",
+				type: "post",
+				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			}).done(function(result){
+				$("#courseLog_Table").html(result);
+			});
+			
+			
+		});
+	
+
 		//$().removeClass("selected");
 		$(".selected").removeClass("selected");
 		$(".l_select").removeClass("l_selected");
 		$("#thirteenmenu").addClass("selected");
 		$("#l_first").addClass("l_select");
 		
+
 		
 	});
 	
+	function paging(cPage){
+		$.ajax({
+			url: "courseList",
+			type: "post",
+			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent(cPage)+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+		}).done(function(result){
+			$("#courseLog_Table").html(result);
+		});
 
+	}
 	</script>
 </body>
-</c:if>
-
 </html>
