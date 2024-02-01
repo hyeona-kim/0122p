@@ -13,7 +13,7 @@
       <li class="menubar" id="secondmenu"><a href="menu?select=courseReg">과정등록</a></li>
       <li class="menubar" id="thirdmenu"><a href="menu?select=schoolRecord">학적부</a></li>
       <li class="menubar" id="fourthmenu"><a href="menu?select=counselManage">상담관리</a></li>
-      <li class="menubar 5"><a href="menu?select=trainingLog">훈련일지</a></li>
+      <li class="menubar" id="sixmenu"><a href="menu?select=trainingLog">훈련일지</a></li>
       <li class="menubar 6" id="etclist"><a href="menu?select=etcList">기타관리</a></li>
       <li class="menubar 7" id=""><a href="">사전평가</a></li>
       <li class="menubar 8" id=""><a href="">자기/수행평가</a></li>

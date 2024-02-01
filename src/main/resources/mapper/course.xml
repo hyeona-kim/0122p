@@ -13,6 +13,7 @@
 		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee"></collection>
 		<collection property="tr_ar2" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee2"></collection>
 		<collection property="tr_ar3" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee3"></collection>
+		<collection property="cs_ar" column="c_idx" ofType="com.ict.project.vo.CounselVO" select="counsel"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -39,6 +40,9 @@
 	</select>
 	<select id="room" resultType="com.ict.project.vo.RoomVO" parameterType="String">
 		select * from room_t where r_idx=#{str}
+	</select>
+	<select id="counsel" resultType="com.ict.project.vo.CounselVO" parameterType="String">
+		select * from advice_t where c_idx=#{str} order by so_day desc
 	</select>
 	<select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
 		select * from staff_t where sf_idx=#{str}

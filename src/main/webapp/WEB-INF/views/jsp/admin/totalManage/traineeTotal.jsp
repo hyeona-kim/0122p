@@ -198,7 +198,12 @@
 										<select id="searchCourse" style="width: 600px;" class="search_tag">
                                             <option value="0">-과정을 선택해주세요-</option>
                                             <c:forEach var="cvo" items="${c_ar}">
-                                                <option value="${cvo.c_idx}">${cvo.c_name}(${cvo.start_date}~${cvo.end_date})</option>
+                                                <c:if test="${param.c_idx eq null || param.c_idx ne cvo.c_idx}">
+                                                    <option value="${cvo.c_idx}">${cvo.c_name}(${cvo.start_date}~${cvo.end_date})</option>
+                                                </c:if>
+                                                <c:if test="${param.c_idx eq cvo.c_idx }">
+                                                    <option value="${cvo.c_idx}" selected>${cvo.c_name}(${cvo.start_date}~${cvo.end_date})</option>
+                                                </c:if>
                                             </c:forEach>
 										</select>
 										<select id="searchType" class="search_tag">
@@ -248,10 +253,29 @@
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
 	let selectTr=""; //훈련생
-    let selectCourse="";
+    let selectCourse="${param.c_idx}";
     let searchType ="";
     let searchValue ="";
 	$(function() {
+        if(selectCourse.length >0){
+            $.ajax({
+                url: "traineeTotal",
+                type: "post",
+                data:"listSelect="+encodeURIComponent("2")+"&c_idx="+selectCourse+"&select="+searchType+"&value="+searchValue
+            }).done(function(result){
+                let html = "<span class='man'>●</span>남자 "+
+                            "<span class='woman'>●</span>여자 "+
+                            "<span class='giveup'>■</span>수강포기"+
+                            "<span class='employ'>■</span>조기취업"+ 
+                            "<span class='finish'>■</span>조기수료"+
+                            "<span class='none'>■</span>미수료"+ 
+                            "<span class='weeding'>■</span>제적"+
+                            "<div align='right'><button type='button' class='btn'>훈련생종합성적표</button>"+ 
+                            "<button type='button' class='btn'>능력단위분석표</button> "+
+                            "<button type='button' class='btn'>편지비교표</button></div>" ;
+                $("#courseLog_Table").html(html+result);
+            });
+        }
         $("#searchCourse").change(function(){
             selectCourse =this.value;
             $.ajax({
