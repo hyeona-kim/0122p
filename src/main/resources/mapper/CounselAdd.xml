@@ -6,8 +6,8 @@
 
 
 	<insert id = "add" parameterType ="com.ict.project.vo.CounselAddVO">  
-        INSERT INTO  advice_sst( ss_time, ss_tname, ss_name, ss_msg, ss_msubject, ss_img, ss_member, ss_mday, ss_pa, ss_cnt, ss_day, sf_idx, c_idx,ss_p, ss_status)
-          values(#{ss_time}, #{ss_tname}, #{ss_name}, #{ss_msg}, #{ss_msubject}, #{ss_img}, #{ss_member}, #{ss_mday}, #{ss_pa}, #{ss_cnt}, #{ss_day}, #{sf_idx}, #{c_idx},#{ss_p}, 0)
+        INSERT INTO  advice_sst( ss_time, ss_tname, ss_name, ss_msg, ss_msubject, ss_img, ss_member, ss_mday, ss_pa, ss_cnt, ss_day, sf_idx, c_idx,ss_p, ss_status, ss_num)
+          values(#{ss_time}, #{ss_tname}, #{ss_name}, #{ss_msg}, #{ss_msubject}, #{ss_img}, #{ss_member}, #{ss_mday}, #{ss_pa}, #{ss_cnt}, #{ss_day}, #{sf_idx}, #{c_idx},#{ss_p}, 0, #{ss_num})
 	</insert>
 
     <select id ="list" parameterType="String" resultType="com.ict.project.vo.CounselAddVO">
@@ -22,10 +22,9 @@
 
     <update id = "edit" parameterType = "com.ict.project.vo.CounselAddVO">
       update advice_sst
-      <set>
+      set
         ss_time = #{ss_time}, ss_tname = #{ss_tname}, ss_name = #{ss_name}, ss_msg = #{ss_msg}, ss_msubject = #{ss_msubject}, ss_img = #{ss_img}, ss_member = #{ss_member}, ss_mday = #{ss_mday},
-        ss_pa = #{ss_pa}, ss_cnt = #{ss_cnt}, ss_day = #{ss_day}, sf_idx = #{sf_idx}, ss_p = #{ss_p}
-      </set>
+        ss_pa = #{ss_pa}, ss_day = #{ss_day}, ss_p = #{ss_p}, ss_num = #{ss_num}
       where ss_idx = #{ss_idx}
     </update>
 
