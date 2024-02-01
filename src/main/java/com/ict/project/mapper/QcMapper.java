@@ -1,12 +1,16 @@
 package com.ict.project.mapper;
 
+import java.util.List;
+
 import com.ict.project.vo.QcVO;
 
 public interface QcMapper {
 
-    QcVO list(String tr_idx);
-    int edit(QcVO qvo);
+
     int qedit(QcVO qvo);
-    int add(QcVO qvo);
+
+    List<QcVO> list(String tr_idx);
+    int editWrite(QcVO qvo);
+    int addWrite(QcVO qvo);
 
 }

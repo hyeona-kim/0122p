@@ -244,7 +244,7 @@ table tfoot ol.page {
 								<tr>
 									<th>검색</th>
 									<td>
-										<select id="search_year" onchange="searchBoth()">
+										<select id="search_year" onchange="searchBothBoard()">
 											<option value="">년도선택</option>
 											<option>2024</option>
 											<option>2023</option>
@@ -262,7 +262,7 @@ table tfoot ol.page {
                                             <option value="3">과정명</option>
                                         </select>
                                         <input type="text" id="search_value"/>
-                                        <button type="button" id="search_btn" onclick="searchBoth()">검색</button>
+                                        <button type="button" id="search_btn" onclick="searchBothBoard()">검색</button>
 									</td>
 								</tr>
 							</thead>
@@ -348,43 +348,14 @@ table tfoot ol.page {
 				$("#board_main_list").html(result);
 			});
 		};
-
-		function searchYear(cPage){
-			search_year = document.getElementById("search_year").value;
-
-			$.ajax({
-				url: "searchYear",
-				type: "post",
-				data: "year="+encodeURIComponent(search_year)+
-						"&cPage="+cPage+
-						"&value="+encodeURIComponent(search_value),
-			}).done(function(result){
-				$("#board_main_list").html(result);
-			});
-		};
 		
-		function searchValue(cPage) {
-			search_tag = document.getElementById("search_tag").value;
-			search_value = document.getElementById("search_value").value;
-			
-			$.ajax({
-				url: "searchValue",
-				type: "post",
-				data: "cPage="+cPage+
-						"&value="+encodeURIComponent(search_value)+
-						"&tag="+encodeURIComponent(search_tag),
-			}).done(function(result){
-				$("#board_main_list").html(result);
-			});
-		};
-		
-		function searchBoth(cPage) {
+		function searchBothBoard(cPage) {
 			search_year = document.getElementById("search_year").value;
 			search_tag = document.getElementById("search_tag").value;
 			search_value = document.getElementById("search_value").value;
 			
 			$.ajax({
-				url: "searchBoth",
+				url: "searchBothBoard",
 				type: "post",
 				data: "cPage="+cPage+
 				"&tag="+search_tag+

@@ -243,7 +243,6 @@ table tfoot ol.page {
                   <div id="counselList_top">교육생별 상담관리 검색</div>
                         <div id="ttop">
                             <button type="button" onclick="set()">상담일괄등록</button>   
-                            <button type="button" onclick="printList()">상담일지 일괄출력</button>
                         </div>
                   <div id="counsel_Table">
 
@@ -254,8 +253,10 @@ table tfoot ol.page {
       </article>
       
       <form name="frm" action="counsel" method="post">
-         <input type="hidden" name="type"  value=""/> 
          <input type="hidden" name="so_idx" value="" />
+         <input type="hidden" name="c_page" value="1" />
+         <input type="hidden" name="c_idx" value="" />
+         <input type="hidden" name="listSelect" value="4" />
       </form>
       
       
@@ -296,35 +297,7 @@ table tfoot ol.page {
          
          for(let i=year+1; i>year-5; i--){
             str+= "<option value="+i+">"+i+"</option>";
-         }
-         $("#selectYear").html(str);
-         
-         $("#searchType").on("change",function(){
-            select = this.value;
-         });
-         $("#selectYear").on("change",function(){
-            select_year = this.value;
-            $.ajax({
-               url: "searchCounsel",
-               type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-            }).done(function(result){
-               $("counsel_Table").html(result);
-               
-            });
-         });
-         $("#numPerPage").on("change",function(){
-            numPerPage = this.value;
-            $.ajax({
-               url: "searchCounsel",
-               type: "post",
-               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}')
-            }).done(function(result){
-               $("#counsel_Table").html(result);
-            });
-         });
+         }      
          
 
          });   
@@ -344,21 +317,6 @@ table tfoot ol.page {
          });
          
         }
-      
-      function printList() {
-         $.ajax({
-            url:"counselList",
-            type:"post",
-            data:"type="+encodeURIComponent("ss_dialog")+"&select="+encodeURIComponent("counselList")
-         }).done(function(result){
-            $("#dialog2").html(result);
-            
-            $("#cc_cancle").click(function(){
-                $("#dialog2").dialog("close");
-            });
-         });
-        }   
-
       function counselList(tr_idx) {
          $.ajax({
             url:"ss_dialog",
@@ -388,17 +346,34 @@ table tfoot ol.page {
             });
          });
         }
+         function del(so_idx,c_idx){
+            if(confirm("삭제하시겠습니까?")){
+               frm.action = "delCounsel";    
+               document.frm.so_idx.value =so_idx;
+               document.frm.c_idx.value =c_idx;
+               document.frm.submit();
+            
+            }
+         }
+         function update(frm){
+            //수정 버튼을 눌렀을때 폼을 보내서 수정한다.
+            frm.submit();
+         }
         function editCounsel(so_idx, tr_idx) {
-         $.ajax({
-            url:"ss_dialog",
-            type:"post",
-            data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+encodeURIComponent(tr_idx)+"&so_idx="+encodeURIComponent(so_idx),
-         }).done(function(result){
-         $("#dialog4").dialog("open");
-            $("#dialog4").html(result);
+            $.ajax({
+               url:"ss_dialog",
+               type:"post",
+               data:"&select="+encodeURIComponent("editCounsel")+"&tr_idx="+encodeURIComponent(tr_idx)+"&so_idx="+encodeURIComponent(so_idx),
+            }).done(function(result){
+            $("#dialog4").dialog("open");
+               $("#dialog4").html(result);
 
-         });
-        } 
+               $("#close").click(function(){
+                  $("#dialog4").dialog("close");
+               });
+            });
+        }
+        
       function paging(str, c_idx) {
          $.ajax({
             url: "searchCounsel",
@@ -436,6 +411,9 @@ table tfoot ol.page {
             modal: true,
 
      });
+     function total_add(frm){
+      frm.submit();
+     }
 
    </script>
 

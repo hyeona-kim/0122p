@@ -18,7 +18,7 @@
                         </tr>
                         <tr>
                             <th>교육타입</th>
-							<td></td>
+							<td>${ctvo.ct_name}</td>
                             <th>교육기간</th>
 							<td>${cc.start_date}~${cc.end_date}</td>
 						</tr>
@@ -96,40 +96,41 @@
                 <tbody>
                     <tr>
                         <th>자격명</th>
-                        <th>취득일</th>
+                        <th>취득일(필수항목)</th>
                         <th>발행처</th>
                         <th>회사명</th>
                         <th>근무기간</th>
                         <th>담당업무</th>
                         <th>직급</th>
                     </tr>
+                <c:forEach var="qvo" items="${ar}" varStatus="vs">
                     <tr>
+                        <input type="hidden" name="qc_idx" value="${qvo.qc_idx}">
+                        <input type="hidden" name="qc_tridx" value="${vs.index+1}">
                         <td><input type="text" value="${qvo.qc_name}" name="qc_name"></td>
-                        <td><input type="text" value="${qvo.qc_date}" name="qc_date"></td>
+                        <td><input type="date" value="${qvo.qc_date}" name="qc_date"></td>
                         <td><input type="text" value="${qvo.qc_place}" name="qc_place"></td>
                         <td><input type="text" value="${qvo.qc_cname}" name="qc_cname"></td>
                         <td><input type="text" value="${qvo.qc_day}" name="qc_day"></td>
                         <td><input type="text" value="${qvo.qc_job}" name="qc_job"></td>
                         <td><input type="text" value="${qvo.qc_position}" name="qc_position"></td>
                     </tr>
+                </c:forEach>
+                <c:if test="${length < 3}">
+                <c:forEach begin="${length+1}" end="3" var="i">
                     <tr>
-                        <td><input type="text" ></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
+                        <input type="hidden" name="qc_tridx" value="${i}">
+                        <td><input type="text" name="qc_name"></td>
+                        <td><input type="date" name="qc_date"></td>
+                        <td><input type="text" name="qc_place"></td>
+                        <td><input type="text" name="qc_cname"></td>
+                        <td><input type="text" name="qc_day"></td>
+                        <td><input type="text" name="qc_job"></td>
+                        <td><input type="text" name="qc_position"></td>
                     </tr>
-                    <tr>
-                        <td><input type="text" ></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
+                </c:forEach>
+                </c:if>
+                    
                 </tbody>
              </table>
              <table id="makeTime">
@@ -137,7 +138,7 @@
                     <th >메모</th>
                 </tr>
                 <tr>
-                    <td><textarea rows="8" cols="180" value="${vo12.tr_etc}"></textarea></td>
+                    <td><textarea rows="8" cols="180" name="tr_etc">${vo12.tr_etc}</textarea></td>
                 </tr>
              </table>
              <div>
@@ -148,5 +149,7 @@
             <input type="hidden" name="c_idx" value="${cc.c_idx}">
             <input type="hidden" name="tr_idx" value="${vo12.tr_idx}">
             <input type="hidden" name="tm_idx" value="${tmvo.tm_idx}">
+            <input type="hidden" name="tf_idx" value="${tfvo.tf_idx}">
+            <input type="hidden" name="bs_idx" value="${bvo.bs_idx}">
         </form>
 	

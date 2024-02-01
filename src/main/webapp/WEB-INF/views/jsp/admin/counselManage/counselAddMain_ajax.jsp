@@ -46,7 +46,7 @@
 			<tbody>
 				<c:forEach items="${ar}" var="vo" varStatus="vs">
 					<tr>
-						<td>${vo.ss_mday}</td>
+						<td><a href="javascript:viewCounselAdd('${vo.ss_idx}')">${vo.ss_mday}</a></td>
 						<td>${ss_cnt-vs.index}</td>
 						<td>${vo.ss_day}</td>
 						<td>${vo.ss_p}</td>

@@ -83,11 +83,9 @@
 	where tr_idx = ${tr_idx}
 </update>
 
-<update id="etcedit" parameterType="String">
+<update id="etcedit" parameterType="Map">
 	update trainee_t
-	<set>
-		<if test="tr_etc !=null"> tr_etc = #{tr_etc}</if>
-	</set>
+	set tr_etc = #{tr_etc}, tr_memo = #{tr_memo}
 	where tr_idx = #{tr_idx}
 </update>
 

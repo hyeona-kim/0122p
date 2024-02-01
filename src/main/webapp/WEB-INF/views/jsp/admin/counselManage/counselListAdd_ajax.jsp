@@ -7,7 +7,7 @@
 	
 	<div>
 	<form action="counselListAdd" method="post">
-		<table id="tt_add2" class="add_l">
+		<table id="tt_add2" class="add_l t2">
 			<colgroup>
 				<col width="50%"/>
 				<col width="50%"/>
@@ -20,13 +20,13 @@
                 <input type="hidden" name="tr_idx" value="${tvo.tr_idx}"/>
                 <input type="hidden" name="ss_num" value="${tvo.ss_num+1}"/>
                 <tr>
-                    <th>상담일</th>
+                    <th bgcolor="lightgray">상담일</th>
                     <td><input type="date" id="so_day" name="so_day" /></td>
-					<th>상담자</th>
+					<th bgcolor="lightgray">상담자</th>
                     <td><input type="text" id="so_tname" name="so_tname" /></td>
                 </tr>
                 <tr>
-					<th>상담종류</th>
+					<th bgcolor="lightgray">상담종류</th>
                     <td>
                     <select id="so_menu" name="so_menu">
                         <option>일반상담</option> 
@@ -40,27 +40,26 @@
                         <option>취업상담</option> 
                     </select>
                     </td>
-                <tr>
- 					<th>총상담횟수</th>
+ 					<th bgcolor="lightgray">총상담횟수</th>
         			<td>${tvo.ss_num+1}</td>       
                 </tr>
-                </tr>
                 <tr>
-                    <th>상담목적</th>
+                    <th bgcolor="lightgray">상담목적</th>
                     <td colspan="3"><textarea type="text" id="so_pp" name="so_pp" cols="90" rows="10"></textarea></td>
 
                 </tr>
 				<tr>
-                    <th>상담내용</th>
+                    <th bgcolor="lightgray">상담내용</th>
                     <td colspan="3"><textarea type="text" id="so_subject" name="so_subject" cols="90" rows="10"></textarea></td>
                 </tr>
                 <tr>
-                    <th>지도관리 및 피드백</th>
+                    <th bgcolor="lightgray">지도관리 및 피드백</th>
                     <td colspan="3"><textarea type="text" id="so_pd" name="so_pd" cols="90" rows="10"></textarea></td>
                 </tr>
+                <input type="hidden" name="total"/>
                     <tr>
-						<td colspan="4">
-							<button type="submit">등록</button>
+						<td colspan="4" align="center">
+							<button type="button" onclick="total_add(this.form)">등록</button>
 							<button type="button" id="close">취소</button>
 						</td>
 					</tr>

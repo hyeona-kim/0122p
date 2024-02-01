@@ -178,7 +178,30 @@ public class SuggestionController {
     @RequestMapping("addReply")
     public ModelAndView addReply(SuggestionVO svo) {
         ModelAndView mv = new ModelAndView();
-		s_Service.addReply(svo);
+		String encType = request.getContentType();
+		if(encType.startsWith("application")) {
+			s_Service.addReply(svo);
+		}else if(encType.startsWith("multipart")) {
+			MultipartFile mf = svo.getFile();
+			String fname = null;
+			
+			if(mf != null && mf.getSize() > 0) {
+				String realPath = application.getRealPath("upload_suggFile");
+
+				String oname = mf.getOriginalFilename();
+
+				fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+				try {
+					mf.transferTo(new File(realPath, fname));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				svo.setSg_file_name(fname);
+				svo.setSg_ori_name(oname);
+			}
+			s_Service.addReply(svo);
+		}
 		mv.setViewName("redirect:suggestionList");
 		return mv;
     }
@@ -188,14 +211,13 @@ public class SuggestionController {
     public ModelAndView requestMethodName(String cPage,String tag,String value) {
         ModelAndView mv = new ModelAndView();
         SuggestionVO[] ar = null;
-		Paging page = null;
+		Paging page = new Paging();
 		boolean search_flag = true;
 		
 		// Paging을 다시 만들기 위해 totalRecord를 다시 구한다
 		int cnt = s_Service.reGetTotalRecord(value);
 		
 		if(cnt > 0) {
-			page = new Paging();
 			page.setTotalRecord(cnt);
 			if(cPage == null || cPage.equals("undefined")) {
 				page.setNowPage(1);	

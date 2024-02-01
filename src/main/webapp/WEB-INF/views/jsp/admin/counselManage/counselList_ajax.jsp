@@ -4,12 +4,19 @@
 
 	<h2 id="add_h2">&nbsp;&nbsp;교육생 상담일지</h2>
 	<div id="add_d1">
-		<table class="add">
+		<table class="add t1">
 			<colgroup>
-				<col width ="50%" />
-				<col width ="50%" />
+				<col width ="20%" />
+				<col width ="40%" />
+				<col width ="40%" />
 			</colgroup>
 			<tr>
+				<c:if test="${tvo.file_name ne null}">
+					<td rowspan="4"><img src="${pageContext.request.contextPath }/upload_file/${tvo.file_name}" alt="학생이미지" width="150" height="150"/></td>
+				</c:if>
+				<c:if test="${tvo.file_name eq null}">
+					<td rowspan="4">No Image</td>
+				</c:if>
 				<th>성명</th>
 				<td>${tvo.tr_name}</td>
 			</tr>
@@ -26,7 +33,7 @@
 				<td>${tvo.tr_hp}</td>
 			</tr>
 		</table>
-		<table class="add">	
+		<table class="add t1">	
 			<colgroup>
 				<col width="17%"/>
 				<col width="17%"/>
@@ -48,7 +55,7 @@
 	<div id="add_d2">
 	<form action="counselsave" method="post" enctype="multipart/form-data">
 		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
-		<table class="add" id="add_t1">
+		<table class="add t1" id="add_t1">
 			<colgroup>
 				<col width="10%"/>
 				<col width="10%"/>

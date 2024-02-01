@@ -433,7 +433,8 @@ public class TraineeController {
 		CounselVO[] ccvo = cc_Service.counselList(tr_idx);
 		
 		//System.out.println(cvo.getC_name());
-		
+		if(ccvo != null)
+			mv.addObject("ss_num", ccvo.length);
 		mv.addObject("ccvo", ccvo);
 		mv.addObject("vo11", vo);
 		mv.addObject("cv", cvo);
@@ -446,18 +447,25 @@ public class TraineeController {
 	@RequestMapping("traineewrite")
 	public ModelAndView traineewrite(String tr_idx, String c_idx){
 		ModelAndView mv = new ModelAndView();
-
+		System.out.println(c_idx);
 		TraineeVO vo = t_Service.view(tr_idx);
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		BusinessVO bvo = bs_Service.list(tr_idx);
-		QcVO qvo = q_Service.list(tr_idx);
+		QcVO[] ar = q_Service.list(tr_idx);
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
+		CourseTypeVO ctvo = ct_Service.getOne(cvo.getCt_idx()); 
 
 		mv.addObject("bvo", bvo);
-		mv.addObject("qvo", qvo);
+		mv.addObject("ar", ar);
 		mv.addObject("tfvo", tfvo);
 		mv.addObject("vo12", vo);
 		mv.addObject("cc", cvo);
+		mv.addObject("ctvo", ctvo);
+		if(ar != null && ar.length > 0){
+			mv.addObject("length", ar.length);
+		} else {
+			mv.addObject("length", 0);
+		}
 		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
 		return mv;
 	}
@@ -498,16 +506,17 @@ public class TraineeController {
 	}
 
 	@RequestMapping("couupload")
-	public ModelAndView couupload(String tr_idx, String c_idx, CounselVO ccvo, String so_idx, String cPage){
+	public ModelAndView couupload(String tr_idx, String c_idx, String ss_num, String so_idx){
 		ModelAndView mv = new ModelAndView();
 		
 
 		CounselVO cvo = cc_Service.getCounsel(so_idx);
 		CourseVO vvo = c_Service.getCourse(c_idx);
-		
+		System.out.println(ss_num);
 		mv.addObject("vvo", vvo);
 		mv.addObject("tr_idx", tr_idx);
 		mv.addObject("c_idx", c_idx);
+		mv.addObject("ss_num", ss_num);
 		mv.addObject("cvo", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
 
@@ -516,33 +525,77 @@ public class TraineeController {
 	}
 
 	@RequestMapping("counseling_ajax")
-	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
+	public ModelAndView counseling_ajax(CounselVO ccvo, String ss_num){
 		ModelAndView mv = new ModelAndView();
 		
+		if(ccvo.getSo_day() != null && ccvo.getSo_day().trim().length() > 1){
+			t_Service.setCounsel_date(ccvo.getTr_idx(), ccvo.getSo_day(), ss_num);
+			cc_Service.addCounsel(ccvo);
+		}	
 
-		int cnt = cc_Service.addCounsel(ccvo);
 
-
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-		return mv;
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+ccvo.getC_idx());
+		return mv;	
 	}
 
 
 	@RequestMapping("Traineewrite_ajax")
-	public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,QcVO qvo,TrfinalVO tfvo, TraineeVO tvo){
+	public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,TrfinalVO tfvo, TraineeVO tvo,
+		String[] qc_idx, String[] qc_name, String[] qc_date, String[] qc_place, String[] qc_cname, String[] qc_day, String[] qc_job, String[] qc_position, String[] qc_tridx){
 		ModelAndView mv = new ModelAndView();
+		int cnt = 5;
+		int cnt1 = 5; 
+		int cnt2 = 5; 
+		int cnt3 = 5;
+		int cnt4 = 5;
+		QcVO vo = new QcVO();
+		// 값이 들어 왔을 경우에만 실행해야 함
 
-		int cnt = bs_Service.bedit(bvo);
-		int cnt1= q_Service.qedit(qvo);
-		int cnt2 = tf_Service.tfedit(tfvo);
-		if(tvo.getTr_etc() !=null){
-			int cnt3 = t_Service.etcedit(tvo);
+		if(bvo != null){
+			bvo.setTr_idx(tr_idx);
+			if(bvo.getBs_idx() != null && bvo.getBs_idx().trim().length() > 0)
+				cnt = bs_Service.bedit(bvo);
+			else
+				cnt = bs_Service.badd(bvo);
 		}
-		
-		System.out.println(cnt+"/"+cnt1+"/"+cnt2);
+		if(tfvo != null){
+			tfvo.setTr_idx(tr_idx);
+			if(tfvo.getTf_idx() != null && tfvo.getTf_idx().trim().length() > 0)
+				cnt1 = tf_Service.tfedit(tfvo);
+			else
+				cnt1 = tf_Service.tfadd(tfvo);
+		}
+		if(qc_date != null && qc_date.length > 0){
+			for(int i = 0; i < qc_tridx.length; i++){
+				if(qc_date[i] == null || qc_date[i].trim().length() < 1) // 값이 안들어있다면 vo에 값을 넣을 이유가 없음
+					continue;
+				vo.setQc_name(qc_name[i]);
+				vo.setTr_idx(tr_idx);
+				vo.setQc_date(qc_date[i]);
+				vo.setQc_place(qc_place[i]);
+				vo.setQc_cname(qc_cname[i]);
+				vo.setQc_day(qc_day[i]);
+				vo.setQc_job(qc_job[i]);
+				vo.setQc_position(qc_position[i]);
+				vo.setQc_tridx(qc_tridx[i]);
+				if((qc_idx != null && qc_idx.length > 0) && (qc_idx[i] != null && qc_idx[i].trim().length() > 0)){
+					vo.setQc_idx(qc_idx[i]);
+					cnt2 = q_Service.editWrite(vo);
+				} else {
+					cnt3 = q_Service.addWrite(vo);
+				}
+
+			}
+		}
+			
+		if(tvo.getTr_etc() !=null && tvo.getTr_etc().trim().length() > 0){
+			cnt4 = t_Service.etcedit(tvo);
+		}
+		System.out.println(cnt + "/" + cnt1 + "/" + cnt2 + "/" + cnt3 + "/" + cnt4);
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 		return mv;
 	}
+
 
 	@RequestMapping("mangecard")
 	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
