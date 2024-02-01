@@ -18,5 +18,6 @@ public class CourseVO {
 	private TraineeVO[] tr_ar2;//제적된 인원
 	private TraineeVO[] tr_ar3;//현재 수강중인 인원
 	private CounselVO[] cs_ar;
+	private TrainingDiaryVO[] td_ar;
 
 }
