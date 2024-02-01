@@ -63,7 +63,7 @@
 	#searchCourse td, #searchTime th, #makeCourse td, #makeCourse th{
 		border: 1px solid #ddd;
 		height: 40px;
-		padding-left: 10px;
+		text-align: center;
 	}
 	#searchCourse th, #makeCourse th{background-color: #ddd;}
 	

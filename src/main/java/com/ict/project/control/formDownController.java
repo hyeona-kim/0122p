@@ -47,26 +47,34 @@ public class formDownController {
         return mv;
     }
 
-    // 메인페이지로 이동할때 비동기식 통신으로 전체목록을 반환하는 기능
+    // 메인페이지로 이동할때 비동기식 통신으로 목록을 반환하는 기능
     @RequestMapping("formMainAjax")
-    public ModelAndView formMainAjax(String cPage, String numPerPage) {
+    public ModelAndView formMainAjax(String cPage, String numPerPage, String value) {
         ModelAndView mv = new ModelAndView();
         Paging page = null;
-        if(numPerPage != null) { // 표시개수를 변경해서 들어올 때
-            page = new Paging(Integer.parseInt(numPerPage), 5);
+        FormDownVO[] ar = null;
+        if(numPerPage != null || value != null) { // 표시개수를 변경하거나 검색을 했을 때
             boolean change_flag = true;
             mv.addObject("change_flag", change_flag);
-        }else {
+            
+            page = new Paging(Integer.parseInt(numPerPage), 5);
+            page.setTotalRecord(fd_Service.searchBothCnt(value));
+            if(cPage == null || cPage.equalsIgnoreCase("undefined")) {
+                page.setNowPage(1);
+            }else {
+                page.setNowPage(Integer.parseInt(cPage));
+            };
+            ar = fd_Service.searchBothForm(value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        }else { // 처음 자료실 들어올 때
             page = new Paging();
+            page.setTotalRecord(fd_Service.cntAllForm());
+            if(cPage == null || cPage.equalsIgnoreCase("undefined")) {
+                page.setNowPage(1);
+            }else {
+                page.setNowPage(Integer.parseInt(cPage));
+            };
+            ar = fd_Service.getFormList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
         }
-        page.setTotalRecord(fd_Service.cntAllForm());
-        if(cPage == null || cPage.equalsIgnoreCase("undefined")) {
-            page.setNowPage(1);
-        }else {
-            page.setNowPage(Integer.parseInt(cPage));
-        };
-
-        FormDownVO[] ar = fd_Service.getFormList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 
         mv.addObject("page", page);
         mv.addObject("ar", ar);
@@ -141,38 +149,6 @@ public class formDownController {
         return mv;
     }
 
-    // 서식자료실 메인페이지에서 [검색]을 클릭했을 때
-    // 해당 자료를 제목으로 검색하는 기능
-    @RequestMapping("searchFormDown")
-    public ModelAndView searchFormDown(String fd_subject, String cPage) {
-        ModelAndView mv = new ModelAndView();
-        FormDownVO[] ar = null;
-        Paging page = new Paging();
-        boolean search_flag = true;
-        
-        int cnt = fd_Service.getSearchCount(fd_subject);
-        if(cnt > 0) {
-            page.setTotalRecord(cnt);
-            if(cPage == null || cPage.equalsIgnoreCase("undefined")){
-                page.setNowPage(1);
-            }else {
-                page.setNowPage(Integer.parseInt(cPage));
-            }
-            ar = fd_Service.searchFormDown(fd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-        }
-        
-        mv.addObject("search_flag", search_flag);
-        mv.addObject("page", page);
-        mv.addObject("ar", ar);
-        if(fd_subject.trim().length() > 0) {
-            mv.setViewName("/jsp/admin/etcList/formDownload/formMain_ajax");
-        }else {
-            mv.setViewName("redirect:formDownload");
-        }
-        
-        return mv;
-    }
-
     // 서식자료실 메인페이지에서 [첨부파일]을 클릭했을 때
     // 해당 자료를 다운로드하는 기능
     @RequestMapping("formFileDown")
@@ -222,15 +198,4 @@ public class formDownController {
         }
         return null;
     }
-
-    /* @RequestMapping("changeViewNum")
-    public ModelAndView changeViewNum(String numPerPage) {
-        ModelAndView mv = new ModelAndView();
-
-        Paging page = new Paging(Integer.parseInt(numPerPage), 5);
-
-
-        return mv;
-    } */
-
 }

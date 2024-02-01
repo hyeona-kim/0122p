@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="rp" uri="http://java.sun.com/jsp/jstl/core" %>
-<form action="addReply" method="post">
+<form action="addReply" method="post" enctype="multipart/form-data">
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
 	<input type="hidden" name="sg_writer" value="${vo.sg_writer}"/>
 	<input type="hidden" name="c_idx" value="52"/>
@@ -16,7 +16,7 @@
 		<tbody>
 			<tr>
 				<th>제목</th>
-				<td class="left"><input class="input" type="text" name="sg_subject" value="re:${vo.sg_subject}"/></td>
+				<td class="left"><input class="input" type="text" name="sg_subject" id="reply_subject" value="re:${vo.sg_subject}"/></td>
 			</tr>
 			<tr>
 				<th>전체공지</th>
@@ -35,7 +35,7 @@ ${vo.sg_content}
 			</tr>
 			<tr>
 				<th>파일첨부</th>
-				<td class="left"><input type="file" name="sg_file"/></td>
+				<td class="left"><input type="file" name="file"/></td>
 			</tr>
 		</tbody>
 		<tfoot>

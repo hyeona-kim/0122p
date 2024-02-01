@@ -34,10 +34,12 @@ public class StraffController {
 		mv.setViewName("/jsp/admin/etcList/staffList");
 		return mv;
     }
+
     @RequestMapping("menu")
     public String menu(String select) {
         return "/jsp/admin/"+select+"/main";
     }
+    
     
     @RequestMapping("addStaff")
     public String addStaff(StaffVO svo) {

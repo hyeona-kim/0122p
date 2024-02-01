@@ -178,7 +178,30 @@ public class SuggestionController {
     @RequestMapping("addReply")
     public ModelAndView addReply(SuggestionVO svo) {
         ModelAndView mv = new ModelAndView();
-		s_Service.addReply(svo);
+		String encType = request.getContentType();
+		if(encType.startsWith("application")) {
+			s_Service.addReply(svo);
+		}else if(encType.startsWith("multipart")) {
+			MultipartFile mf = svo.getFile();
+			String fname = null;
+			
+			if(mf != null && mf.getSize() > 0) {
+				String realPath = application.getRealPath("upload_suggFile");
+
+				String oname = mf.getOriginalFilename();
+
+				fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+				try {
+					mf.transferTo(new File(realPath, fname));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				svo.setSg_file_name(fname);
+				svo.setSg_ori_name(oname);
+			}
+			s_Service.addReply(svo);
+		}
 		mv.setViewName("redirect:suggestionList");
 		return mv;
     }

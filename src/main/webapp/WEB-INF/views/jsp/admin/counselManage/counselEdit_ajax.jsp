@@ -52,9 +52,10 @@
 			<tfoot>
 				<tr>
 					<td colspan="8" align="center">
-						<input type="submit"  id="update"  value="수정"/>
-						<input type="button"  onclick="del('${vo.so_idx}')" value="삭제"/>
-						<input type="button"  onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${vo.c_idx}'" value="목록"/>
+						<input type="button"  onclick="update(this.form)"  value="수정"/>
+						<input type="button"  onclick="del('${vo.so_idx}','${vo.c_idx}')" value="삭제"/>
+						<input type="hidden"  name="total" value=""/>
+						<input type="button" id="close" value="목록"/>
 					</td>
 				</tr>
 			</tfoot>

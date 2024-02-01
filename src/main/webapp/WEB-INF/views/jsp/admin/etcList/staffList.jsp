@@ -303,9 +303,9 @@
 			// 연락처 가운데, 뒷자리 유효성 검사
 			for(let i=8 ; i<ar.length-4; i++){
 				if(ar[i].value.trim().length != '4'){
-						alert(ar[i].dataset.str+"을 입력하세요");
-						ar[i].focus();
-						return; // 수행 중단
+					alert(ar[i].dataset.str+"을 입력하세요");
+					ar[i].focus();
+					return; // 수행 중단
 				};
 			};
 
@@ -364,7 +364,7 @@
 			// 이름, 직급, 아이디, 암호, 입사일 유효성 검사
 			let ar = document.forms[0].elements;
 			for(let i=0 ; i<ar.length-8; i++){
-				if(ar[i].value ==""){
+				if(ar[i].value.trim().length == 0){
 					alert(ar[i].dataset.str+"을 입력하세요");
 					ar[i].focus();
 					return; // 수행 중단

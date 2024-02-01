@@ -55,20 +55,20 @@
                         <li><a href="javascript:paging('${page.startPage - page.pagePerBlock }')">&lt;</a></li>
                     </c:if>
                     <c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock && searchBoth_flag ne null}">
-                        <li><a href="javascript:searchBoth('${page.startPage - page.pagePerBlock }')">&lt;</a></li>
+                        <li><a href="javascript:searchBothBoard('${page.startPage - page.pagePerBlock }')">&lt;</a></li>
                     </c:if>
                     <%-- ========== 이전버튼 만드는 부분 끝 ========== --%>
                     
                     <%-- ========== page 번호 만드는 부분 시작 ==========--%>
                     <c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
                         <c:if test="${vs.index eq page.nowPage }">
-                        <li class="now">${vs.index }</li>
+                            <li class="now">${vs.index }</li>
                         </c:if>
                         <c:if test="${vs.index ne page.nowPage && searchBoth_flag eq null}">
-                        <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
+                            <li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
                         </c:if>
                         <c:if test="${vs.index ne page.nowPage && searchBoth_flag ne null}">
-                        <li><a href="javascript:searchBoth('${vs.index}')">${vs.index}</a></li>
+                            <li><a href="javascript:searchBothBoard('${vs.index}')">${vs.index}</a></li>
                         </c:if>
                     </c:forEach>
                     <%-- ========== page 번호 만드는 부분 끝 ==========--%>
@@ -80,7 +80,7 @@
                         <li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
                     </c:if>
                     <c:if test="${page.endPage < page.totalPage && searchBoth_flag ne null}">
-                        <li><a href="javascript:searchBoth('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+                        <li><a href="javascript:searchBothBoard('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
                     </c:if>
                     <%-- endPage가 마지막 끝나는 page보다 크거나 같을 경우
                         다음page로 가는 버튼 비활성화 후 생성 --%>
