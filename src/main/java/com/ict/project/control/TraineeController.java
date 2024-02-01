@@ -434,7 +434,8 @@ public class TraineeController {
 		CounselVO[] ccvo = cc_Service.counselList(tr_idx);
 		
 		//System.out.println(cvo.getC_name());
-		
+		if(ccvo != null)
+			mv.addObject("ss_num", ccvo.length);
 		mv.addObject("ccvo", ccvo);
 		mv.addObject("vo11", vo);
 		mv.addObject("cv", cvo);
@@ -501,16 +502,17 @@ public class TraineeController {
 	}
 
 	@RequestMapping("couupload")
-	public ModelAndView couupload(String tr_idx, String c_idx, CounselVO ccvo, String so_idx, String cPage){
+	public ModelAndView couupload(String tr_idx, String c_idx, String ss_num, String so_idx){
 		ModelAndView mv = new ModelAndView();
 		
 
 		CounselVO cvo = cc_Service.getCounsel(so_idx);
 		CourseVO vvo = c_Service.getCourse(c_idx);
-		
+		System.out.println(ss_num);
 		mv.addObject("vvo", vvo);
 		mv.addObject("tr_idx", tr_idx);
 		mv.addObject("c_idx", c_idx);
+		mv.addObject("ss_num", ss_num);
 		mv.addObject("cvo", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
 
@@ -519,15 +521,17 @@ public class TraineeController {
 	}
 
 	@RequestMapping("counseling_ajax")
-	public ModelAndView counseling_ajax(String tr_idx, String c_idx, String cPage, CounselVO ccvo){
+	public ModelAndView counseling_ajax(CounselVO ccvo, String ss_num){
 		ModelAndView mv = new ModelAndView();
 		
+		if(ccvo.getSo_day() != null && ccvo.getSo_day().trim().length() > 1){
+			t_Service.setCounsel_date(ccvo.getTr_idx(), ccvo.getSo_day(), ss_num);
+			cc_Service.addCounsel(ccvo);
+		}	
 
-		int cnt = cc_Service.addCounsel(ccvo);
 
-
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-		return mv;
+		mv.setViewName("redirect:traineecurrentbt1?c_idx="+ccvo.getC_idx());
+		return mv;	
 	}
 
 
