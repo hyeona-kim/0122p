@@ -430,10 +430,10 @@ table tfoot ol.page {
          });
         } 
 
-        function del(so_idx){
+        function del(so_idx, cPage){
 			if( confirm("삭제하시겠습니까?")){
-                frm.action = "delCounsel";
-                document.frm.so_idx.value =so_idx; 
+                frm.action = "delCounsel?cPage="+cPage;
+                document.frm.so_idx.value =so_idx;
                 
                 document.frm.submit();
 			}

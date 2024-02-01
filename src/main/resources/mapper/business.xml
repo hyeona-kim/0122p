@@ -8,7 +8,7 @@
 		where tr_idx = #{tr_idx}
 	</select>
 
-    <update id="edit" parameterType="String">
+    <update id="edit" parameterType="com.ict.project.vo.BusinessVO">
         update business_t
         <set>
             <if test="bs_name != null">bs_name = #{bs_name},</if>
@@ -21,5 +21,10 @@
         </set>
         where bs_idx = #{bs_idx}
     </update>
+
+    <insert id="add" parameterType="com.ict.project.vo.BusinessVO">
+        insert INTO business_t (bs_name, bs_job, bs_re, bs_workdpt, bs_position, bs_phone, bs_location, tr_idx)
+        VALUES (#{bs_name}, #{bs_job}, #{bs_re}, #{bs_workdpt}, #{bs_position}, #{bs_phone}, #{bs_location}, #{tr_idx})
+    </insert>
 	
 </mapper>

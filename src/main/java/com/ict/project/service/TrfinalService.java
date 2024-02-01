@@ -19,4 +19,8 @@ public class TrfinalService {
         return tf_mapper.edit(tfvo);
     }
     
+    public int tfadd(TrfinalVO tfvo){
+        return tf_mapper.add(tfvo);
+    }
+    
 }

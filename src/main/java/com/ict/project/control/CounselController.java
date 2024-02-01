@@ -318,6 +318,7 @@ public class CounselController {
             page.setNowPage(Integer.parseInt(cPage));
             CounselVO[] ar = cs_Service.searchCounsel(select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
             
+            mv.addObject("cPage", cPage);
             mv.addObject("ar", ar);
             mv.addObject("page", page);
         } else if(listSelect.equals("3")) {

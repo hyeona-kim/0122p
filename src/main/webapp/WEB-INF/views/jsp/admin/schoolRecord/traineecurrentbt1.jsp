@@ -381,11 +381,11 @@ table tfoot ol.page {
 		ddd.submit();   
 	}
 
-	function traineewrite(str){
+	function traineewrite(str1, str2){
 		$.ajax({
             url: "traineewrite",
             type: "post",
-            data:"type="+encodeURIComponent("traineewrite")+"&tr_idx="+str+"&c_idx="+str
+            data:"tr_idx="+str1+"&c_idx="+str2
          }).done(function(result){
             $("#m1").html(result);
          });
