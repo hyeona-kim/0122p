@@ -42,5 +42,9 @@ public class CourseTypeService {
     public CourseTypeVO SearchList(String ct_name) {
         return ct_mapper.search(ct_name);
     }
+
+    public CourseTypeVO getOne(String ct_idx){
+        return ct_mapper.one(ct_idx);
+    }
     
 }

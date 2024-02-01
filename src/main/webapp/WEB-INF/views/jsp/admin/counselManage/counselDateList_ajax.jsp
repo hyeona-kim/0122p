@@ -30,7 +30,7 @@
 									<td>${vo.so_subject }</td>
 									<td>${vo.so_pd }</td>
 									<td>
-										<button type="button" id="so_del_btn" onclick="del('${vo.so_idx}')">삭제</button>
+										<button type="button" id="so_del_btn" onclick="del('${vo.so_idx}', '${cPage}')">삭제</button>
 										<input type="hidden" name="so_idx" value="${vo.so_idx }"/>
 									</td>
 								</tr>

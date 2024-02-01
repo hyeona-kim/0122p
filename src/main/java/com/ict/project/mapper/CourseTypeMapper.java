@@ -11,5 +11,6 @@ public interface CourseTypeMapper {
     int update(CourseTypeVO vo);
     List<CourseTypeVO> all();
     CourseTypeVO search(String ct_name);
+    CourseTypeVO one(String ct_idx);
 
 }

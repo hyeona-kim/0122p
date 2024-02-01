@@ -8,7 +8,7 @@
 		where tr_idx = #{tr_idx}
 	</select>
 
-	<update id="edit" parameterType="String">
+	<update id="edit" parameterType="com.ict.project.vo.TrfinalVO">
 		update trfinal_t
 		<set>
 			<if test="tf_name != null">tf_name = #{tf_name},</if>
@@ -17,4 +17,9 @@
 		</set>
 		where tf_idx = #{tf_idx}
 	</update>
+
+	<insert id="add" parameterType="com.ict.project.vo.TrfinalVO">
+		insert INTO trfinal_t (tf_name, tf_year, tf_major, tr_idx)
+		VALUES (#{tf_name}, #{tf_year}, #{tf_major}, #{tr_idx})
+	</insert>
 </mapper>

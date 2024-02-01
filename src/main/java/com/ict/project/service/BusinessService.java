@@ -19,5 +19,9 @@ public class BusinessService {
     public int bedit(BusinessVO bvo){
         return bs_mapper.edit(bvo);
     }
+
+    public int badd(BusinessVO bvo){
+        return bs_mapper.add(bvo);
+    }
     
 }
