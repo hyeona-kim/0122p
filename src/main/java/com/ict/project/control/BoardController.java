@@ -354,4 +354,36 @@ public class BoardController {
 		}
 		return map;
 	}
+
+	@RequestMapping("test_searchBoard")
+	public ModelAndView test_searchBoard(String cPage, String c_idx, String bd_subject) {
+		ModelAndView mv = new ModelAndView();
+		BoardVO[] ar = null;
+		Paging page = new Paging();
+		boolean search_flag = true;
+
+		int cnt = b_Service.reCount(c_idx, bd_subject);
+		if(cnt > 0) {
+			page.setTotalRecord(cnt);
+			if(cPage == null || cPage.equals("undefined")) {
+				page.setNowPage(1);
+			}else {
+				page.setNowPage(Integer.parseInt(cPage));
+			}
+			ar = b_Service.searchBoard(c_idx, bd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		}
+
+		mv.addObject("cPage", cPage);
+		mv.addObject("c_idx", c_idx);
+		mv.addObject("page", page);
+		mv.addObject("ar", ar);
+		mv.addObject("search_flag", search_flag);
+		if(bd_subject.trim().length() > 0) {
+			mv.setViewName("/jsp/admin/schoolRecord/test_boardList_ajax");
+		}else {
+			mv.setViewName("redirect:test_viewBoardList?c_idx="+c_idx);
+		}
+		
+		return mv;
+	}	
 }

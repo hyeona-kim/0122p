@@ -15,7 +15,7 @@
 		<tbody>
 			<tr>
 				<th>제목</th>
-				<td class="left"><input class="input" type="text" placeholder="제목" name="sg_subject"/></td>
+				<td class="left"><input class="input" type="text" placeholder="제목" name="sg_subject" id="sg_subject"/></td>
 			</tr>
 			<tr>
 				<th>전체공지</th>
