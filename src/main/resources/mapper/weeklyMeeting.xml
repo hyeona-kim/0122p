@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.WeeklyMeetingMapper">
+
+	<select id="all" resultType="com.ict.project.vo.WeeklyMeetingVO">
+		select * from weeklyMeeting_t
+		where wk_status = 0
+	</select>
+
+	<insert id="add" parameterType="com.ict.project.vo.WeeklyMeetingVO">
+		insert into weeklyMeeting_t (wk_deptname, wk_name, wk_date, wk_title, wk_attendance, wk_absentee, wk_discussion, wk_announcement, wk_item, wk_status, wk_image,wk_file_name, wk_ori_name)
+		values (#{wk_deptname}, #{wk_name}, #{wk_date}, #{wk_title}, #{wk_attendance}, #{wk_absentee}, #{wk_discussion}, #{wk_announcement}, #{wk_item}, 0, #{wk_image}, #{wk_file_name},#{wk_ori_name})
+	</insert>
+
+	   <update id="del" parameterType="String">
+			update weeklyMeeting_t
+			set wk_status = 1
+			where wk_idx = #{wk_idx}
+         </update>
+
+	
+   <select id="getWk" parameterType="String" resultType="com.ict.project.vo.WeeklyMeetingVO">
+    SELECT * FROM weeklyMeeting_t WHERE wk_idx = #{wk_idx}
+  </select>
+
+  <update id="edit" parameterType="com.ict.project.vo.WeeklyMeetingVO">
+    update weeklyMeeting_t
+      <set>
+        wk_deptname = #{wk_deptname},
+        wk_name = #{wk_name},
+        wk_date = #{wk_date},
+        wk_title = #{wk_title},
+        wk_attendance = #{wk_attendance},
+        wk_absentee = #{wk_absentee},
+        wk_discussion = #{wk_discussion},
+        wk_announcement = #{wk_announcement},
+        wk_item = #{wk_item},
+        wk_image = #{wk_image}
+
+	</set>
+	    where wk_idx = #{wk_idx}
+	  </update>
+
+	   <select id="search" parameterType="Map" resultType="com.ict.project.vo.WeeklyMeetingVO">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select * from weeklyMeeting_t
+				<where>
+				<trim suffixOverrides="and">
+							wk_status = 0 and
+							<if test="select !=null and select == 1">wk_title like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">wk_discussion like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">wk_date like concat('%',#{value},'%') and</if>
+							
+					</trim>
+				</where>
+				order by wk_idx desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end} 
+	</select>
+
+	  <select id="search_count" parameterType="Map" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select * from weeklyMeeting_t
+				<where>
+					<trim suffixOverrides="and">
+							wk_status = 0 and
+							<if test="select !=null and select == 1">wk_title like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">wk_discussion like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">wk_date like concat('%',#{value},'%') and</if>
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c
+		</select>
+
+
+
+</mapper>

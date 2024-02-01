@@ -48,8 +48,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -176,9 +174,6 @@ public class CourseController {
     public ModelAndView searchCourse(String num,String year,String select,String value,String listSelect,String cPage){
 		//System.out.println(value);
 
-		
-        System.out.println(value);
-		System.out.println(year);
 
 		if(value== null || value.trim().length()==0){
 			value= null;
@@ -215,6 +210,8 @@ public class CourseController {
             mv.setViewName("/jsp/admin/courseReg/makeTime_ajax");
         return mv;
 	}
+
+
 
     @RequestMapping("addCourseType")
     public ModelAndView addCourseType(String[] name,String[] text, String listSelect,String cPage) {
