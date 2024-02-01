@@ -397,11 +397,12 @@ table tfoot ol.page {
 
 	} 
 
-	function couupload(tr,tr1){
+	function couupload(tr,tr1,num,so){
+		console.log(num);
 		$.ajax({
             url: "couupload",
             type: "post",
-            data:"tr_idx="+tr+"&c_idx="+tr1
+            data:"tr_idx="+tr+"&c_idx="+tr1+"&ss_num="+num+"&so_idx="+so
          }).done(function(result){
             $("#m1").html(result);
          });

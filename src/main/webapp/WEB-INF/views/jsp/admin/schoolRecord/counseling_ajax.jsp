@@ -10,7 +10,7 @@
     <caption>상담등록</caption>
             <tr>
                 <th>상담일</th>
-                <td><input type="text" name="so_day"></td>
+                <td><input type="date" name="so_day"></td>
                 <th>상담자</th>
                 <td><input type="text" name="so_tname"></td>
             </tr>
@@ -30,7 +30,13 @@
                     </select>
                 </td>
                 <th>총상담횟수</th>
-                <td>0회</td>
+                <td>${ss_num}회</td>
+            </tr>
+            <tr>
+                <th>상담목적</th>
+                <td colspan="3">
+                    <textarea rows="8" cols="100" name="so_pp"></textarea>
+                </td>
             </tr>
             <tr>
                 <th>상담내용</th>
@@ -50,6 +56,8 @@
     <input type="button" value="취소" onclick="">
     <input type="hidden" name="c_idx" value="${c_idx}">
     <input type="hidden" name="tr_idx" value="${tr_idx}">
+    <input type="hidden" name="sf_idx" value="${vvo.sf_idx}">
+    <input type="hidden" name="ss_num" value="${ss_num+1}">
     
 </div>  
 </form>       
