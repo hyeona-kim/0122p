@@ -7,7 +7,7 @@
 	
 	<div>
 	<form action="counselListAdd" method="post">
-		<table id="tt_add2" class="add_l">
+		<table id="tt_add2" class="add_l t2">
 			<colgroup>
 				<col width="50%"/>
 				<col width="50%"/>
@@ -56,9 +56,10 @@
                     <th bgcolor="lightgray">지도관리 및 피드백</th>
                     <td colspan="3"><textarea type="text" id="so_pd" name="so_pd" cols="90" rows="10"></textarea></td>
                 </tr>
+                <input type="hidden" name="total"/>
                     <tr>
 						<td colspan="4" align="center">
-							<button type="submit">등록</button>
+							<button type="button" onclick="total_add(this.form)">등록</button>
 							<button type="button" id="close">취소</button>
 						</td>
 					</tr>
