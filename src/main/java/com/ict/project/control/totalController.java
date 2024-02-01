@@ -29,6 +29,7 @@ public class TotalController {
             int totalCourse =cs_Service.getSearchCount(null, null, null);
             CourseVO[] c_ar = cs_Service.searchCourse(null, null, null, "1", String.valueOf(totalCourse));
             mv.addObject("c_ar", c_ar);
+            
            
         }else if (listSelect.equals("3")){
             mv.setViewName("jsp/admin/totalManage/courseTotal");
@@ -58,11 +59,11 @@ public class TotalController {
 
 
         page.setTotalRecord(cs_Service.getSearchCount(select, value, year));
+
         page.setNowPage(Integer.parseInt(cPage));
         mv.addObject("page", page);
         CourseVO[] ar = cs_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
         mv.addObject("c_ar", ar);
-
         mv.setViewName("jsp/admin/totalManage/coursetTotal_ajax");
         return mv;
 
@@ -83,7 +84,7 @@ public class TotalController {
                 int divisionCode = Integer.parseInt(str2.substring(7,8));
                 if(divisionCode%2 ==0){//여자
                     ar[i].setGender(false);
-                }else{
+                }else{//남자
                     ar[i].setGender(true);
                 }
                 String dateOfBirth = null;

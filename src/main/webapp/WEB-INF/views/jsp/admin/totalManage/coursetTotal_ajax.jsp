@@ -31,19 +31,28 @@
 								<tr>
 									<td>${num-vs.index}</td>
 									<td>${cvo.c_name }</td>
-									<td>${cvo.c_round_num}/${fn:length(cvo.tr_ar)}</td>
+									<td>${cvo.c_round_num}</td>
 									<td>${cvo.start_date} </td>
 									<td>${cvo.end_date} </td>
 									<td>${cvo.ctvo.ct_name }</td>
 									<td>${cvo.svo.sf_name }</td>
-									<td>${cvo.c_peo_num }</td>
+									<td>${cvo.c_peo_num }&nbsp;/&nbsp;${fn:length(cvo.tr_ar)}</td>
 									<td><button type="button" class="btn blue">사전평가 평가현황</button></td>
 									<td><button type="button" class="btn blue">교과목별 평가현황</button></td>
-									<td><button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn red">미작성</button></td>
+									<td>
+										<c:if test="${fn:length(cvo.cs_ar) eq 0}">
+										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn red">미작성</button>
+										</c:if>
+										<c:if test="${fn:length(cvo.cs_ar) ne 0}">
+										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn yellow">
+											마지막작성일(${fn:substring(cvo.cs_ar[0].so_day, 5, 10)})
+										</button>
+										</c:if>
+									</td>
 									<td><button type="button" class="btn red">미작성</button></td>
+									<td><button type="button" class="btn red">보강없음</button></td>
 									<td><button type="button" class="btn red">미작성</button></td>
-									<td><button type="button" class="btn red">미작성</button></td>
-									<td><button type="button" class="btn yellow">훈련생별보기</button></td>
+									<td><button type="button" class="btn yellow" onclick="javascript:location.href='total?listSelect=2&c_idx=${cvo.c_idx}'">훈련생별보기</button></td>
 								</tr>
 							</c:forEach>
 							</c:if>

@@ -59,11 +59,13 @@
 		margin-top:10px;
 		border-collapse: collapse;
 		width: 100%;
+
 	}
 	#searchCourse td, #searchTime th, #makeCourse td, #makeCourse th{
 		border: 1px solid #ddd;
 		height: 40px;
-		text-align: center;
+		padding-left: 10px;
+        text-align: center;
 	}
 	#searchCourse th, #makeCourse th{background-color: #ddd;}
 	
@@ -108,7 +110,7 @@
 	#after{
 		background-color:aquamarine;
 	}
-	.btn{
+    .btn{
         padding:5px 11px;
         border-radius: 3px 3px;
         border: none;
@@ -116,13 +118,15 @@
         background-color: #00acac;
         margin-left: 2px;
     }
-	.red{background-color:  #d43f3a}
+    .red{background-color:  #d43f3a}
 	.blue{ background-color: #2e6da4;}
 	.yellow{background-color: #eea236;}
 	.green{background-color: #5cb85c;}
+    .gray{background-color: #e5e5e5;}
 </style>
 
 </head>
+<c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
 		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -155,7 +159,7 @@
 											<option value="3">과정명</option>
 										</select>
 										<input type="text" id="searchValue"/>
-										<button type="button" id="search_bt" class="btn">검 색</button>
+										<button type="button" id="search_bt" class="btn">검색</button>
 									</td>
 								</tr>
 							</thead>
@@ -167,20 +171,35 @@
 				</div>
 			</div>	
 		</div>
-		<div id="dialog" hidden title="액셀등록">
-		<div id="dialog2" hidden title="주별 시간표 보기">
-			
-		</div>
 	</article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
-		let select_num="";
-		let selectYear="";
-		let searchType="";
-		let searchValue="";
+
+	let searchType ="";
+	let selectYear = "";
+	let numPerPage = "";
+	let searchValue ="";
+    let cPage = "1";
+	
 	$(function() {
-        let now = new Date();	// 현재 날짜 및 시간
+        
+        $.ajax({
+			url: "trainingLog",
+			type:"post",
+			data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+		}).done(function(result){
+			$("#courseLog_Table").html(result);
+		});
+		
+		
+		//$().removeClass("selected");
+		$(".selected").removeClass("selected");
+		$(".l_select").removeClass("l_selected");
+		$("#sixmenu").addClass("selected");
+		$("#l_first").addClass("l_select");
+		
+		let now = new Date();	// 현재 날짜 및 시간
 		let year = now.getFullYear();
 		let str = "<option>년도선택</option>";
 		
@@ -188,78 +207,55 @@
 			str+= "<option value="+i+">"+i+"</option>";
 		}
 		$("#selectYear").html(str);
-	
-
-		$.ajax({
-			url: "courseList",
-			type: "post",
-			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year=&num=",
-		}).done(function(result){
-			$("#courseLog_Table").html(result);
-		});
-
-
 		
-		$("#numPerPage").change(function(){
-			select_num=$("#numPerPage").val();
-			
+		$("#selectYear").on("change",function(){
+			selectYear = this.value;
 			$.ajax({
-				url: "courseList",
-				type: "post",
-				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+				url: "trainingLog",
+			    type:"post",
+			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
 			}).done(function(result){
 				$("#courseLog_Table").html(result);
 			});
 		});
-
-		$("#selectYear").change(function(){
-			selectYear= $("#selectYear").val();
-
+		$("#numPerPage").on("change",function(){
+			numPerPage = this.value;
 			$.ajax({
-				url: "courseList",
-				type: "post",
-				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
-			}).done(function(result){
-				$("#courseLog_Table").html(result);
-			});
-			
+                url: "trainingLog",
+			    type:"post",
+			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+            }).done(function(result){
+                $("#courseLog_Table").html(result);
+            });
 		});
-		
 		$("#search_bt").click(function(){
-			searchType = $("#searchType").val();
+            searchType = $("#searchType").val();
 			searchValue = $("#searchValue").val();
+			
 			$.ajax({
-				url: "courseList",
-				type: "post",
-				data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent('1')+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
-			}).done(function(result){
-				$("#courseLog_Table").html(result);
-			});
-			
-			
-		});
-	
-
-		//$().removeClass("selected");
-		$(".selected").removeClass("selected");
-		$(".l_select").removeClass("l_selected");
-		$("#thirteenmenu").addClass("selected");
-		$("#l_first").addClass("l_select");
-		
-
+                url: "trainingLog",
+			    type:"post",
+			    data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+            }).done(function(result){
+                $("#courseLog_Table").html(result);
+            });
+		});	
 		
 	});
 	
-	function paging(cPage){
+	function paging(str) {
+        cPage =str;
 		$.ajax({
-			url: "courseList",
-			type: "post",
-			data:"listSelect="+encodeURIComponent("3")+"&cPage="+encodeURIComponent(cPage)+"&year="+selectYear+"&num="+select_num+"&select="+searchType+"&value="+searchValue
+			url: "trainingLog",
+			type:"post",
+			data:"listSelect=1&cPage="+cPage+"&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
-
 	}
+	
 	</script>
 </body>
+</c:if>
+
 </html>
