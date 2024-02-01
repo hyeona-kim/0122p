@@ -13,4 +13,6 @@ public interface FormDownMapper {
     int cntAllForm();
     List<FormDownVO> searchFormDown(String fd_subject, String begin, String end);
     int getSearchCount(String fd_subject);
+    int searchBothCnt(String fd_subject);
+    List<FormDownVO> searchBothForm(String fd_subject, String begin, String end);
 }

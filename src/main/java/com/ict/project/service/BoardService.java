@@ -143,10 +143,10 @@ public class BoardService {
         return b_mapper.search_both_count(year, tag, value);
     }
 
-    public CourseVO[] searchBoth(String year, String tag, String value, String begin, String end){
+    public CourseVO[] searchBothBoard(String year, String tag, String value, String begin, String end){
         CourseVO[] ar = null;
 
-        List<CourseVO> list = b_mapper.searchBoth(year, tag, value, begin, end);
+        List<CourseVO> list = b_mapper.searchBothBoard(year, tag, value, begin, end);
         if(list != null && list.size() > 0) {
             ar = new CourseVO[list.size()];
             list.toArray(ar);

@@ -189,7 +189,7 @@
                                         <option>제목</option>
                                     </select>
 									<input type="text" id="search_value"/>
-									<button type="button" id="search_btn" onclick="searchFormDown()">검색</button>
+									<button type="button" id="search_btn" onclick="changeViewNum()">검색</button>
 								</td>
                                 <td align="right"><button type="button" id="form_add_btn">서식파일 등록</button></td>
 							</tr>
@@ -259,19 +259,6 @@
 				});	
 			});
 		});
-		
-		// [검색]을 클릭했을 때 수행하는 곳
-		function searchFormDown(cPage) {
-			let value = document.getElementById("search_value").value;
-			$.ajax({
-				url: "searchFormDown",
-				type: "post",
-				data: "fd_subject="+encodeURIComponent(value)+
-						"&cPage="+cPage
-			}).done(function(result){
-				$("#mainAjax").html(result);
-			})
-		};
 
 		function editFormDown(idx) {
 			$.ajax({
@@ -337,11 +324,14 @@
 		// 선택한 표시개수만큼 1page에 출력하는 기능
 		function changeViewNum(cPage) {
 			let num = document.getElementById("viewNum").value;
+			let value = document.getElementById("search_value").value;
+			console.log("num="+num+" / value="+value);
 			$.ajax({
 				url: "formMainAjax",
 				type: "post",
 				data: "numPerPage="+num+
-						"&cPage="+cPage
+						"&cPage="+cPage+
+						"&value="+value
 			}).done(function(result){
 				$("#mainAjax").html(result);
 			});
