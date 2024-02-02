@@ -302,9 +302,12 @@ public class TraineeController {
       
 
     @RequestMapping("confirm")
-    public ModelAndView confirm() {
+    public ModelAndView confirm(String cPage,String c_idx, String tn_idx) {
         ModelAndView mv = new ModelAndView();
+		
+
         TrainuploadVO[] ar =u_Service.all();
+      
       if(ar !=null)
          mv.addObject("ar", ar);
 
@@ -703,6 +706,10 @@ public class TraineeController {
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
 		QcVO[] qvo = q_Service.list(tr_idx);
 		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+
+
+
+
 		String str2 = vo.getTr_rrn();
 		int divisionCode = Integer.parseInt(str2.substring(7,8));
 		if(divisionCode%2 ==0)//여자
@@ -728,6 +735,7 @@ public class TraineeController {
 			mv.addObject("skill", skill);
 			mv.addObject("area", area);
 		}
+
 
 		mv.addObject("wvo", wvo);
 		mv.addObject("qvo", qvo);
@@ -814,5 +822,17 @@ public class TraineeController {
       mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
       return mv;
    }
+  
+  	@RequestMapping("confirmAdd")
+	public ModelAndView confirmAdd(String c_idx, String cPage, String chk){
+		ModelAndView mv = new ModelAndView();
+		
+		int cnt=c_Service.tnadd(chk,c_idx);;
+		
+		mv.setViewName("redirect:trainconfirm");
+
+		return mv;
+
+	}
 
 }
