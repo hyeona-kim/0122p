@@ -65,7 +65,7 @@
 		height: 40px;
 		padding-left: 10px;
 	}
-	#searchTime th, #makeTime th{background-color: #ddd;}
+	#searchTime th, #makeTime th{background-color: #e2eef0;}
 	
 	#searchTime caption, #makeTime caption{
 		text-indent: -9999px;
@@ -121,6 +121,7 @@
 									<th>관리</th>
 								</tr>
 							</thead>
+
 							<tfoot>
 								<tr>
 									<td colspan="10">
@@ -175,6 +176,7 @@
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -242,11 +244,12 @@
 
 
 		
-	function set(str){
+	function set(str,str1){
+		console.log(str+"/"+str1);
 		$.ajax({
             url: "confirm",
             type: "post",
-            data:"type="+encodeURIComponent("confirm")+"&select="+str
+            data:"tn_idx="+str+"&c_idx="+str1
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -268,6 +271,73 @@
 
 	}
 
+
+	function subRow(){
+		let query = 'input[name="chk"]:checked'
+		let selectedElements = document.querySelectorAll(query)
+
+		let selectedElementsCnt = selectedElements.length;
+
+		if(selectedElementsCnt == 0){
+			alert("등록할 항목을 선택해주세요.")
+			return false;
+		}else if(confirm("등록하시겠습니까?")){
+			cf.action="confirmAdd";
+			cf.submit();
+		}
+	}
+
+	function allChecked(target){
+
+		let checkbox = document.getElementById('allCheckBox');
+		let is_checked = checkbox.checked;
+
+		if(is_checked){
+			chkAllChecked()
+		}else{
+			chkAllUnChecked()
+		}
+
+
+	}
+
+
+	function chkClicked(tr_idx){
+			//console.log(tr_idx);
+			//체크박스 전체개수
+			let allCount = document.querySelectorAll(".chk").length;
+
+			//체크된 체크박스 전체개수
+			let query = 'input[name="chk"]:checked'
+			let selectedElements = document.querySelectorAll(query)
+			let selectedElementsCnt = selectedElements.length;
+
+			//체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 전체 체크박스 체크
+			if(allCount == selectedElementsCnt){
+				document.getElementById('allCheckBox').checked = true;
+			}
+
+			//같지않으면 전체 체크박스 해제
+			else{
+				document.getElementById('allCheckBox').checked = false;
+			}
+		}
+
+		/* 전체 체크  */
+		function chkAllChecked(){
+			document.querySelectorAll(".chk").forEach(function(v, i) {
+            v.checked = true;
+        });
+    }
+
+		/* 전체 체크 해제 */
+		function chkAllUnChecked(){
+			document.querySelectorAll(".chk").forEach(function(v, i) {
+            v.checked = false;
+        });
+    }
+	
+
 	function paging(str) {	
 		$.ajax({
 			url: "confilmsearch",
@@ -276,6 +346,7 @@
 		}).done(function(result){
 			$("#result").html(result);
 		});
+
 	
 	}
 		

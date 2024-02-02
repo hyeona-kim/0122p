@@ -11,12 +11,12 @@ public interface CourseMapper {
     int add(CourseVO vo);
     CourseVO getCourse(String c_idx);
     int del(String c_idx);
-	  int edit(CourseVO vo);
+	int edit(CourseVO vo);
     int count();
     CourseVO getCourse2(String c_idx);
     int search_count(String select,String value,String year);
     int reg_count(String year);
     List<CourseVO> reg_search(String year);
     List<CourseVO> all();
-
+    int tnAdd(String tn_idx, String c_idx);
 }

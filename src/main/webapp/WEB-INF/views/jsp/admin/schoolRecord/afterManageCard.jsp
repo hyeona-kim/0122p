@@ -117,7 +117,9 @@
             </c:if>
             </td>
             <td colspan="4">
+
                 기타외국어(<input type="text" style="width: 100px;" name="qc_flname" value="${qvo[0].qc_flname}"/>)
+
                 <input type="radio" name="qc_flevel"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_flevel"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_flevel"/>&nbsp;하&nbsp;
@@ -199,7 +201,9 @@
             <th colspan="2">기타추가내용</th>
             <th>(취업예정자격증)</th>
             <td colspan="4">
+
                 <input type="text" style="width: 350px;" name="qc_memo" value="${qvo[0].qc_memo}"/>
+
             </td>
         </tr>
     </table>
