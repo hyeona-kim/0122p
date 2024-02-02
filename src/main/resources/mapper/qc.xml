@@ -5,7 +5,7 @@
 <mapper namespace="com.ict.project.mapper.QcMapper">
 	<select id="list" parameterType="String" resultType="com.ict.project.vo.QcVO">
 		select * from qc_t
-		where tr_idx = #{tr_idx}
+		where tr_idx = #{tr_idx} order by qc_tridx
 	</select>
 
 	<update id="editWrite" parameterType="com.ict.project.vo.QcVO">
@@ -26,19 +26,22 @@
 	</update>
 
 	<insert id="add" parameterType="com.ict.project.vo.QcVO">
-		insert into qc_t(qc_elevel, qc_flevel, qc_wlevel,qc_memo,qc_plevel,qc_xlevel,tr_idx,c_idx)
-		value(#{qc_elevel}, #{qc_flevel}, #{qc_wlevel},#{qc_memo},#{qc_plevel},#{qc_xlevel},#{tr_idx},#{c_idx})
+		insert into qc_t(qc_elevel, qc_flevel, qc_wlevel,qc_memo,qc_plevel,qc_xlevel,tr_idx,c_idx, qc_flname)
+		value(#{qc_elevel}, #{qc_flevel}, #{qc_wlevel},#{qc_memo},#{qc_plevel},#{qc_xlevel},#{tr_idx},#{c_idx},#{qc_flname})
 	</insert>
 
 	<update id="qedit" parameterType="String">
 		update qc_t
 		<set>
+		<trim suffixOverrides=",">
 		<if test="qc_elevel !=null">qc_elevel = #{qc_elevel},</if>
 		<if test="qc_flevel !=null">qc_flevel = #{qc_flevel},</if>
+		<if test="qc_flname != null">qc_flname = #{qc_flname},</if>
 		<if test="qc_wlevel !=null">qc_wlevel = #{qc_wlevel},</if>
 		<if test="qc_memo !=null">qc_memo = #{qc_memo},</if>
 		<if test="qc_plevel !=null">qc_plevel = #{qc_plevel},</if>
 		<if test="qc_xlevel !=null">qc_xlevel = #{qc_xlevel},</if>
+		</trim>
 		</set>
 		where qc_idx = #{qc_idx}
 	</update>

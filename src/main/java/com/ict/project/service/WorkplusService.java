@@ -20,4 +20,8 @@ public class WorkplusService {
         return w_mapper.add(wvo);
     }
 
+    public int editwork(WorkplusVO wvo){
+        return w_mapper.edit(wvo);
+    }
+
 }
