@@ -541,6 +541,14 @@ public class TraineeController {
             }
          }
 
+		 String str = tvo.getTr_addr();
+		 String[] aa = str.split(",");
+		 str = "";
+		 for(String bb : aa){
+			str += bb;
+		 }
+		 tvo.setTr_addr(str);
+
          int cnt = t_Service.trainedit(tvo);
          viewPath=("redirect:traineecurrentbt1?c_idx="+c_idx);
       }
