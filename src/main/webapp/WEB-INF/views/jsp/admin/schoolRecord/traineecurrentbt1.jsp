@@ -256,13 +256,8 @@ table tfoot ol.page {
 
 		}
 
-		function saveform(qwe){
+		function editform(qwe){
 			qwe.submit();
-		}
-
-		function formseve(qwe){
-			qwe.type.action="afterManage_axaj_edit";
-			//document.frm.submit();
 		}
 		
 		

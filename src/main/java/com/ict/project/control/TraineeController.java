@@ -636,7 +636,7 @@ public class TraineeController {
 
 
    @RequestMapping("Traineewrite_ajax")
-   public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,TrfinalVO tfvo, TraineeVO tvo,
+   public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, BusinessVO bvo,TrfinalVO tfvo, TraineeVO tvo,
       String[] qc_idx, String[] qc_name, String[] qc_date, String[] qc_place, String[] qc_cname, String[] qc_day, String[] qc_job, String[] qc_position, String[] qc_tridx){
       ModelAndView mv = new ModelAndView();
       int cnt = 5;
@@ -692,51 +692,104 @@ public class TraineeController {
       return mv;
    }
 
-   @RequestMapping("mangecard")
-   public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
-      ModelAndView mv = new ModelAndView();
 
-      TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
-      CourseVO cvo = c_Service.getCourse(c_idx);
-      TrfinalVO tfvo = tf_Service.list(tr_idx);
-      QcVO[] qvo = q_Service.list(tr_idx);
-      WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+   	@RequestMapping("mangecard")
+   	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
+		ModelAndView mv = new ModelAndView();
 
+		System.out.println(tr_idx);
+		TraineeVO vo = t_Service.view(tr_idx);
+		CourseVO cvo = c_Service.getCourse(c_idx);
+		TrfinalVO tfvo = tf_Service.list(tr_idx);
+		QcVO[] qvo = q_Service.list(tr_idx);
+		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+		String str2 = vo.getTr_rrn();
+		int divisionCode = Integer.parseInt(str2.substring(7,8));
+		if(divisionCode%2 ==0)//여자
+			vo.setGender(false);
+		else//남자
+			vo.setGender(true);
+		String dateOfBirth = null;
+		if(divisionCode == 1 || divisionCode == 2 || divisionCode == 5 || divisionCode == 6){
+			// 한국인 1900~, 외국인 1900~
+			dateOfBirth = "19"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+		}else if(divisionCode == 3 || divisionCode == 4 || divisionCode == 7 || divisionCode == 8){
+			// 한국인 2000~, 외국인 2000~
+			dateOfBirth = "20"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+		}else if(divisionCode == 9 || divisionCode == 0){
+			// 한국인 1800~
+			dateOfBirth = "18"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+		}
+		vo.setTr_rrn(dateOfBirth);
+		if(wvo != null){
 
+			String[] skill = wvo.getWp_skill().split("/");
+			String[] area = wvo.getWp_area().split("/");
+			mv.addObject("skill", skill);
+			mv.addObject("area", area);
+		}
 
-      mv.addObject("wvo", wvo);
-      mv.addObject("qvo", qvo);
-      mv.addObject("tfvo", tfvo);
-      mv.addObject("tr_idx", tr_idx);
-      mv.addObject("c_idx", c_idx);
-      mv.addObject("cvo2", cvo);
-      mv.addObject("vo15", vo);
-      mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
-      return mv;
+		mv.addObject("wvo", wvo);
+		mv.addObject("qvo", qvo);
+		mv.addObject("tfvo", tfvo);
+		mv.addObject("tr_idx", tr_idx);
+		mv.addObject("c_idx", c_idx);
+		mv.addObject("cvo2", cvo);
+		mv.addObject("vo15", vo);
+		mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
+		return mv;
+
    }
 
-   @RequestMapping("afterManage_axaj")
-   public ModelAndView afterManage_axaj(String tr_idx,String c_idx, String cPage, WorkplusVO wvo, String[] r10, QcVO qvo){
+   @RequestMapping("afterManage_axaj") 
+   public ModelAndView afterManage_axaj(String[] wp_skill, String[] wp_area, String tr_idx,String c_idx, WorkplusVO wvo, QcVO qvo){
       ModelAndView mv = new ModelAndView();
 
-      int cnt = 0;
+	  //int cnt2 = 3;
+	  //int cnt3 = 3;
       /*for(String wp_idx: r10){
          cnt += w_Service.addwork(wp_idx,tr_idx);
       } */
-      int cnt2 = w_Service.addwork(wvo);
-      int cnt3 = q_Service.add(qvo);
+
+	  if(wvo != null){
+		if(wp_skill != null && wp_skill.length > 0){
+			StringBuffer sb = new StringBuffer();
+			for(int i = 0; i < wp_skill.length; i++){
+				if(wp_skill[i] == null || wp_skill[i].trim().length() < 1) // 값이 없으면 다음으로 넘어감
+					continue;
+				sb.append(wp_skill[i]);
+				sb.append("/"); // 반복문 탈출 후 마지막 index(sb.length - 1)값 삭제
+			}
+			sb.deleteCharAt(sb.length() -1); // 값이 하나라도 있었다면 마지막 값은 /, 없을경우 if문 자체가 실행되지 않음
+			wvo.setWp_skill(sb.toString());  // 배열에 있는 값에 따라 x ~ x/x/x 사이의 값이 들어간다
+		}
+		if(wp_area != null && wp_area.length > 0){
+			StringBuffer sb = new StringBuffer();
+			for(int i = 0; i < wp_area.length; i++){
+				if(wp_area[i] == null || wp_area[i].trim().length() < 1)
+					continue;
+				sb.append(wp_area[i]);
+				sb.append("/");
+			}
+			sb.deleteCharAt(sb.length() -1); 
+			wvo.setWp_area(sb.toString());  
+		}	
+		if(wvo.getWp_idx() != null && wvo.getWp_idx().trim().length()>0) // 이미 wp_idx값이 있을 경우(수정)
+			w_Service.editwork(wvo);
+		else
+			w_Service.addwork(wvo);	
+	  }
+
+	  if(qvo != null){
+		if(qvo.getQc_idx() != null && qvo.getQc_idx().trim().length()>0)
+			q_Service.qqedit(qvo);
+		else
+			q_Service.add(qvo);
+	  }
 
 
       mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
       return mv;
    }
 
-   @RequestMapping("afterManage_axaj_edit")
-   public ModelAndView afterManage_axaj_edit(String c_idx, String cPage, String tr_idx){
-      ModelAndView mv = new ModelAndView();
-
-      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-
-      return mv;
-   }
 }
