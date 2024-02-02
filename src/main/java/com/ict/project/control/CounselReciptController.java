@@ -109,8 +109,12 @@ public class CounselReciptController {
         else if(listSelect.equals("2")){
              mv.setViewName("/jsp/admin/counselReceipt/counselingDetail");
              InflowPathVO[] ar = id_Service.getList();
-             mv.addObject("id_length", ar.length);
+            if(ar == null)
+                ar = new InflowPathVO[0];
+            mv.addObject("id_length", ar.length);
              NextscheduledVO[] ar2 = ns_Service.getList();
+             if(ar2 == null)
+              ar2 = new NextscheduledVO[0];
              mv.addObject("ns_length", ar2.length);
         }else if(listSelect.equals("3"))
            mv.setViewName("/jsp/admin/counselReceipt/dailyReceipt");
@@ -133,19 +137,17 @@ public class CounselReciptController {
         ModelAndView mv = new ModelAndView();
 		
 		CounselReceiptVO[] ar = null;
-		mv.addObject("ar2", ar);
 		ar = cr_Service.getCounselReceiptList();
+		mv.addObject("ar2", ar);
 
-        System.out.println("안들어옴"+listSelect);
         
-		if(listSelect.equals("1"))
-        mv.setViewName("/jsp/admin/counselReceipt/counselReceipt_ajax");
+		if(listSelect.equals("1")){
+            mv.setViewName("/jsp/admin/counselReceipt/counselReceipt_ajax");
+        }
 		else if(listSelect.equals("2")){
-            System.out.println("들어옴");
             CounselingdetailVO[] cd_ad = null;
             cd_ad = cd_Service.getList();
             mv.addObject("cd_ad", cd_ad);
-            System.out.println(cd_ad.length);
             mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
         }
         return mv;
@@ -200,6 +202,10 @@ public class CounselReciptController {
     @RequestMapping("editCounselReceipt")
     public ModelAndView editCounselReceipt(CounselReceiptVO cvo, String edit, String cr_idx) {
         ModelAndView mv = new ModelAndView();
+
+        System.out.println("cr="+cr_idx);
+        System.out.println("edit="+edit);
+        
         if(edit == null){
             CounselReceiptVO vo = cr_Service.getCounselReceipt(cr_idx);
             request.setAttribute("edit_crvo", vo);
@@ -392,7 +398,6 @@ public class CounselReciptController {
             mv.setViewName("/jsp/admin/counselReceipt/editCounselingDetail_ajax");
         }else{
 
-            System.out.println(cvo.getCd_idx() + "/" + cd_idx);
             int cnt =cd_Service.editCounselingDetail(cvo);
 
             mv.setViewName("redirect:counselReceipt?listSelect=2&cPage=1");
@@ -630,7 +635,6 @@ public class CounselReciptController {
     @RequestMapping("searchCounseldetail")
     public ModelAndView searchCounseldetail(String num,String year,String select,String value,String listSelect,String cPage){
 		
-		System.out.println(year);
 
 		if(value== null || value.trim().length()==0){
 			value= null;
