@@ -48,10 +48,16 @@ public class WeeklyMeetingController {
     public ModelAndView weeklyMeetingMain(String listSelect){
         ModelAndView mv = new ModelAndView();
 
-		WeeklyMeetingVO[] ar = wk_Service.getWeeklyMeetingList();
-		mv.addObject("wk_ar", ar);
-
         
+        Paging page = new Paging();
+        page.setTotalRecord(wk_Service.getSearchCount(null, null));
+        page.setNowPage(1);
+        
+        mv.addObject("page", page);
+
+		WeeklyMeetingVO[] ar = wk_Service.searchweeklyMeeting(null,null,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+        mv.addObject("wk_ar", ar);
 		if(listSelect.equals("1"))
               mv.setViewName("/jsp/admin/etcList/weeklyMeeting/weeklyMeeting_ajax");
         else if(listSelect.equals("2")){
@@ -147,8 +153,6 @@ public class WeeklyMeetingController {
 		if(num.equals("표시개수"))
         num = null;
         
-        
-        
 		ModelAndView mv = new ModelAndView();
 		Paging page = null;
 		if(num!=null && num.length()>0 )
@@ -157,12 +161,14 @@ public class WeeklyMeetingController {
         page = new Paging();
 		
 		page.setTotalRecord(wk_Service.getSearchCount(select, value));
-		page.setNowPage(Integer.parseInt(cPage));
-		WeeklyMeetingVO[] ar =null;
 
+		page.setNowPage(Integer.parseInt(cPage));
+        
+        
+		WeeklyMeetingVO[] ar =null;
+        
         
 		ar = wk_Service.searchweeklyMeeting(select,value,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-        
 		mv.addObject("wk_ar", ar);
 		mv.addObject("page", page);
 	
