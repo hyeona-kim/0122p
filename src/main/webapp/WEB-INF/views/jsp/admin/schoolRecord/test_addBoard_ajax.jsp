@@ -8,6 +8,10 @@
 	<!-- 추가 인자로 보내기 위해 hidden으로 던진다 -->
 	<input type="hidden" name="c_idx" value="${param.c_idx}"/>
 	<table>
+		<colgroup>
+		<col width="20%"/>
+		<col width="80%"/>
+		</colgroup>
 		<caption>게시판 등록 테이블</caption>
 		<tbody>
 			<tr>
