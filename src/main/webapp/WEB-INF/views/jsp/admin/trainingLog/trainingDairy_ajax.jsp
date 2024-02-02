@@ -79,7 +79,7 @@
             </td>
         </c:if>
         <c:if test="${td_ar ne null}">
-            <c:forEach var="tdvo" items="${td_ar}">
+            <c:forEach var="tdvo" items="${td_ar}" varStatus="vs">
                 <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
                 <!--td_idx, write_date, td_attend, td_tardy, td_earlyLeave, td_significant, c_idx, admin_check, ceo_check-->
                 <tr>
