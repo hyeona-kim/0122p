@@ -44,6 +44,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -233,28 +236,70 @@ public class TraineeController {
 
 
     @RequestMapping("trainconfirm")
-    public ModelAndView trainconfirm(String cPage) {
-        ModelAndView mv = new ModelAndView();
-        Paging page = new Paging();
-      
-      page.setTotalRecord(u_Service.getCount());
-      
-      if(cPage == null)
-         page.setNowPage(1);
-      else {
-         int nowPage = Integer.parseInt(cPage);
-         page.setNowPage(nowPage);
+    public ModelAndView trainconfirm(String cPage,String value,String year,String num,String select) {
+         ModelAndView mv = new ModelAndView();
+         if(cPage == null)
+			   cPage="1";
+		   if(value == null||value.trim().length()==0){
+            value = null;
+            select = null;
+         } 
+        if(year ==null || year.equals("년도선택")|| year.trim().length()==0)
+            year = null;
+        if(num ==null ||num.equals("표시개수"))
+            num=null;
+
+        Paging page = null;
+
+        if(num != null && num.length() >0)
+            page = new Paging(Integer.parseInt(num),5);
+        else
+            page = new Paging();
+
+
+        page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+
+        page.setNowPage(Integer.parseInt(cPage));
+        mv.addObject("page", page);
+        CourseVO[] ar = c_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
+        mv.addObject("ar", ar);
+    
+         mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
+        return mv;
+      }
+      @RequestMapping("confilmsearch")
+    public ModelAndView trainconfirm_ajax(String cPage,String value,String year,String num,String select) {
+            ModelAndView mv = new ModelAndView();
+            if(cPage == null)
+               cPage="1";
+            if(value == null||value.trim().length()==0){
+               value = null;
+               select = null;
+            } 
+            if(year ==null || year.equals("년도선택")|| year.trim().length()==0)
+                  year = null;
+            if(num ==null ||num.equals("표시개수"))
+                  num=null;
+
+            Paging page = null;
+
+            if(num != null && num.length() >0)
+                  page = new Paging(Integer.parseInt(num),5);
+            else
+                  page = new Paging();
+
+
+            page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+
+            page.setNowPage(Integer.parseInt(cPage));
+            mv.addObject("page", page);
+            CourseVO[] ar = c_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
+            mv.addObject("ar", ar);
          
+            mv.setViewName("jsp/admin/schoolRecord/traineeConfirm_ajax");
+            return mv;
       }
       
-      CourseVO[] ar = tc_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-      
-      mv.addObject("page", page);
-      mv.addObject("ar", ar);
-      mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
-        return mv;
-    }
-
 
     @RequestMapping("confirm")
     public ModelAndView confirm() {
@@ -416,10 +461,14 @@ public class TraineeController {
 	public ModelAndView trainee_name(String select, String value){
 		ModelAndView mv = new ModelAndView();
 		Paging page= new Paging(20,5);
-		page.setTotalRecord(t_Service.getCourseSearchCount("4",value,null));
+      if(value == null || value.trim().length()<1)
+         select =null;
+      else
+         select="4";
+		page.setTotalRecord(t_Service.getCourseSearchCount(select,value,null));
 		page.setNowPage(1);
 
-		TraineeVO[] ar = t_Service.getCourseTraineeSearchList("4", value, null, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		TraineeVO[] ar = t_Service.getCourseTraineeSearchList(select, value, null, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
 

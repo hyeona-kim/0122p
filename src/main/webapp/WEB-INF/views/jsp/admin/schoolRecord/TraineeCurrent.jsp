@@ -73,7 +73,6 @@ table tfoot ol.page {
 </style>
 
 </head>
-<c:if test="${tvo eq null }">
 <body>
 	<article id="wrap">
 		<jsp:include page="../../head.jsp"></jsp:include>
@@ -96,10 +95,7 @@ table tfoot ol.page {
 											<option>15</option>
 										</select>
 										<select id="searchyear">
-											<option>년도선택</option>
-											<c:forEach begin="2000" end="2024" var="year">
-				     							  <option value="${year}">${year}</option>
-				    						</c:forEach>
+								
 										</select>
 									</td>
 									<td>
@@ -108,7 +104,6 @@ table tfoot ol.page {
 												<option value="2">과정타입</option>
 												<option value="3">과정명</option>
 												<option value="4">훈련생명</option>
-											
 										</select>
 										<input type="text" id="searchValue"/>
 										<button type="button" id="search">검 색</button>
@@ -200,10 +195,9 @@ table tfoot ol.page {
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
-		let searchType="";
+		let searchType="1";
 		let searchValue="";
 		let searchnum="";
-		let search="";
 		let searchyear="";
 		$(function() {
 			//$().removeClass("selected");
@@ -211,7 +205,15 @@ table tfoot ol.page {
 			$(".l_select").removeClass("l_selected");
 			$("#thirdmenu").addClass("selected");
 			$("#l_second").addClass("l_select");
-
+			let now = new Date();	// 현재 날짜 및 시간
+			let year = now.getFullYear();
+			let str = "<option>년도선택</option>";
+			
+			for(let i=year+1; i>year-5; i--){
+				str+= "<option value="+i+">"+i+"</option>";
+			}
+			$("#searchyear").html(str);
+			
 			$("#searchnum").change(function(){
 				searchnum = $("#searchnum").val();
 				console.log(searchnum);
@@ -259,21 +261,12 @@ table tfoot ol.page {
 						url: "tcsearch",
 						type:"post",
 						data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
-	
 					}).done(function(result){
 						$("#result").html(result);
-	
-	
+
 					});
-
 				}
-
-								
 			});
-
-			
-
-			
 
 		});
 		
@@ -283,12 +276,8 @@ table tfoot ol.page {
 				url: "tcsearch",
 				type:"post",
 				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str,
-
-
-
 			}).done(function(result){
 				$("#result").html(result);
-
 			});
 			
 		}
@@ -301,14 +290,8 @@ table tfoot ol.page {
 			document.fff.submit();
 
 		}
-	
-
 		
 	</script>
 </body>
-</c:if>
-<c:if test="${tvo ne null}">
-	<c:redirect url="index">
-	</c:redirect>
-</c:if>
+
 </html>
