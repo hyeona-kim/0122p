@@ -221,10 +221,10 @@
 </select>
 <!-- //성명	주민번호	연락처	전화	우편번호	주소	훈련과정명(코드값)	수강상태	전체교육비	상담메모	카드유형-->
 <insert id="add" parameterType="Map">
-     INSERT INTO trainee_t (tr_name, tr_rrn, tr_hp, tr_phone, tr_pos_code,tr_addr, c_idx, tr_nowstatus, tr_total_fee, memo, tr_card,status)
+     INSERT INTO trainee_t (tr_name, tr_rrn, tr_hp, tr_phone, tr_pos_code,tr_addr, c_idx, tr_nowstatus, tr_total_fee, tr_memo, tr_card,status)
      VALUES 
      <foreach collection="list" item="vo" separator=",">
-     (#{vo.tr_name}, #{vo.tr_rrn}, #{vo.tr_hp}, #{vo.tr_phone}, #{vo.tr_pos_code},#{vo.tr_addr} ,#{vo.c_idx}, #{vo.tr_nowstatus}, #{vo.tr_total_fee}, #{vo.memo}, #{vo.tr_card},0)
+     (#{vo.tr_name}, #{vo.tr_rrn}, #{vo.tr_hp}, #{vo.tr_phone}, #{vo.tr_pos_code},#{vo.tr_addr} ,#{vo.c_idx}, #{vo.tr_nowstatus}, #{vo.tr_total_fee}, #{vo.tr_memo}, #{vo.tr_card},0)
     </foreach>
 </insert>
 
