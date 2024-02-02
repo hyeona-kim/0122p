@@ -742,7 +742,7 @@ public class TraineeController {
    }
 
    @RequestMapping("afterManage_axaj") 
-   public ModelAndView afterManage_axaj(String[] wp_skill, String[] wp_area, String tr_idx,String c_idx, WorkplusVO wvo, QcVO qvo){
+   public ModelAndView afterManage_axaj(String[] wp_skill, String[] wp_area, String tr_idx,String c_idx, WorkplusVO wvo, QcVO qvo, MultipartFile file){
       ModelAndView mv = new ModelAndView();
 
 	  //int cnt2 = 3;
@@ -752,6 +752,29 @@ public class TraineeController {
       } */
 
 	  if(wvo != null){
+		String enc_type = request.getContentType();
+		if(enc_type.startsWith("multipart")) {
+			try {
+			   
+			   String realPath = application.getRealPath("/upload_file");
+				   String fname = null;
+				   String oname = null;
+			   if(file.getSize()>0){
+					   oname =file.getOriginalFilename();
+					   fname = FileRenameUtil.checkSameFileName(oname, realPath);
+					   try {
+						   file.transferTo(new File(realPath, fname));
+					   } catch (Exception e) {
+						   e.printStackTrace();
+					   }
+				   }
+			   wvo.setFile_name(fname);
+			   wvo.setOri_name(oname);
+			} catch (Exception e) {
+			   e.printStackTrace();
+			}
+   
+		 }
 		if(wp_skill != null && wp_skill.length > 0){
 			StringBuffer sb = new StringBuffer();
 			for(int i = 0; i < wp_skill.length; i++){
