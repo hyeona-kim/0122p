@@ -286,7 +286,7 @@ table tfoot ol.page {
                               </td>
                               <td>
                                  <select id="searchType">
-                                    <option value="1">상담사</option>
+                                    <option value="1">훈련강사</option>
                                     <option value="2">상담일</option>
                                     <option value="3">과정명</option>
                                     <option value="4">훈련생</option>
@@ -336,7 +336,7 @@ table tfoot ol.page {
          $.ajax({
             url: "counselMain",
             type: "post",
-            data:"type="+encodeURIComponent("counselMain")+"&listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
+            data:"listSelect="+encodeURIComponent("1")+"&cPage="+encodeURIComponent('${param.cPage}')
          }).done(function(result){
             $("#counsel_Table").html(result);
          });1
