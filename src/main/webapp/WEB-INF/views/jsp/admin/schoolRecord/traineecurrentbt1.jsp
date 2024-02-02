@@ -221,18 +221,13 @@ table tfoot ol.page {
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-	
-
-
-
 	<script>
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#thirdmenu").addClass("selected");
-			$("#l_four").addClass("l_select");
+			$("#l_second").addClass("l_select");
 			let ar = $(".sts");
 			for(let k=0; k<ar.length;k++){
 				//console.log($("#nowstatus"+k).val());

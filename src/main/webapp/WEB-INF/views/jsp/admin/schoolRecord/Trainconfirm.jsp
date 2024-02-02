@@ -85,102 +85,96 @@
 					<div id="staffList_top">훈련생확인서류</div>
 					<table id="searchTime">
 						<caption>훈련생확인서류검색</caption>
+						<thead>
+							<tr>
+								<th>검색</th>
+								<td>
+									<select id="searchyear">
+	
+									</select>
+								</td>
+								<td>
+									<select id="searchType">
+										<option value="1">담당교수</option>
+										<option value="2">과정타입</option>
+										<option value="3">과정명</option>
+									</select>
+									<input type="text" id="searchValue"/>
+									<button type="button" id="search">검 색</button>
+								</td>
+							</tr>
+						</thead>
+					</table>
+					<div id="result">
+						<table id="makeTime">
+						<caption>훈련생확인서류 리스트</caption>
 							<thead>
 								<tr>
-									<th>검색</th>
-									<td>
-										<select>
-											<option>년도선택</option>
-											<c:forEach begin="2000" end="2024" var="year">
-				     							  <option value="${year}">${year}</option>
-				    						</c:forEach>
-										</select>
-									</td>
-									<td>
-										<select>
-												<option>번호</option>
-												<option>과정명</option>
-												<option>담당교수</option>
-												<option>개강일</option>
-												<option>종료일</option>
-												<option>요일</option>
-												<option>회차</option>
-												<option>모집인원</option>
-										</select>
-										<input type="text"/>
-										<button type="button">검 색</button>
-									</td>
+									<th>번호</th>
+									<th>과정명</th>
+									<th>담당교수</th>
+									<th>개강일</th>
+									<th>종료일</th>
+									<th>요일</th>
+									<th>회차</th>
+									<th>모집인원</th>
+									<th>관리</th>
 								</tr>
 							</thead>
-						</table>
-				<table id="makeTime">
-				<caption>훈련생확인서류 리스트</caption>
-					<thead>
-						<tr>
-							<th>번호</th>
-							<th>과정명</th>
-							<th>담당교수</th>
-							<th>개강일</th>
-							<th>종료일</th>
-							<th>요일</th>
-							<th>회차</th>
-							<th>모집인원</th>
-							<th>관리</th>
-						</tr>
-					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="10">
-								<ol class="page">
-	<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
-				<li class="disable">&lt;</li>
-			</c:if>	
-	
-			<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
-				<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
-			</c:if>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<ol class="page">
+			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+						<li class="disable">&lt;</li>
+					</c:if>	
+			
+					<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
+						<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
+					</c:if>
 
-			<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
-				<c:if test="${vs.index eq page.nowPage }">
-					<li class="now">${vs.index }</li>
-				</c:if>
-				<c:if test="${vs.index ne page.nowPage }">
-					<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
-				</c:if>
-			</c:forEach>
-	
-			<c:if test="${page.endPage < page.totalPage }">
-				<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
-			</c:if>
-			<c:if test="${page.endPage >= page.totalPage }">
-				<li class="disable">&gt;</li>	
-			</c:if>
-                              </ol>
-                          </td>
-						</tr>
-					</tfoot>
-					<tbody>
-		
-						<c:forEach var="vo4" items="${requestScope.ar }" varStatus="vs">
-				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
-					<tr>
-						<td>${num+(vs.index)-2}</td>
-						<td>${vo4.c_name}</td>
-						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
-						<td>${vo4.sf_idx}</td>
-						<td>${vo4.start_date }</td>
-						<td>${vo4.end_date }</td>
-						<td>${vo4.c_day}</td>
-						<td>${vo4.c_round_num }</td>
-						<td>${vo4.c_peo_num}</td>
-						<td>
-						<input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정">
-						<input type="button" value="확인서류보기">
-						</td>
-					</tr>
-				</c:forEach>
-				</tbody>
-			</table>
+					<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
+						<c:if test="${vs.index eq page.nowPage }">
+							<li class="now">${vs.index }</li>
+						</c:if>
+						<c:if test="${vs.index ne page.nowPage }">
+							<li><a onclick="paging('${vs.index}')">${vs.index}</a></li>
+						</c:if>
+					</c:forEach>
+			
+					<c:if test="${page.endPage < page.totalPage }">
+						<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
+					</c:if>
+					<c:if test="${page.endPage >= page.totalPage }">
+						<li class="disable">&gt;</li>	
+					</c:if>
+									</ol>
+								</td>
+								</tr>
+							</tfoot>
+							<tbody>
+				
+								<c:forEach var="vo4" items="${requestScope.ar }" varStatus="vs">
+						<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
+							<tr>
+								<td>${num+(vs.index)-2}</td>
+								<td>${vo4.c_name}</td>
+								<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
+								<td>${vo4.svo.sf_name}</td>
+								<td>${vo4.start_date }</td>
+								<td>${vo4.end_date }</td>
+								<td>${vo4.c_day}</td>
+								<td>${vo4.c_round_num }</td>
+								<td>${vo4.c_peo_num}</td>
+								<td>
+								<input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정">
+								<input type="button" value="확인서류보기">
+								</td>
+							</tr>
+						</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -190,6 +184,10 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 	<script>
+		let searchType="1";
+		let searchValue="";
+		let searchyear="";
+
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
@@ -197,14 +195,46 @@
 			$("#thirdmenu").addClass("selected");
 			$("#l_four").addClass("l_select");
 
-		
+			let now = new Date();	// 현재 날짜 및 시간
+			let year = now.getFullYear();
+			let str = "<option>년도선택</option>";
+			
+			for(let i=year+1; i>year-5; i--){
+				str+= "<option value="+i+">"+i+"</option>";
+			}
+			$("#searchyear").html(str);
+
+			$("#searchyear").change(function(){
+				searchyear = $("#searchyear").val();
+				$.ajax({
+					url: "confilmsearch",
+					type:"post",
+					data: "select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+				}).done(function(result){
+					$("#result").html(result);
+				});
+								
+			});
+			$("#search").click(function(){
+				searchType = $("#searchType").val();
+				searchValue = $("#searchValue").val();
+			
+				$.ajax({
+					url: "confilmsearch",
+					type:"post",
+					data: "select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+				}).done(function(result){
+					$("#result").html(result);
+				});
+				
+			});
 			
 		});
 
 		function sendData(){
     		let ar = document.fff.elements;
     	
-    			let str = ar[0].dataset.str;
+    		let str = ar[0].dataset.str;
 
     		document.fff.submit();
 		}
@@ -238,8 +268,14 @@
 
 	}
 
-	function paging(str) {
-		location.href="trainconfirm?cPage="+str
+	function paging(str) {	
+		$.ajax({
+			url: "confilmsearch",
+			type:"post",
+			data:"select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str,
+		}).done(function(result){
+			$("#result").html(result);
+		});
 	
 	}
 		
