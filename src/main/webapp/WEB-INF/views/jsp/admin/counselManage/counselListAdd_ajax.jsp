@@ -7,7 +7,7 @@
 	
 	<div>
 	<form action="counselListAdd" method="post">
-		<table id="tt_add2" class="add_l t2">
+		<table id="tt_add2" class="add_l t1">
 			<colgroup>
 				<col width="50%"/>
 				<col width="50%"/>
