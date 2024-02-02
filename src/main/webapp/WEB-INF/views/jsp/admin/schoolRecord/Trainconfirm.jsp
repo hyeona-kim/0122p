@@ -65,7 +65,7 @@
 		height: 40px;
 		padding-left: 10px;
 	}
-	#searchTime th, #makeTime th{background-color: #ddd;}
+	#searchTime th, #makeTime th{background-color: #e2eef0;}
 	
 	#searchTime caption, #makeTime caption{
 		text-indent: -9999px;
@@ -132,7 +132,7 @@
 						<tr>
 							<td colspan="10">
 								<ol class="page">
-	<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
+			<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
 				<li class="disable">&lt;</li>
 			</c:if>	
 	
@@ -164,7 +164,7 @@
 						<c:forEach var="vo4" items="${requestScope.ar }" varStatus="vs">
 				<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
 					<tr>
-						<td>${num+(vs.index)-2}</td>
+						<td>${num-(vs.index)}</td>
 						<td>${vo4.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
 						<td>${vo4.sf_idx}</td>
@@ -174,7 +174,7 @@
 						<td>${vo4.c_round_num }</td>
 						<td>${vo4.c_peo_num}</td>
 						<td>
-						<input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정">
+						<input type="button" id="fset"  onclick="set('${vo4.tn_idx}','${vo4.c_idx}')" value="확인서류설정">
 						<input type="button" value="확인서류보기">
 						</td>
 					</tr>
@@ -212,11 +212,12 @@
 
 
 		
-	function set(str){
+	function set(str,str1){
+		console.log(str+"/"+str1);
 		$.ajax({
             url: "confirm",
             type: "post",
-            data:"type="+encodeURIComponent("confirm")+"&select="+str
+            data:"tn_idx="+str+"&c_idx="+str1
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -238,8 +239,73 @@
 
 	}
 
-	function paging(str) {
-		location.href="trainconfirm?cPage="+str
+	function subRow(){
+		let query = 'input[name="chk"]:checked'
+		let selectedElements = document.querySelectorAll(query)
+
+		let selectedElementsCnt = selectedElements.length;
+
+		if(selectedElementsCnt == 0){
+			alert("등록할 항목을 선택해주세요.")
+			return false;
+		}else if(confirm("등록하시겠습니까?")){
+			cf.action="confirmAdd";
+			cf.submit();
+		}
+	}
+
+	function allChecked(target){
+
+		let checkbox = document.getElementById('allCheckBox');
+		let is_checked = checkbox.checked;
+
+		if(is_checked){
+			chkAllChecked()
+		}else{
+			chkAllUnChecked()
+		}
+
+
+	}
+
+
+	function chkClicked(tr_idx){
+			//console.log(tr_idx);
+			//체크박스 전체개수
+			let allCount = document.querySelectorAll(".chk").length;
+
+			//체크된 체크박스 전체개수
+			let query = 'input[name="chk"]:checked'
+			let selectedElements = document.querySelectorAll(query)
+			let selectedElementsCnt = selectedElements.length;
+
+			//체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 전체 체크박스 체크
+			if(allCount == selectedElementsCnt){
+				document.getElementById('allCheckBox').checked = true;
+			}
+
+			//같지않으면 전체 체크박스 해제
+			else{
+				document.getElementById('allCheckBox').checked = false;
+			}
+		}
+
+		/* 전체 체크  */
+		function chkAllChecked(){
+			document.querySelectorAll(".chk").forEach(function(v, i) {
+            v.checked = true;
+        });
+    }
+
+		/* 전체 체크 해제 */
+		function chkAllUnChecked(){
+			document.querySelectorAll(".chk").forEach(function(v, i) {
+            v.checked = false;
+        });
+    }
+	
+	function paging(sss) {
+		location.href="trainconfirm?cPage="+sss
 	
 	}
 		

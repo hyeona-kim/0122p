@@ -228,7 +228,7 @@ public class TraineeController {
         ModelAndView mv = new ModelAndView();
         Paging page = new Paging();
 		
-		page.setTotalRecord(u_Service.getCount());
+		page.setTotalRecord(tc_Service.getCount());
 		
 		if(cPage == null)
 			page.setNowPage(1);
@@ -248,12 +248,15 @@ public class TraineeController {
 
 
     @RequestMapping("confirm")
-    public ModelAndView confirm() {
+    public ModelAndView confirm(String cPage,String c_idx, String tn_idx) {
         ModelAndView mv = new ModelAndView();
+		
+
         TrainuploadVO[] ar =u_Service.all();
 		if(ar !=null)
-			mv.addObject("ar", ar);
+			
 
+		mv.addObject("ar", ar);
 		mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax"); 
         return mv;
     }
@@ -604,9 +607,9 @@ public class TraineeController {
 		TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
-		QcVO qvo = q_Service.list(tr_idx);
+		QcVO[] qvo = q_Service.list(tr_idx);
 		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
-
+//System.out.println(qvo[0].getQc_cname());
 
 
 		mv.addObject("wvo", wvo);
@@ -643,6 +646,18 @@ public class TraineeController {
 		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
 
 		return mv;
+	}
+
+	@RequestMapping("confirmAdd")
+	public ModelAndView confirmAdd(String c_idx, String cPage, String chk){
+		ModelAndView mv = new ModelAndView();
+		
+		int cnt=c_Service.tnadd(chk,c_idx);;
+		
+		mv.setViewName("redirect:trainconfirm");
+
+		return mv;
+
 	}
 
 	

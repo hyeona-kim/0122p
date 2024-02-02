@@ -23,9 +23,16 @@
         </tr>
         <tr>
             <th>성별</th>
-            <td></td>
+            <td>
+            <c:if test="${vo15.gender eq true}">
+                남자
+            </c:if>
+            <c:if test="${vo15.gender eq false}">
+                여자
+            </c:if>
+            </td>
             <th>생년월일</th>
-            <td>${fn:substring(vo15.tr_rrn,0,6)}</td>
+            <td>${vo15.tr_rrn}</td>
             <th>주소(상세)</th>
             <td>${vo15.tr_addr}</td>
         </tr>
@@ -48,68 +55,65 @@
     </table>
     <table class="after" id="makeTime">
         <colgroup>
-            <col width="16%"/>
-            <col width="20%"/>
-            <col width="16%"/>
-            <col width="16%"/>
-            <col width="16%"/>
-            <col width="16%"/>
+            <col width="13%"/>
+            <col width="17%"/>
+            <col width="13%"/>
+            <col width="13%"/>
+            <col width="13%"/>
+            <col width="13%"/>
+            <col width="18%"/>
         </colgroup>
         <tr>
-            <th rowspan="3">경력사항</th>
-            <th>근무지</th>
+            <th rowspan="${fn:length(qvo)+1}">경력사항</th>
+            <th colspan="2">근무지</th>
             <th>근무기간</th>
             <th>직위</th>
             <th>담당업무</th>
             <th>급여수준</th>
         </tr>
+        <c:forEach var="qvo" items="${qvo}">
         <tr>
-            <td>${qvo.qc_cname}</td>
+            <td colspan="2">${qvo.qc_cname}</td>
             <td>${qvo.qc_day}</td>
             <td>${qvo.qc_position}</td>
             <td>${qvo.qc_job}</td>
             <td>${qvo.qc_sal}</td>
         </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        </c:forEach>
         <tr>
             <th>보유자격증</th>
-            <td>1.${qvo.qc_name}</td>
-            <td colspan="2">2.</td>
-            <td colspan="2">3.</td>
+            <c:forEach var="qvo" items="${qvo}" varStatus="vs">
+                <td colspan="2">${vs.index+1}.${qvo.qc_name}</td>
+            </c:forEach>
+
         </tr>
         <tr>
             <th>외국어능력</th>
-            <td>
+            <td colspan="2">
                 영어
-            <c:if test="${qvo.qc_elevel eq null }">
+            <c:if test="${qvo[0].qc_elevel eq null }">
                 <input type="radio" name="qc_elevel" value="상"/>상
                 <input type="radio" name="qc_elevel" value="중"/>중
                 <input type="radio" name="qc_elevel" value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_elevel eq '상' }">
+            <c:if test="${qvo[0].qc_elevel eq '상' }">
                 <input type="radio" name="qc_elevel"  value="상" checked/>상
                 <input type="radio" name="qc_elevel"  value="중"/>중
                 <input type="radio" name="qc_elevel"  value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_elevel eq '중' }">
+            <c:if test="${qvo[0].qc_elevel eq '중' }">
                 <input type="radio" name="qc_elevel"  value="상"/>상
                 <input type="radio" name="qc_elevel"  value="중" checked/>중
                 <input type="radio" name="qc_elevel"  value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_elevel eq '하' }">
+            <c:if test="${qvo[0].qc_elevel eq '하' }">
                 <input type="radio" name="qc_elevel" value="상"/>상
                 <input type="radio" name="qc_elevel"  value="중"/>중
                 <input type="radio" name="qc_elevel"  value="하" checked/>하
             </c:if>
             </td>
             <td colspan="4">
-                기타외국어(<input type="text" style="width: 100px;" name="r1" value="${qvo.qc_flevel}"/>)
+                기타외국어(<input type="text" style="width: 100px;" name="r1" value="${qvo[0].qc_flevel}"/>)
                 <input type="radio" name="qc_flevel"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_flevel"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_flevel"/>&nbsp;하&nbsp;
@@ -117,24 +121,24 @@
         </tr>
         <tr>
             <th>컴퓨터능력</th>
-            <td>
+            <td colspan="2">
                 엑셀
-            <c:if test="${qvo.qc_xlevel eq null }">
+            <c:if test="${qvo[0].qc_xlevel eq null }">
                 <input type="radio" name="qc_xlevel" value="상"/>상
                 <input type="radio" name="qc_xlevel" value="중"/>중
                 <input type="radio" name="qc_xlevel" value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_xlevel eq '상' }">
+            <c:if test="${qvo[0].qc_xlevel eq '상' }">
                 <input type="radio" name="qc_xlevel"  value="상" checked/>상
                 <input type="radio" name="qc_xlevel"  value="중"/>중
                 <input type="radio" name="qc_xlevel"  value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_xlevel eq '중' }">
+            <c:if test="${qvo[0].qc_xlevel eq '중' }">
                 <input type="radio" name="qc_xlevel"  value="상"/>상
                 <input type="radio" name="qc_xlevel"  value="중" checked/>중
                 <input type="radio" name="qc_xlevel"  value="하"/>하
             </c:if>
-            <c:if test="${qvo.qc_xlevel eq '하' }">
+            <c:if test="${qvo[0].qc_xlevel eq '하' }">
                 <input type="radio" name="qc_xlevel"  value="상"/>상
                 <input type="radio" name="qc_xlevel"  value="중"/>중
                 <input type="radio" name="qc_xlevel"  value="하" checked/>하
@@ -142,22 +146,22 @@
             </td>
             <td colspan="2">
                 파워포인트
-            <c:if test="${qvo.qc_plevel eq null }">
+            <c:if test="${qvo[0].qc_plevel eq null }">
                 <input type="radio" name="qc_plevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_plevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_plevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_plevel eq '상' }">
+            <c:if test="${qvo[0].qc_plevel eq '상' }">
                 <input type="radio" name="qc_plevel" value="상" checked/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_plevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_plevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_plevel eq '중' }">
+            <c:if test="${qvo[0].qc_plevel eq '중' }">
                 <input type="radio" name="qc_plevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_plevel" value="중" checked/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_plevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_plevel eq '하' }">
+            <c:if test="${qvo[0].qc_plevel eq '하' }">
                 <input type="radio" name="qc_plevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_plevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_plevel" value="하" checked/>&nbsp;하&nbsp;
@@ -165,22 +169,22 @@
             </td>
             <td colspan="2">
                 워드
-            <c:if test="${qvo.qc_wlevel eq null }">
+            <c:if test="${qvo[0].qc_wlevel eq null }">
                 <input type="radio" name="qc_wlevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_wlevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_wlevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_wlevel eq '상' }">
+            <c:if test="${qvo[0].qc_wlevel eq '상' }">
                 <input type="radio" name="qc_wlevel" value="상" checked/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_wlevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_wlevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_wlevel eq '중' }">
+            <c:if test="${qvo[0].qc_wlevel eq '중' }">
                 <input type="radio" name="qc_wlevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_wlevel" value="중" checked/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_wlevel" value="하"/>&nbsp;하&nbsp;
             </c:if>
-            <c:if test="${qvo.qc_wlevel eq '하' }">
+            <c:if test="${qvo[0].qc_wlevel eq '하' }">
                 <input type="radio" name="qc_wlevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_wlevel" value="중"/>&nbsp;중&nbsp;
                 <input type="radio" name="qc_wlevel" value="하" checked/>&nbsp;하&nbsp;
@@ -191,7 +195,7 @@
             <th colspan="2">기타추가내용</th>
             <th>(취업예정자격증)</th>
             <td colspan="4">
-                <input type="text" style="width: 350px;" neme="qc_memo" value="${qvo.qc_memo}"/>
+                <input type="text" style="width: 350px;" neme="qc_memo" value="${qvo[0].qc_memo}"/>
             </td>
         </tr>
     </table>

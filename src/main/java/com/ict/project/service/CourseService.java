@@ -103,4 +103,7 @@ public class CourseService {
 
         return ar;
     }
+    public int tnadd(String tn_idx, String c_idx){
+        return c_mapper.tnAdd(tn_idx,c_idx);
+    }
 }
