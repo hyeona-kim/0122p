@@ -255,6 +255,21 @@ table tfoot ol.page {
 		function sendwrite(qqq){
 			qqq.submit();
 		}
+
+		function sendDate(ddd){
+			ddd.submit();
+
+		}
+
+		function saveform(qwe){
+			qwe.submit();
+		}
+
+		function formseve(qwe){
+			qwe.type.action="afterManage_axaj_edit";
+			//document.frm.submit();
+		}
+		
 		
 		function alledit(){
 		//체크박스 체크된 항목
@@ -377,11 +392,11 @@ table tfoot ol.page {
 	} 
 
 
-	function traineewrite(str){
+	function traineewrite(str1, str2){
 		$.ajax({
             url: "traineewrite",
             type: "post",
-            data:"type="+encodeURIComponent("traineewrite")+"&tr_idx="+str+"&c_idx="+str
+            data:"tr_idx="+str1+"&c_idx="+str2
          }).done(function(result){
             $("#m1").html(result);
          });

@@ -201,10 +201,8 @@ table tfoot ol.page {
 	 */
 		
 		function traindel(tn_idx){
-			console.log(tn_idx);
 			document.frm.type.value="trainuploaddel";
 			document.frm.tn_idx.value=tn_idx;
-			console.log(document.frm.type.value);
 			document.frm.submit();
 			
 		}
@@ -258,7 +256,6 @@ table tfoot ol.page {
 		}
 		
 		function paging(str) {
-			console.log(str);
 			location.href="trainupload?cPage="+str;
 		}
 	</script>

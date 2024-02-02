@@ -371,7 +371,13 @@ table tfoot ol.page {
 		
 		/* 건의사항 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
 		function addSuggestion() {
-			// 유효성 검사 해야함
+			// 제목만 유효성 검사
+			let subject = document.getElementById("sg_subject").value;
+
+			if(!subject.trim().length > 0) {
+				alert("제목을 입력하세요");
+				return;
+			}
 			
 			document.addForm.submit();
 		};
@@ -428,6 +434,13 @@ table tfoot ol.page {
 		
 		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
 		function addReply(frm) {
+			// 제목만 유효성 검사
+			let subject = document.getElementById("reply_subject").value;
+
+			if(!subject.trim().length > 0) {
+				alert("제목을 입력하세요");
+				return;
+			}
 			frm.submit();
 		};
 		

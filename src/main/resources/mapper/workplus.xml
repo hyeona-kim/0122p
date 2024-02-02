@@ -9,4 +9,42 @@
         where tr_idx = #{tr_idx} and c_idx = #{c_idx}
 	</select>
 
+    <insert id="add" parameterType="com.ict.project.vo.WorkplusVO">
+        insert into Workplus_t(wp_re,wp_name,wp_work, wp_skill, wp_etc,wp_area, wp_hope,wp_pay,wp_com,
+         wp_form,wp_week, wp_time,wp_memo,wp_wname,wp_number,wp_check,wp_addr, wp_phone,wp_job,wp_is,wp_wday,file_name,ori_name,tr_idx,c_idx )
+        
+        values(#{wp_re},#{wp_name},#{wp_work}, #{wp_skill}, #{wp_etc}, #{wp_area}, #{wp_hope}, #{wp_pay}, #{wp_com},#{wp_form}, #{wp_week},
+        #{wp_time},#{wp_memo},#{wp_wname}, #{wp_number},#{wp_check},#{wp_addr}, #{wp_phone},#{wp_job},#{wp_is},#{wp_wday},#{file_name},#{ori_name},#{tr_idx},#{c_idx}) 
+    </insert>
+
+    <update id="edit" parameterType="com.ict.project.vo.WorkplusVO">
+        update Workplus_t
+        <set>
+        wp_re = #{wp_re},
+        wp_name = #{wp_name},
+        wp_work = #{wp_work},
+        <if test="wp_skill !=null">wp_skill = #{wp_skill},</if>
+        <if test="wp_etc != null"> wp_etc = #{wp_etc},</if>
+        <if test="wp_area != null"> wp_area = #{wp_area},</if>
+        <if test="wp_hope != null"> wp_hope = #{wp_hope},</if>
+        <if test="wp_pay != null"> wp_pay = #{wp_pay},</if>
+        <if test="wp_com != null"> wp_com = #{wp_com},</if>
+        <if test="wp_form != null">wp_form  = #{wp_form},</if>
+        <if test="wp_week != null"> wp_week = #{wp_week},</if>
+        <if test="wp_time != null"> wp_time = #{wp_time},</if>
+        <if test="wp_memo != null"> wp_memo = #{wp_memo},</if>
+        <if test="wp_wname != null"> wp_wname = #{wp_wname},</if>
+        <if test="wp_number != null"> wp_number = #{wp_number},</if>
+        <if test="wp_check != null"> wp_check = #{wp_check},</if>
+        <if test="wp_addr != null"> wp_addr = #{wp_addr},</if>
+        <if test="wp_phone != null"> wp_phone = #{wp_phone},</if>
+        <if test=" wp_job!= null"> wp_job = #{wp_job},</if>
+        <if test=" wp_is!= null"> wp_is = #{wp_is},</if>
+        <if test=" wp_wday!= null"> wp_wday = #{wp_wday},</if>
+        <if test=" file_name!= null"> file_name = #{file_name},</if>
+        <if test=" ori_name!= null"> ori_name = #{ori_name},</if>
+        </set>
+        where wp_idx = #{wp_idx}
+    </update>
+
 </mapper>

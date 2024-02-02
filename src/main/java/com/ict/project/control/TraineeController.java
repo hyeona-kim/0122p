@@ -58,31 +58,31 @@ public class TraineeController {
     ServletContext application;
     @Autowired
     HttpServletResponse response;
-	@Autowired
-	TraineeCurrentService tc_Service;
-	@Autowired
-	UploadService u_Service;
-	@Autowired
-	TraineeService t_Service;
-	@Autowired
-	ConfirmService cu_Service;
-	@Autowired
-	CourseService c_Service;
-	@Autowired
-	CourseTypeService ct_Service;
-	@Autowired
-	CounselService cc_Service;
-	@Autowired
-	BusinessService bs_Service;
-	@Autowired
-	QcService q_Service;
-	@Autowired
-	TrfinalService tf_Service;
-	@Autowired
-	WorkplusService w_Service;
+   @Autowired
+   TraineeCurrentService tc_Service;
+   @Autowired
+   UploadService u_Service;
+   @Autowired
+   TraineeService t_Service;
+   @Autowired
+   ConfirmService cu_Service;
+   @Autowired
+   CourseService c_Service;
+   @Autowired
+   CourseTypeService ct_Service;
+   @Autowired
+   CounselService cc_Service;
+   @Autowired
+   BusinessService bs_Service;
+   @Autowired
+   QcService q_Service;
+   @Autowired
+   TrfinalService tf_Service;
+   @Autowired
+   WorkplusService w_Service;
 
-	private String editor_img =	"/editor_img";
-	private String upload_file = "/upload_file";
+   private String editor_img =   "/editor_img";
+   private String upload_file = "/upload_file";
 
 
  /* 과정별 훈련생 현황 메뉴 */
@@ -116,52 +116,52 @@ public class TraineeController {
         mv.addObject("ar", ar);
 		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent");
 
-		return mv;
-	}
-	
-	
+      return mv;
+   }
+   
+   
 /* 훈련생 확인 서류 등록 메뉴 */
-	@RequestMapping("trainupload")
-	public ModelAndView trainupload(String cPage){
-		ModelAndView mv = new ModelAndView();
-		Paging page = new Paging(5,5);
+   @RequestMapping("trainupload")
+   public ModelAndView trainupload(String cPage){
+      ModelAndView mv = new ModelAndView();
+      Paging page = new Paging(5,5);
 
-		page.setTotalRecord(u_Service.getCount());
+      page.setTotalRecord(u_Service.getCount());
 
-		if(cPage == null || cPage.length()==0 )
-			page.setNowPage(1);
-		else {
-			int nowPage = Integer.parseInt(cPage);
-			page.setNowPage(nowPage);
-		}
-		TrainuploadVO[] ar = u_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+      if(cPage == null || cPage.length()==0 )
+         page.setNowPage(1);
+      else {
+         int nowPage = Integer.parseInt(cPage);
+         page.setNowPage(nowPage);
+      }
+      TrainuploadVO[] ar = u_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 
-		mv.addObject("page", page);
-		mv.addObject("ar", ar);
+      mv.addObject("page", page);
+      mv.addObject("ar", ar);
 
-		mv.setViewName("jsp/admin/schoolRecord/trainupload");
+      mv.setViewName("jsp/admin/schoolRecord/trainupload");
 
-		return mv;
+      return mv;
 
-	}
+   }
 
-		
+      
 /* 훈련생 서류 파일 등록 */
     @RequestMapping("uploadwrite")
     public String requestMethodName(TrainuploadVO tvo,MultipartFile file){
         String viewPath = null;
-		String enc_type = request.getContentType();
-		
-		if(enc_type == null)
-			viewPath = "jsp/admin/schoolRecord/uploadwrite";
-		else if(enc_type.startsWith("multipart")) {
-			viewPath = "redirect:trainupload";
-			try {
-				
-				String realPath = application.getRealPath("/upload_file");
+      String enc_type = request.getContentType();
+      
+      if(enc_type == null)
+         viewPath = "jsp/admin/schoolRecord/uploadwrite";
+      else if(enc_type.startsWith("multipart")) {
+         viewPath = "redirect:trainupload";
+         try {
+            
+            String realPath = application.getRealPath("/upload_file");
                 String fname = null;
                 String oname = null;
-				if(file.getSize()>0){
+            if(file.getSize()>0){
                     oname =file.getOriginalFilename();
                     fname = FileRenameUtil.checkSameFileName(oname, realPath);
                     try {
@@ -170,64 +170,64 @@ public class TraineeController {
                         e.printStackTrace();
                     }
                 }
-				tvo.setFile_name(fname);
-				tvo.setOri_name(oname);
-				int cnt = u_Service.add(tvo);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+            tvo.setFile_name(fname);
+            tvo.setOri_name(oname);
+            int cnt = u_Service.add(tvo);
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
 
-		}
+      }
 
-		return viewPath;
+      return viewPath;
     }
 
-	/* 훈련생 확인 서류 수정 */
+   /* 훈련생 확인 서류 수정 */
     @RequestMapping("trainuploadedit")
     public ModelAndView trainuploadedit(TrainuploadVO tvo) {
         ModelAndView mv = new ModelAndView();
         String enc_type = request.getContentType();
-		//System.out.println("enc_type:----"+enc_type);
+      //System.out.println("enc_type:----"+enc_type);
         String viewPath = null;
-	
+   
     
         if(enc_type !=null && enc_type.startsWith("application")) {
             TrainuploadVO vo = u_Service.getUpload(tvo.getTn_idx());// tn_idx
-			mv.addObject("vo3", vo);
+         mv.addObject("vo3", vo);
             viewPath="jsp/admin/schoolRecord/TrainuploadEdit";
 
         }else if(enc_type !=null && enc_type.startsWith("multipart")){       
-			MultipartFile f = tvo.getFile();
-				if(f != null && f.getSize() > 0){
-            		String realPath = application.getRealPath(upload_file);
-					String 	fname = f.getOriginalFilename();
-					tvo.setOri_name(fname);
+         MultipartFile f = tvo.getFile();
+            if(f != null && f.getSize() > 0){
+                  String realPath = application.getRealPath(upload_file);
+               String    fname = f.getOriginalFilename();
+               tvo.setOri_name(fname);
 
-					fname = FileRenameUtil.checkSameFileName(fname, realPath);
+               fname = FileRenameUtil.checkSameFileName(fname, realPath);
 
-					try {
-						f.transferTo(new File(realPath, fname));
-						tvo.setFile_name(fname);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				tvo.setIp(request.getRemoteAddr());
-				int cnt =u_Service.edit(tvo);
+               try {
+                  f.transferTo(new File(realPath, fname));
+                  tvo.setFile_name(fname);
+               } catch (Exception e) {
+                  e.printStackTrace();
+               }
+            }
+            tvo.setIp(request.getRemoteAddr());
+            int cnt =u_Service.edit(tvo);
             viewPath =("redirect:trainupload");
-		}
+      }
         mv.setViewName(viewPath);
-		return mv;
+      return mv;
     }
 
-	
-	/* 훈련생 확인 서류 삭제 */
+   
+   /* 훈련생 확인 서류 삭제 */
     @RequestMapping("trainuploaddel")
     public ModelAndView trainuploaddel(String tn_idx ) {
         ModelAndView mv = new ModelAndView();
-		
-		int cnt = u_Service.delete(tn_idx);
-		mv.setViewName("redirect:trainupload");
+      
+      int cnt = u_Service.delete(tn_idx);
+      mv.setViewName("redirect:trainupload");
         return mv;
     }
 
@@ -236,22 +236,22 @@ public class TraineeController {
     public ModelAndView trainconfirm(String cPage) {
         ModelAndView mv = new ModelAndView();
         Paging page = new Paging();
-		
-		page.setTotalRecord(u_Service.getCount());
-		
-		if(cPage == null)
-			page.setNowPage(1);
-		else {
-			int nowPage = Integer.parseInt(cPage);
-			page.setNowPage(nowPage);
-			
-		}
-		
-		CourseVO[] ar = tc_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		
-		mv.addObject("page", page);
-		mv.addObject("ar", ar);
-		mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
+      
+      page.setTotalRecord(u_Service.getCount());
+      
+      if(cPage == null)
+         page.setNowPage(1);
+      else {
+         int nowPage = Integer.parseInt(cPage);
+         page.setNowPage(nowPage);
+         
+      }
+      
+      CourseVO[] ar = tc_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+      
+      mv.addObject("page", page);
+      mv.addObject("ar", ar);
+      mv.setViewName("jsp/admin/schoolRecord/Trainconfirm");
         return mv;
     }
 
@@ -260,10 +260,10 @@ public class TraineeController {
     public ModelAndView confirm() {
         ModelAndView mv = new ModelAndView();
         TrainuploadVO[] ar =u_Service.all();
-		if(ar !=null)
-			mv.addObject("ar", ar);
+      if(ar !=null)
+         mv.addObject("ar", ar);
 
-		mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax"); 
+      mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax"); 
         return mv;
     }
 
@@ -272,170 +272,96 @@ public class TraineeController {
     @RequestMapping("trainuploadview")
     public ModelAndView trainuploadview(String tn_idx) {
         ModelAndView mv = new ModelAndView();
-		
-		TrainuploadVO vo = u_Service.view(tn_idx);
-		if(vo !=null) {
-			mv.addObject("vo6", vo);
+      
+      TrainuploadVO vo = u_Service.view(tn_idx);
+      if(vo !=null) {
+         mv.addObject("vo6", vo);
             mv.setViewName("jsp/admin/schoolRecord/trainuploadview");
-		}
+      }
 
-		return mv;
+      return mv;
     }
-	
+   
     @RequestMapping("traindownload")
     public ResponseEntity<Resource> traindownload(String fname) {
-		String realPath = application.getRealPath("/upload_file/"+fname);
-		
-		File f = new File(realPath);
-		
-		if(f.exists()) {
-			byte[] buf = new byte[4096];
-			int size = -1;
-			
-			
-			BufferedInputStream bis = null;
-			FileInputStream fis = null;
-			
-			BufferedOutputStream bos = null;
-			
-			ServletOutputStream sos = null;
-			
-			try {
-				
-				response.setContentType("application/x-msdownload");
-				response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(),"8859_1"));
-				
-				fis = new FileInputStream(f);
-				bis = new BufferedInputStream(fis);
-				
-				sos = response.getOutputStream();
-				bos = new BufferedOutputStream(sos);
-				
-				while((size =bis.read(buf)) != -1) {
-					bos.write(buf,0,size);
-					bos.flush();
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				try {
-					if(fis !=null)
-						fis.close();
-					if(bis !=null)
-						bis.close();
-					if(sos !=null)
-						sos.close();
-					if(bos !=null)
-						bos.close();
-				} catch (Exception e2) {
-					e2.printStackTrace();
-				}
-			}
-			
-		}
-		return null;
+      String realPath = application.getRealPath("/upload_file/"+fname);
+      
+      File f = new File(realPath);
+      
+      if(f.exists()) {
+         byte[] buf = new byte[4096];
+         int size = -1;
+         
+         
+         BufferedInputStream bis = null;
+         FileInputStream fis = null;
+         
+         BufferedOutputStream bos = null;
+         
+         ServletOutputStream sos = null;
+         
+         try {
+            
+            response.setContentType("application/x-msdownload");
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(),"8859_1"));
+            
+            fis = new FileInputStream(f);
+            bis = new BufferedInputStream(fis);
+            
+            sos = response.getOutputStream();
+            bos = new BufferedOutputStream(sos);
+            
+            while((size =bis.read(buf)) != -1) {
+               bos.write(buf,0,size);
+               bos.flush();
+            }
+            
+         } catch (Exception e) {
+            e.printStackTrace();
+         }finally {
+            try {
+               if(fis !=null)
+                  fis.close();
+               if(bis !=null)
+                  bis.close();
+               if(sos !=null)
+                  sos.close();
+               if(bos !=null)
+                  bos.close();
+            } catch (Exception e2) {
+               e2.printStackTrace();
+            }
+         }
+         
+      }
+      return null;
 
     }
     @RequestMapping("traineecurrentbt1")
     public ModelAndView traineecurrentbt1(String cPage, String c_idx) {
         ModelAndView mv = new ModelAndView();
        Paging page = new Paging();
-		
-		page.setTotalRecord(t_Service.getCount());
-		
-		if(cPage == null || cPage.length()==0) {
-			page.setNowPage(1);
-		}else {
-			int nowPage = Integer.parseInt(cPage);
-			page.setNowPage(nowPage);
-			
-		}
+      
+      page.setTotalRecord(t_Service.getCount());
+      
+      if(cPage == null || cPage.length()==0) {
+         page.setNowPage(1);
+      }else {
+         int nowPage = Integer.parseInt(cPage);
+         page.setNowPage(nowPage);
+         
+      }
 
-		TraineeVO[] tv = t_Service.clist(c_idx, String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
-		CourseVO aa = c_Service.getCourse(c_idx);
-		mv.addObject("ar", tv);
-		mv.addObject("page", page);
-		mv.addObject("c_idx", c_idx);
-		mv.addObject("aa", aa);
+      TraineeVO[] tv = t_Service.clist(c_idx, String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+      CourseVO aa = c_Service.getCourse(c_idx);
+      mv.addObject("ar", tv);
+      mv.addObject("page", page);
+      mv.addObject("c_idx", c_idx);
+      mv.addObject("aa", aa);
         mv.setViewName( "jsp/admin/schoolRecord/traineecurrentbt1");
-		return mv;
+      return mv;
     }
 
-	
-	
-	@RequestMapping("traineeEdit")
-	@ResponseBody
-	public ModelAndView traineeEdit(TraineeVO tvo,String tr_idx,String c_idx, String cPage, String edit){
-		ModelAndView mv = new ModelAndView();
-		String enc_type = request.getContentType();
-		String viewPath = null;
-		
-		//System.out.println(":"+"/"+tvo.getTr_idx());
-		System.out.println(tvo.getTr_name());
-		if(edit == null && enc_type ==null){
-			//TraineeVO vo = t_Service.(tvo.getTr_idx(),c_idx);
-			CourseVO vo2 = c_Service.getCourse(c_idx);
-			
-			mv.addObject("c_idx",c_idx);
-			mv.addObject("vo2", vo2);
-			//mv.addObject("vo9", vo);
-			if(tvo.getT_path()!= null){
-				if(tvo.getT_path().contains("인터넷"))
-				mv.addObject("ch1",true);
-				if(tvo.getT_path().contains("전단지"))
-				mv.addObject("ch2",true);		
-				if(tvo.getT_path().contains("현수막"))
-				mv.addObject("ch3",true);
-				if(tvo.getT_path().contains("생활정보지"))
-				mv.addObject("ch4",true);
-				if(tvo.getT_path().contains("고용지원센터"))
-				mv.addObject("ch5",true);
-				if(tvo.getT_path().contains("직접내방"))
-				mv.addObject("ch6",true);
-				if(tvo.getT_path().contains("지인소개"))
-				mv.addObject("ch7",true);
-				if(tvo.getT_path().contains("HRD"))
-				mv.addObject("ch8",true);
-				if(tvo.getT_path().contains("기타"))
-				mv.addObject("ch9",true);
-			}
-			viewPath = "jsp/admin/schoolRecord/traineeEdit";
-		}else if(enc_type !=null && enc_type.startsWith("multipart")){
-			String[] ab = tvo.getTr_rrn().split(",");
-			tvo.setTr_rrn(ab[0]+"-"+ab[1]);
-			String[] ab2 = tvo.getTr_phone().split(",");
-			tvo.setTr_phone(ab2[0]+"-"+ab2[1]+"-"+ab2[2]);
-			String[] ab3 = tvo.getTr_hp().split(",");
-			tvo.setTr_hp(ab3[0]+"-"+ab3[1]+"-"+ab3[2]);
-
-	
-			MultipartFile f = tvo.getFile();
-			if(f != null && f.getSize() > 0){
-
-				String realPath = application.getRealPath(upload_file);
-				String 	fname = f.getOriginalFilename();
-				tvo.setOri_name(fname);
-
-				
-				fname = FileRenameUtil.checkSameFileName(fname, realPath);
-				
-				try {
-					f.transferTo(new File(realPath, fname));
-					tvo.setFile_name(fname);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-			int cnt = t_Service.trainedit(tvo);
-			//System.out.println(tvo.getTr_phone());
-			viewPath=("redirect:traineecurrentbt1?c_idx="+c_idx);
-		}
-		mv.setViewName(viewPath);
-		return mv;
-	}
-	
 	@RequestMapping("counseling")
 	public ModelAndView counseling(String tr_idx, String c_idx, String so_idx){
 		ModelAndView mv = new ModelAndView();
@@ -443,7 +369,6 @@ public class TraineeController {
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		CounselVO[] ccvo = cc_Service.counselList(tr_idx);
 		
-		//System.out.println(cvo.getC_name());
 		if(ccvo != null)
 			mv.addObject("ss_num", ccvo.length);
 		mv.addObject("ccvo", ccvo);
@@ -451,135 +376,6 @@ public class TraineeController {
 		mv.addObject("cv", cvo);
 		mv.setViewName("jsp/admin/schoolRecord/traineeCounseling");
 		
-		return mv;
-		
-		
-	}
-	@RequestMapping("traineewrite")
-	public ModelAndView traineewrite(String tr_idx, String c_idx){
-		ModelAndView mv = new ModelAndView();
-
-		TraineeVO vo = t_Service.view(tr_idx);
-		CourseVO cvo = c_Service.getCourse(c_idx);
-		BusinessVO bvo = bs_Service.list(tr_idx);
-		QcVO qvo = q_Service.list(tr_idx);
-		TrfinalVO tfvo = tf_Service.list(tr_idx);
-
-	
-
-		mv.addObject("bvo", bvo);
-		mv.addObject("qvo", qvo);
-		mv.addObject("tfvo", tfvo);
-		mv.addObject("vo12", vo);
-		mv.addObject("cc", cvo);
-		mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
-		return mv;
-	}
-
-	@PostMapping("cudel")
-	public ModelAndView cudel(String[] chk, String c_idx){
-		ModelAndView mv = new ModelAndView();
-
-		//System.out.println(chk);
-		int cnt = 0;
-		for(String tr_idx: chk){
-
-			cnt += t_Service.delete(tr_idx, c_idx);
-		}
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-
-		return mv;
-
-	}
-
-
-	@RequestMapping("alledit")
-	public ModelAndView alledit(String c_idx, String cPage, String[] chk, String[] nowstatus,String[] tr_idx){
-		ModelAndView mv = new ModelAndView();
-		//System.out.println(tr_idx.length);
-		//System.out.println(nowstatus.length);
-
-		int cnt = 0;
-		for(String e: chk){
-			for(int i=0; i<tr_idx.length; i++){
-				//if(tr_idx[i].equals(e))
-					//cnt += t_Service.status(e,nowstatus[i]);
-			}
-		}
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-
-		return mv;
-	}
-
-	@RequestMapping("couupload")
-	public ModelAndView couupload(String tr_idx, String c_idx, String ss_num, String so_idx){
-		ModelAndView mv = new ModelAndView();
-		
-
-		CounselVO cvo = cc_Service.getCounsel(so_idx);
-		CourseVO vvo = c_Service.getCourse(c_idx);
-		System.out.println(ss_num);
-		mv.addObject("vvo", vvo);
-		mv.addObject("tr_idx", tr_idx);
-		mv.addObject("c_idx", c_idx);
-		mv.addObject("ss_num", ss_num);
-		mv.addObject("cvo", cvo);
-		mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
-
-		return mv;
-
-	}
-
-	@RequestMapping("counseling_ajax")
-	public ModelAndView counseling_ajax(CounselVO ccvo, String ss_num){
-		ModelAndView mv = new ModelAndView();
-		
-		if(ccvo.getSo_day() != null && ccvo.getSo_day().trim().length() > 1){
-			t_Service.setCounsel_date(ccvo.getTr_idx(), ccvo.getSo_day(), ss_num);
-			cc_Service.addCounsel(ccvo);
-		}	
-
-
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+ccvo.getC_idx());
-		return mv;	
-	}
-
-
-	@RequestMapping("Traineewrite_ajax")
-	public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,QcVO qvo,TrfinalVO tfvo, TraineeVO tvo){
-		ModelAndView mv = new ModelAndView();
-
-		int cnt = bs_Service.bedit(bvo);
-		int cnt1= q_Service.qedit(qvo);
-		int cnt2 = tf_Service.tfedit(tfvo);
-		if(tvo.getTr_etc() !=null){
-			int cnt3 = t_Service.etcedit(tvo);
-		}
-		
-		System.out.println(cnt+"/"+cnt1+"/"+cnt2);
-		mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
-		return mv;
-	}
-
-
-	@RequestMapping("mangecard")
-	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
-		ModelAndView mv = new ModelAndView();
-
-		TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
-		CourseVO cvo = c_Service.getCourse(c_idx);
-		TrfinalVO tfvo = tf_Service.list(tr_idx);
-		QcVO qvo = q_Service.list(tr_idx);
-		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
-
-		mv.addObject("wvo", wvo);
-		mv.addObject("qvo", qvo);
-		mv.addObject("tfvo", tfvo);
-		mv.addObject("tr_idx", tr_idx);
-		mv.addObject("c_idx", c_idx);
-		mv.addObject("cvo2", cvo);
-		mv.addObject("vo15", vo);
-		mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
 		return mv;
 	}
 
@@ -613,10 +409,6 @@ public class TraineeController {
 		CourseVO[] ar = c_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
 		mv.addObject("ar", ar);
 		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent_ajax");
-
-
-
-
 		return mv;
 	}
 
@@ -633,8 +425,269 @@ public class TraineeController {
 
 		mv.setViewName("jsp/admin/schoolRecord/trainee_search");
 		return mv;
-
 	}
 
+   @RequestMapping("traineeEdit")
+   @ResponseBody
+   public ModelAndView traineeEdit(TraineeVO tvo,String tr_idx,String c_idx, String cPage, String edit){
+      ModelAndView mv = new ModelAndView();
+      String enc_type = request.getContentType();
+      String viewPath = null;
+      
+      if(edit == null && enc_type ==null){
+         TraineeVO vo = t_Service.tlist(tvo.getTr_idx(),c_idx);
+         CourseVO vo2 = c_Service.getCourse(c_idx);
+         
+         mv.addObject("c_idx",c_idx);
+         mv.addObject("vo2", vo2);
+         mv.addObject("vo9", vo);
+         if(tvo.getT_path()!= null){
+            if(tvo.getT_path().contains("인터넷"))
+            mv.addObject("ch1",true);
+            if(tvo.getT_path().contains("전단지"))
+            mv.addObject("ch2",true);      
+            if(tvo.getT_path().contains("현수막"))
+            mv.addObject("ch3",true);
+            if(tvo.getT_path().contains("생활정보지"))
+            mv.addObject("ch4",true);
+            if(tvo.getT_path().contains("고용지원센터"))
+            mv.addObject("ch5",true);
+            if(tvo.getT_path().contains("직접내방"))
+            mv.addObject("ch6",true);
+            if(tvo.getT_path().contains("지인소개"))
+            mv.addObject("ch7",true);
+            if(tvo.getT_path().contains("HRD"))
+            mv.addObject("ch8",true);
+            if(tvo.getT_path().contains("기타"))
+            mv.addObject("ch9",true);
+         }
+         viewPath = "jsp/admin/schoolRecord/traineeEdit";
+      }else if(enc_type !=null && enc_type.startsWith("multipart")){
+         String[] ab = tvo.getTr_rrn().split(",");
+         tvo.setTr_rrn(ab[0]+"-"+ab[1]);
+         String[] ab2 = tvo.getTr_phone().split(",");
+         tvo.setTr_phone(ab2[0]+"-"+ab2[1]+"-"+ab2[2]);
+         String[] ab3 = tvo.getTr_hp().split(",");
+         tvo.setTr_hp(ab3[0]+"-"+ab3[1]+"-"+ab3[2]);
 
+   
+         MultipartFile f = tvo.getFile();
+         if(f != null && f.getSize() > 0){
+
+            String realPath = application.getRealPath(upload_file);
+            String    fname = f.getOriginalFilename();
+            tvo.setOri_name(fname);
+
+            
+            fname = FileRenameUtil.checkSameFileName(fname, realPath);
+            
+            try {
+               f.transferTo(new File(realPath, fname));
+               tvo.setFile_name(fname);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+         }
+
+         int cnt = t_Service.trainedit(tvo);
+         viewPath=("redirect:traineecurrentbt1?c_idx="+c_idx);
+      }
+      mv.setViewName(viewPath);
+      return mv;
+   }
+   
+   @RequestMapping("traineewrite")
+   public ModelAndView traineewrite(String tr_idx, String c_idx){
+      ModelAndView mv = new ModelAndView();
+      System.out.println(c_idx);
+      TraineeVO vo = t_Service.view(tr_idx);
+      CourseVO cvo = c_Service.getCourse(c_idx);
+      BusinessVO bvo = bs_Service.list(tr_idx);
+      QcVO[] ar = q_Service.list(tr_idx);
+      TrfinalVO tfvo = tf_Service.list(tr_idx);
+      CourseTypeVO ctvo = ct_Service.getOne(cvo.getCt_idx()); 
+
+      mv.addObject("bvo", bvo);
+      mv.addObject("ar", ar);
+      mv.addObject("tfvo", tfvo);
+      mv.addObject("vo12", vo);
+      mv.addObject("cc", cvo);
+      mv.addObject("ctvo", ctvo);
+      if(ar != null && ar.length > 0){
+         mv.addObject("length", ar.length);
+      } else {
+         mv.addObject("length", 0);
+      }
+      mv.setViewName("jsp/admin/schoolRecord/Traineewrite");
+      return mv;
+   }
+
+   @PostMapping("cudel")
+   public ModelAndView cudel(String[] chk, String c_idx){
+      ModelAndView mv = new ModelAndView();
+      int cnt = 0;
+     
+      for(String tr_idx: chk){
+         cnt += t_Service.delete(tr_idx, c_idx);
+      }
+     
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+      return mv;
+   }
+
+
+   @RequestMapping("alledit")
+   public ModelAndView alledit(String c_idx, String cPage, String[] chk, String[] nowstatus,String[] tr_idx){
+      ModelAndView mv = new ModelAndView();
+
+      int cnt = 0;
+      for(String e: chk){
+         for(int i=0; i<tr_idx.length; i++){
+            if(tr_idx[i].equals(e))
+               cnt += t_Service.status(e,nowstatus[i]);
+         }
+      }
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+
+      return mv;
+   }
+
+   @RequestMapping("couupload")
+   public ModelAndView couupload(String tr_idx, String c_idx, String ss_num, String so_idx){
+      ModelAndView mv = new ModelAndView();
+      
+
+      CounselVO cvo = cc_Service.getCounsel(so_idx);
+      CourseVO vvo = c_Service.getCourse(c_idx);
+      System.out.println(ss_num);
+      mv.addObject("vvo", vvo);
+      mv.addObject("tr_idx", tr_idx);
+      mv.addObject("c_idx", c_idx);
+      mv.addObject("ss_num", ss_num);
+      mv.addObject("cvo", cvo);
+      mv.setViewName("jsp/admin/schoolRecord/counseling_ajax");
+
+      return mv;
+
+   }
+
+   @RequestMapping("counseling_ajax")
+   public ModelAndView counseling_ajax(CounselVO ccvo, String ss_num){
+      ModelAndView mv = new ModelAndView();
+      
+      if(ccvo.getSo_day() != null && ccvo.getSo_day().trim().length() > 1){
+         t_Service.setCounsel_date(ccvo.getTr_idx(), ccvo.getSo_day(), ss_num);
+         cc_Service.addCounsel(ccvo);
+      }   
+
+
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+ccvo.getC_idx());
+      return mv;   
+   }
+
+
+   @RequestMapping("Traineewrite_ajax")
+   public ModelAndView Traineewrite_ajax(String tr_idx, String c_idx, String cPage,BusinessVO bvo,TrfinalVO tfvo, TraineeVO tvo,
+      String[] qc_idx, String[] qc_name, String[] qc_date, String[] qc_place, String[] qc_cname, String[] qc_day, String[] qc_job, String[] qc_position, String[] qc_tridx){
+      ModelAndView mv = new ModelAndView();
+      int cnt = 5;
+      int cnt1 = 5; 
+      int cnt2 = 5; 
+      int cnt3 = 5;
+      int cnt4 = 5;
+      QcVO vo = new QcVO();
+      // 값이 들어 왔을 경우에만 실행해야 함
+
+      if(bvo != null){
+         bvo.setTr_idx(tr_idx);
+         if(bvo.getBs_idx() != null && bvo.getBs_idx().trim().length() > 0)
+            cnt = bs_Service.bedit(bvo);
+         else
+            cnt = bs_Service.badd(bvo);
+      }
+      if(tfvo != null){
+         tfvo.setTr_idx(tr_idx);
+         if(tfvo.getTf_idx() != null && tfvo.getTf_idx().trim().length() > 0)
+            cnt1 = tf_Service.tfedit(tfvo);
+         else
+            cnt1 = tf_Service.tfadd(tfvo);
+      }
+      if(qc_date != null && qc_date.length > 0){
+         for(int i = 0; i < qc_tridx.length; i++){
+            if(qc_date[i] == null || qc_date[i].trim().length() < 1) // 값이 안들어있다면 vo에 값을 넣을 이유가 없음
+               continue;
+            vo.setQc_name(qc_name[i]);
+            vo.setTr_idx(tr_idx);
+            vo.setQc_date(qc_date[i]);
+            vo.setQc_place(qc_place[i]);
+            vo.setQc_cname(qc_cname[i]);
+            vo.setQc_day(qc_day[i]);
+            vo.setQc_job(qc_job[i]);
+            vo.setQc_position(qc_position[i]);
+            vo.setQc_tridx(qc_tridx[i]);
+            if((qc_idx != null && qc_idx.length > 0) && (qc_idx[i] != null && qc_idx[i].trim().length() > 0)){
+               vo.setQc_idx(qc_idx[i]);
+               cnt2 = q_Service.editWrite(vo);
+            } else {
+               cnt3 = q_Service.addWrite(vo);
+            }
+
+         }
+      }
+         
+      if(tvo.getTr_etc() !=null && tvo.getTr_etc().trim().length() > 0){
+         cnt4 = t_Service.etcedit(tvo);
+      }
+      System.out.println(cnt + "/" + cnt1 + "/" + cnt2 + "/" + cnt3 + "/" + cnt4);
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+      return mv;
+   }
+
+   @RequestMapping("mangecard")
+   public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
+      ModelAndView mv = new ModelAndView();
+
+      TraineeVO vo = t_Service.tlist(tr_idx, c_idx);
+      CourseVO cvo = c_Service.getCourse(c_idx);
+      TrfinalVO tfvo = tf_Service.list(tr_idx);
+      QcVO[] qvo = q_Service.list(tr_idx);
+      WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
+
+
+
+      mv.addObject("wvo", wvo);
+      mv.addObject("qvo", qvo);
+      mv.addObject("tfvo", tfvo);
+      mv.addObject("tr_idx", tr_idx);
+      mv.addObject("c_idx", c_idx);
+      mv.addObject("cvo2", cvo);
+      mv.addObject("vo15", vo);
+      mv.setViewName("jsp/admin/schoolRecord/afterManageCard");
+      return mv;
+   }
+
+   @RequestMapping("afterManage_axaj")
+   public ModelAndView afterManage_axaj(String tr_idx,String c_idx, String cPage, WorkplusVO wvo, String[] r10, QcVO qvo){
+      ModelAndView mv = new ModelAndView();
+
+      int cnt = 0;
+      /*for(String wp_idx: r10){
+         cnt += w_Service.addwork(wp_idx,tr_idx);
+      } */
+      int cnt2 = w_Service.addwork(wvo);
+      int cnt3 = q_Service.add(qvo);
+
+
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+      return mv;
+   }
+
+   @RequestMapping("afterManage_axaj_edit")
+   public ModelAndView afterManage_axaj_edit(String c_idx, String cPage, String tr_idx){
+      ModelAndView mv = new ModelAndView();
+
+      mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
+
+      return mv;
+   }
 }

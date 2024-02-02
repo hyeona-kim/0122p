@@ -231,140 +231,140 @@ table tfoot ol.page {
 
 </head>
 <body>
-	<article id="wrap">
+   <article id="wrap">
 
-		<jsp:include page="../../head.jsp"></jsp:include>
-		<div id="center">
-			<jsp:include page="./leftList.jsp"></jsp:include>
-			<div class="right">
-				<!--  여기서 표시될 테이블들 가지고오기 -->
-					
-					<div id="counselWrap">
-						<div id="counselList_top">일자별 상담관리</div>
+      <jsp:include page="../../head.jsp"></jsp:include>
+      <div id="center">
+         <jsp:include page="./leftList.jsp"></jsp:include>
+         <div class="right">
+            <!--  여기서 표시될 테이블들 가지고오기 -->
+               
+               <div id="counselWrap">
+                  <div id="counselList_top">일자별 상담관리</div>
 
-						<form>
-							<table id="searchCounsel">
-							<caption>상담검색</caption>
-								<thead>
-									<tr>
-										<th>검색</th>
-										<td>
-											<select id="numPerPage">
-			
-												<option value="5">표시개수</option>
-												<option>5</option>
-												<option>10</option>
-												<option>15</option>
-											</select>
-											<select id="selectYear">
-	
-											</select>
-										</td>
-										<td>
-											<select id="searchType">
-												<option value="1">상담사</option>
-												<option value="2">상담일</option>
-												<option value="3">과정명</option>
-												<option value="4">훈련생</option>
-											</select>
-											<input type="text" id="searchValue"/>
-											<button type="button" id="search_bt">검 색</button>
-										</td>
-									</tr>
-								</thead>
-							</table>
-						</form>
-						<div id="counsel_Table">
-						
-						</div>
-					</div>
-				</div>
-			</div>
-		</article>
-		
-		<form name="frm" action="counsel" method="post">
-			<input type="hidden" name="so_idx" value="" />
-			<input type="hidden" name="listSelect" value="2" />
-		</form>
-		
-		
-		<div id="dialog" hidden="" title="교육생 상담일지"></div>
-		<div id="dialog2" hidden="" title="상담등록"></div>
-		<div id="dialog3" hidden="" title="상담수정"></div>
-		
+                  <form>
+                     <table id="searchCounsel">
+                     <caption>상담검색</caption>
+                        <thead>
+                           <tr>
+                              <th>검색</th>
+                              <td>
+                                 <select id="numPerPage">
+         
+                                    <option value="5">표시개수</option>
+                                    <option>5</option>
+                                    <option>10</option>
+                                    <option>15</option>
+                                 </select>
+                                 <select id="selectYear">
+   
+                                 </select>
+                              </td>
+                              <td>
+                                 <select id="searchType">
+                                    <option value="1">상담사</option>
+                                    <option value="2">상담일</option>
+                                    <option value="3">과정명</option>
+                                    <option value="4">훈련생</option>
+                                 </select>
+                                 <input type="text" id="searchValue"/>
+                                 <button type="button" id="search_bt">검 색</button>
+                              </td>
+                           </tr>
+                        </thead>
+                     </table>
+                  </form>
+                  <div id="counsel_Table">
+                  
+                  </div>
+               </div>
+            </div>
+         </div>
+      </article>
+      
+      <form name="frm" action="counsel" method="post">
+         <input type="hidden" name="so_idx" value="" />
+         <input type="hidden" name="listSelect" value="2" />
+      </form>
+      
+      
+      <div id="dialog" hidden="" title="교육생 상담일지"></div>
+      <div id="dialog2" hidden="" title="상담등록"></div>
+      <div id="dialog3" hidden="" title="상담수정"></div>
+      
 
-		
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script>
-		let select ="1";
-		let select_year = "";
-		let numPerPage = "";
-		let value ="";
-		$(function(){
-			if('${value}' != null){
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent('2')+"&value="+encodeURIComponent('${value}')+"&year="+encodeURIComponent(select_year)
-					+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('${param.cPage}')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			} else {
+      
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+   <script>
+      let select ="1";
+      let select_year = "";
+      let numPerPage = "";
+      let value ="";
+      $(function(){
+         if('${value}' != null){
+            $.ajax({
+               url: "searchCounsel",
+               type: "post",
+               data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent('2')+"&value="+encodeURIComponent('${value}')+"&year="+encodeURIComponent(select_year)
+               +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('${param.cPage}')
+            }).done(function(result){
+               $("#counsel_Table").html(result);
+            });
+         } else {
 
-				$.ajax({
-					url: "counselMain",
-					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			}
-			
-			
-			//$().removeClass("selected");
-			$(".selected").removeClass("selected");
-			$(".l_select").removeClass("l_selected");
-			$("#fourthmenu").addClass("selected");
-			$("#l_second").addClass("l_select");
-			
-			let now = new Date();	// 현재 날짜 및 시간
-			let year = now.getFullYear();
-			let str = "<option>년도선택</option>";
-			
-			for(let i=year+1; i>year-5; i--){
-				str+= "<option value="+i+">"+i+"</option>";
-			}
-			$("#selectYear").html(str);
-			
-			$("#searchType").on("change",function(){
-				select = this.value;
-			});
-			$("#selectYear").on("change",function(){
-				select_year = this.value;
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('1')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			});
-			$("#numPerPage").on("change",function(){
-				numPerPage = this.value;
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('1')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			});
-			
-			$("#search_bt").click(function(){
+            $.ajax({
+               url: "counselMain",
+               type: "post",
+               data:"type="+encodeURIComponent("searchCounsel")+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent('${param.cPage}')
+            }).done(function(result){
+               $("#counsel_Table").html(result);
+            });
+         }
+         
+         
+         //$().removeClass("selected");
+         $(".selected").removeClass("selected");
+         $(".l_select").removeClass("l_selected");
+         $("#fourthmenu").addClass("selected");
+         $("#l_second").addClass("l_select");
+         
+         let now = new Date();   // 현재 날짜 및 시간
+         let year = now.getFullYear();
+         let str = "<option>년도선택</option>";
+         
+         for(let i=year+1; i>year-5; i--){
+            str+= "<option value="+i+">"+i+"</option>";
+         }
+         $("#selectYear").html(str);
+         
+         $("#searchType").on("change",function(){
+            select = this.value;
+         });
+         $("#selectYear").on("change",function(){
+            select_year = this.value;
+            $.ajax({
+               url: "searchCounsel",
+               type: "post",
+               data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('1')
+            }).done(function(result){
+               $("#counsel_Table").html(result);
+            });
+         });
+         $("#numPerPage").on("change",function(){
+            numPerPage = this.value;
+            $.ajax({
+               url: "searchCounsel",
+               type: "post",
+               data:"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('2')+"&cPage="+encodeURIComponent('1')
+            }).done(function(result){
+               $("#counsel_Table").html(result);
+            });
+         });
+         
+         $("#search_bt").click(function(){
             value = $("#searchValue").val();
             if(value != null && value.trim().length > 0){
 
@@ -382,13 +382,13 @@ table tfoot ol.page {
             }
 
          });   
-			
-			
-			
-			
-		});
+         
+         
+         
+         
+      });
 
-		function counselList(c_idx, tr_idx) {
+      function counselList(c_idx, tr_idx) {
          $.ajax({
             url:"ss_dialog",
             type:"post",
@@ -402,8 +402,8 @@ table tfoot ol.page {
             });
          });
         }
-		
-		function counselListAdd(tr_idx, c_idx) {
+      
+      function counselListAdd(tr_idx, c_idx) {
          $.ajax({
             url:"ss_dialog",
             type:"post",
@@ -418,7 +418,7 @@ table tfoot ol.page {
          });
         }
 
-		function editCounsel(so_idx, tr_idx) {
+      function editCounsel(so_idx, tr_idx) {
          $.ajax({
             url:"ss_dialog",
             type:"post",
@@ -443,8 +443,8 @@ table tfoot ol.page {
          frm.submit();
       }
 
-		function paging(str) {
-			select = $("#searchType").val();
+      function paging(str) {
+         select = $("#searchType").val();
          $.ajax({
             url: "searchCounsel",
             type: "post",
@@ -455,22 +455,22 @@ table tfoot ol.page {
          });
          
       }
-	  $("#dialog").dialog({
+     $("#dialog").dialog({
             autoOpen: false,
             width:1500,
             modal: true,
       });
-	  $("#dialog2").dialog({
+     $("#dialog2").dialog({
             autoOpen: false,
             width:1500,
             modal: true,
       });
-	  $("#dialog3").dialog({
+     $("#dialog3").dialog({
             autoOpen: false,
             width:1500,
             modal: true,
       });
 
-	</script>
+   </script>
 </body>
 </html>
