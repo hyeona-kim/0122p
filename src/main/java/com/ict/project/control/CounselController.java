@@ -189,9 +189,10 @@ public class CounselController {
         if(total==null){
             return "redirect:counsel?listSelect="+listSelect+"&cPage="+cPage+"&c_idx="+c_idx;            
         }
-        else 
+        else if(total.equals("total"))
             return  "redirect:total?listSelect=2&c_idx="+c_idx;       
-        
+        else
+            return "redirect:counsel?listSelect="+listSelect+"&cPage="+cPage;
     }
     
     
@@ -557,8 +558,10 @@ public class CounselController {
     }
 
     @RequestMapping("counselListAdd")
-    public ModelAndView counselListAdd(CounselVO vo, String ss_num,String total){
+    public ModelAndView counselListAdd(CounselVO vo, String ss_num,String total,String listselect){
         ModelAndView mv = new ModelAndView();
+        if(total.trim().length() <1)
+            total= null;
         
         if(vo.getSo_day() != null && vo.getSo_day().trim().length() >0){
         
@@ -568,9 +571,11 @@ public class CounselController {
 
         }
         if(total==null){
-            mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx=7");        
-        }else{
+            mv.setViewName("redirect:counsel?listSelect=4&cPage=1&c_idx="+vo.getC_idx());        
+        }else if(total.equals("total")){
             mv.setViewName("redirect:total?listSelect=2&c_idx="+vo.getC_idx());
+        }else{
+            mv.setViewName("redirect:counsel?listSelect=3&cPage=1&c_idx="+vo.getC_idx());
         }
 
        

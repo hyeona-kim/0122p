@@ -314,7 +314,6 @@
 		<div id="dialog3" hidden title="상담일지"></div>
 		<div id="dialog4" hidden title="정보수정"></div>
         <form name="frm" action="counsel" method="post">
-			<input type="hidden" name="type"  value=""/> 
 			<input type="hidden" name="so_idx" value="" />
             <input type="hidden" name="total" value="total"/>
             <input type="hidden" name="c_idx" value=""/>
@@ -482,14 +481,14 @@
             });
          });
         }
-        function total_add(frm){
-            frm.total.value="total";
-            frm.submit();
+        function total_add(frm2){
+            frm2.total.value="total";
+            frm2.submit();
         }
 
-        function update(frm){
-            frm.total.value ="total";
-            frm.submit();
+        function update(frm2){
+            frm2.total.value ="total";
+            frm2.submit();
         }
 
 
@@ -509,8 +508,10 @@
 
         }
         function del(so_idx){
-			if( confirm("삭제하시겠습니까?")){
-                frm.action = "delCounsel";
+			
+            if( confirm("삭제하시겠습니까?")){
+                document.frm.action = "delCounsel";
+                document.frm.total.value="total";
                 document.frm.so_idx.value =so_idx;
                 document.frm.c_idx.value= selectCourse;
                 

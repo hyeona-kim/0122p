@@ -365,16 +365,21 @@ table tfoot ol.page {
 			
 			$("#search_bt").click(function(){
 				value = $("#searchValue").val();
-				
-				$.ajax({
-					url: "searchCounsel",
-					type: "post",
-					data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-						+"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('${param.cPage}')
-				}).done(function(result){
-					$("#counsel_Table").html(result);
-				});
-			});	
+				if(value != null && value.trim().length > 0){
+               $.ajax({
+                  url: "searchCounsel",
+                  type: "post",
+                  data:"type="+encodeURIComponent("searchCounsel")+"&select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                  +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('3')+"&cPage="+encodeURIComponent('${param.cPage}')
+               }).done(function(result){
+                  $("#counsel_Table").html(result);
+               });
+            }
+            else{
+               alert("검색어를 입력하세요");
+
+            }
+            });	
 			
 			
 			
@@ -417,15 +422,16 @@ table tfoot ol.page {
          }).done(function(result){
          $("#dialog3").dialog("open");
             $("#dialog3").html(result);
-
+            $("#close").click(function(){
+                  $("#dialog3").dialog("close");
+               });
          });
         }
 
         function del(so_idx){
 			if( confirm("삭제하시겠습니까?")){
-                frm.action = "delCounsel";
+                frm.action = "delCounsel?total=search";
                 document.frm.so_idx.value =so_idx; 
-                
                 document.frm.submit();
 			}
 		}
@@ -462,6 +468,10 @@ table tfoot ol.page {
             modal: true,
 
      });
+     function total_add(frm){
+      frm.total.value="search";
+      frm.submit();
+     }
 	</script>
 </body>
 </html>
