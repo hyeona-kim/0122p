@@ -13,8 +13,8 @@
 								</tr>
 							</thead>
 							<tbody>
-							<c:if test="${ar ne null }">
-							<c:forEach var="cvo" items="${cs_ar }" varStatus="vs">
+							<c:if test="${ar2 ne null }">
+							<c:forEach var="cvo" items="${ar2 }" varStatus="vs">
 								<tr>
 									<td>${vs.index+1 }</td>
 									<td>${cvo.cr_name }</td>

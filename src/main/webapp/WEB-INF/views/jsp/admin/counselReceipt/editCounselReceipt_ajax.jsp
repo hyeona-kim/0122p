@@ -33,4 +33,7 @@
 					</tr>
 				</tfoot>	
 			</table>
+
+			<input type="hidden" name="cr_idx" value="${edit_crvo.cr_idx }">
+
 		</form>
