@@ -88,14 +88,14 @@ table tfoot ol.page {
 								<tr>
 									<th>검색</th>
 									<td>
-										<select>
+										<select id="searchnum">
 											<%-- 이값에따라 page.numPerPage값을 수정 해 주어야한다 --%>
 											<option>표시개수</option>
 											<option>5</option>
 											<option>10</option>
 											<option>15</option>
 										</select>
-										<select>
+										<select id="searchyear">
 											<option>년도선택</option>
 											<c:forEach begin="2000" end="2024" var="year">
 				     							  <option value="${year}">${year}</option>
@@ -103,22 +103,20 @@ table tfoot ol.page {
 										</select>
 									</td>
 									<td>
-										<select>
-												<option>번호</option>
-												<option>과정명</option>
-												<option>담당교수</option>
-												<option>개강일</option>
-												<option>종료일</option>
-												<option>요일</option>
-												<option>회차</option>
-												<option>모집인원</option>
+										<select id="searchType">
+												<option value="1">담당교수</option>
+												<option value="2">과정타입</option>
+												<option value="3">과정명</option>
+												<option value="4">훈련생명</option>
+											
 										</select>
-										<input type="text"/>
-										<button type="button">검 색</button>
+										<input type="text" id="searchValue"/>
+										<button type="button" id="search">검 색</button>
 									</td>
 								</tr>
 							</thead>
 						</table>
+						<div id="result">
 				<table id="makeTime">
 				<caption>훈련현황 리스트</caption>
 					<thead>
@@ -173,7 +171,7 @@ table tfoot ol.page {
 						<td>${num-(vs.index)}</td>
 						<td>${vo2.c_name}</td>
 						<%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
-						<td>${vo2.sf_idx}</td>
+						<td>${vo2.svo.sf_name}</td>
 						<td>${vo2.start_date }</td>
 						<td>${vo2.end_date }</td>
 						<td>${vo2.c_day}</td>
@@ -188,6 +186,7 @@ table tfoot ol.page {
 				</tbody>
 			</table>
 			</div>
+			</div>
 		</div>
 	</div>
 
@@ -201,16 +200,97 @@ table tfoot ol.page {
 </article>
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
+		let searchType="";
+		let searchValue="";
+		let searchnum="";
+		let search="";
+		let searchyear="";
 		$(function() {
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected");
 			$(".l_select").removeClass("l_selected");
 			$("#thirdmenu").addClass("selected");
 			$("#l_second").addClass("l_select");
+
+			$("#searchnum").change(function(){
+				searchnum = $("#searchnum").val();
+				console.log(searchnum);
+
+
+				$.ajax({
+					url: "tcsearch",
+					type:"post",
+					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+
+				}).done(function(result){
+					$("#result").html(result);
+
+					
+				});
+
+
+								
+			});
+
+			$("#searchyear").change(function(){
+				searchyear = $("#searchyear").val();
+
+				$.ajax({
+					url: "tcsearch",
+					type:"post",
+					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+
+
+				}).done(function(result){
+					$("#result").html(result);
+
+
+				});
+								
+			});
+			$("#search").click(function(){
+				searchType = $("#searchType").val();
+				searchValue = $("#searchValue").val();
+				if(searchType == "4"){
+					location.href="trainee_name?value="+searchValue
+				
+				}else{
+					$.ajax({
+						url: "tcsearch",
+						type:"post",
+						data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+	
+					}).done(function(result){
+						$("#result").html(result);
+	
+	
+					});
+
+				}
+
+								
+			});
+
+			
+
+			
+
 		});
 		
 		function paging(str) {
-			location.href="traincurrent?cPage="+str
+
+			$.ajax({
+				url: "tcsearch",
+				type:"post",
+				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str,
+
+
+
+			}).done(function(result){
+				$("#result").html(result);
+
+			});
+			
 		}
 
 		function bt1(c_idx){
@@ -220,9 +300,8 @@ table tfoot ol.page {
 			//console.log(document.fff.type.value);
 			document.fff.submit();
 
-
-
 		}
+	
 
 		
 	</script>
