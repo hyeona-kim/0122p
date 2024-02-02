@@ -677,7 +677,7 @@ public class TraineeController {
             vo.setQc_job(qc_job[i]);
             vo.setQc_position(qc_position[i]);
             vo.setQc_tridx(qc_tridx[i]);
-            if((qc_idx != null && qc_idx.length > 0) && (qc_idx[i] != null && qc_idx[i].trim().length() > 0)){
+            if((qc_idx != null && qc_idx.length > 0) && i < qc_idx.length  &&(qc_idx[i] != null && qc_idx[i].trim().length() > 0)){
                vo.setQc_idx(qc_idx[i]);
                cnt2 = q_Service.editWrite(vo);
             } else {
