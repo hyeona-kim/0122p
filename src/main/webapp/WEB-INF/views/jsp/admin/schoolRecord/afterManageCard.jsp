@@ -118,9 +118,26 @@
             </td>
             <td colspan="4">
                 기타외국어(<input type="text" style="width: 100px;" name="qc_flname" value="${qvo[0].qc_flname}"/>)
-                <input type="radio" name="qc_flevel"/>&nbsp;상&nbsp;
-                <input type="radio" name="qc_flevel"/>&nbsp;중&nbsp;
-                <input type="radio" name="qc_flevel"/>&nbsp;하&nbsp;
+            <c:if test="${qvo[0].qc_flevel eq null}">
+                <input type="radio" name="qc_flevel" value="상"/>&nbsp;상&nbsp;
+                <input type="radio" name="qc_flevel" value="중"/>&nbsp;중&nbsp;
+                <input type="radio" name="qc_flevel" value="하"/>&nbsp;하&nbsp;
+            </c:if>
+            <c:if test="${qvo[0].qc_flevel eq '상'}">
+                <input type="radio" name="qc_flevel" value="상" checked/>&nbsp;상&nbsp;
+                <input type="radio" name="qc_flevel" value="중"/>&nbsp;중&nbsp;
+                <input type="radio" name="qc_flevel" value="하"/>&nbsp;하&nbsp;
+            </c:if>
+            <c:if test="${qvo[0].qc_flevel eq '중'}">
+                <input type="radio" name="qc_flevel" value="상"/>&nbsp;상&nbsp;
+                <input type="radio" name="qc_flevel" value="중" checked/>&nbsp;중&nbsp;
+                <input type="radio" name="qc_flevel" value="하"/>&nbsp;하&nbsp;
+            </c:if>
+            <c:if test="${qvo[0].qc_flevel eq '하'}">
+                <input type="radio" name="qc_flevel" value="상"/>&nbsp;상&nbsp;
+                <input type="radio" name="qc_flevel" value="중"/>&nbsp;중&nbsp;
+                <input type="radio" name="qc_flevel" value="하" checked/>&nbsp;하&nbsp;
+            </c:if>
             </td>
         </tr>
         <tr>
