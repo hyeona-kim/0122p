@@ -463,7 +463,11 @@
         </tr>
         <tr>
             <th>사업자 등록증첨부</th>
-            <td colspan="5"><input type="file" name="file"/></td>
+            <td colspan="5"><input type="file" name="file"/>
+            <c:if test="${wvo.file_name ne null}">
+                <span style="font-size: 13px; color: red;">기존파일:${wvo.file_name}</span>
+            </c:if>
+            </td>
         </tr>
     </table>
     <div align="center">
