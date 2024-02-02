@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 table tfoot ol.page {
 	    list-style:none;
