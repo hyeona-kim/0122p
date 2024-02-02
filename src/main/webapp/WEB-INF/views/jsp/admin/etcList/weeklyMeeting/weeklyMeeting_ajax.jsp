@@ -17,7 +17,7 @@
 			<c:forEach items="${wk_ar}" varStatus="vs" var="vo">
 			<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 				<tr>
-					<td>${vs.index+1}</td>
+					<td>${num-vs.index}</td>
 					<td>${vo.wk_title}</td>
 					<td>${vo.wk_name}</td>
 					<td>${vo.wk_date}</td>
