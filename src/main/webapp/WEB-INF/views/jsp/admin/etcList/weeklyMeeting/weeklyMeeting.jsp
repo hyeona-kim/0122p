@@ -41,14 +41,16 @@
 	}
 	#staffList thead td{
 		text-align: right;
-		border: none;
 		padding: 8px 0px;
 	}
 	#staffList tbody th, #staffList tfoot td {
 		text-align: center;
-		border: none;
+		border: 1px solid #ababab;
 		padding: 8px 0px;
 	}
+	#staffList tfoot tr:last-child td{
+		border: none;
+	} 
 	div#staffList_top{
 		background-color: black;
 		padding: 5px;
@@ -171,6 +173,32 @@
 	    color:#46ade1;
 	    font-weight:bold;
 	}
+	.t1{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.t1 caption{
+		text-indent: -9999px;
+		height: 0;
+	}
+	.t1 td ,.t1 th{
+		border: 1px solid #ababab;
+		height: 35px;
+		text-align: center;
+	}
+	.t1 th{
+		background-color: #dedede;
+	}
+	.t1 thead td{
+		border: none;
+	}
+	.t1 tfoot td{
+		border: none;
+	}
+	#table_h2{
+		background-color: black;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -183,7 +211,7 @@
 			<!--  여기서 표시될 테이블들 가지고오기 -->
 			<div id="staffWrap">
 				<div id="staffList_top">주간회의록</div>
-				<table id="staffList">
+				<table id="staffList" >
 					<thead>
 					<tr>
 						<td colspan="3">
@@ -235,8 +263,10 @@
 
 		$(function(){
 
-			$(".selected").removeClass("selected")
+			$(".selected").removeClass("selected");
+			$(".l_select").removeClass("l_selected");
 			$("#etclist").addClass("selected");
+			$("#l_second").addClass("l_select");
 
 			$.ajax({
 			url: "weeklyMeetingMain",
@@ -331,8 +361,8 @@
 				$("#dialog2").dialog({
 					title : '주간회의록',
 					modal : true,
-					width : 1000,
-					height : 600
+					width : 900,
+					height : 900
 				});
 			});
 			
@@ -347,15 +377,11 @@
 
 
 		$("#dialog").dialog({
-		autoOpen: false,
-		width:900,
-		modal: true,
-		buttons: {
-			"닫기": function() {
-				$( this ).dialog( "close" );
-			}
-		}
-	});
+			autoOpen: false,
+			width:900,
+			height : 900,
+			modal: true,	
+		});
 
 
 		

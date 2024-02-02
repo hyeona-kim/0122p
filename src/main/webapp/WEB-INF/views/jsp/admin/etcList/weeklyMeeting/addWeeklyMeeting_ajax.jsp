@@ -3,7 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<h2 id="table_h2">주간회의록등록</h2>
 	<form action="addWeeklyMeeting" enctype="multipart/form-data" method="post" name="frm">
-			<table>
+			<table class="t1">
 				<colgroup>
 					<col width="30%"/>
 					<col width="10%"/>
@@ -13,7 +13,7 @@
 			<thead>
 				<tr>
 					<td colspan="4">
-						상담내역 등록
+					
 					</td>
 				</tr>
 			</thead>
@@ -22,7 +22,7 @@
 					<tr>
 						<th><label>부서명</label></th>
 						<td>
-							<input type="text" name="wk_deptname" />
+							<input type="text" name="wk_deptname" style="width: 150px;"/>
 						</td>
 						<th><label>작성자</label></th>
 						<td>
@@ -76,10 +76,8 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="2" align="right" id="add_btn">
+						<td colspan="4" align="right" id="add_btn">
 							<input type="submit" value="등록">
-						</td>
-						<td colspan="2" align="left">
 							<input type="button" value="목록" id="cc_cancle">
 						</td>
 					</tr>
