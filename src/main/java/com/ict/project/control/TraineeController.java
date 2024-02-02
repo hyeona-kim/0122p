@@ -87,24 +87,33 @@ public class TraineeController {
 
  /* 과정별 훈련생 현황 메뉴 */
 	@RequestMapping("traincurrent")
-	public ModelAndView traincurrent(String cPage) {
+	public ModelAndView traincurrent(String cPage, String value, String select, String year, String num) {
 		ModelAndView mv = new ModelAndView();
-		Paging page = new Paging();
-
-		page.setTotalRecord(tc_Service.getCount());
-
 		if(cPage == null)
-			page.setNowPage(1);
-		else{
-			int nowPage = Integer.parseInt(cPage);
-			page.setNowPage(nowPage);
-		}
+			cPage="1";
+		if(value == null||value.trim().length()==0){
+            value = null;
+            select = null;
+        } 
+        if(year ==null || year.equals("년도선택")|| year.trim().length()==0)
+            year = null;
+        if(num ==null ||num.equals("표시개수"))
+            num=null;
 
-		CourseVO[] ar = tc_Service.getList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+        Paging page = null;
 
-		mv.addObject("page", page);
-		mv.addObject("ar", ar);
+        if(num != null && num.length() >0)
+            page = new Paging(Integer.parseInt(num),5);
+        else
+            page = new Paging();
 
+
+        page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+
+        page.setNowPage(Integer.parseInt(cPage));
+        mv.addObject("page", page);
+        CourseVO[] ar = c_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
+        mv.addObject("ar", ar);
 		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent");
 
 		return mv;
@@ -552,9 +561,7 @@ public class TraineeController {
 		return mv;
 	}
 
-<<<<<<< HEAD
-	
-=======
+
 	@RequestMapping("mangecard")
 	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo){
 		ModelAndView mv = new ModelAndView();
@@ -576,7 +583,58 @@ public class TraineeController {
 		return mv;
 	}
 
+	@RequestMapping("tcsearch")
+	public ModelAndView tcsearch(String cPage, String value, String select, String year, String num){
 
->>>>>>> c32b4423b24591808a40de2bea9f50282d1c6e23
+		ModelAndView mv = new ModelAndView();
+		if(cPage == null)
+			cPage="1";
+		if(value == null||value.trim().length()==0){
+			value = null;
+			select = null;
+		} 
+		if(year ==null || year.equals("년도선택")|| year.trim().length()==0)
+			year = null;
+		if(num ==null ||num.equals("표시개수"))
+			num=null;
+
+		Paging page = null;
+
+		if(num != null && num.length() >0)
+			page = new Paging(Integer.parseInt(num),5);
+		else
+			page = new Paging();
+
+
+		page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+
+		page.setNowPage(Integer.parseInt(cPage));
+		mv.addObject("page", page);
+		CourseVO[] ar = c_Service.searchCourse(select, value, year,String.valueOf(page.getBegin()) ,String.valueOf(page.getEnd()) );
+		mv.addObject("ar", ar);
+		mv.setViewName("jsp/admin/schoolRecord/TraineeCurrent_ajax");
+
+
+
+
+		return mv;
+	}
+
+	@RequestMapping("trainee_name")
+	public ModelAndView trainee_name(String select, String value){
+		ModelAndView mv = new ModelAndView();
+		Paging page= new Paging(20,5);
+		page.setTotalRecord(t_Service.getCourseSearchCount("4",value,null));
+		page.setNowPage(1);
+
+		TraineeVO[] ar = t_Service.getCourseTraineeSearchList("4", value, null, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		mv.addObject("page", page);
+		mv.addObject("ar", ar);
+
+		mv.setViewName("jsp/admin/schoolRecord/trainee_search");
+		return mv;
+
+	}
+
 
 }

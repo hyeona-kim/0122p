@@ -201,7 +201,6 @@ public class CounselController {
         
         if(total != null && total.equals("total")){
             //ge,sg
-            System.out.println("들어옴 ");
             cs_Service.editCounsel(vo);
             viewName = "redirect:total?listSelect=2&c_idx="+vo.getC_idx();
         }else if(vo.getSo_day() != null && vo.getSo_day().trim().length() > 0){
