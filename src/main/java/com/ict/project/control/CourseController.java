@@ -48,6 +48,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -80,8 +83,26 @@ public class CourseController {
 	FileService f_Service;
 	@Autowired
 	SubjectService sb_Service;
-
-
+	@RequestMapping("head")
+	public String requestMethodName() {
+		return "/jsp/admin/main2";
+	}
+	
+	@RequestMapping("main_course")
+	public ModelAndView main_course(String cPage){
+		ModelAndView mv = new ModelAndView();
+		if(cPage ==null || cPage.length() ==0)
+			cPage="1";
+		Paging page = new Paging();
+		page.setTotalRecord(c_Service.getSearchCount(null, null, null));
+		page.setNowPage(Integer.parseInt(cPage));
+		mv.addObject("page", page);
+		CourseVO[] ar = c_Service.searchCourse(null, null, null, String.valueOf(page.getBegin()),String.valueOf(page.getEnd()));
+		mv.addObject("c_ar", ar);
+		mv.setViewName("/jsp/admin/main_ajax");
+		return mv;
+	}
+	
     @RequestMapping("course")
     public ModelAndView course(String listSelect,String upskill,String c_idx){
 		ModelAndView mv = new ModelAndView();

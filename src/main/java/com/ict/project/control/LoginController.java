@@ -69,10 +69,11 @@ public class LoginController {
                     session.removeAttribute("cnt");
                     mv.addObject("block", "true");
                 }
-                viewPath = "/jsp/login/login_admin";
+                viewPath = "/jsp/index";
             }
             else{
-			    viewPath = "/jsp/admin/counselReceipt/main";
+			    //viewPath = "/jsp/admin/counselReceipt/main";
+			    viewPath = "/jsp/admin/main";
                 session.removeAttribute("cnt");
             }
 			session.setAttribute("vo", vo);	

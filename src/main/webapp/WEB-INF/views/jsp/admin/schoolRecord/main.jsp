@@ -28,6 +28,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#thirdmenu").addClass("selected");
+			location.href="suggestionList?cPage=1";
 		});
 	</script>
 </body>

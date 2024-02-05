@@ -413,7 +413,7 @@ table tfoot ol.page {
 	 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 	<script>
-		let select ="";
+		let select ="1";
 		let select_year = "";
 		let numPerPage = "";
 		let value ="";

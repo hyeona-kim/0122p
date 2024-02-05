@@ -37,6 +37,7 @@ public class StraffController {
 
     @RequestMapping("menu")
     public String menu(String select) {
+        System.out.println(select);
         return "/jsp/admin/"+select+"/main";
     }
     
