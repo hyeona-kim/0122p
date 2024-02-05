@@ -26,6 +26,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#firstmenu").addClass("selected");
+			location.href="counselReceipt?listSelect=1&cPage=1";
 		});
 	</script>
 </body>

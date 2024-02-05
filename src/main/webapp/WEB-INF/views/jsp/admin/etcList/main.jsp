@@ -28,6 +28,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#etclist").addClass("selected");
+			location.href="staffList";
 		});
 	</script>
 </body>

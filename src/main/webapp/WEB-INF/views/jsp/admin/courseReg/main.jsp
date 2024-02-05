@@ -28,6 +28,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#secondmenu").addClass("selected");
+			location.href="course?listSelect=1&cPage=1";
 		});
 	</script>
 </body>

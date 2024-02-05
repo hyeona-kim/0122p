@@ -28,6 +28,7 @@
 			//$().removeClass("selected");
 			$(".selected").removeClass("selected")
 			$("#fourthmenu").addClass("selected");
+			location.href="counsel?listSelect=1&cPage=1";
 		});
 	</script>
 </body>
