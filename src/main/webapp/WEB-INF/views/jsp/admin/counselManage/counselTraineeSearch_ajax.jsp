@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-		<table id="makeCounsel">
+		<table id="makeCounsel" class="table">
 			<caption>일자별 상담관리</caption>
 							<thead>
 								<tr>

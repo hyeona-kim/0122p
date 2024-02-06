@@ -1,7 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-		<table id="makeCourse">
+		<table id="makeCourse" class="table">
+			<colgroup>
+				<col width="4%"/>
+				<col width="12%"/>
+				<col width="6%"/>
+				<col width="6%"/>
+				<col width="6%"/>
+				<col width="8%"/>
+				<col width="8%"/>
+				<col width="6%"/>
+				<col width="4%"/>
+				<col width="6%"/>
+				<col width="6%"/>
+				<col width="28%"/>
+			</colgroup>
 			<caption>교육과정리스트</caption>
 							<thead>
 								<tr>
@@ -38,11 +52,11 @@
 									<td>
 										<input type="hidden" name="c_idx" value="${cvo.c_idx }"/>
 										<input type="hidden" name="cPage" value="${page.nowPage}"/>
-										<button type="button" onclick="set4('${cvo.c_idx}')">교과목 등록/수정</button>
-										<button type="button" onclick="set6('${cvo.c_idx}')">학습안내서 등록/수정</button>
-										<button type="button" id="upskill_bt" onclick="upskill('${cvo.c_idx}')">능력단위 요소 등록/수정</button>
-										<button type="button" onclick="editC('${cvo.c_idx}','${page.nowPage}')">수정</button>
-										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}','${page.nowPage}')">삭제</button>
+										<button type="button" onclick="set4('${cvo.c_idx}')" class="btn">교과목 등록/수정</button>
+										<button type="button" onclick="set6('${cvo.c_idx}')" class="btn">학습안내서 등록/수정</button>
+										<button type="button" id="upskill_bt" onclick="upskill('${cvo.c_idx}')" class="btn">능력단위 요소 등록/수정</button>
+										<button type="button" onclick="editC('${cvo.c_idx}','${page.nowPage}')" class="btn">수정</button>
+										<button type="button" id="c_del_btn" onclick="del('${cvo.c_idx}','${page.nowPage}')" class="btn red">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>

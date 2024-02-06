@@ -4,7 +4,7 @@
 
 	<h2 id="add_h2">&nbsp;&nbsp;교육생 상담일지</h2>
 	<div id="add_d1">
-		<table class="add t1">
+		<table class="add table">
 			<colgroup>
 				<col width ="20%" />
 				<col width ="40%" />

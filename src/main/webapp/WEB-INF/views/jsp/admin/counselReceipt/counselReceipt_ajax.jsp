@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-		<table id="makeCourse">
+		<table id="makeCourse" class="table">
 			<caption>교육과정리스트</caption>
 							<thead>
 								<tr>
@@ -21,10 +21,10 @@
 									<td>${cvo.cr_score }</td>
 									<td>${cvo.cr_status} </td>
 									<td>
-										<button type="button" onclick="setcr2('${cvo.cr_idx}')">수정</button>
-										<button type="button" onclick="del('${cvo.cr_idx}')">삭제</button>
-										<button type="button" onclick="setcr4()">평가내용등록/수정</button>
-										<button type="button" onclick="setcr3()">면접평가표 보기</button>
+										<button type="button" onclick="setcr2('${cvo.cr_idx}')" class="btn">수정</button>
+										<button type="button" onclick="del('${cvo.cr_idx}')" class="btn red">삭제</button>
+										<button type="button" onclick="setcr4()" class="btn">평가내용등록/수정</button>
+										<button type="button" onclick="setcr3()" class="btn">면접평가표 보기</button>
 									</td>
 								</tr>
 							</c:forEach>

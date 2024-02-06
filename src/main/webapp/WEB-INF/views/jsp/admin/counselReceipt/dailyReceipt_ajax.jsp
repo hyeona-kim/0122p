@@ -2,32 +2,32 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<table id="reg_table">
+<table id="reg_table" class="table">
     <thead>
         <tr>
-            <td rowspan="2">훈련구분</td>
-            <td rowspan="2">교육과정명</td>
-            <td rowspan="2">교사</td>
-            <td colspan="6">교육일정</td>
-            <td colspan="2">승인현황</td>
-            <td colspan="2">금일접수인원</td>
-            <td colspan="2">등록인원</td>
-            <td rowspan="2">현수강생</td>
-            <td rowspan="2">제적인원</td>
+            <th rowspan="2">훈련구분</th>
+            <th rowspan="2">교육과정명</th>
+            <th rowspan="2">교사</th>
+            <th colspan="6">교육일정</th>
+            <th colspan="2">승인현황</th>
+            <th colspan="2">금일접수인원</th>
+            <th colspan="2">등록인원</th>
+            <th rowspan="2">현수강생</th>
+            <th rowspan="2">제적인원</th>
         </tr>
         <tr>
-            <td>요일</td>
-            <td>교육시간</td>
-            <td>교시</td>
-            <td>수업시간</td>
-            <td>교육중</td>
-            <td>모집중</td>
-            <td>강의실</td>
-            <td>인원</td>
-            <td>신청접수</td>
-            <td>문의</td>
-            <td>HRD등록</td>
-            <td>총등록</td>
+            <th>요일</th>
+            <th>교육시간</th>
+            <th>교시</th>
+            <th>수업시간</th>
+            <th>교육중</th>
+            <th>모집중</th>
+            <th>강의실</th>
+            <th>인원</th>
+            <th>신청접수</th>
+            <th>문의</th>
+            <th>HRD등록</th>
+            <th>총등록</th>
         </tr>
     </thead>
     

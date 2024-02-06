@@ -2,28 +2,28 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h2 id="e_h2">강사/시설/교과목 엑셀등록</h2>
-<div id="e_div"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
+<h2 id="e_h2" class="title">강사/시설/교과목 엑셀등록</h2>
+<div id="e_div" class="main_item" style="color: #154790;"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
 <form action="add_subject" method="post" enctype="multipart/form-data">
     <input type="hidden" name="listSelect" value="3"/>
     <input type="hidden" name="c_idx" value="${param.c_idx}"/>
-    <table id="e_table">
+    <table id="e_table" class="table">
         <colgroup>
             <col width="20%"/>
             <col width="80%"/>
         </colgroup>
         <tr>
-            <th bgcolor="#eeeeee">첨부파일</th>
-            <td><input type="file" name="s_file"/></td>
+            <th>첨부파일</th>
+            <td><input type="file" name="s_file" class="text"/></td>
         </tr>
     </table>
-    <div id="btns" style="text-align: center; margin-top: 20px;" >
-        <button type="submit">저장</button>
-        <button type="button" id="cc_cancle">취소</button>
+    <div id="btns" class="main_item align_center">
+        <button type="submit" class="btn">저장</button>
+        <button type="button" id="cc_cancle" class="btn">취소</button>
     </div>
 </form>
  <c:if test="${s_ar ne null}">
-    <table id="e_table">
+    <table id="e_table" class="table">
         <colgroup>
             <col width="25%"/>
             <col width="25%"/>
@@ -32,9 +32,9 @@
         </colgroup>
         <thead>
             <tr>
-                <th bgcolor="#eeeeee">구분</th>
-                <th colspan="2" bgcolor="#eeeeee">명칭</th>
-                <th bgcolor="#eeeeee">코드</th>
+                <th >구분</th>
+                <th colspan="2">명칭</th>
+                <th>코드</th>
             </tr>
         </thead>
         <tbody>

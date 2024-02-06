@@ -9,39 +9,6 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
 <style>
-table tfoot ol.page {
-       list-style:none;
-       width: 300px;
-       margin: auto;
-   }
-   
-   table tfoot ol.page li {
-       float:left;
-       margin-right:8px;
-   }
-   
-   table tfoot ol.page li a {
-       display:block;
-       padding:3px 7px;
-       color:gray;
-       font-weight:bold;
-       text-decoration: none;
-   }
-   
-   table tfoot ol.page li a:hover {
-      color:black;
-       font-weight:bold;
-   }
-   .disable {
-       padding:3px 7px;
-       color:white;
-   }
-   
-   .now {
-      padding:3px 7px;
-       color:#46ade1;
-       font-weight:bold;
-   }
 
    #counselWrap{
       width: 95%;

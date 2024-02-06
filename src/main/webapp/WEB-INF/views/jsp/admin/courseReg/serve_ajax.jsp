@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<table id="makeTime">
+<table id="makeTime" class="table">
 					<caption>과정별 교수계획서 및 학습 안내서 리스트</caption>
 						<thead>
 							<tr>
@@ -30,7 +30,7 @@
 								<td>${vo2.c_day}</td>
 								<td>${vo2.c_round_num }</td>
 								<td>${vo2.c_peo_num}</td>
-								<td><button type="button" onclick="set('${vo2.c_idx}')">과정별 학습 안내서</button></td>
+								<td><button type="button" onclick="set('${vo2.c_idx}')" class="btn">과정별 학습 안내서</button></td>
 							</tr>
 						</c:forEach>
 					</tbody>

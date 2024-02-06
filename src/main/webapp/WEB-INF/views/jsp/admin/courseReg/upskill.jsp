@@ -3,10 +3,10 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 		<div id="staffWrap">
-		<div id="staffList_top">디지털컨비젼스 평가정보관리 과정 과목현황</div>
+		<div id="staffList_top" class="title" style="margin-bottom: 10px;">디지털컨비젼스 평가정보관리 과정 과목현황</div>
 		<div id="courseLog_Table">	
 			
-			<table id="us_table">
+			<table id="us_table" class="table">
 				<thead>
 					<tr>
 						<th>순번</th>
@@ -34,13 +34,13 @@
 								${skvo.sk_name},
 							</c:forEach>
 						</td>
-						<td><button type="button"  onclick="set5('skill','${vo2.s_idx}','${vo2.c_idx}')">등록/수정</button></td>
+						<td><button type="button"  onclick="set5('skill','${vo2.s_idx}','${vo2.c_idx}')" class="btn">등록/수정</button></td>
 					</tr>
 				</c:forEach>
 				</c:if>
 				<c:if test="${ar eq null}">
 					<tr>
-						<td colspan="8">해당 과정의 능력요소가 존재하지 않습니다.</td>
+						<td colspan="8" style="color: #154790;">해당 과정의 능력요소가 존재하지 않습니다.</td>
 					</tr>
 				</c:if>
 			</tbody>

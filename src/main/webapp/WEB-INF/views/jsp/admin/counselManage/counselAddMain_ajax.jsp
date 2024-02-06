@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<div id ="d1">
-		<table id="t1">
+		<table id="t1" class="table">
 			<thead id="t2head">
 				<tr>
 					<td >교육과정명</td>
