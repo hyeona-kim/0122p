@@ -14,10 +14,9 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 public class StraffController {
-     @Autowired
+    @Autowired
     HttpServletRequest request;
     @Autowired
     HttpSession session;
@@ -30,59 +29,58 @@ public class StraffController {
     public ModelAndView staffList() {
         ModelAndView mv = new ModelAndView();
         StaffVO[] ar = s_Service.getList();
-		mv.addObject("ar",ar);
-		mv.setViewName("/jsp/admin/etcList/staffList");
-		return mv;
+        mv.addObject("ar", ar);
+        mv.setViewName("/jsp/admin/etcList/staffList");
+        return mv;
     }
 
     @RequestMapping("menu")
     public String menu(String select) {
         System.out.println(select);
-        return "/jsp/admin/"+select+"/main";
+        return "/jsp/admin/" + select + "/main2";
     }
-    
-    
+
     @RequestMapping("addStaff")
     public String addStaff(StaffVO svo) {
         String code = null;
 
         // 사용권한이 교강사인 경우(rt_idx가 1) 교수코드를 생성
-        if(svo.getRt_idx().equals("1")) {
-			String[] s_ar = s_Service.searchSfCode();
-			HashSet<String> set = new HashSet<String>();
-            
+        if (svo.getRt_idx().equals("1")) {
+            String[] s_ar = s_Service.searchSfCode();
+            HashSet<String> set = new HashSet<String>();
+
             // 기존에 존재하는 교수코드를 가져와서 Hashset에 저장
-			for(int i=0; i<s_ar.length; i++) {
+            for (int i = 0; i < s_ar.length; i++) {
                 set.add(s_ar[i]);
-			}
-            
-			// 난수로 임의의 교수코드를 생성
-            int num = (int)Math.floor(Math.random()*999999+100000);
+            }
+
+            // 난수로 임의의 교수코드를 생성
+            int num = (int) Math.floor(Math.random() * 999999 + 100000);
             code = String.valueOf(num);
 
             // while문을 이용해 기존의 교수코드와 중복여부 체크
-            while(set.contains("tc"+code)){
-                num = (int)Math.floor(Math.random()*999999+100000);
+            while (set.contains("tc" + code)) {
+                num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
-		}
-        svo.setSf_code("tc"+code);
+        }
+        svo.setSf_code("tc" + code);
 
         // 전화번호 합쳐서 보내기.
         String[] ar = request.getParameterValues("sf_phone");
-        String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
+        String phone = ar[0] + "-" + ar[1] + "-" + ar[2];
         svo.setSf_phone(phone);
 
-		s_Service.addStaff(svo);
+        s_Service.addStaff(svo);
         return "redirect:staffList";
     }
-    
+
     @RequestMapping("delStaff")
     public ModelAndView delStaff(String sf_idx) {
         ModelAndView mv = new ModelAndView();
-		s_Service.deleteStaff(sf_idx);
-		
-		mv.setViewName("redirect:staffList");
+        s_Service.deleteStaff(sf_idx);
+
+        mv.setViewName("redirect:staffList");
         return mv;
     }
 
@@ -107,39 +105,39 @@ public class StraffController {
 
         return mv;
     }
-    
+
     @RequestMapping("editStaff")
     public String editStaff(StaffVO vo) {
         String code = null;
-        if(vo.getRt_idx().equals("1")){
+        if (vo.getRt_idx().equals("1")) {
             String[] s_ar = s_Service.searchSfCode();
-			HashSet<String> set = new HashSet<String>();
-            
+            HashSet<String> set = new HashSet<String>();
+
             // 기존에 존재하는 교수코드를 가져와서 Hashset에 저장
-			for(int i=0; i<s_ar.length; i++) {
+            for (int i = 0; i < s_ar.length; i++) {
                 set.add(s_ar[i]);
-			}
-            
-			// 난수로 임의의 교수코드를 생성
-            int num = (int)Math.floor(Math.random()*999999+100000);
+            }
+
+            // 난수로 임의의 교수코드를 생성
+            int num = (int) Math.floor(Math.random() * 999999 + 100000);
             code = String.valueOf(num);
 
             // while문을 이용해 기존의 교수코드와 중복여부 체크
-            while(set.contains("tc"+code)){
-                num = (int)Math.floor(Math.random()*999999+100000);
+            while (set.contains("tc" + code)) {
+                num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
         }
-        vo.setSf_code("tc"+code);
+        vo.setSf_code("tc" + code);
         // 퇴사일을 지정하지 않았을 경우 null로 지정
-        if(vo.getSf_fire_date() == null || vo.getSf_fire_date().trim().length() == 0){
+        if (vo.getSf_fire_date() == null || vo.getSf_fire_date().trim().length() == 0) {
             vo.setSf_fire_date(null);
         }
 
-         //전화번호 합쳐서 보내기.
-         String[] ar = request.getParameterValues("sf_phone");
-         String phone = ar[0]+"-"+ar[1]+"-"+ar[2];
-         vo.setSf_phone(phone);
+        // 전화번호 합쳐서 보내기.
+        String[] ar = request.getParameterValues("sf_phone");
+        String phone = ar[0] + "-" + ar[1] + "-" + ar[2];
+        vo.setSf_phone(phone);
 
         s_Service.editStaff(vo);
         return "redirect:staffList";
@@ -147,8 +145,8 @@ public class StraffController {
 
     @RequestMapping("unblockStaff")
     public String unblockStaff(String sf_idx) {
-		s_Service.unblockStaff(sf_idx);
+        s_Service.unblockStaff(sf_idx);
         return "redirect:staffList";
     }
-    
+
 }
