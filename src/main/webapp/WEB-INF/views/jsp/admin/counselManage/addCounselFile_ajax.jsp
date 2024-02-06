@@ -3,7 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<h2 id="table_h2">상담파일등록</h2>
 	<form action="addCounselFile" method="post" enctype="multipart/form-data">
-			<table id="table">
+			<table id="table" class="table">
 			<thead>
 				<tr>
 					<td colspan="1" class="color">

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<h2 id="cf_h2">"${cvo.c_name}"교수계획서 및 학습안내서 </h2>
+<h2 id="cf_h2" class="title">"${cvo.c_name}"교수계획서 및 학습안내서 </h2>
 <form action="course_file" enctype="multipart/form-data" method="post" name="file_frm">
 <div id="cf_wrap">
-<table id="cf_table">
+<table id="cf_table" class="table">
     <colgroup>
         <col width="30%"/>
         <col width="30%"/>
@@ -29,7 +29,7 @@
                     <td></td>
                 </c:if>
                 <td>
-                    <input type="file" name="file${vs.index+1}" value="파일 선택"/>
+                    <input type="file" name="file${vs.index+1}" value="파일 선택" class="text"/>
                 </td>
                 <input name="f_idx" type="hidden" value="${fvo.f_idx}"/>
             </tr>
@@ -38,44 +38,44 @@
 
         <c:if test="${fvo eq null}">
             <tr>
-                <td name="f_info">운영계획서<input type="hidden" name="f_info" value="운영계획서"/></td>
+                <td name="f_info">운영계획서<input type="hidden" name="f_info" value="운영계획서" /></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file1" value="파일 선택"/>       
+                    <input type="file" name="file1" value="파일 선택" class="text"/>       
                 </td>
             </tr>
             <tr>
                 <td name="f_info">학습안내서<input type="hidden" name="f_info" value="학습안내서"/></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file2" value="파일 선택"/>
+                    <input type="file" name="file2" value="파일 선택" class="text"/>
                 </td>
             </tr>
             <tr>
                 <td name="f_info">OT설명자료<input type="hidden" name="f_info" value="OT설명자료"/></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file3" value="파일 선택"/>
+                    <input type="file" name="file3" value="파일 선택"  class="text"/>
                 </td>
             </tr>
             <tr>
                 <td name="f_info">평가계획서<input type="hidden" name="f_info" value="평가계획서"/></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file4" value="파일 선택"/>
+                    <input type="file" name="file4" value="파일 선택"  class="text"/>
                 </td>
             <tr>
                 <td name="f_info">평가도구적절성<input type="hidden" name="f_info" value="평가도구적절성"/></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file5" value="파일 선택"/>
+                    <input type="file" name="file5" value="파일 선택"  class="text"/>
                 </td>
             </tr>
             <tr>
                 <td name="f_info">훈련일일시간표<input type="hidden" name="f_info" value="훈련일일시간표"/></td>
                 <td name="f_name"></td>
                 <td>
-                    <input type="file" name="file6" value="파일 선택"/>    
+                    <input type="file" name="file6" value="파일 선택"  class="text"/>    
                 </td>
             </tr>
         </c:if>
@@ -83,8 +83,8 @@
     <tfoot>
         <tr>
             <td colspan="3">
-                <button type="submit" >저장</button>
-                <button type="button" id="cc_cancle">목록</button>
+                <button type="submit" class="btn" >저장</button>
+                <button type="button" id="cc_cancle" class="btn">목록</button>
             </td>
         </tr>
     </tfoot>

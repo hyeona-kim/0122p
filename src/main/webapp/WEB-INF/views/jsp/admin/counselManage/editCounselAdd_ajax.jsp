@@ -4,7 +4,7 @@
 
 	<h2 id="add_h2">상담관리보고서등록</h2>
 	<div id="add_top">
-		<table id="tt_add1" class="t1">
+		<table id="tt_add1" class="t1 table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="35%"/>

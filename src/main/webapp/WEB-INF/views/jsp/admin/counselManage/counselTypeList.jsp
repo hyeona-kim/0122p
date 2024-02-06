@@ -267,7 +267,7 @@ table tfoot ol.page {
                      <button type="button" onclick="location.href='../../sample2.xlsx'">상담파일등록 샘플</button>
                   </div>
                   <form>
-                     <table id="searchCounsel">
+                     <table id="searchCounsel" class="table">
                      <caption>상담검색</caption>
                         <thead>
                            <tr>

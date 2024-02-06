@@ -4,7 +4,7 @@
 
 	<div>
 	<form action="editCounsel" method="post">
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="25%"/>

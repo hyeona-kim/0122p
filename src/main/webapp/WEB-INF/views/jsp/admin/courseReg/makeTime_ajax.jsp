@@ -1,11 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<table id="makeCourse">
-			
+<table id="makeCourse" class="table">
+	<colgroup>
+		<col width="6%"/>
+		<col width="15%"/>
+		<col width="10%"/>
+		<col width="10%"/>
+		<col width="10%"/>
+		<col width="6%"/>
+		<col width="6%"/>
+		<col width="6%"/>
+		<col width="6%"/>
+		<col width="27%"/>
+	</colgroup>
 			<caption>과정별시간표만들기</caption>
 			<thead>
 				<tr>
+					<th>번호</th>
 					<th>과정명</th>
 					<th>담당교수</th>
 					<th>개강일</th>
@@ -54,6 +66,7 @@
 							<c:forEach var="vo2" items="${requestScope.ar }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
+								<td>${num-vs.index}</td>
 								<td>${vo2.c_name}</td>
 								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.start_date }</td>
@@ -63,9 +76,9 @@
 								<td>24</td>
 								<td>${vo2.c_peo_num}</td>
 								<td>
-									<button type="button" onclick="set('SRS','${vo2.c_idx}')">강사/시설/교과목 액셀등록</button>
-									<button type="button" onclick="set('time','${vo2.c_idx}')">HRD시간표 액셀등록</button>
-									<button type="button" onclick="set2('${vo2.c_idx}')">주별시간표보기</button>
+									<button type="button" onclick="set('SRS','${vo2.c_idx}')" class="btn">강사/시설/교과목 액셀등록</button>
+									<button type="button" onclick="set('time','${vo2.c_idx}')" class="btn">HRD시간표 액셀등록</button>
+									<button type="button" onclick="set2('${vo2.c_idx}')" class="btn">주별시간표보기</button>
 								</td>
 							</tr>
 						</c:forEach>

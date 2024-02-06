@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<table id="makeTime">
+<table id="makeTime" class="table">
 					<caption>과정별 교수계획서 및 학습 안내서 리스트</caption>
-						<thead>
+						<thead >
 							<tr>
 								<th>삭제<br></th>
 								<th>번호</th>
@@ -26,10 +26,10 @@
 							<c:forEach var="vo2" items="${cd_ad }" varStatus="vs">
 							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
-								<td><input type="button" value="삭제" onclick="delCd('${vo2.cd_idx}')"></td>
+								<td><input type="button" value="삭제" onclick="delCd('${vo2.cd_idx}')" class="btn red"></td>
 								<td>
 									${vs.index+1}<br>
-									<input type="button" value="보기/수정" onclick="editCd('${vo2.cd_idx}')">
+									<input type="button" value="보기/수정" onclick="editCd('${vo2.cd_idx}')" class="btn">
 								</td>
 								<td>${vo2.svo.sf_name}</td>
 								<td>${vo2.cd_date}</td>

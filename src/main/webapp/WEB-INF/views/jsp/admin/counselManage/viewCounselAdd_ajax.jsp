@@ -4,7 +4,7 @@
 
 	<h2 id="add_h2">"${cvo.c_name}" 상담관리보고서</h2>
 	<div id="add_top">
-		<table id="tt_add1" class="t1">
+		<table id="tt_add1" class="t1 table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="35%"/>
@@ -18,7 +18,7 @@
 	</div>
 	
 	<div>
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="t1 table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="25%"/>

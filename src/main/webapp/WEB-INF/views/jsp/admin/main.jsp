@@ -5,137 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-.logo{
-    width: 80%;
-    margin: 15px auto;
-}
- .top{
-    display: flex;
-    width: 80%;
-    margin: auto;
- }   
- .top>div{
-    display: inline-block;
-    width: 50%;
-    height: 400px;
- }
- .top>div:first-child>img{
-    display: inline-block;
-    width: 100%;
-    height:100%;
-    border-radius: 20px 20px;
-    margin-bottom: 0;
- }
- .list{
-    height: 450px;
-    width: 80%;
-    background-color: #dedede;
-    border-radius: 20px 20px;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
- }
- .list>div{
-    display: inline-block;
-    width: 17%;
-    height: 380px;
-    margin-top: 38px;
-    background-color: white;
-    border-radius: 10px 10px;
- }
- .list>div:active, .list>div:hover{
-    background-color: #dedede;
- }
- .list>div>div{
-    width: 70%;
-    height: 300px;
-    margin: auto;
-    margin-top: 40px;
- }
- .list>div>div>div:first-child{
-   height: 100px;
-   font-size: 35px;
-   line-height: 100px;
-   text-align: center;
-   color: #154790;
-   font-weight: bold;
- }
- .list>div>div>div:last-child{
-    margin: auto;
-    width: 70%;
-    margin: 20px auto;
- }
- #school{
-    line-height: 50px;
- }
-
- .list>div>div>div>img{
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-
- }
- .top>div:last-child{
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #154790;
-    border-radius: 20px 20px;
- }
- .top>div:last-child>div{
-    display: inline-block;
-    width: 40%;
-    height: 80%;
-    border-radius: 20px 20px;
-    background-color: #dedede;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
- }
- .top>div:last-child>div>div{
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    font-size: 20px;
-    color: #154790;
-    width: 90%;
-    margin: auto;
-    border-radius: 10px 10px;
-    background-color: white;
-    font-weight: 550;
-    font-size: 18px;
- }
- .top>div:last-child>div>div:hover,.top>div:last-child>div>div:active{
-    background-color: #dedede;
-    font-weight: 700;
- }
- .top>div:last-child>div>.none_div{
-    background-color: #dedede;
- }
- .top>div:last-child>div>div:first-child{
-    background-color: #dedede;
-    text-align: center;
- }
- .top>div:last-child>div>div:first-child>img{
-    display: inline-block;
-    width: 100%;
-    height: 100%;
- }
- .top>div:last-child>div>div:last-child{
-    background-color: #dedede;
- }
- .top>div:last-child>div>div:last-child>a{
-    text-decoration: none;
-    color: #5283cc;
- }
- .top>div:last-child>div>div:last-child>a:hover{
-    color: #154790;
- }
- .top>div:last-child>div>div:last-child>.disable, .top>div:last-child>div>div:last-child>.disable:hover{
-    color: #ababab;
- }
-</style>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
 </head>
 <body>
     <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
@@ -174,7 +44,7 @@
         </div>
         <div>
             <div onclick="list(4)">
-                <div  >상담 및 접수</div>
+                <div  id="school">상담 및 <br/>접수</div>
                 <div> <img src="${pageContext.request.contextPath }/image/main4.png"/></div>
             </div>
         </div>

@@ -1,0 +1,208 @@
+.logo{
+    width: 20%;
+    text-align: right;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.logo>img{
+    display: inline-block;
+    width: 250px;
+    margin-right: 25px;
+}
+.bottom{
+    width: 100%;
+    height: 92vh;
+    background-color: #dedede;
+    display: flex;
+}
+.bottom>article:first-child{
+    display:block;
+    width: 20%;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+input[id="menuicon"]{
+    display: none;
+}
+
+input[id="menuicon"] +div{
+    display: inline-block;
+    height: 92vh;
+    width: 80px;
+    background-color: #154790;
+    position: relative;
+    text-align: left;
+}
+input[id="menuicon"] +div .navi{
+    display: none;
+}
+input[id="menuicon"] +div label{
+    display:block;
+    width:25px;
+    height:17px;
+    position:absolute;
+    top:10px;
+    right:5px;
+    cursor:pointer; 
+    cursor: pointer;
+}
+input[id="menuicon"] +div label span{
+    display:block;
+    position:absolute;
+    width:80%;
+    height:3px;
+    border-radius: 2px 2px;
+    background:white;
+}
+input[id="menuicon"] +div label span:nth-child(1){top:0;}
+input[id="menuicon"] +div label span:nth-child(2){top:50%; transform: translateY(-50%);}
+input[id="menuicon"] +div label span:nth-child(3){bottom:0;}
+
+input[id="menuicon"]:checked +div label span:nth-child(1){top: 50%; transform: translateY(-50%) rotate(45deg);}
+input[id="menuicon"]:checked +div label span:nth-child(2){opacity: 0;}
+input[id="menuicon"]:checked +div label span:nth-child(3){bottom: 50%; transform: translateY(50%) rotate(-45deg);}
+
+input[id="menuicon"]:checked +div{
+    width: 200px;
+}
+input[id="menuicon"]:checked +div .navi{
+    margin: 0;
+    margin-top: 45px;
+    list-style: none;
+    padding: 0;
+    display: block;
+    transition: all .35s;
+}
+
+input[id="menuicon"]:checked +div .navi>li{
+    display: inline-block;
+    width: 150px;
+    height: 35px;
+    padding-left: 50px;
+} 
+input[id="menuicon"]:checked +div .navi>li>a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    font-size:15px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid none;
+    line-height: 35px;
+}
+input[id="menuicon"]:checked +div .navi>li>ul{
+    display: none;
+}
+input[id="menuicon"]:checked +div .navi>li>a:hover{
+    border-bottom: 1px solid white;
+    font-weight: bold;
+}
+
+.sub_manu{
+    display: block;
+    width: 300px;
+    height: 92vh;
+    position: absolute;
+    top: 0;
+    background-color: rgb(21, 71, 144, 0.5);
+    right:-300px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+.sub_manu>li{
+    height: 40px;
+    width: 300px;
+    font-size: 20px;
+    line-height: 40px;
+}
+.sub_manu>li>a{
+    text-decoration: none;
+    font-size: 15px;
+    color: white;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+}
+.sub_manu>li>a:hover{
+    background-color: rgb(21, 71, 144, 0.6);
+    font-weight: bold;
+}
+.sub_manu>li:first-child{
+    height: 43px;
+    line-height: 43px;
+    font-size: 23px;
+    font-weight: bold;    
+    border-bottom: 1px solid white;
+    padding-left: 30px;
+    width: 270px;
+}
+
+.bottom>article:last-child{
+    display: inline-block;
+    width: 80%;
+}   
+.bottom>article:last-child>div{
+    margin: auto;
+    width: 1400px;
+    height: auto;
+}
+.center>div>header{
+    font-size: 30px;
+    color: #154790;
+    font-weight: bold;
+    padding-bottom: 3px;  
+    margin-top: 2px;
+
+}
+.center>div:first-child>div{
+    width: 100%;
+    height: 40px;
+}
+.center>div:first-child>div>ul{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+    background-color:  rgb(21, 71, 144, 0.7);
+}
+.center>div:first-child>div>ul>li{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding:0 7px;
+    margin: 0;
+    text-align: center;
+}
+.center>div:first-child>div>ul>li:hover{
+    border-bottom:1px solid white;
+}
+.center>div:first-child>div>ul>li>a{
+    text-decoration: none;
+    display: inline-block;
+    width: 100%; height:95%;
+    font-size: 15px;
+    color: white;
+    padding: 0 7px;
+}
+.center>div:first-child>div>ul>li>a:hover{
+    font-weight: bold;
+    background-color:  rgb(21, 71, 144, 0.8);
+}
+.center>div .right #staffWrap{
+    height: 82vh;
+    max-height: 100vh;
+    overflow-y: scroll;
+    background-color: white;
+}
+.subSelect{
+    font-weight: bold;
+    background-color:  rgb(21, 71, 144, 0.8);
+}

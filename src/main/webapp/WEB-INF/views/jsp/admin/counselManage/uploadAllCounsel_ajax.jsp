@@ -4,7 +4,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 		<h2 id="hd">"${cvo.c_name}"과정 상담 일괄등록</h2>
 	<form action="uploadAllCounsel?c_idx=${cvo.c_idx}" method="post" name="ua">
-		<table id="t1">
+		<table id="t1" class="table">
 			<thead>
 				<tr bgcolor="lightgray">
 					<td>번호</td>
