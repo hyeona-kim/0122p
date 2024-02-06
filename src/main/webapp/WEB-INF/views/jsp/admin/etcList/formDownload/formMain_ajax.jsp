@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<table id="board_table">
+<table id="board_table" class="table">
     <tbody>
         <%-- ===== 출력할 게시판 항목 ===== --%>
         <tr>
@@ -23,8 +23,8 @@
                         ${vo.fd_fname}
                     </a></td>
                     <td>
-                        <button type="button" id="form_edit_btn" onclick="editFormDown('${vo.fd_idx}')" class="form_edit_btn form_btn">수정</button>
-                        <button type="button" onclick="deleteFormDown('${vo.fd_idx}')" class="form_del_btn form_btn">삭제</button>
+                        <button type="button" id="form_edit_btn" onclick="editFormDown('${vo.fd_idx}')" class="btn">수정</button>
+                        <button type="button" onclick="deleteFormDown('${vo.fd_idx}')" class="btn red">삭제</button>
                     </td>
                 </tr>
             </form>

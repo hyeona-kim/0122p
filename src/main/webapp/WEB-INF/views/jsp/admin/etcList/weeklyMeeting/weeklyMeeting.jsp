@@ -1,273 +1,99 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="sf" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	#staffWrap{
-		width: 95%;
-		padding: 10px;
-		margin: 0px auto;
-	}
-	#staffList{
-		border-collapse: collapse;
-		width: 98%;
-		margin: 0px auto;
-		padding: 0px;
-	}
-	#staffList tbody{
-		text-align: center;
-	}
-	#staffList tbody th, #staffList tbody td{
-		border: 1px solid black;
-		padding: 5px;
-	}
-	#staffList tbody th {
-		background-color: #f0f0ef;
-	}
-	#staffList tbody td {
-		border: 1px solid black;
-		font-size: 13px;
-	}
-	#staffList caption{
-		text-indent: -9999px;
-		height: 0px;
-	}
-	#staffList thead td{
-		text-align: right;
-		padding: 8px 0px;
-	}
-	#staffList tbody th, #staffList tfoot td {
-		text-align: center;
-		border: 1px solid #ababab;
-		padding: 8px 0px;
-	}
-	#staffList tfoot tr:last-child td{
-		border: none;
-	} 
-	div#staffList_top{
-		background-color: black;
-		padding: 5px;
-		padding-left: 10px;
-		color: white;
-		font-weight: bold;
-	}
-	#weeklyMeeting_add_btn{
-		background-color: #4cdbcf;
-		border-radius: 3px;
-		border: none;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-		text-decoration: none;
-	}
-	.staff_btn{
-		display: inline-block;
-		background-color: #cc1919;
-		border-radius: 3px;
-		border: none;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-		text-decoration: none;
-	}
-	.staff_edit_btn{ background-color: #1876c7;	}
-	.staff_del_btn{ background-color: #cc1919; }
-	#addForm table caption{ text-indent: -9999px; }
-	#addForm table {
-		width: 950px;
-		height: 450px;
-		border-collapse: collapse;
-		position: absolute;
-		
-	}
-	#addForm table th, #addForm table td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	#addForm {
-		text-align: center;
-		margin: 0px auto;
-		padding: 10px;
-	}
-	#addForm .left {
-		text-align: left;
-	}
-	#addForm th{
-		width: 20%;
-	}
-	#addForm .phone{
-		width: 50px;
-	}
-	#addForm .input{
-		width: 150px;
-	}
-	#addForm tfoot td{
-		border: none;
-	}
-	#signature{
-		border: 1px solid black;
-	}
-	#director{
-		background-color: #e14b4b;
-		border-radius: 3px;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-	}
-	#faculty{
-		background-color: #322eee;
-		border-radius: 3px;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-	}
-	#block_btn{
-		background-color: #4c5bcf;
-		border-radius: 3px;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-	}
-	table tfoot ol.page {
-	    list-style:none;
-	    width: 300px;
-	    margin: auto;
-	}
-	
-	table tfoot ol.page li {
-	    float:left;
-	    margin-right:8px;
-	}
-	
-	table tfoot ol.page li a {
-	    display:block;
-	    padding:3px 7px;
-	    color:gray;
-	    font-weight:bold;
-	    text-decoration: none;
-	}
-	
-	table tfoot ol.page li a:hover {
-		color:black;
-	    font-weight:bold;
-	}
-	.disable {
-	    padding:3px 7px;
-	    color:white;
-	}
-	
-	.now {
-	   padding:3px 7px;
-	    color:#46ade1;
-	    font-weight:bold;
-	}
-	.t1{
-		border-collapse: collapse;
-		width: 100%;
-	}
-	.t1 caption{
-		text-indent: -9999px;
-		height: 0;
-	}
-	.t1 td ,.t1 th{
-		border: 1px solid #ababab;
-		height: 35px;
-		text-align: center;
-	}
-	.t1 th{
-		background-color: #dedede;
-	}
-	.t1 thead td{
-		border: none;
-	}
-	.t1 tfoot td{
-		border: none;
-	}
-	#table_h2{
-		background-color: black;
-		color: white;
-	}
-</style>
+
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main2.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-	<article id="wrap">
-		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
-		<div id="center">
-		<jsp:include page="../leftList.jsp"></jsp:include>
-		
-		<div class="right">
-			<!--  여기서 표시될 테이블들 가지고오기 -->
-			<div id="staffWrap">
-				<div id="staffList_top">주간회의록</div>
-				<table id="staffList" >
-					<thead>
-					<tr>
-						<td colspan="3">
-							<select id="numPerPage">
-								<option>표시개수</option>
-								<option>5</option>
-								<option>10</option>
-								<option>15</option>
-							</select>
-							<select id="searchType">
-								<option value="1">제목</option>
-								<option value="2">논의내용</option>
-								<option value="3">회의일</option>
-							</select>
-							<input type="text" id="searchValue"/>
-							<button type="button" id="search_bt">검 색</button>
-						</td>
-			
-						<td colspan="2">
-							<button type="button" id="weeklyMeeting_add_btn" onclick="setWk()">회의록 등록</button>
-						</td>
-					</tr>
-				</thead>
-			</table>
-					<div id="weeklyMeeting_Table">	
-						<!--비동기로 받아올 부분-->
+    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <article class="bottom">
+        <article>
+            <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
+        </article>
+        <article class="center">
+            <div>
+                <header>&nbsp;&nbsp;기타관리</header>
+                <div> 
+                    <ul>
+                        <jsp:include page="../leftList.jsp"></jsp:include>
+                    </ul>
+                </div>
+                <!-- 메인 컨텐츠가 들어오는 영역-->
+                <div class="right">
+					<div id="staffWrap">
+						<div id="staffList_top" class="title">주간회의록</div>
+						<table id="staffList" class="table">
+							<col width="13%">
+							<col width="67%">
+							<col width="20%">
+							<thead>
+								<tr>
+									<th>검색</th>
+									<td>
+										<select id="numPerPage" class="select">
+											<option>표시개수</option>
+											<option>5</option>
+											<option>10</option>
+											<option>15</option>
+										</select>
+										<select id="searchType" class="select">
+											<option value="1">제목</option>
+											<option value="2">논의내용</option>
+											<option value="3">회의일</option>
+										</select>
+										<input type="text" id="searchValue" class="text"/>
+										<button type="button" id="search_bt" class="btn">검색</button>
+									</td>
+									<td>
+										<button type="button" id="weeklyMeeting_add_btn" onclick="setWk()" class="btn">회의록 등록</button>
+									</td>
+								</tr>
+							</thead>
+						</table>
+						<div id="weeklyMeeting_Table">	
+							<!--비동기로 받아올 부분-->
+						</div>
+
 					</div>
 
-				</div>
+				</div> 
 			</div>
-		</div>
+        </article>
+    </article>
+    <div id="dialog" hidden="" title="주간회의록작성">	
+    </div>
 
-		<div id="dialog" hidden="" title="주간회의록작성">	
-		</div>
-
-		<div id="dialog2" hidden="" title="주간회의록수정">	
-		</div>
-
-	
-	</article>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" 
-	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <div id="dialog2" hidden="" title="주간회의록수정">	
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-	<script>
-		let select ="";
+    <script>
+        let select ="";
 		let numPerPage = "";
 		let value ="";
 		let cPage = 1;
-
-		$(function(){
-
-			$(".selected").removeClass("selected");
-			$(".l_select").removeClass("l_selected");
-			$("#etclist").addClass("selected");
-			$("#l_second").addClass("l_select");
-
+        $(".sub_manu").mouseover(function(){
+            $(this).css("display","block");
+        });
+        $(".menu1").mouseover(function(){
+            $(this).next().css("display","block");
+        });
+        $(".menu1").mouseout(function(){
+            $(this).next().css("display","none");
+        });
+        $(".sub_manu").mouseout(function(){
+            $(this).css("display","none");
+        });
+        $(function(){
+			$(".subSelect").removeClass("subSelect");
+			$("#l_two").addClass("subSelect");
 			$.ajax({
 			url: "weeklyMeetingMain",
 			type: "post",
@@ -362,7 +188,7 @@
 					title : '주간회의록',
 					modal : true,
 					width : 900,
-					height : 900
+					maxHeight : 900
 				});
 			});
 			
@@ -379,14 +205,10 @@
 		$("#dialog").dialog({
 			autoOpen: false,
 			width:900,
-			height : 900,
+			maxHeight : 900,
 			modal: true,	
 		});
 
-
-		
-
-	
 		function delWk(idx) {
 			if(confirm("삭제하시겠습니까?")){
 				location.href="delWeeklyMeeting?wk_idx="+idx;
@@ -395,10 +217,6 @@
 			}
 		};
 
-
-		
-
-	
-	</script>
+    </script>
 </body>
 </html>

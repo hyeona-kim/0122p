@@ -3,8 +3,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-		<table id="makeCourse">
+		<table id="makeCourse" class="table">
 			<caption>교육과정리스트</caption>
+			<colgroup>
+				<col width="5%"/>
+				<col width="6%"/>
+				<col width="5%"/>
+				<col width="7%"/>
+				<col width="7%"/>
+				<col width="7%"/>
+				<col width="7%"/>
+				<col width="6%"/>
+				<col width="8%"/>
+				<col width="8%"/>
+				<col width="7%"/>
+				<col width="7%"/>
+				<col width="6%"/>
+				<col width="7%"/>
+				<col width="10%"/>
+			</colgroup>
 							<thead>
 								<tr>
 									<th>연번</th>
@@ -37,22 +54,22 @@
 									<td>${cvo.ctvo.ct_name }</td>
 									<td>${cvo.svo.sf_name }</td>
 									<td>${cvo.c_peo_num }&nbsp;/&nbsp;${fn:length(cvo.tr_ar)}</td>
-									<td><button type="button" class="btn blue">사전평가 평가현황</button></td>
-									<td><button type="button" class="btn blue">교과목별 평가현황</button></td>
+									<td><button type="button" class="btn blue">사전평가<br/>평가현황</button></td>
+									<td><button type="button" class="btn blue">교과목별<br/> 평가현황</button></td>
 									<td>
 										<c:if test="${fn:length(cvo.cs_ar) eq 0}">
-										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn red">미작성</button>
+										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn red2">미작성</button>
 										</c:if>
 										<c:if test="${fn:length(cvo.cs_ar) ne 0}">
 										<button type="button" onclick="javascript:location.href='counsel?listSelect=4&cPage=1&c_idx=${cvo.c_idx}'" class="btn yellow">
-											마지막작성일(${fn:substring(cvo.cs_ar[0].so_day, 5, 10)})
+											LAST<br/>(${fn:substring(cvo.cs_ar[0].so_day, 5, 10)})
 										</button>
 										</c:if>
 									</td>
-									<td><button type="button" class="btn red">미작성</button></td>
-									<td><button type="button" class="btn red">보강없음</button></td>
-									<td><button type="button" class="btn red">미작성</button></td>
-									<td><button type="button" class="btn yellow" onclick="javascript:location.href='total?listSelect=2&c_idx=${cvo.c_idx}'">훈련생별보기</button></td>
+									<td><button type="button" class="btn red2">미작성</button></td>
+									<td><button type="button" class="btn red2">보강<br/>없음</button></td>
+									<td><button type="button" class="btn red2">미작성</button></td>
+									<td><button type="button" class="btn yellow" onclick="javascript:location.href='total?listSelect=2&c_idx=${cvo.c_idx}'">훈련생<br/>보기</button></td>
 								</tr>
 							</c:forEach>
 							</c:if>

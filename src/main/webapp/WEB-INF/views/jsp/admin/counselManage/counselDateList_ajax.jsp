@@ -2,6 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 		<table id="makeCounsel" class="table">
+			<colgroup>
+				<col width="8%"/>
+				<col width="10%"/>
+				<col width="8%"/>
+				<col width="14%"/>
+				<col width="8%"/>
+				<col width="8%"/>
+				<col width="18%"/>
+				<col width="18%"/>
+				<col width="8%"/>
+			</colgroup>
 			<caption>일자별 상담관리</caption>
 							<thead>
 								<tr>
@@ -30,7 +41,7 @@
 									<td>${vo.so_subject }</td>
 									<td>${vo.so_pd }</td>
 									<td>
-										<button type="button" id="so_del_btn" onclick="del('${vo.so_idx}', '${cPage}')">삭제</button>
+										<button type="button" id="so_del_btn" onclick="del('${vo.so_idx}', '${cPage}')" class="btn red">삭제</button>
 										<input type="hidden" name="so_idx" value="${vo.so_idx }"/>
 									</td>
 								</tr>

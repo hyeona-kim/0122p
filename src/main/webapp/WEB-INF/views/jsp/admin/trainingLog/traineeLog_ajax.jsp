@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<table id="makeCourse">		
+<table id="makeCourse" class="table">		
 			<caption>과정별시간표만들기</caption>
 			<thead>
 				<tr>
@@ -66,10 +66,10 @@
 								<td>${cvo.c_peo_num}</td>
 								<td>
 									<c:if test="${fn:length(cvo.tr_ar) eq 0}">
-										<button type="button" class="btn gray" onclick="trainingDaily('${cvo.c_idx}')">과정별 훈련일지</button>
+										<button type="button" class="btn" onclick="trainingDaily('${cvo.c_idx}')" >과정별 훈련일지</button>
 									</c:if>
 									<c:if test="${fn:length(cvo.tr_ar) > 0}">
-										<button type="button" class="btn blue" onclick="trainingDaily('${cvo.c_idx}')">과정별 훈련일지</button>
+										<button type="button" class="btn yellow" onclick="trainingDaily('${cvo.c_idx}')">과정별 훈련일지</button>
 									</c:if>
 								</td>
 							</tr>

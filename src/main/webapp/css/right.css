@@ -76,6 +76,9 @@
 .red:hover{
     background-color: #F55944;
 }
+.red2{
+    background-color: #F55944;
+}
 .checkbox{
     width: 13px; height:13px;
     border-radius: 2px 2px;
@@ -87,4 +90,14 @@
 }
 .align_center{
     text-align: center;
+}
+.yellow{
+    background-color: #EFD385;
+}
+a{
+    color: black;
+}
+a:hover{
+    color: #154790;
+    font-weight: bold;
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<table id="makeCourse">		
+<table id="makeCourse" class="table">		
 			<caption>과정별시간표만들기</caption>
 			<thead>
 				<tr>
@@ -64,7 +64,7 @@
 								<td>${cvo.c_round_num }</td>
 								<td>${cvo.c_peo_num}</td>
 								<td>
-									<button type="button" class="btn gray">과정별 보강훈련일지</button>
+									<button type="button" class="btn">과정별 보강훈련일지</button>
 								</td>
 							</tr>
 						</c:forEach>

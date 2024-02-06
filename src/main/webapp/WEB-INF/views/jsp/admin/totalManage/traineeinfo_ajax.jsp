@@ -5,37 +5,29 @@
 
 
 <form action="traineeEdit2" method="post" encType="multipart/form-data" name="fff">
-    <table id="makeTime" >
-    <caption>확인서류등록 리스트</caption>
-        <tble>
-            <thead>
-                <tr>
-                    <td colspan="4">
-                        ｜훈련생정보수정
-                    </td>
-                </tr>
-            </thead>
+    <h2 class="title">훈련생정보수정</h2>
+        <table class="table">
+            <caption>확인서류등록 리스트</caption>
                 <tbody>
-                    
                     <tr>
                         <th><label>학생코드</label></th>
                         <td colspan="3"></td>
                     </tr>
                     <tr>
                         <th>이름</th>
-                        <td><input type="text" value="${vo9.tr_name}" name="tr_name"></td>
+                        <td><input type="text" value="${vo9.tr_name}" name="tr_name" class="text"></td>
                         <th>주민번호</th>
                         <td>
-                            <input type="text" value="${fn:substring(vo9.tr_rrn,0,6)}" name="tr_rrn">-
-                            <input type="text" value="${fn:substring(vo9.tr_rrn,7,14)}" name="tr_rrn">
+                            <input type="text" value="${fn:substring(vo9.tr_rrn,0,6)}" name="tr_rrn" class="text" style="width: 40%;">-
+                            <input type="text" value="${fn:substring(vo9.tr_rrn,7,14)}" name="tr_rrn" class="text" style="width: 40%;">
                         </td>
                     </tr>
                     <tr>
                         <th><label>휴대폰번호</label></th>
                         <td>
-                            <input type="text"  value="${fn:substring(vo9.tr_hp,0,3)}" name="tr_hp">-
-                            <input type="text"  value="${fn:substring(vo9.tr_hp,4,8)}" name="tr_hp">-
-                            <input type="text" 	value="${fn:substring(vo9.tr_hp,9,13)}" name="tr_hp">
+                            <input type="text"  value="${fn:substring(vo9.tr_hp,0,3)}" name="tr_hp" class="text" style="width: 20%;">-
+                            <input type="text"  value="${fn:substring(vo9.tr_hp,4,8)}" name="tr_hp" class="text" style="width: 20%;">-
+                            <input type="text" 	value="${fn:substring(vo9.tr_hp,9,13)}" name="tr_hp" class="text" style="width: 20%;">
                         </td>
                         <th><label>과정명</label></th>
                         <td>${vo2.c_name}</td>
@@ -43,17 +35,17 @@
                     <tr>
                         <th><label>집전화</label></th>
                         <td>
-                            <input type="text" 	value="${fn:substring(vo9.tr_phone,0,2)}" name="tr_phone">-
-                            <input type="text" value="${fn:substring(vo9.tr_phone,3,6)}" name="tr_phone">-
-                            <input type="text" 	value="${fn:substring(vo9.tr_phone,7,11)}" name="tr_phone">						
+                            <input type="text" 	value="${fn:substring(vo9.tr_phone,0,2)}" name="tr_phone" class="text" style="width: 20%;">-
+                            <input type="text" value="${fn:substring(vo9.tr_phone,3,6)}" name="tr_phone" class="text" style="width: 20%;">-
+                            <input type="text" 	value="${fn:substring(vo9.tr_phone,7,11)}" name="tr_phone" class="text" style="width: 20%;">						
                         </td>
                         <th><label>HRD등록일</label></th>
-                        <td><input type="text"></td>
+                        <td><input type="text" class="text"></td>
                     </tr>
                     <tr>
                         <th><label>현재상태</label></th>
                         <td>
-                            <select name="tr_nowstatus">
+                            <select name="tr_nowstatus" class="select">
                                 <c:if test="${vo9.tr_nowstatus eq 0}">
                                     <option id="op1" value="0" selected >접수</option>
                                     <option id="op2" value="1" >예정</option>
@@ -177,37 +169,37 @@
                             </select>
                         </td>
                         <th><label>수료일</label></th>
-                        <td><input type="text" value="${vo2.end_date}"></td>
+                        <td><input type="text" value="${vo2.end_date}" class="text"></td>
                     <tr>
                         <th><label>수강포기(제적,취소)일</label></th>
-                        <td><input type="text" name="tr_cancel_date" vaule="${vo9.tr_cancel_date}"></td>
+                        <td><input type="text" name="tr_cancel_date" vaule="${vo9.tr_cancel_date}" class="text"></td>
                         <th><label>수강포기(제적,취소)사유</label></th>
-                        <td><input type="text" name="tr_cancel_text" value="${vo9.tr_cancel_text}"></td>
+                        <td><input type="text" name="tr_cancel_text" value="${vo9.tr_cancel_text}" class="text"></td>
                     </tr>
                     
                     <tr>
                         <th><label>사진(210*210)</label></th>
                         <td>
-                            <input type="file" onchange="readURL(this);" name="file"> 
+                            <input type="file" onchange="readURL(this)" name="file" class="text"> 
                             <img id="preview" width="210" height="210" />
                         </td>
                         <th><label>환불금액</label></th>
-                        <td><input type="text"><div id="box">(* ,없이 숫자로만 입력해주세요)</div></td>
+                        <td><input type="text" class="text"><div id="box">(* ,없이 숫자로만 입력해주세요)</div></td>
                     <tr>
                         <th><label>이직전직장명</label></th>
-                        <td><input type="text"></td>
+                        <td><input type="text" class="text"></td>
                         <th><label>담당직무</label></th>
-                        <td><input type="text"></td>
+                        <td><input type="text" class="text"></td>
                     </tr>
                     
                         <tr>
                         <th><label>전체교육비</label></th>
                         <td>
-                            <input type="text"/><div id="box">(*,없이 숫자로만 입력해주세요)</div>
+                            <input type="text" class="text" /><div id="box">(*,없이 숫자로만 입력해주세요)</div>
                         </td>
                         <th><label>카드유형</label></th>
                         <td>
-                            <select id="tr_card" name="tr_card" >
+                            <select id="tr_card" name="tr_card" class="select">
                                 <c:if test="${vo9.tr_card eq null}" >
                                     <option value="취성패1" >취성패1</option>
                                     <option value="취성패2">취성패2</option>
@@ -247,21 +239,21 @@
                     
                     <tr>
                         <th><label>주소</label></th>
-                        <td colspan="3"><input type="text" id="postcode" name="zipcode" size="5" readonly>
-                            <input type="button" value="우편번호검색" onclick="checkPost()"><br>
-                            <input type="text" id="address" name="addr1" size="50" placeholder="주소" readonly><br>
-                            <input type="text" id="detailAddress" name="addr2" size="50" placeholder="상세주소"></td>
+                        <td colspan="3" style="text-align: left;"><input type="text" id="postcode" name="zipcode" size="5" readonly class="text" style="width: 10%; margin-bottom: 5px;"/>
+                            <input type="button" value="우편번호검색" onclick="checkPost()" class="btn"><br>
+                            <input type="text" id="address" name="addr1" size="50" placeholder="주소" readonly class="text" style="width: 20%; margin-bottom: 5px;"><br>
+                            <input type="text" id="detailAddress" name="addr2" size="50" placeholder="상세주소" class="text" style="width: 20%; margin-bottom: 5px;"></td>
                         </td>
                     </tr>
                     <tr>
                         <th><label>상담내용</label></th>
                         <td colspan="3">
-                            <table>
+                            <table class="table">
                                 <tbody>
                                     <tr>
-                                        <th>상담일</th>
-                                        <th>상담자</th>
-                                        <th>상담내용</th>
+                                        <td>상담일</td>
+                                        <td>상담자</td>
+                                        <td>상담내용</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">상담내용이 없습니다.</td>
@@ -281,8 +273,10 @@
                 </tfoot>
                     
 </table>
-<button type="button" onclick="sendData(this.form)">등록</button>
-<button type="button" id="cc_cancle">목록</button>
-<input type="hidden" name="tr_idx" value="${vo9.tr_idx}">
-<input type="hidden" name="c_idx" value="${c_idx}">
+<div class="main_item align_center">
+    <button type="button" onclick="sendData(this.form)" class="btn">등록</button>
+    <button type="button" id="cc_cancle" class="btn">목록</button>
+    <input type="hidden" name="tr_idx" value="${vo9.tr_idx}">
+    <input type="hidden" name="c_idx" value="${c_idx}">
+</div>
 </form>

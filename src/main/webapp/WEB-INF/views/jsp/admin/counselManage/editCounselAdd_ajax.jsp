@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<h2 id="add_h2">상담관리보고서등록</h2>
+	<h2 id="add_h2" class="title">상담관리보고서등록</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="t1 table">
 			<colgroup>
@@ -25,14 +25,14 @@
 	<div>
 	<form action="editCounselAdd" method="post" enctype="multipart/form-data">
         <input type="hidden" name="ss_idx" value="${vo.ss_idx}"/>
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="25%"/>
 				<col width="25%"/>
 				<col width="25%"/>
 			</colgroup>
-			<thead id="t2head">
+			<thead>
 				<tr>
                     <th>회의일자</th>
                     <td><input type="date" id="ss_mday" name="ss_mday" value="${vo.ss_mday}"/></td>
@@ -85,7 +85,6 @@
 					<td colspan ='3'><input type="file" id="ss_img1" name="ss_img1"/><br/>현재 파일: ${vo.ss_img}</td>
                     <input type="hidden" name="ss_img" value="${vo.ss_img}"/>
 				</tr>
-					
 			</thead>
 			<tbody>
 					<tr>

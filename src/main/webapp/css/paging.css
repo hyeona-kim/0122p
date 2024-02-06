@@ -18,7 +18,7 @@ table tfoot ol.page li a {
 }
 
 table tfoot ol.page li a:hover {
-   color:black;
+   color:rgb(21, 71, 144);
     font-weight:bold;
 }
 .disable {
@@ -28,6 +28,6 @@ table tfoot ol.page li a:hover {
 
 .now {
    padding:3px 7px;
-    color:#46ade1;
+    color:rgb(21, 71, 144, 0.8);
     font-weight:bold;
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<table id="staffList">
+<table id="staffList" class="table">
 	
 	<tbody>
 		<tr>
@@ -11,22 +11,21 @@
 			<th>회의일</th>
 			<th>관리</th>
 		</tr>
+		<c:forEach items="${wk_ar}" varStatus="vs" var="vo">
+		<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
+			<tr>
+				<td>${num-vs.index}</td>
+				<td>${vo.wk_title}</td>
+				<td>${vo.wk_name}</td>
+				<td>${vo.wk_date}</td>
+				<td>
+					<input type="button" value="상세보기/수정" onclick="editWeeklyMeeting('${vo.wk_idx}')" class="btn">
+					<input type="button" value="삭제" onclick="delWk('${vo.wk_idx}')" class="btn red">
+				</td>
+			</tr>
+		</c:forEach>
 	</tbody>
-	
-	<tfoot>
-			<c:forEach items="${wk_ar}" varStatus="vs" var="vo">
-			<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
-				<tr>
-					<td>${num-vs.index}</td>
-					<td>${vo.wk_title}</td>
-					<td>${vo.wk_name}</td>
-					<td>${vo.wk_date}</td>
-					<td>
-						<input type="button" value="상세보기/수정" onclick="editWeeklyMeeting('${vo.wk_idx}')">
-						<input type="button" value="삭제" onclick="delWk('${vo.wk_idx}')">
-					</td>
-				</tr>
-			</c:forEach>
+		<tfoot>
 			<tr>
 				<td colspan="12">
 					<ol class="page">
@@ -56,6 +55,5 @@
 				  </ol>
 			  </td>
 			</tr>
-			
-	</tfoot>
+		</tfoot>	
 </table>
