@@ -19,7 +19,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;상담 및 접수</header>
+                <header>&nbsp;&nbsp;과정등록</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>

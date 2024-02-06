@@ -1,55 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-	header{
-		 background-color: #2e2e2e;
-      color: #fff;
-      width: 1000px;
-      height: 30px;
-      margin: 0px auto;
-      margin-bottom: 10px;
-      font-size: 20px;
-	}
-	
-	#wrap{
-		width: 600px;
-		height: 270px;
-		padding: 0;
-		margin: 0 auto;
-		text-align: center;
-	}
-
-	 th, td {
-	 	margin: 0;
-        padding: 0;
-        border: 1px solid black;
-        text-align: center;
-    }
-    table {
-		border-collapse: collapse;
-		width: 100%;
-		border-spacing: 0;
-	}
-	#top{
-		margin: 10px;
-	}
-	#t2head, #t1td{
-		background-color: skyblue;
-	}
-	#ttop{
-		 float: right;
-		 margin-bottom: 10px;
-	}
-	
-</style>
-</head>
-    <thead>
+ 
+	<header class="title">훈련과정테스트</header>
+    <table>
         <tr>
             <td>담당</td>
             <td>부장</td>
@@ -58,13 +12,9 @@
         <tr>
             <td>결제</td>
         </tr>
-
-    </thead>
-<body>
-	<header>훈련과정테스트</header>
-
+    </table>
 	<div id="top">
-		<table id="t1">
+		<table id="table">
 			<thead>
 				<tr>
 					<td >교육과정명:</td>
@@ -76,9 +26,9 @@
 		</table>
 	</div>
 	
-	<div">
-		<table id="t2">
-		
+	<div>
+		<table id="table">
+            <tbody>
 				<tr>
                     <td>과정명</td>
                     <td></td>
@@ -127,21 +77,18 @@
                     <td>회의장소</td>
                        <td></td>
                 </tr>
-					
-		
-			<tbody>
-							<button type="button">인쇄</button>
-							<button type="button">수정</button>
-							<button type="button">삭제</button>
-							<button type="button">목록</button>
-						</td>
-					</tr>
 			</tbody>
+		
+			<tfoot>
+                <tr>
+                    <td colspan="4">
+                        <button type="button" class="btn">인쇄</button>
+                        <button type="button" class="btn">수정</button>
+                        <button type="button" class="btn">삭제</button>
+                        <button type="button" class="btn">목록</button>
+                    </td>
+                </tr>
+            </tfoot>
 		</table>
 	</div>
 	
-<script>
-
-</script>
-</body>
-</html>

@@ -29,7 +29,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">학적부</a>
+                <a href="suggestionList?cPage=1" class="menu1">학적부</a>
                 <ul class="sub_manu">
                     <li>학적부</li>
                     <li><a href="suggestionList?cPage=1">&nbsp;&nbsp;&nbsp;고충 및 건의사항</a></li>
@@ -40,7 +40,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">상담관리</a>
+                <a href="counsel?listSelect=1&cPage=1" class="menu1">상담관리</a>
                 <ul class="sub_manu">
                     <li>상담관리</li>
                     <li><a href="counsel?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;과정별 상담관리</a></li>
@@ -49,7 +49,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">훈련일지</a>
+                <a href="t_log?listSelect=1&cPage=1" class="menu1">훈련일지</a>
                 <ul class="sub_manu">
                     <li>훈련일지</li>
                     <li><a href="t_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;훈련일지</a></li>
@@ -93,7 +93,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">통합관리</a>
+                <a href="total?listSelect=1&cPage=1" class="menu1">통합관리</a>
                 <ul class="sub_manu">
                     <li>통합관리</li>
                     <li><a href="total?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;과정별 통합관리</a></li>
@@ -120,7 +120,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">기타관리</a>
+                <a href="staffList" class="menu1">기타관리</a>
                 <ul class="sub_manu">
                     <li>기타관리</li>
                     <li><a href="staffList">&nbsp;&nbsp;&nbsp;&nbsp;교직원현황</a></li>

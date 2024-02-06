@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;상담 및 접수</header>
+                <header>&nbsp;&nbsp;상담관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -27,9 +28,8 @@
                 </div>
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
-                        
-				</div>
-
+                    
+				   </div>
             </div> 
         </article>
     </article>

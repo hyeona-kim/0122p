@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<h2 id="add_h2">상담관리보고서등록</h2>
+	<h2 id="add_h2" class="title">상담관리보고서등록</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="table">
 			<colgroup>
@@ -26,7 +26,7 @@
 	<form action="counselsave" method="post" enctype="multipart/form-data">
 		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
 		<input type="hidden" name = "ss_cnt" value="${ss_cnt+1}">
-		<table id="tt_add2" class="t1">
+		<table id="tt_add2" class="table">
 			<colgroup>
 				<col width="25%"/>
 				<col width="25%"/>
@@ -87,14 +87,14 @@
 				</tr>
 					
 			</thead>
-			<tbody>
+			<tfoot>
 					<tr>
 						<td colspan="4">
-							<button type="submit">등록</button>
-							<button type="button" id="cc_close">취소</button>
+							<button type="submit" class="btn">등록</button>
+							<button type="button" id="cc_close" class="btn">취소</button>
 						</td>
 					</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</form>
 	</div>

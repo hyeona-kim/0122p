@@ -48,7 +48,7 @@
                                 <td>최근 상담기록 없음</td>
                             </c:if>
                             <td>
-                                <button type="button" onclick="counselList('${vo.tr_idx}')">상담내역 및 등록</button>
+                                <button type="button" onclick="counselList('${vo.tr_idx}')" class="btn">상담내역 및 등록</button>
                                 <input type="hidden" name="tr_idx" value="${vo.tr_idx }"/>
                             </td>
                         </tr>

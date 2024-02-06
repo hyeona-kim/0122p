@@ -2,32 +2,44 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<div id="staffList_top" style="font-weight: bold;">&nbsp;&nbsp;"${cvo.c_name}"과정 훈련일지</div> 
+<div id="staffList_top" class="title">"${cvo.c_name}"과정 훈련일지</div> 
 <div>
-    <div style="color: red;">
+    <div style="color: red; font-size: 12px;" class="main_item">
         *출석현황은 직접 기입하지 않고,결석자,조퇴자를 체크하면 자동기입됩니다.
     </div>
-    <div align="right">
-        <button class="btn red">훈련날짜</button>
-        <input type="date"/>
-        <button class="btn blue">시간표내용가져오기</button>
+    <div class="main_item align_right">
+        <button class="btn red2">훈련날짜</button>
+        <input type="date" class="text" style="width: 20%;"/>
+        <button class="btn">시간표내용가져오기</button>
     </div>
 </div>
-<table class="t1">
+<table class="table">
+    <colgroup>
+        <col width="5%"/>
+        <col width="15%"/>
+        <col width="5%"/>
+        <col width="15%"/>
+        <col width="5%"/>
+        <col width="15%"/>
+        <col width="5%"/>
+        <col width="15%"/>
+        <col width="5%"/>
+        <col width="15%"/>
+    </colgroup>
     <tr>
         <th>재적</th>
-        <td><input type="text" style="width: 50px;" value="${fn:length(cvo.tr_ar3)}"/></td>
+        <td><input type="text"  value="${fn:length(cvo.tr_ar3)}" class="text"/></td>
         <th>출석</th>
-        <td><input type="text" style="width: 50px;" value="${fn:length(cvo.tr_ar3)}"/></td>
+        <td><input type="text" value="${fn:length(cvo.tr_ar3)}" class="text"/></td>
         <th>결석</th>
-        <td><input type="text" style="width: 50px;"/></td>
+        <td><input type="text" class="text"/></td>
         <th>지각</th>
-        <td><input type="text" style="width: 50px;"/></td>
+        <td><input type="text" class="text"/></td>
         <th>조퇴</th>
-        <td><input type="text" style="width: 50px;"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
 </table>
-<table class="t1">
+<table class="table">
     <tr>
         <th colspan="4">훈련사항</th>
     </tr>
@@ -38,38 +50,38 @@
         <th>훈련내용</th>
     </tr>
     <tr>
-        <td><input type="text" style="width: 100px;" value="1"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
-        <td><input type="text" style="width: 100px;"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
+        <td><input type="text" value="1" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
     <tr>
-        <td><input type="text" style="width: 100px;" value="2"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
-        <td><input type="text" style="width: 100px;"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
+        <td><input type="text" value="2" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
     <tr>
-        <td><input type="text" style="width: 100px;" value="3"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
-        <td><input type="text" style="width: 100px;"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
+        <td><input type="text" value="3" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
     <tr>
-        <td><input type="text" style="width: 100px;" value="4"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
-        <td><input type="text" style="width: 100px;"/></td>
-        <td><input type="text" style="width: 250px;"/></td>
+        <td><input type="text" value="4" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
     <tfoot>
         <tr>
             <td colspan="4">
-                <button class="btn blue">+ 훈련사항추가</button>
+                <button class="btn">+ 훈련사항추가</button>
             </td>
         </tr>
     </tfoot>
 </table>
-<table class="t1">
+<table class="table">
     <colgroup>
         <col width="20%"/>
         <col width="20%"/>
@@ -80,14 +92,14 @@
     <tr>
         <th>훈련기간</th>
         <th>이론</th>
-        <td><input type="text" style="width: 120px;"/></td>
+        <td><input type="text" class="text"/></td>
         <th>실습</th>
-        <td><input type="text" style="width: 120px;"/></td>
+        <td><input type="text" class="text"/></td>
     </tr>
     <tr>
         <th>지시사항</th>
         <td colspan="4">
-            <textarea cols="100" rows="10">
+            <textarea cols="100" rows="10" class="textarea">
 
             </textarea>
         </td>
@@ -132,13 +144,13 @@
     <tr>
         <th>기타사항</th>
         <td colspan="3">
-            <textarea  cols="80" rows="10">
+            <textarea  cols="80" rows="10" class="textarea">
 
             </textarea>
         </td>
     </tr>
 </table>
-<div align="center" style="margin-top: 20px;">
-    <button class="btn blue">저장</button>
-    <button class="btn gray" id="cc_cancle">목록</button>
+<div class="main_item align_center">
+    <button class="btn">저장</button>
+    <button class="btn" id="cc_cancle">목록</button>
 </div>

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<h2 id="add_h2">"${cvo.c_name}" 상담관리보고서</h2>
+	<h2 id="add_h2" class="title" >"${cvo.c_name}" 상담관리보고서</h2>
 	<div id="add_top">
 		<table id="tt_add1" class="t1 table">
 			<colgroup>
@@ -81,16 +81,16 @@
 				</tr>
 					
 			</thead>
-			<tbody>
+			<tfoot>
 					<tr>
 						<td colspan="4">
-							<button type="button" onclick="editCounselAdd('${vo.ss_idx}')">수정</button>
-                            <button type="button" onclick="del('${vo.ss_idx}')">삭제</button>
-                            <input type="hidden" name="ss_idx" value="${vo.ss_idx }"/>
-							<button type="button" id="close">목록</button>
+							<button type="button" onclick="editCounselAdd('${vo.ss_idx}')" class="btn">수정</button>
+                            <button type="button" onclick="del('${vo.ss_idx}')" class="btn red">삭제</button>
+                            <input type="hidden" name="ss_idx" value="${vo.ss_idx }" />
+							<button type="button" id="close" class="btn">목록</button>
 						</td>
 					</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</div>
 	

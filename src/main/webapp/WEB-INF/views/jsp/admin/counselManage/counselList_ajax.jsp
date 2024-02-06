@@ -33,7 +33,7 @@
 				<td>${tvo.tr_hp}</td>
 			</tr>
 		</table>
-		<table class="add t1">	
+		<table class="table t1">	
 			<colgroup>
 				<col width="17%"/>
 				<col width="17%"/>
@@ -55,7 +55,7 @@
 	<div id="add_d2">
 	<form action="counselsave" method="post" enctype="multipart/form-data">
 		<input type="hidden" name ="c_idx" value="${cvo.c_idx}">
-		<table class="add t1" id="add_t1">
+		<table class="add t1 table" id="add_t1">
 			<colgroup>
 				<col width="10%"/>
 				<col width="10%"/>
@@ -83,7 +83,7 @@
 					<td>${vo.svo.sf_name}</td>
  					<td>${vo.so_subject}</td>
         			<td>${vo.so_pd}</td>    
-        </tr>
+        		</tr>
 				</c:forEach>
 				</c:if>
         
@@ -91,9 +91,9 @@
 			<tfoot>
 				<tr>
 					<td colspan="5">
-						<button type="button" onclick="counselListAdd('${tvo.tr_idx}', '${tvo.c_idx}')">상담등록</button>
-						<button type="button">인쇄</button>
-						<button type="button" id="cc_cancle">취소</button>
+						<button type="button" onclick="counselListAdd('${tvo.tr_idx}', '${tvo.c_idx}')" class="btn">상담등록</button>
+						<button type="button" class="btn">인쇄</button>
+						<button type="button" id="cc_cancle" class="btn">취소</button>
 					</td>
 				</tr>
 			</tfoot>
