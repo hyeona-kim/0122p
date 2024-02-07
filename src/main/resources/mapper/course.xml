@@ -164,8 +164,11 @@
 	</select>
 
 	<update id="tnAdd" parameterType="com.ict.project.vo.CourseVO">
-		update course_t 
-		set tn_idx = #{tn_idx}
+		update course_t
+		<set>
+		tn_idx = #{tn_idx},
+		subject = #{subject}
+		</set>
 		where c_idx = #{c_idx}
 	</update>
 </mapper>

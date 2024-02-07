@@ -180,10 +180,19 @@ table tfoot ol.page {
 								
 								<tr>
 									<th><label>사진(210*210)</label></th>
-									<td>
-										<input type="file" onchange="readURL(this);" name="file"> 
-										<img id="preview" width="210" height="210" />
-									</td>
+									<c:if test="${vo9.file_name eq null}">
+										<td>
+											<input type="file" onchange="readURL(this);" name="file">
+											<img id="preview" width="210" height="210" />
+										</td>
+									</c:if>
+									<c:if test="${vo9.file_name ne null}">
+										<td>
+											<input type="file" onchange="readURL(this);" name="file">
+											<img src="${pageContext.request.contextPath }/upload_file/${vo9.file_name}" id="preview" width="210"
+												height="210" />
+										</td>
+									</c:if>
 									<th><label>환불금액</label></th>
 									<td><input type="text"><div id="box">(* ,없이 숫자로만 입력해주세요)</div></td>
 								<tr>

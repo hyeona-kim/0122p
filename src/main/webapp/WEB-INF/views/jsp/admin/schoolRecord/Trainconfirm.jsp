@@ -169,7 +169,7 @@
 								<td>${vo4.c_peo_num}</td>
 								<td>
 								<input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정">
-								<input type="button" value="확인서류보기">
+								<input type="button" onclick="set2('${vo4.tn_idx}')" value="확인서류보기">
 								</td>
 							</tr>
 						</c:forEach>
@@ -269,6 +269,21 @@
 		});
 
 
+	}
+
+	function set2(str,str1){
+		$.ajax({
+            url: "confirm2",
+            type: "post",
+            data:"tn_idx="+str+"&c_idx="+str1
+         }).done(function(result){
+            $("#m1").html(result);
+         });
+         
+		$( "#m1" ).dialog({
+				width:1000,
+            	height:600
+		});
 	}
 
 
