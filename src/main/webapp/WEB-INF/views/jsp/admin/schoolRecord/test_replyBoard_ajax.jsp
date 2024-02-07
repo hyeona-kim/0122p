@@ -7,12 +7,13 @@
 	<%-- 작성자 정보를 전달하기 위해 input태그 추가 --%>
 	<input type="hidden" name="bd_writer" value="${bvo.bd_writer}">
 	<input type="hidden" name="c_idx" value="${bvo.c_idx}">
-	<table>
+	<h2 class="title">게시판 답변</h2>
+	<table class="table">
 		<caption>게시판 답변 작성 테이블</caption>
 		<tbody>
 			<tr>
 				<th>제목</th>
-				<td class="left"><input class="input" type="text" id="bd_replySubject" name="bd_subject" value="re:${bvo.bd_subject}"/></td>
+				<td class="left"><input class="text" type="text" id="bd_replySubject" name="bd_subject" value="re:${bvo.bd_subject}"/></td>
 			</tr>
 			<tr>
 				<th>전체공지</th>
@@ -21,19 +22,19 @@
 			<tr>
 				<th>내용</th>
 				<td class="left">
-					<textarea rows="10" cols="70" id="reply_content" name="bd_content">========================================*** 님이 작성한 글========================================${bvo.bd_content}</textarea>
+					<textarea rows="10" cols="70" id="reply_content" name="bd_content" class="textarea">========================================*** 님이 작성한 글========================================${bvo.bd_content}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<th>파일첨부</th>
-				<td class="left"><input type="file" id="bd_file" name="file"/></td>
+				<td class="left"><input type="file" id="bd_file" name="file" class="text"/></td>
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					<button type="button" class="bo_edit_btn bo_btn" onclick="addReply(this.form)">등록</button>
-					<button type="button" class="bo_del_btn bo_btn" id="cancel_btn">취소</a>
+					<button type="button" class="btn" onclick="addReply(this.form)">등록</button>
+					<button type="button" class="btn" id="cancel_btn">취소</a>
 				</td>
 			</tr>
 		</tfoot>

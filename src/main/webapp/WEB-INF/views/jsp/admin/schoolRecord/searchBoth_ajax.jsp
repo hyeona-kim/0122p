@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<table id="board_course_table">
+	<table id="board_course_table" class="table">
          <tbody>
             <%-- ===== 출력할 게시판 항목 ===== --%>
             <tr>
@@ -15,20 +15,19 @@
                 <th>모집인원</th>
                 <th>관리</th>
             </tr>
-            <c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
             <%-- ===== 로그인 정보가 있다면 반복문을 통해 과정 목록 출력 ===== --%>
-                <c:forEach items="${ar }" varStatus="vs" var="vo">
+                <c:forEach items="${ar }" varStatus="vs" var="vo2">
                 <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
                 <tr>
                     <td>${num-vs.index}</td>
-                    <td>${vo.c_name}</td>
-                    <td>${vo.svo.sf_name}</td>
-                    <td>${vo.start_date}</td>
-                    <td>${vo.end_date}</td>
-                    <td>${vo.c_day}</td>
-                    <td>${vo.c_round_num}</td>
-                    <td>${vo.c_peo_num}</td>
-                    <td><button id="board_btn" onclick="test_viewBoardList('${vo.c_idx}', '1')">과정별 게시판</button></td>
+                    <td>${vo2.c_name}</td>
+                    <td>${vo2.svo.sf_name}</td>
+                    <td>${vo2.start_date}</td>
+                    <td>${vo2.end_date}</td>
+                    <td>${vo2.c_day}</td>
+                    <td>${vo2.c_round_num}</td>
+                    <td>${vo2.c_peo_num}</td>
+                    <td><button id="board_btn" onclick="test_viewBoardList('${vo2.c_idx}', '1')">과정별 게시판</button></td>
                 </tr>
                 </c:forEach>
                 <c:if test="${ar eq null}">
@@ -36,7 +35,6 @@
                     <td colspan="9">검색 결과가 없습니다.</td>
                 </tr>
                 </c:if>
-            </c:if>
         </tbody>
         <%-- 화면 하단 page 번호 출력하는 부분 --%>
         <tfoot>

@@ -3,40 +3,45 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-				    <table id="makeTime">
+    <h2 class="title">상담관리</h2>
+				    <table id="makeTime" class="table">
+                        <colgroup>
+                            <col width="20%"/>
+                            <col width="20%"/>
+                            <col width="*"/>
+                        </colgroup>
 				        <caption>신상기록부</caption>
-					<tbody>
-                        <c:if test="${vo11.file_name eq null}">
+                        <tbody>
+                            <c:if test="${vo11.file_name eq null}">
+                                <tr>
+                                    <td rowspan="5" width="125">NO IMAGE</td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${vo11.file_name ne null}">
+                                <tr>
+                                    <td rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></td>
+                                </tr>
+                            </c:if>
                             <tr>
-                                <th rowspan="5" width="125"></th>
+                                <th>성명</th>
+                                <td>${vo11.tr_name}</td>
                             </tr>
-                        </c:if>
-                        <c:if test="${vo11.file_name ne null}">
                             <tr>
-                                <th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></th>
+                                <th>주민등록번호</th>
+                                <td>${vo11.tr_rrn}</td>
                             </tr>
-                        </c:if>
-                        <tr>
-							<th>성명</th>
-							<td>${vo11.tr_name}</td>
-                        </tr>
-                        <tr>
-                            <th>주민등록번호</th>
-							<td>${vo11.tr_rrn}</td>
-						</tr>
-                        <tr>
-                            <th>주소</th>
-                            <td>${vo11.tr_addr}</td>
-					    </tr>
-                        <tr>
-                            <th>전화번호</th>
-							<td>${vo11.tr_hp}</td>
-                        </tr>
-				</tbody>
-			</table>
+                            <tr>
+                                <th>주소</th>
+                                <td>${vo11.tr_addr}</td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td>${vo11.tr_hp}</td>
+                            </tr>
+                    </tbody>
+                </table>
             
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                 <tbody>
                     <tr>
                         <th>교육과정명</th>
@@ -55,7 +60,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                 <thead>
                     <tr>
                         <th>상담일</th>
@@ -77,10 +82,10 @@
                 </c:forEach>
                 </tbody>
             </table>
-            <div>
-                <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}', ss_num.value, '${ccv1.so_idx}')">상담등록</button>           
-                <button type="button" onclick="">엑셀</button>           
-                <button type="button" onclick="">인쇄</button>           
-                <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx">취소</button>           
+            <div class="main_item align_center">
+                <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}', ss_num.value, '${ccv1.so_idx}')" class="btn">상담등록</button>           
+                <button type="button" onclick="" class="btn">엑셀</button>           
+                <button type="button" onclick="" class="btn">인쇄</button>           
+                <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx" class="btn">취소</button>           
             </div>
       

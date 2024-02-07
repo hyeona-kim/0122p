@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<table id="board_table">
+	<table id="board_table" class="table">
          <tbody>
                   <%-- ===== 출력할 게시판 항목 ===== --%>
                      <tr>

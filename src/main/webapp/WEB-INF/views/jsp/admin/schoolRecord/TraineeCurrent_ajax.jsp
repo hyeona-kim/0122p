@@ -3,7 +3,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-        <table id="makeTime">
+        <table id="makeTime" class="table">
         <caption>훈련현황 리스트</caption>
             <thead>
                 <tr>
@@ -64,8 +64,8 @@
                 <td>${vo2.c_round_num }</td>
                 <td>${vo2.c_peo_num}</td>
                 <td>
-                <input type="button" onclick="bt1('${vo2.c_idx}')" value="과정별 훈련생 현황">
-                <input type="button" value="면접평가 결과표">
+                <input type="button" onclick="bt1('${vo2.c_idx}')" value="과정별 훈련생 현황" class="btn">
+                <input type="button" value="면접평가 결과표" class="btn">
                 </td>
             </tr>
         </c:forEach>

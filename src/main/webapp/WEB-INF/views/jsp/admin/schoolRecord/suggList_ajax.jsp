@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <table class="sugList">
+    <table class="sugList table">
     	<colgroup>
     		<col width="10%"/>
     		<col width="35%"/>
@@ -32,7 +32,7 @@
 								<%-- 전체공지로 클릭되었다면(notice가 1일때)
 								공지 마크가 추가되어야함 --%>
 								<c:if test="${svo.notice eq '1'}">
-									<span id="notice">공지</span>
+									<span id="notice" class="btn red2 hover_none">공지</span>
 								</c:if>
 								<a href="javascript:viewContent(${svo.sg_idx})">
 									${svo.sg_subject}
