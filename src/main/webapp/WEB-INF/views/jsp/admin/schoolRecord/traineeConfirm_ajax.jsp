@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<table id="makeTime">
+<table id="makeTime" class="table">
     <caption>훈련생확인서류 리스트</caption>
         <thead>
             <tr>
@@ -62,8 +62,8 @@ pageEncoding="UTF-8"%>
             <td>${vo4.c_round_num }</td>
             <td>${vo4.c_peo_num}</td>
             <td>
-            <input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정">
-            <input type="button" value="확인서류보기">
+            <input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정" class="btn"/>
+            <input type="button" value="확인서류보기" class="btn"/>
             </td>
         </tr>
     </c:forEach>

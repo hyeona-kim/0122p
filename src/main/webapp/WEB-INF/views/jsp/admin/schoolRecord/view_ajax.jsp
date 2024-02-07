@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<table>
+<table class="table">
+	<h2 class="title">제목:${vo.sg_subject}</h2>
+	<div class="main_item align_right main_color">
+		작성자:***&nbsp;|&nbsp;등록일:${vo.sg_write_date}&nbsp;|&nbsp;조회수:${vo.sg_hit}
+	</div>
 	<caption>고충 및 건의사항 보기 테이블</caption>
 	<colgroup>
 		<col width="20%"/>
@@ -13,18 +17,14 @@
 			<td colspan="2">${vo.c_name}</td>
 		</tr>
 	</thead>
+</table>
+<div class="main_item">
+	<textarea rows="15" cols="106" readonly class="textarea">
+		${vo.sg_content}
+	</textarea>
+</div>
+<table id="t1">
 	<tbody>
-		<tr>
-			<th colspan="3">${vo.sg_subject}</th>
-		</tr>
-		<tr>
-			<td class="left" colspan="3">작성자:***&nbsp;|&nbsp;등록일:${vo.sg_write_date}&nbsp;|&nbsp;조회수:${vo.sg_hit}</td>
-		</tr>
-		<tr>
-			<td class="left" colspan="3">${vo.sg_content}</td>
-		</tr>
-	</tbody>
-	<tfoot>
 		<tr>
 			<td>이전글△</td>
 			<td class="left">이전글 제목</td>
@@ -35,11 +35,15 @@
 			<td class="left">다음글 제목</td>
 			<td>대표강사</td>
 		</tr>
+	</tbody>
+	<tfoot>
 		<tr>
 			<td colspan="3">
-				<a href="suggestionList" class="sug_list_btn sug_btn">목록</a>
-				<a href="javascript:reply(${vo.sg_idx})" class="sug_reply_btn sug_btn">답변</a>
-				<a href="" class="sug_print_btn sug_btn">인쇄</a>
+				<button onclick="javascript:location.href='suggestionList'" class="btn">목록</button>
+				<button onclick="reply('${vo.sg_idx}')" class="btn">답변</button>
+				<button class="btn">수정</button>
+				<button class="btn red">삭제</button>
+				<button onclick="javascript:location.href=''" class="btn">인쇄</a>
 			</td>
 		</tr>
 	</tfoot>

@@ -31,12 +31,10 @@
 .table tfoot td{
     border: none;
 }
-.no_border{
-    border: none;
-}
-.align_right{
-    text-align: right;
-}
+
+.no_border{border: none;}
+.align_right{text-align: right;}
+
 .title{
     font-size: 24px;
     color:#154790;
@@ -99,5 +97,11 @@ a{
 }
 a:hover{
     color: #154790;
+    font-weight: bold;
+}
+.hover_none:hover{
+    background-color: #F55944;
+}
+.bold{
     font-weight: bold;
 }

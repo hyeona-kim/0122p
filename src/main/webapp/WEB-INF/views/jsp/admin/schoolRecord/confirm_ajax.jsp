@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+		<h2 class="title">훈련생확인서류등록</h2>
 			<form action="confirm" method="post" name="cf" >
-				<table id="makeTime">
+				<table id="makeTime" class="table">
 				<caption>훈련생확인서류등록 리스트</caption>
 					<thead>
 						<tr>
@@ -27,9 +27,9 @@
 				</tbody>	
 			</table>
 		</form>
-				<div class="bb1">
-					<button type="button" onclick="subRow()" value="저장">저장</button>
-    				<button type="button" onclick="javascript:location.href='trainconfirm'">닫기</button>
+				<div class="bb1 main_item align_center">
+					<button type="button" onclick="subRow()" value="저장" class="btn">저장</button>
+    				<button type="button" onclick="javascript:location.href='trainconfirm'" class="btn">닫기</button>
 				</div>
 				
 

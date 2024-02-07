@@ -29,7 +29,7 @@
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
                     
-				   </div>
+				</div>
             </div> 
         </article>
     </article>

@@ -7,226 +7,29 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/header.css" />
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/center.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main2.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-ui.min.css">
 <link rel="stylesheet" href="css/summernote-lite.css">
 <style>
-table tfoot ol.page {
-	    list-style:none;
-	    width: 300px;
-	    margin: auto;
-	}
-	
-	table tfoot ol.page li {
-	    float:left;
-	    margin-right:8px;
-	}
-	
-	table tfoot ol.page li a {
-	    display:block;
-	    padding:3px 7px;
-	    color:gray;
-	    font-weight:bold;
-	    text-decoration: none;
-	}
-	
-	table tfoot ol.page li a:hover {
-		color:black;
-	    font-weight:bold;
-	}
-	.disable {
-	    padding:3px 7px;
-	    color:white;
-	}
-	
-	.now {
-	   padding:3px 7px;
-	    color:#46ade1;
-	    font-weight:bold;
-	}
-
-	div#boList_top{
-		background-color: black;
-		padding: 5px;
-		padding-left: 10px;
-		color: white;
-		font-weight: bold;
-	}
-	
-	#boWrap{
-		width: 95%;
-		padding: 10px;
-		margin: 0px auto;
-	}
-	table#boList{
-		border-collapse: collapse;
-		width: 98%;
-		margin: 10px auto 0px auto;
-		padding: 0px;
-	}
-	table#boList thead{
-		text-align: center;
-	}
-	table#boList thead th, table#boList thead td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	table#boList thead th {
-		background-color: #f0f0ef;
-	}
-	table#boList thead td {
-		font-size: 13px;
-	}
-	table#boList caption{
-		text-indent: -9999px;
-		height: 0px;
-	}
-	table#boList thead tr:last-child td {
-		border: none;
-	}
-	#bo_add_btn{
-		background-color: #4cdbcf;
-		border-radius: 3px;
-		border: none;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-		text-decoration: none;
-	}
-	table#boList tbody{
-		text-align: center;
-	}
-	table#boList tbody th, table#boList tbody td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	table#boList tbody th {
-		background-color: #f0f0ef;
-	}
-	table#boList tbody td {
-		font-size: 13px;
-	}
-	#addForm, #board_list{
-		text-align: center;
-		margin: 0px auto;
-		padding: 10px;
-		width: 98%;
-	}
-	#addForm table caption, #board_list table caption{ text-indent: -9999px; }
-	
-	#addForm table, #board_list table{
-		width: 100%;
+	#t1{
+		margin: auto;
+		width: 70%;
 		border-collapse: collapse;
 	}
-	#addForm table th, #board_list table th{
-		background: #eee;
-	}
-	
-	#addForm table th,#addForm table td, #board_list table th, #board_list table td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	
-	#addForm .left, #board_list .left{
-		text-align: left;
-	}
-	#addForm th, #board_list th{
-		width: 20px;
-	}
-	#addForm .input, #board_list .input{
-		width: 350px;
-	}
-	#addForm tfoot td, #board_list tfoot td{
-		border: none;
-	}
-	#boContent table caption{ text-indent: -9999px; }
-	
-	#boContent table {
-		width: 950px;
-		height: 450px;
-		border-collapse: collapse;
-		position: absolute;
-	}
-	#boContent table th, #boContent table td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	#boContent {
+	#t1 td{
 		text-align: center;
-		margin: 0px auto;
-		padding: 10px;
+		border: 1px solid #ababab;
+		border-left: none;
+		border-right: none;
 	}
-	#boContent .left {
-		text-align: left;
-	}
-	#boContent th{
-		width: 20%;
-	}
-	#boContent tfoot td{
+	#t1 tfoot td{
 		border: none;
+		padding-top: 10px;
 	}
-	#replyForm table caption{ text-indent: -9999px; }
-	#replyForm table {
-		width: 950px;
-		height: 450px;
-		border-collapse: collapse;
-		position: absolute;
-		
-	}
-	#replyForm table th, #replyForm table td{
-		border: 1px solid #e9e9e6;
-		padding: 5px;
-	}
-	#replyForm {
-		text-align: center;
-		margin: 0px auto;
-		padding: 10px;
-	}
-	#replyForm .left {
-		text-align: left;
-	}
-	#replyForm th{
-		width: 20%;
-	}
-	#replyForm tfoot td{
-		border: none;
-	}
-	#notice{
-		background-color: #e14b4b;
-		border-radius: 3px;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-	}
-	.bo_btn{
-		display: inline-block;
-		background-color: #cc1919;
-		border-radius: 3px;
-		border: none;
-		padding: 5px 7px;
-		font-weight: bold;
-		font-size: 14px;
-		color: white; 
-		text-decoration: none;
-	}
-	.bo_list_btn{ background-color: #f0f0ef; }
-	.bo_reply_btn{ background-color: #cc1919; }
-	.bo_print_btn{ background-color: #1876c7; }
-	.bo_edit_btn{ background-color: #1876c7; }
-	.bo_del_btn{ background-color: #cc1919; }
-	
-	#trFirst{
-		border-collapse: collapse;
-		width: 100%;
-		height: 20px;
-		background-color: #dcdcdc;
-	}
-	</style>
+</style>
 </head>
-<c:if test="${tvo eq null }">
 <body>
 	<article>
 		<!-- <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include> -->
@@ -234,31 +37,31 @@ table tfoot ol.page {
 			<!-- <jsp:include page="./leftList.jsp"></jsp:include> -->
 			<div class="right">
 				<!--  여기서 표시될 테이블들 가지고오기 -->
-				<div id="boWrap">
+				<div id="staffWrap">
 					<!-- <div id="boList_top">과정별 게시판</div> -->
 	
 						<%-- ===== 검색하는 부분 ===== --%>
-						<table id="boList">
+						<table id="boList" class="table">
 							<caption>게시판 테이블</caption>
 							<thead>	
 								<tr>
 									<th>검색</th>
 									<td>
-										<select  id="search_tag">
+										<select  id="search_tag" class="select">
 											<option value="subject">제목</option>
 											<option>작성자</option>
 										</select>
-										<input type="text" id="search_value"/>
-										<button type="button" id="search_btn" onclick="searchBoard('${cPage}', '${c_idx}')">검색</button>
+										<input type="text" id="search_value" class="text"/>
+										<button type="button" id="search_btn" onclick="searchBoard('${cPage}', '${c_idx}')" class="btn">검색</button>
 									</td>
 									<th colspan="2">전체공지</th>
 									<td colspan="2">
 										<input type="checkbox" id="chk_btn" onchange="checkNotice('${cPage}', '${c_idx}')"/>숨김
 									</td>
 								</tr>
-								<tr><td colspan="6" align="right"><button type="button" id="bo_add_btn" onclick="add_btn_click('${param.c_idx}')">글쓰기</button></td></tr>
 							</thead>
 						</table>
+						<div class="main_item align_right"><button type="button" id="bo_add_btn" onclick="add_btn_click('${param.c_idx}')" class="btn">글쓰기</button></div>
 						<%-- ===== 검색하는 부분 ===== --%>
 						
 						<%-- ===== 비동기식으로 표현할 게시글 목록 시작 ===== --%>
@@ -340,7 +143,7 @@ table tfoot ol.page {
 					title: '게시글 보기',
 					modal: true,
 					width: 1000,
-					height: 600
+					maxHeight: 900
 				});
             });
         };
@@ -371,7 +174,7 @@ table tfoot ol.page {
                     title: '게시글 등록',
                     modal: true,
                     width: 1000,
-                    height: 600
+                    maxHeight: 900
                 });
             });
         };
@@ -500,10 +303,10 @@ table tfoot ol.page {
 				});
 				$("#reply_content").summernote("lineHeight", 0.7);
 				$("#boContent").dialog({
-				title: '게시글 답변 작성',
-				modal: true,
-				width: 1000,
-				height: 600
+					title: '게시글 답변 작성',
+					modal: true,
+					width: 1000,
+					maxHeight: 900
 				});
 			});
 		};
@@ -551,5 +354,4 @@ table tfoot ol.page {
 		
 	</script>
 </body>
-</c:if>
 </html>

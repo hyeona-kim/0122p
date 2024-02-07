@@ -4,11 +4,19 @@
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 	<form action="Traineewrite_ajax" method="post" name="qqq">
-				    <table id="makeTime">
-				        <caption>신상기록부</caption>
+        <h2 class="title">신상기록부</h2>
+                <table id="makeTime" class="table">
+                    <caption>신상기록부</caption>
+                    <colgroup>
+                        <col width="20%"/>
+                        <col width="10%"/>
+                        <col width="30%"/>
+                        <col width="10%"/>
+                        <col width="30%"/>
+                    </colgroup>
 					<tbody>
 						<tr>
-							<th rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></th>
+							<td rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></td>
                         </tr>
                         <tr>
 							<th>성명</th>
@@ -36,42 +44,42 @@
                         </tr>
 				</tbody>
 			</table>
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                     <tbody>
                         <tr>
                             <th rowspan="4">사업장</th>
                         </tr>
                         <tr>
                             <th>업체명</th>
-							<td><input type="text" value="${bvo.bs_name}" name="bs_name"></td>
+							<td><input type="text" class="text" value="${bvo.bs_name}" name="bs_name"></td>
                             <th>직종</th>
-							<td><input type="text" value="${bvo.bs_job}" name="bs_job"></td>
+							<td><input type="text" class="text" value="${bvo.bs_job}" name="bs_job"></td>
                             <th>대표자</th>
-							<td><input type="text" value="${bvo.bs_re}" name="bs_re"></td>
+							<td><input type="text" class="text" value="${bvo.bs_re}" name="bs_re"></td>
                         </tr>
                         <tr>
                             <th>근무부서</th>
-							<td><input type="text" value="${bvo.bs_workdpt}" name="bs_workdpt"></td>
+							<td><input type="text" class="text" value="${bvo.bs_workdpt}" name="bs_workdpt"></td>
                             <th>직위</th>
-							<td><input type="text"  value="${bvo.bs_position}" name="bs_position"></td>
+							<td><input type="text" class="text"  value="${bvo.bs_position}" name="bs_position"></td>
                             <th>전화번호</th>
-							<td><input type="text" value="${bvo.bs_phone}" name="bs_phone"></td>
+							<td><input type="text" class="text" value="${bvo.bs_phone}" name="bs_phone"></td>
                         </tr>
                         <tr>
                             <th>소재지</th>
-							<td colspan="5"><input type="text" value="${bvo.bs_location}" name="bs_location"></td>
+							<td colspan="5"><input type="text" class="text" value="${bvo.bs_location}" name="bs_location"></td>
                         </tr>
                     </tbody>
             </table>
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                 <tbody>
                     <tr>
                         <th colspan="2">훈련신청사유</th>
-                        <td colspan="4"><input type="text" value="${vo12.tr_memo}" name="tr_memo"></td>
+                        <td colspan="4"><input type="text" class="text" value="${vo12.tr_memo}" name="tr_memo"></td>
                     </tr>
                 </tbody>
             </table>
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                     <tr>
                         <th rowspan="2">최종학력</th>
                         <th>학교명</th>
@@ -80,13 +88,13 @@
                     </tr>
                     <tr>
                         
-                        <td><input type="text" value="${tfvo.tf_name}" name="tf_name"></td>
-                        <td><input type="text"  value="${tfvo.tf_year}" name="tf_year"></td>
-                        <td><input type="text" value="${tfvo.tf_major}" name="tf_major"></td>
+                        <td><input type="text" class="text" value="${tfvo.tf_name}" name="tf_name"></td>
+                        <td><input type="text" class="text"  value="${tfvo.tf_year}" name="tf_year"></td>
+                        <td><input type="text" class="text" value="${tfvo.tf_major}" name="tf_major"></td>
                     </tr>
                     
             </table>
-            <table id="makeTime">
+            <table id="makeTime" class="table">
                 <thead>
                    <tr>
                         <th colspan="3">면허 및 자격사항</th>
@@ -107,44 +115,44 @@
                     <tr>
                         <input type="hidden" name="qc_idx" value="${qvo.qc_idx}">
                         <input type="hidden" name="qc_tridx" value="${vs.index+1}">
-                        <td><input type="text" value="${qvo.qc_name}" name="qc_name"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_name}" name="qc_name"></td>
                         <td><input type="date" value="${qvo.qc_date}" name="qc_date"></td>
-                        <td><input type="text" value="${qvo.qc_place}" name="qc_place"></td>
-                        <td><input type="text" value="${qvo.qc_cname}" name="qc_cname"></td>
-                        <td><input type="text" value="${qvo.qc_day}" name="qc_day"></td>
-                        <td><input type="text" value="${qvo.qc_job}" name="qc_job"></td>
-                        <td><input type="text" value="${qvo.qc_position}" name="qc_position"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_place}" name="qc_place"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_cname}" name="qc_cname"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_day}" name="qc_day"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_job}" name="qc_job"></td>
+                        <td><input type="text" class="text" value="${qvo.qc_position}" name="qc_position"></td>
                     </tr>
                 </c:forEach>
                 <c:if test="${length < 3}">
                 <c:forEach begin="${length+1}" end="3" var="i">
                     <tr>
                         <input type="hidden" name="qc_tridx" value="${i}">
-                        <td><input type="text" name="qc_name"></td>
+                        <td><input type="text" class="text" name="qc_name"></td>
                         <td><input type="date" name="qc_date"></td>
-                        <td><input type="text" name="qc_place"></td>
-                        <td><input type="text" name="qc_cname"></td>
-                        <td><input type="text" name="qc_day"></td>
-                        <td><input type="text" name="qc_job"></td>
-                        <td><input type="text" name="qc_position"></td>
+                        <td><input type="text" class="text" name="qc_place"></td>
+                        <td><input type="text" class="text" name="qc_cname"></td>
+                        <td><input type="text" class="text" name="qc_day"></td>
+                        <td><input type="text" class="text" name="qc_job"></td>
+                        <td><input type="text" class="text" name="qc_position"></td>
                     </tr>
                 </c:forEach>
                 </c:if>
                     
                 </tbody>
              </table>
-             <table id="makeTime">
+             <table id="makeTime" class="table">
                 <tr>
                     <th >메모</th>
                 </tr>
                 <tr>
-                    <td><textarea rows="8" cols="180" name="tr_etc">${vo12.tr_etc}</textarea></td>
+                    <td><textarea rows="10" cols="180" name="tr_etc" class="textarea">${vo12.tr_etc}</textarea></td>
                 </tr>
              </table>
-             <div>
-                <input type="button" value="저장" onclick="sendwrite(this.form)">
-                <input type="button" value="인쇄" onclick="">
-                <input type="button" value="취소" onclick="">
+             <div class="main_item align_center">
+                <input type="button" value="저장" onclick="sendwrite(this.form)" class="btn">
+                <input type="button" value="인쇄" onclick="" class="btn">
+                <input type="button" value="취소" onclick="" class="btn">
             </div>
             <input type="hidden" name="c_idx" value="${cc.c_idx}">
             <input type="hidden" name="tr_idx" value="${vo12.tr_idx}">

@@ -3,8 +3,9 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- colgroup으로 비율 맞춰놔서 width만 100%맞추면 돼요-->
+    <h2 class="title">사후관리</h2>
     <form action="afterManage_axaj" method="post" name="qwe" encType="multipart/form-data">
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <colgroup>
             <col width="16%"/>
             <col width="18%"/>
@@ -57,7 +58,7 @@
             </td>
         </tr>
     </table>
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <colgroup>
             <col width="13%"/>
             <col width="17%"/>
@@ -118,7 +119,7 @@
             </td>
             <td colspan="4">
 
-                기타외국어(<input type="text" style="width: 100px;" name="qc_flname" value="${qvo[0].qc_flname}"/>)
+                기타외국어(<input type="text" class="text" style="width: 100px;" name="qc_flname" value="${qvo[0].qc_flname}"/>)
             <c:if test="${qvo[0].qc_flevel eq null}">
                 <input type="radio" name="qc_flevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_flevel" value="중"/>&nbsp;중&nbsp;
@@ -167,7 +168,7 @@
             </c:if>
             </td>
             <td colspan="2">
-                파워포인트
+                PPT
             <c:if test="${qvo[0].qc_plevel eq null }">
                 <input type="radio" name="qc_plevel" value="상"/>&nbsp;상&nbsp;
                 <input type="radio" name="qc_plevel" value="중"/>&nbsp;중&nbsp;
@@ -218,12 +219,12 @@
             <th>(취업예정자격증)</th>
             <td colspan="4">
 
-                <input type="text" style="width: 350px;" name="qc_memo" value="${qvo[0].qc_memo}"/>
+                <input type="text" class="text" style="width: 350px;" name="qc_memo" value="${qvo[0].qc_memo}"/>
 
             </td>
         </tr>
     </table>
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <colgroup>
             <col width="15%"/>
             <col width="35%"/>
@@ -252,7 +253,7 @@
                 소속기관명(취업성공패키지 등)
             </th>
             <td>
-                <input type="text" style="width: 180px;" name="wp_name" value="${wvo.wp_name}"/>
+                <input type="text" class="text" style="width: 180px;" name="wp_name" value="${wvo.wp_name}"/>
             </td>
         </tr>
         <tr>
@@ -278,7 +279,7 @@
             </td>
         </tr>
     </table>
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <colgroup>
             <col width="10%"/>
             <col width="30%"/>
@@ -292,16 +293,16 @@
         </tr>
         <tr>
             <th>보유기술</th>
-            <td>1.<input type="text" style="width: 180px;" name="wp_skill" value="${skill[0]}"/></td>
-            <td>2.<input type="text" style="width: 180px;" name="wp_skill" value="${skill[1]}"/></td>
-            <td>3.<input type="text" style="width: 180px;" name="wp_skill" value="${skill[2]}"/></td>
+            <td>1.<input type="text" class="text" style="width: 180px;" name="wp_skill" value="${skill[0]}"/></td>
+            <td>2.<input type="text" class="text" style="width: 180px;" name="wp_skill" value="${skill[1]}"/></td>
+            <td>3.<input type="text" class="text" style="width: 180px;" name="wp_skill" value="${skill[2]}"/></td>
         </tr>
         <tr>
             <th>기타특이사항</th>
-            <td colspan="3"><input type="text" style="width: 600px;" name="wp_etc" value="${wvo.wp_etc}"/></td>
+            <td colspan="3"><input type="text" class="text" style="width: 600px;" name="wp_etc" value="${wvo.wp_etc}"/></td>
         </tr>
     </table>
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <colgroup>
             <col width="15%"/>
             <col width="12%"/>
@@ -317,22 +318,22 @@
             <th>희망지역</th>
             <td>
                 1.<br/>
-                <input type="text" style="width: 80px;" name="wp_area" value="${area[0]}"/>
+                <input type="text" class="text" style="width: 80px;" name="wp_area" value="${area[0]}"/>
             </td>            
             <td>
                 2.<br/>
-                <input type="text" style="width: 80px;" name="wp_area" value="${area[1]}"/>
+                <input type="text" class="text" style="width: 80px;" name="wp_area" value="${area[1]}"/>
             </td>            
             <td>
                 3.<br/>
-                <input type="text" style="width: 80px;" name="wp_area" value="${area[2]}"/>
+                <input type="text" class="text" style="width: 80px;" name="wp_area" value="${area[2]}"/>
             </td>            
             <th>취업희망분야</th>
-            <td><input type="text" style="width: 150px;" value="${wvo.wp_hope}" name="wp_hope"/></td>            
+            <td><input type="text" class="text" style="width: 150px;" value="${wvo.wp_hope}" name="wp_hope"/></td>            
         </tr>
         <tr>
             <th>희망급여수준</th>
-            <td colspan="4"><input type="text" style="width: 400px;" value="${wvo.wp_pay}" name="wp_pay"/></td>
+            <td colspan="4"><input type="text" class="text" style="width: 400px;" value="${wvo.wp_pay}" name="wp_pay"/></td>
             <td>
                 <input type="checkbox"/>회사내규
             </td>
@@ -423,19 +424,19 @@
         <tr>
             <th>훈련생 요청사항</th>
             <td colspan="5">
-                <input type="text" style="width: 600px;" value="${wvo.wp_memo}" name="wp_memo"/>
+                <input type="text" class="text" style="width: 600px;" value="${wvo.wp_memo}" name="wp_memo"/>
             </td>
         </tr>
     </table>
-    <table class="after" id="makeTime">
+    <table class="table" id="makeTime">
         <tr>
             <th colspan="6">※취업 관리 사항</th>
         </tr>
         <tr>
             <th>업체명</th>
-            <td><input type="text" style="width: 100px;" value="${wvo.wp_wname}" name="wp_wname"/></td>
+            <td><input type="text" class="text" style="width: 100px;" value="${wvo.wp_wname}" name="wp_wname"/></td>
             <th>사업자등록번호</th>
-            <td><input type="text" style="width: 100px;" value="${wvo.wp_number}" name="wp_number"/></td>
+            <td><input type="text" class="text" style="width: 100px;" value="${wvo.wp_number}" name="wp_number"/></td>
             <th>취업확인서</th>
             <td>
             <c:if test="${wvo.wp_check eq null || wvo.wp_check eq ''}">
@@ -454,15 +455,15 @@
         </tr>
         <tr>
             <th>주소</th>
-            <td colspan="3"><input type="text" style="width: 400px;" value="${wvo.wp_addr}" name="wp_addr"/></td>
+            <td colspan="3"><input type="text" class="text" style="width: 400px;" value="${wvo.wp_addr}" name="wp_addr"/></td>
             <th>연락처</th>
             <td>
-                <input type="text" style="width: 150px;" value="${wvo.wp_phone}" name="wp_phone"/>
+                <input type="text" class="text" style="width: 150px;" value="${wvo.wp_phone}" name="wp_phone"/>
             </td>
         </tr>
         <tr>
             <th>근무직종</th>
-            <td><input type="text" style="width: 150px;" value="${wvo.wp_job}" name="wp_job"/></td>
+            <td><input type="text" class="text" style="width: 150px;" value="${wvo.wp_job}" name="wp_job"/></td>
             <th>고용보험유무</th>
             <td>
             <c:if test="${wvo.wp_is eq null || wvo.wp_is eq ''}">
@@ -479,21 +480,21 @@
             </c:if>
             </td>
             <th>취업일</th>
-            <td><input type="text" style="width: 150px;" value="${wvo.wp_wday}" name="wp_wday"/></td>
+            <td><input type="text" class="text" style="width: 150px;" value="${wvo.wp_wday}" name="wp_wday"/></td>
         </tr>
         <tr>
             <th>사업자 등록증첨부</th>
-            <td colspan="5"><input type="file" name="file"/>
+            <td colspan="5"><input type="file" name="file" class="text"/>
             <c:if test="${wvo.file_name ne null}">
                 <span style="font-size: 13px; color: red;">기존파일:${wvo.file_name}</span>
             </c:if>
             </td>
         </tr>
     </table>
-    <div align="center">
-        <input type="button" value="수정" onclick="editform(this.form)"/>
-        <input type="button" value="인쇄"/>
-        <input type="button" value="취소"/>
+    <div class="main_item align_center">
+        <input type="button" value="수정" onclick="editform(this.form)" class="btn"/>
+        <input type="button" value="인쇄" class="btn"/>
+        <input type="button" value="취소" class="btn"/>
         <input type="hidden" name="c_idx" value="${c_idx}">
         <input type="hidden" name="tr_idx" value="${tr_idx}">
         <input type="hidden" name="wp_idx" value="${wvo.wp_idx}">
