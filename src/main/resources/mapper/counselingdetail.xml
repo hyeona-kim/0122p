@@ -12,17 +12,25 @@
 		<association property="idvo" column="id_idx" javaType="com.ict.project.vo.InflowPathVO" select="inflowPath"></association>
 	</resultMap>
 
-  <select id="search" parameterType="Map" resultType="com.ict.project.vo.CounselingdetailVO">
+  <select id="search" parameterType="Map" resultMap="map1">
 		select * 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-		from (select * from counselingdetail_t
+			from (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name
+					from course_t c, staff_t s, course_type_t ct,
+    						nextscheduled_t ns, inflowpath_t id, counselingdetail_t cd
 				<where>
 				<trim suffixOverrides="and">
-							cd_status2 = 0 and
+							cd_status2 = 0 and cd.c_idx = c.c_idx 
+											and cd.sf_idx = s.sf_idx 
+											and cd.ct_idx = ct.ct_idx 
+											and cd.ns_idx = ns.ns_idx 
+											and cd.id_idx = id.id_idx and
 							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">cd_phone like concat('%',#{value},'%') and</if>
 							<if test="year != null">cd_date like concat(#{year},'%') and</if>
+							<if test="c_idx != null">cd.c_idx=#{c_idx} and</if>
+							<if test="ct_idx != null">cd.ct_idx=#{ct_idx} and</if>
 					</trim>
 				</where>
 				order by cd_idx desc
@@ -36,17 +44,27 @@
 		select count(*) 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select * from counselingdetail_t
+			from (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name
+					from course_t c, staff_t s, course_type_t ct,
+    						nextscheduled_t ns, inflowpath_t id, counselingdetail_t cd
 				<where>
 					<trim suffixOverrides="and">
-							cd_status2 = 0 and
+							cd_status2 = 0 and cd.c_idx = c.c_idx 
+											and cd.sf_idx = s.sf_idx 
+											and cd.ct_idx = ct.ct_idx 
+											and cd.ns_idx = ns.ns_idx 
+											and cd.id_idx = id.id_idx and
 							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>
 							<if test="select !=null and select == 2">cd_phone like concat('%',#{value},'%') and</if>
 							<if test="year != null">cd_date like concat(#{year},'%') and</if>
+							<if test="c_idx != null">cd.c_idx=#{c_idx} and</if>
+							<if test="ct_idx != null">cd.ct_idx=#{ct_idx} and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c
 	</select>
+
+
 
   <select id="all" resultType="com.ict.project.vo.CounselingdetailVO">
     select * from counselingdetail_t
@@ -61,12 +79,6 @@
                                       #{cd_address}, #{id_idx}, #{cd_subject}, 0)
 	</insert>
 
-  <select id="list" resultMap="map1">
-		select * from 
-    (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name from counselingdetail_t cd, course_t c, staff_t s, course_type_t ct,
-    nextscheduled_t ns, inflowpath_t id
-		where cd_status2 = 0 and cd.c_idx = c.c_idx and cd.sf_idx = s.sf_idx and cd.ct_idx = ct.ct_idx and cd.ns_idx = ns.ns_idx and cd.id_idx = id.id_idx) cd
-	</select>
 
   <select id="staff" parameterType="String" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t where sf_idx = #{sf_idx}
@@ -84,6 +96,13 @@
 		select * from inflowPath_t where id_idx = #{id_idx}
 	</select>
 
+  <select id="list" resultMap="map1">
+		select * from 
+    (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name from counselingdetail_t cd, course_t c, staff_t s, course_type_t ct,
+    nextscheduled_t ns, inflowpath_t id
+		where cd_status2 = 0 and cd.c_idx = c.c_idx and cd.sf_idx = s.sf_idx and cd.ct_idx = ct.ct_idx and cd.ns_idx = ns.ns_idx and cd.id_idx = id.id_idx) cd
+	</select>
+	
 
    <select id="getCounselingDetail" parameterType="String" resultType="com.ict.project.vo.CounselingdetailVO">
     SELECT * FROM counselingdetail_t WHERE cd_idx = #{cd_idx}

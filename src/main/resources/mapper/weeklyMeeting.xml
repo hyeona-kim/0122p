@@ -62,6 +62,8 @@
 			where c.rnum between ${begin} and ${end} 
 	</select>
 
+	
+
 	  <select id="search_count" parameterType="Map" resultType="int">
 		select count(*) 
 			from 

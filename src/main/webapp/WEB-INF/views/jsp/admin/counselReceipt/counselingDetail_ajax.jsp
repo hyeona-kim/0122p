@@ -28,7 +28,7 @@
 							<tr>
 								<td><input type="button" value="삭제" onclick="delCd('${vo2.cd_idx}')" class="btn red"></td>
 								<td>
-									${vs.index+1}<br>
+									${num - vs.index}<br>
 									<input type="button" value="보기/수정" onclick="editCd('${vo2.cd_idx}')" class="btn">
 								</td>
 								<td>${vo2.svo.sf_name}</td>

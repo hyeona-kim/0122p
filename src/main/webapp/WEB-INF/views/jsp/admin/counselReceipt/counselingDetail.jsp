@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,20 +65,20 @@
     
                                         </td>
                                         <td>
-                                            <select name="ct_idx" id="" class="select">
-                                                <option value="0">선택하세요</option>
-                                                <c:forEach items="${requestScope.ct_ar1}" var="ct_ar"  varStatus="loop">
-                                                    <option value="${ct_ar.ct_idx }">
+                                            <select name="ct_idx" id="ct_select" class="select">
+                                                <option value="0" name="ct_idx">타입검색</option>
+                                                <c:forEach items="${ct_ar1}" var="ct_ar"  varStatus="loop">
+                                                    <option value="${ct_ar.ct_idx }" name="ct_idx">
                                                              ${ct_ar.ct_name } 
                                                      </option>
                                                 </c:forEach>
                                             </select>
                                         </td>
                                         <td>
-                                            <select name="searchType2" id="" class="select">
-                                                <option value="0">선택하세요</option>
-                                                <c:forEach items="${requestScope.c_ar1}" var="c_ar"  varStatus="loop">
-                                                    <option value="${c_ar.c_idx }">
+                                            <select name="searchType2" id="c_select" class="select">
+                                                <option value="0" name="c_idx">과정검색</option>
+                                                <c:forEach items="${c_ar1}" var="c_ar"  varStatus="loop">
+                                                    <option value="${c_ar.c_idx }" name="c_idx">
                                                              ${c_ar.c_name } 
                                                      </option>
                                                 </c:forEach>
@@ -140,6 +141,8 @@
         let value ="";
         let cPage = 1;
         let room_length =Number('${id_length}');
+        let ctSelect=$("#ct_select").val();
+        let cSelect= $("#c_select").val();
 
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
@@ -185,7 +188,8 @@
                     url: "searchCounseldetail",
                     type: "post",
                     data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                        +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
+                        +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)
+                        +"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
@@ -196,7 +200,8 @@
                     url: "searchCounseldetail",
                     type: "post",
                     data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                        +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
+                        +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)
+                        +"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
@@ -204,16 +209,44 @@
 
             $("#search_bt").click(function(){
                 let value = $("#searchValue").val();
-                
+                let select = $("#searchType3").val();
+            
                 $.ajax({
                     url: "searchCounseldetail",
                     type: "post",
                     data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                        +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
+                        +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)
+                        +"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
             });	
+
+            $("#ct_select").change(function(){
+                ctSelect =this.value;
+                $.ajax({
+                    url:"searchCounseldetail",
+                    type:"post",
+                    data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                        +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)
+                        +"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
+                }).done(function(result){
+                    $("#counselReceipt_Table").html(result);
+                });
+            });
+
+            $("#c_select").change(function(){
+                cSelect =this.value;
+                $.ajax({
+                    url:"searchCounseldetail",
+                    type:"post",
+                    data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
+                        +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)
+                        +"&listSelect="+encodeURIComponent("2")+"&cPage="+encodeURIComponent("1")
+                }).done(function(result){
+                    $("#counselReceipt_Table").html(result);
+                });
+            });
         });
 
 
@@ -228,7 +261,7 @@
             url:"searchCounseldetail",
             type:"post",
             data:"select="+encodeURIComponent(select)+"&value="+encodeURIComponent(value)+"&year="+encodeURIComponent(select_year)
-                +"&num="+encodeURIComponent(numPerPage)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
+                +"&num="+encodeURIComponent(numPerPage)+"&c_idx="+encodeURIComponent(cSelect)+"&ct_idx="+encodeURIComponent(ctSelect)+"&listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent(str),
         }).done(function(result){
             $("#counselReceipt_Table").html(result);
         });
