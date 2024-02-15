@@ -353,16 +353,6 @@ public class CounselController {
                 mv.addObject("page", page);
 
             }
-        }  else if(listSelect.equals("4")) {
-            mv.setViewName("/jsp/admin/counselManage/counselTraineeInput_ajax");
-            TraineeVO[] ar = null;
-            page.setTotalRecord(t_Service.getCourseSearchValueCount(c_idx, select, value, year));
-            page.setNowPage(Integer.parseInt(cPage));
-            ar = t_Service.getCourseTraineeSearchValueList(c_idx, select,value,year,String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-    
-            mv.addObject("ar", ar);
-            mv.addObject("page", page);
-            mv.addObject("c_idx", c_idx);
         }
         return mv;
    }

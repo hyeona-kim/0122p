@@ -19,17 +19,19 @@
     </c:forEach>
 </c:if>
 <div>
-    <c:if test="${requestScope.page.nowPage == 1}">
-        <a class="disable" href="head">◀</a>
-    </c:if>	
-    <c:if test="${requestScope.page.nowPage != 1 }">
-       <a href="javascript:paging('${page.nowPage-1 }')">◀</a>
-    </c:if>
-
-    <c:if test="${page.nowPage != page.totalPage }">
-       <a href="javascript:paging('${page.nowPage+1 }')">▶</a>
-    </c:if>
-    <c:if test="${page.nowPage == page.totalPage }">
-        <a class="disable">▶</a>	
+    <c:if test="${page.totalRecord > 0}">
+        <c:if test="${requestScope.page.nowPage == 1 }">
+            <a class="disable">◀</a>
+        </c:if>	
+        <c:if test="${requestScope.page.nowPage != 1 }">
+            <a href="javascript:paging('${page.nowPage-1 }')">◀</a>
+        </c:if>
+        
+        <c:if test="${page.nowPage != page.totalPage }">
+            <a href="javascript:paging('${page.nowPage+1 }')">▶</a>
+        </c:if>
+        <c:if test="${page.nowPage == page.totalPage }">
+            <a class="disable">▶</a>	
+        </c:if>
     </c:if>
 </div>

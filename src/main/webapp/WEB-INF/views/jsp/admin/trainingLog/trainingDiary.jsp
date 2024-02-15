@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,6 +80,10 @@
         let searchValue ="";
         let cPage = "1";
         let c_idx = "${cvo.c_idx}"
+        let value = 0;
+        let change = true;
+        let count = 0;
+        let nowValue = 0;
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -138,9 +143,12 @@
                 $("#cc_cancle").click(function(){
                     $("#dialog").dialog("close");
                 });
+                value = $("#attend").val();
+                cnt = 4; // 시작값 4
             });
         });
-
+        
+        
         });
 
         function paging(str) {
@@ -160,6 +168,55 @@
 			width: 1200,
 			modal: true,
         });
+
+        function setCount(num, i){
+            let val = $(".chk" + i + ":checked").length; // 클래스가 같은값들은 같은사람
+            console.log(nowValue + "/" + (value - count));
+            if(val > 1 && nowValue != (value - count))
+                change = false;
+            else{
+                console.log(1);
+                change = true;
+            }
+            
+            if(num == null || num.length < 1){
+                return;
+            }
+            if(num == 1){
+                count = $("input:checkbox[name=chk1]:checked").length;
+                $("#absence").val(count);
+                if(change == true)
+                    nowValue = $("#attend").val(value - count);
+            }
+            if(num == 2){
+                count = $("input:checkbox[name=chk2]:checked").length;
+                $("#tardy").val(count);
+                if(change == true)
+                    nowValue = $("#attend").val(value - count);
+            }
+            if(num == 3){
+                count = $("input:checkbox[name=chk3]:checked").length;
+                $("#earlyLeave").val(count);
+                if(change == true)
+                    nowValue = $("#attend").val(value - count);
+            }
+        }
+        
+        function addList(){
+
+            var row = "<tr>";
+                row += "<td><input type='text' value=";
+                row += ++cnt; 
+                row += " class='text'/></td>";
+                row += "<td><input type='text' class='text'/></td>";
+                row += "<td><input type='text' class='text'/></td>";
+                row += "<td><input type='text' class='text'/></td>";
+                row += "</tr>";
+               
+
+	        $('#diaryTable').append(row); // 동적으로 row를 추가한다.
+
+        }
     </script>
 </body>
 </html>
