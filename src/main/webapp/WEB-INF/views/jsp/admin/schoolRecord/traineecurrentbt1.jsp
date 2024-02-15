@@ -20,7 +20,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;상담관리</header>
+                <header>&nbsp;&nbsp;학적부</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -332,6 +332,34 @@
 				width:1000,
             	height:1000
 		});
+	}
+
+	// $(document).on("click", ".print", function () {
+	// 	const section = $("section");
+	// 	const modalBody = $(".modal-body").detach();
+
+	// 	const content = $(".content").detach();
+	// 	section.append(modalBody);
+	// 	window.print();
+	// 	section.empty();
+	// 	section.append(content);
+	// 	$(".modal-body-wrapper").append(modalBody);
+	// 	});
+	
+	
+	function printPage(){
+		let initBody;
+			window.onbeforeprint = function(){
+			initBody = document.body.innerHTML;
+			document.body.innerHTML = document.getElementById('print').innerHTML;
+		};
+			window.onafterprint = function(){
+			document.body.innerHTML = initBody;
+		};
+        setTimeout(function (){
+			window.print();
+			return false;   
+        },250);
 	}
 
 

@@ -559,7 +559,7 @@ public class TraineeController {
    @RequestMapping("traineewrite")
    public ModelAndView traineewrite(String tr_idx, String c_idx){
       ModelAndView mv = new ModelAndView();
-      System.out.println(c_idx);
+      //System.out.println(c_idx);
       TraineeVO vo = t_Service.view(tr_idx);
       CourseVO cvo = c_Service.getCourse(c_idx);
       BusinessVO bvo = bs_Service.list(tr_idx);
@@ -619,7 +619,7 @@ public class TraineeController {
 
       CounselVO cvo = cc_Service.getCounsel(so_idx);
       CourseVO vvo = c_Service.getCourse(c_idx);
-      System.out.println(ss_num);
+      //System.out.println(ss_num);
       mv.addObject("vvo", vvo);
       mv.addObject("tr_idx", tr_idx);
       mv.addObject("c_idx", c_idx);
@@ -698,7 +698,7 @@ public class TraineeController {
       if(tvo.getTr_etc() !=null && tvo.getTr_etc().trim().length() > 0){
          cnt4 = t_Service.etcedit(tvo);
       }
-      System.out.println(cnt + "/" + cnt1 + "/" + cnt2 + "/" + cnt3 + "/" + cnt4);
+      //System.out.println(cnt + "/" + cnt1 + "/" + cnt2 + "/" + cnt3 + "/" + cnt4);
       mv.setViewName("redirect:traineecurrentbt1?c_idx="+c_idx);
       return mv;
    }
@@ -708,7 +708,7 @@ public class TraineeController {
    	public ModelAndView mangecard(String tr_idx, String c_idx, String cPage, TraineeVO tvo, CourseVO ccvo, WorkplusVO wwvo){
 		ModelAndView mv = new ModelAndView();
 
-		System.out.println(tr_idx);
+		//System.out.println(tr_idx);
 		TraineeVO vo = t_Service.view(tr_idx);
 		CourseVO cvo = c_Service.getCourse(c_idx);
 		TrfinalVO tfvo = tf_Service.list(tr_idx);

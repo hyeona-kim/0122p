@@ -196,7 +196,7 @@
                 </table>
 				<div class="main_item align_center">
 					<button type="button" onclick="sendData(this.form)" class="btn">등록</button>
-					<button type="button" onclick="" class="btn">목록</button>
+					<button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx=${vo2.c_idx}'" class="btn">목록</button>
 					<input type="hidden" name="tr_idx" value="${vo9.tr_idx}">
 					<input type="hidden" name="c_idx" value="${c_idx}">
 				</div>
