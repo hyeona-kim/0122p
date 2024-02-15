@@ -109,6 +109,30 @@ public class TrainingLogController {
         mv.setViewName("/jsp/admin/trainingLog/writeDiary");
         return mv;
     }
+
+    @RequestMapping("main_trainingdiary")
+    public ModelAndView main_trainingdiary(String c_idx, String cPage){
+        ModelAndView mv = new ModelAndView();
+        if(cPage ==null || cPage.length() ==0)
+			cPage="1";
+        Paging page = new Paging();
+		page.setTotalRecord(td_Service.list_count(c_idx)); // 5개만 표현해야 함
+		page.setNowPage(Integer.parseInt(cPage));
+        TrainingDiaryVO[] td_ar =td_Service.course_list(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd())); // begin, end 기본값 1, 5 각각 들어가있음
+		mv.addObject("page", page);
+        mv.addObject("td_ar", td_ar);
+        mv.addObject("c_idx", c_idx);
+		mv.setViewName("/jsp/admin/main_ajax2");
+
+        return mv;
+    }
+
+    @RequestMapping("addDiary")
+    public ModelAndView addDiary(){
+        ModelAndView mv = new ModelAndView();
+
+        return mv;
+    }
     
     
 }

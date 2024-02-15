@@ -747,6 +747,7 @@ public class TraineeController {
 
 		mv.addObject("wvo", wvo);
 		mv.addObject("qvo", qvo);
+      mv.addObject("length", qvo.length);
 		mv.addObject("tfvo", tfvo);
 		mv.addObject("tr_idx", tr_idx);
 		mv.addObject("c_idx", c_idx);

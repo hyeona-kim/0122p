@@ -108,8 +108,8 @@
                         <td style="color: red;">미</td>
                     </c:if>
                     <td>
-                        <button type="button" class="btn green">훈련일지</button>
-                        <button type="button" class="btn blue">수정</button>
+                        <button type="button" class="btn green" onclick="viewTraining('${tdvo.td_idx}')">훈련일지</button>
+                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">수정</button>
                         <button type="button" class="btn red">삭제</button>
                     </td>
                 </tr>

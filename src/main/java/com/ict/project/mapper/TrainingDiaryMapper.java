@@ -7,4 +7,6 @@ import com.ict.project.vo.TrainingDiaryVO;
 public interface TrainingDiaryMapper {
     List<TrainingDiaryVO> search(String c_idx,String select,String value,String begin,String end);
     int search_count(String c_idx,String select,String value);
+    List<TrainingDiaryVO> course_list(String c_idx, String begin, String end);
+    int list_count(String c_idx);
 }
