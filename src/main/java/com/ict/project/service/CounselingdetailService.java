@@ -20,7 +20,7 @@ public class CounselingdetailService {
         CounselingdetailVO[] ar = null;
 
         List<CounselingdetailVO> list = cd_mapper.all();
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CounselingdetailVO[list.size()];
             list.toArray(ar);
         }
@@ -32,11 +32,11 @@ public class CounselingdetailService {
         return cd_mapper.add(vo);
     }
 
-    public CounselingdetailVO[] getList(){
+    public CounselingdetailVO[] getList() {
         CounselingdetailVO[] ar = null;
 
         List<CounselingdetailVO> list = cd_mapper.list();
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CounselingdetailVO[list.size()];
             list.toArray(ar);
         }
@@ -47,7 +47,7 @@ public class CounselingdetailService {
     public CounselingdetailVO getCounselingDetail(String cd_idx) {
         return cd_mapper.getCounselingDetail(cd_idx);
     }
-    
+
     public CounselingdetailVO getCounselingDetail2(String cd_idx) {
         return cd_mapper.getCounselingDetail2(cd_idx);
     }
@@ -59,15 +59,17 @@ public class CounselingdetailService {
     public int deletetCounselingDetail(String cd_idx) {
         return cd_mapper.del(cd_idx);
     }
-    public int getSearchCount(String select, String value, String year) {
-        return cd_mapper.search_count(select, value, year);
+
+    public int getSearchCount(String select, String value, String year, String c_idx, String ct_idx) {
+        return cd_mapper.search_count(select, value, year, c_idx, ct_idx);
     }
 
-    public CounselingdetailVO[] searchCounseldetail(String select, String value, String year, String begin, String end) {
+    public CounselingdetailVO[] searchCounseldetail(String select, String value, String year, String begin,
+            String end, String c_idx, String ct_idx) {
         CounselingdetailVO[] ar = null;
 
-        List<CounselingdetailVO> list = cd_mapper.search(select, value, year, begin, end);
-        if(list != null && list.size() > 0) {
+        List<CounselingdetailVO> list = cd_mapper.search(select, value, year, begin, end, c_idx, ct_idx);
+        if (list != null && list.size() > 0) {
             ar = new CounselingdetailVO[list.size()];
             list.toArray(ar);
         }
