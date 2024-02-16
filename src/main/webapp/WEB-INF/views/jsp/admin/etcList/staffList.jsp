@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sf" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sf" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +31,9 @@
 </style>
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <article>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
+	</article>
     <article class="bottom">
         <article>
             <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
