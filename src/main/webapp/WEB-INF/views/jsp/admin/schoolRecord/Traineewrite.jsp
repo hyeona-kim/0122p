@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-	<form action="Traineewrite_ajax" method="post" name="qqq">
+  <form action="Traineewrite_ajax" method="post" name="qqq">
+    <div id="print">
         <h2 class="title">신상기록부</h2>
                 <table id="makeTime" class="table">
                     <caption>신상기록부</caption>
@@ -16,9 +16,20 @@
                     </colgroup>
 					<tbody>
 						<tr>
-							<td rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></td>
+							<!-- <td rowspan="5" id="img"><img alt="logo" 
+                                src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></td> -->
+                                <!-- <td rowspan="5" id="img" width="200px" height="200px" style="background-image: url(../upload_file/${vo12.file_name}); 
+                                object-fit: cover;"></td> -->
+                                 <td rowspan="5" id="img" width="200px" height="300px" style="border: 1px solid blue;">
+                                    <div style="background-image: url(../upload_file/${vo12.file_name}); background-size: cover;  border: 1px solid red; width: 100%; height:100%"></div>
+                                    <!-- <div><img alt="logo" src="${pageContext.request.contextPath }/upload_file/${vo12.file_name}" width="200" height="200"></div>  -->
+                                </td> 
+                                <!-- <div>
+                                    <td rowspan="5" id="img" width="200px" height="200px" 
+                                    style="border:1px solid red; background-image: url(../upload_file/${vo12.file_name}); object-fit: cover;"></td>
+                                </div> -->
                         </tr>
-                        <tr>
+                        <tr>    
 							<th>성명</th>
 							<td>${vo12.tr_name}</td>
 							<th>교육과정</th>
@@ -146,14 +157,16 @@
                     <th >메모</th>
                 </tr>
                 <tr>
-                    <td><textarea rows="10" cols="180" name="tr_etc" class="textarea">${vo12.tr_etc}</textarea></td>
+                    <td><textarea rows="10" name="tr_etc" class="textarea">${vo12.tr_etc}</textarea></td>
                 </tr>
              </table>
+        </div>
              <div class="main_item align_center">
                 <input type="button" value="저장" onclick="sendwrite(this.form)" class="btn">
-                <input type="button" value="인쇄" onclick="" class="btn">
-                <input type="button" value="취소" onclick="" class="btn">
+                <input type="button" value="인쇄" onclick="printPage('${pageContext.request.contextPath }/upload_file/${vo12.file_name}')" class="btn print" id="print">
+                <input type="button" value="취소" onclick="javascript:location.href='traineecurrentbt1?c_idx=${cc.c_idx}'" class="btn">
             </div>
+        
             <input type="hidden" name="c_idx" value="${cc.c_idx}">
             <input type="hidden" name="tr_idx" value="${vo12.tr_idx}">
             <input type="hidden" name="tm_idx" value="${tmvo.tm_idx}">

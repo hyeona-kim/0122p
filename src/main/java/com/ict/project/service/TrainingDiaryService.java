@@ -25,4 +25,17 @@ public class TrainingDiaryService {
     public int searchCount(String c_idx,String select,String value){
         return td_mapper.search_count(c_idx, select, value);
     }
+
+    public TrainingDiaryVO[] course_list(String c_idx, String begin, String end){
+        TrainingDiaryVO[] ar = null;
+        List<TrainingDiaryVO> list = td_mapper.course_list(c_idx, begin, end);
+        if(list != null && !list.isEmpty()){
+            ar = new TrainingDiaryVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+    public int list_count(String c_idx){
+        return td_mapper.list_count(c_idx);
+    }
 }

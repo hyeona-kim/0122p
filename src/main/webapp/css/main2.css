@@ -206,3 +206,33 @@ input[id="menuicon"]:checked +div .navi>li>a:hover{
     font-weight: bold;
     background-color:  rgb(21, 71, 144, 0.8);
 }
+
+
+  @page {
+    size:auto;  /* 프린트 사이즈 */
+    margin: 0;  /* 프린트 여백 */
+    
+  }
+
+  @media print, screen {
+    
+    * {
+        margin: 0; 
+        padding: 0;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important; /* 크롬 배경화면 프린트 */
+    }
+    
+    /* .print-wrap {
+      display: block;
+    }
+  
+    .print-wrap .prd-list-tr {
+      page-break-inside: avoid; /* 해당 엘리먼트의 내부에서 페이지 넘김을 금지 */
+
+    }
+    
+
+

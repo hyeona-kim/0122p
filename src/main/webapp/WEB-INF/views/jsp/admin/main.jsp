@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
     <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
@@ -18,7 +20,7 @@
                 <!--반복문 띄우기 쿨릭시 함수주기.(c_idx가지는 )-->
                 
             </div>
-            <div>
+            <div id="trainee_diary">
 
             </div>
         </div>
@@ -55,10 +57,11 @@
             </div>
         </div>
     </article>
+    <div id="dialog" hidden></div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
-      
+        let c_idx = "${cvo.c_idx}"
         $(function(){	
             $.ajax({
                 url:"main_course",
@@ -84,9 +87,18 @@
         
         }
         function course_log(c_idx){
+
             console.log(c_idx);
-            location.href="trainingDiary?c_idx="+c_idx;
-            //
+            //location.href="trainingDiary?c_idx="+c_idx;
+
+            $.ajax({
+                url:"main_trainingdiary",
+                type:"post",
+                data: "c_idx="+c_idx,
+            }).done(function(result){
+                $("#trainee_diary").html(result);
+            });
+
         }
         function paging(nowPage){
             $.ajax({
@@ -97,6 +109,27 @@
                 $("#course_log").html(result);
             });
         }
+        function write_btn(c_idx){
+            console.log(1+c_idx);
+            $("#dialog").dialog("open");
+            // /tl_dialog
+            $.ajax({
+                url: "tl_dialog",
+                type:"post",
+                data:"c_idx="+c_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+                $("#cc_cancle").click(function(){
+                    $("#dialog").dialog("close");
+                });
+            });
+        }
+        $("#dialog").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
     </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  <div id="print">
     <h2 class="title">상담관리</h2>
 				    <table id="makeTime" class="table">
                         <colgroup>
@@ -19,7 +20,10 @@
                             </c:if>
                             <c:if test="${vo11.file_name ne null}">
                                 <tr>
-                                    <td rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></td>
+                                    <td rowspan="5" id="img" width="200px" height="300px" style="border: 1px solid blue;">
+                                        <div style="background-image: url(../upload_file/${vo11.file_name}); background-size: cover;  border: 1px solid red; width: 100%; height:100%"></div>
+                                    </td>
+                                    <!-- <td rowspan="5"><img src="${pageContext.request.contextPath }/upload_file/${vo11.file_name}" width="200" height="200"></td> -->
                                 </tr>
                             </c:if>
                             <tr>
@@ -82,10 +86,11 @@
                 </c:forEach>
                 </tbody>
             </table>
+        </div>
             <div class="main_item align_center">
                 <button type="button" onclick="couupload('${vo11.tr_idx}','${vo11.c_idx}', ss_num.value, '${ccv1.so_idx}')" class="btn">상담등록</button>           
                 <button type="button" onclick="" class="btn">엑셀</button>           
-                <button type="button" onclick="" class="btn">인쇄</button>           
-                <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx='+c_idx" class="btn">취소</button>           
+                <button type="button" onclick="printPage()" class="btn">인쇄</button>           
+                <button type="button" onclick="javascript:location.href='traineecurrentbt1?c_idx=${cv.c_idx}'" class="btn">취소</button>           
             </div>
       

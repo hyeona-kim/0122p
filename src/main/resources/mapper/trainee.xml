@@ -90,7 +90,7 @@
 </update>
 
 <select id="course_count" parameterType="String" resultType="int">
-	select count(*) from trainee_t where c_idx = #{c_idx}
+	select count(*) from trainee_t where c_idx = #{c_idx} and status = 0
 </select>
 
 <select id="search_count" parameterType="Map" resultType="int">
