@@ -1,12 +1,15 @@
 package com.ict.project.control;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,8 @@ import com.ict.project.vo.ScheduleVO;
 import com.ict.project.vo.TraineeVO;
 
 import jakarta.servlet.ServletContext;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TotalController {
@@ -191,37 +196,13 @@ public class TotalController {
         return mv;
     }
 
-    @RequestMapping("schedule")
-    @ResponseBody
-    public List<Map<String, String>> schedule() {
-        List<Map<String, String>> list = new ArrayList<>();
-        ScheduleVO[] scList = sc_Service.all();
-        for (ScheduleVO vo : scList) {
-            Map<String, String> map = new HashMap<>();
-            // schedule_idx, schedule_name, start_date, end_date, schedule_detail
-            /*
-             * { 이벤트 예시
-             * title : 'event3',
-             * start : '2024-01-09T12:30:00',
-             * allDay : false // will make the time show
-             * }
-             */
-            map.put("schedule_idx", vo.getSchedule_idx());
-            map.put("title", vo.getSchedule_name());
-            map.put("start", vo.getStart_date());
-            map.put("end", vo.getEnd_date());
-            map.put("schedule_detail", vo.getSchedule_detail());
-            list.add(map);
-        }
-
-        return list;
+    @RequestMapping("schedual")
+    public ModelAndView calendar(String code, String acess_token) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("jsp/admin/totalManage/scheduleManage");
+        mv.addObject("code", code);
+        // 최종적으로 json을 반환한다.
+        return mv;
     }
 
-    @RequestMapping("calendar")
-    @ResponseBody
-    public Map<String, Object> calendar() {
-        Map<String, Object> map = new HashMap<>();
-
-        return map;
-    }
 }

@@ -31,9 +31,20 @@
                 <div class="right">
                     <div id="staffWrap">
                         <div id="calendar" class="main_item align_center"></div>
+                        <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly&access_type=offline&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value&redirect_uri=http://localhost:8080/schedual&client_id=1031580706945-bo0vmi9mp8dmikaj6fa2as1ff4tu7gei.apps.googleusercontent.com">클릭</a>
                     </div>
 				</div>
             </div> 
+            <c:if test="${code ne null}">
+                <form id="acform" action="https://oauth2.googleapis.com/token" method="post"
+                    enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="code" id="code" value="${code}">
+                    <input type="hidden" name="client_id" id="client_id" value="1031580706945-bo0vmi9mp8dmikaj6fa2as1ff4tu7gei.apps.googleusercontent.com">
+                    <input type="hidden" name="client_secret" id="client_secret" value="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">
+                    <input type="hidden" name="redirect_uri" id="redirect_uri" value="http://localhost:8080/schedual">
+                    <input type="hidden" name="grant_type" id="grant_type" value="authorization_code">
+                </form>
+            </c:if>
         </article>
     </article>
     <div id="dialog"></div>
@@ -42,6 +53,8 @@
 	<script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
 	<script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
+        let list =[];
+        let access_token = '';
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -60,54 +73,53 @@
             $("#l_three").addClass("subSelect");
  
         }); 
-        document.addEventListener('DOMContentLoaded', function(){
-            /*let calendarEl = document.getElementById("calendar");
-            let calendar = new FullCalendar.Calendar(calendarEl,{
-                initialView:'dayGridMonth',
-                locale: "ko",                  
-                dayMaxEventRows: true,        
-                dayGridMonth: {
-                dayMaxEventRows: 6
-                },
-                googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',                  
-                eventSources: [
-                    {
-                    googleCalendarId: 'lke829@gmail.com',  
-                    className: 'g_event', 
-                    color: '#159258',          
-                    },          
-                    { 
-                    googleCalendarId :'9705f4b043bcea4005de8b1cabb6331b88539cb26aa94e220e350032009c076b@group.calendar.google.com',
-                    color: 'white', 
-                    textColor: 'white' , 
-                    backgroundColor:'#154790'
-                    },
-                    // 대한민국의 공휴일                
-                    {googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com", 
-                    className : "koHolidays" , 
-                    color : "#FF0000", 
-                    textColor : "#FFFFFF"
-                    }
-                ],
-                eventClick: function(info){
-                    console.log(info.event._def.defId);
-                    
-                },
-                dateClick: function(info){
-                    console.log(info);
-                },
-                drop:function(info){
-                    console.log(info);
-                }
-            });
-            calendar.render();*/
-            $.ajax({
-                url:"calendar"
-            }).done(function(result){
-                console.log(result)
-            });
+        $(function(){
+            if(access_token.length >0){
+                
+            }
         });
 
+        if('${code} ne null'){
+            let code =$("#code").val();
+            let id =$("#client_id").val();
+            let pw =$("#client_secret").val();
+            let uri=$("#redirect_uri").val();
+            let type=$("#grant_type").val();
+            $.ajax({
+                url:'https://oauth2.googleapis.com/token',
+                type:'post',
+                data:{
+                    "code":code,
+                    "client_id": id,
+                    "client_secret": pw,
+                    "redirect_uri": uri,
+                    "grant_type": type,
+                 }
+            }).done(function(res){
+                //console.log(res.access_token);
+                //location.href="https://www.googleapis.com/calendar/v3/calendars/9705f4b043bcea4005de8b1cabb6331b88539cb26aa94e220e350032009c076b@group.calendar.google.com/events?access_token="+res.access_token;
+               access_token = res.access_token;
+               $.ajax({
+                    url:'https://www.googleapis.com/calendar/v3/calendars/9705f4b043bcea4005de8b1cabb6331b88539cb26aa94e220e350032009c076b@group.calendar.google.com/events',
+                    type:'get',
+                    data:'access_token='+access_token
+                }).done(function(data){
+                    list = data.items;
+                    console.log(list);
+                    let calendarEl = document.getElementById("calendar");
+                    let calendar = new FullCalendar.Calendar(calendarEl,{
+                        initialView:'dayGridMonth',
+                        locale: "ko",                  
+                        dayMaxEventRows: true,                     
+                        events: [
+                            list
+                        ]
+                    });
+                    calendar.render();
+                });
+            });
+        }
+      
     </script>
 </body>
 </html>

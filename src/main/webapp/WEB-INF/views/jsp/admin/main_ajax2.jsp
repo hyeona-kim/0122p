@@ -33,5 +33,5 @@
     </c:forEach>
 </c:if>
 <div>
-    <button type="button" onclick="write_btn('${c_idx}')">등록</button>
+    <button type="button" onclick="write_btn('${c_idx}')" class="btn">등록</button>
 </div>
