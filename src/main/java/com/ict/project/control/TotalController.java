@@ -1,17 +1,25 @@
 package com.ict.project.control;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.jasper.tagplugins.jstl.core.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.CourseService;
+import com.ict.project.service.ScheduleService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.ScheduleVO;
 import com.ict.project.vo.TraineeVO;
 
 import jakarta.servlet.ServletContext;
@@ -24,6 +32,8 @@ public class TotalController {
     TraineeService tr_Service;
     @Autowired
     ServletContext application;
+    @Autowired
+    ScheduleService sc_Service;
 
     @RequestMapping("total")
     public ModelAndView total(String listSelect) {
@@ -39,7 +49,7 @@ public class TotalController {
             mv.addObject("c_ar", c_ar);
 
         } else if (listSelect.equals("3")) {
-            mv.setViewName("jsp/admin/totalManage/courseTotal");
+            mv.setViewName("jsp/admin/totalManage/scheduleManage");
         }
 
         return mv;
@@ -181,4 +191,37 @@ public class TotalController {
         return mv;
     }
 
+    @RequestMapping("schedule")
+    @ResponseBody
+    public List<Map<String, String>> schedule() {
+        List<Map<String, String>> list = new ArrayList<>();
+        ScheduleVO[] scList = sc_Service.all();
+        for (ScheduleVO vo : scList) {
+            Map<String, String> map = new HashMap<>();
+            // schedule_idx, schedule_name, start_date, end_date, schedule_detail
+            /*
+             * { 이벤트 예시
+             * title : 'event3',
+             * start : '2024-01-09T12:30:00',
+             * allDay : false // will make the time show
+             * }
+             */
+            map.put("schedule_idx", vo.getSchedule_idx());
+            map.put("title", vo.getSchedule_name());
+            map.put("start", vo.getStart_date());
+            map.put("end", vo.getEnd_date());
+            map.put("schedule_detail", vo.getSchedule_detail());
+            list.add(map);
+        }
+
+        return list;
+    }
+
+    @RequestMapping("calendar")
+    @ResponseBody
+    public Map<String, Object> calendar() {
+        Map<String, Object> map = new HashMap<>();
+
+        return map;
+    }
 }

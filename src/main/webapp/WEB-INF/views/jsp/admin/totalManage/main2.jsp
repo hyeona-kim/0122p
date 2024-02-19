@@ -22,7 +22,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;상담관리</header>
+                <header>&nbsp;&nbsp;통합관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>

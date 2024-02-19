@@ -63,7 +63,6 @@
     <script>
         let c_idx = "${cvo.c_idx}"
         $(function(){	
-
             $.ajax({
                 url:"main_course",
                 type:"post",
@@ -88,6 +87,10 @@
         
         }
         function course_log(c_idx){
+
+            console.log(c_idx);
+            //location.href="trainingDiary?c_idx="+c_idx;
+
             $.ajax({
                 url:"main_trainingdiary",
                 type:"post",
@@ -95,6 +98,7 @@
             }).done(function(result){
                 $("#trainee_diary").html(result);
             });
+
         }
         function paging(nowPage){
             $.ajax({
