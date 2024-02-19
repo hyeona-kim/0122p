@@ -217,11 +217,6 @@
         });
 
 
-
-
-
-
-
     function paging(str) {
         cPage = str;
         $.ajax({

@@ -60,7 +60,6 @@
     <script>
       
         $(function(){	
-
             $.ajax({
                 url:"main_course",
                 type:"post",
@@ -87,6 +86,7 @@
         function course_log(c_idx){
             console.log(c_idx);
             location.href="trainingDiary?c_idx="+c_idx;
+            //
         }
         function paging(nowPage){
             $.ajax({
