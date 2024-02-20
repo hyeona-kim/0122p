@@ -1,24 +1,83 @@
 .logo{
-    width: 80%;
-    margin: 15px auto;
+   margin: auto;
+   width: 80%;
+   text-align: right;
+   margin-bottom: 10px;
+   margin-top: 10px;
+   position: relative;
+   height: 40px;
+}
+.logo>img{
+   display: inline-block;
+   position: absolute;
+   width: 250px;   
+   left: 0;
+   height: 40px;
+}
+.logo>span{
+   display: inline-block;
+   position: absolute;
+   right:  10px;
+   bottom: 0;
+   height: 20px;
+   line-height: 20px;
+   font-size: 12px;
 }
  .top{
     display: flex;
     width: 80%;
     margin: auto;
  }   
+  /* 배너 관련  */
  .top>div{
     display: inline-block;
     width: 50%;
     height: 420px;
  }
- .top>div:first-child>img{
+ .top>div:first-child{
+   overflow-x: hidden;
+   overflow-y: hidden;
+ }
+ .top>div:first-child>div{
+   width: 500%;
+   display: inline-flex;
+ }
+ .top>div:first-child>div>img{
     display: inline-block;
-    width: 100%;
-    height:100%;
+    width: 20%;
+    height:420px;
     border-radius: 20px 20px;
     margin-bottom: 0;
  }
+ @keyframes flowRolling {
+   0% {
+       transform: translateX(0);
+   }
+   25% {
+      transform: translateX(-20%);
+   }
+   50% {
+      transform: translateX(-40%);
+   }
+   75% {
+      transform: translateX(-60%);
+   }
+   100% {
+       transform: translateX(-80%);
+   }
+}
+
+.top>div:first-child>div{
+   /*애니메이션에 사용될 @keyframes 규칙 이름*/
+   animation-name: flowRolling;
+   /*애니메이션이 실행될 시간을 설정*/
+   animation-duration: 20s;
+   /*애니메이션 반복횟수 지정*/
+   animation-iteration-count: infinite;
+ }
+
+
+/*하단 영역*/
  .list{
     height: 420px;
     width: 80%;
@@ -126,6 +185,21 @@
    background-color: white;
    border-radius: 10px 10px;
 }
+.staff>div:last-child>.first{
+   margin: 40px;
+   height: 78%;
+   border-radius: 20px 20px;
+   background-color: rgb(82, 131, 204,0.6);background: linear-gradient(to top, white, #ababab);
+   line-height: 280px;
+   font-size: 20px;
+   font-weight: bolder;
+   background: linear-gradient(to top, #154790, #5283cc);
+}
+.staff>div:last-child>.first>span{
+   font-size: 30px;
+   color: white;
+   
+}
 .staff>div:last-child article {
    display: flex;
    position: relative;
@@ -177,7 +251,7 @@
     height: 80%;
     border-radius: 20px 20px;
     background-color: #dedede;
-    margin-top: 30px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -224,5 +298,64 @@
  .top>div:last-child>div>div:last-child>.disable, .top>div:last-child>div>div:last-child>.disable:hover{
     color: #ababab;
  }
+ #calendar_wrap{
+   display: block;
+ }
+ #calendar_wrap>.title{
+   width: 100%;
+   text-align: left;
+   height: 10%;
+   padding: 0;
+   margin: 0;
+   background-color: #154790;
+   color: white;
+ }
+ #calendar_wrap>.calendar{
+   display: block;
+   margin: 0;
+   margin: auto;
+   margin-top: 5px;
+   height: 83%;
+   width: 95%;
+   padding: 0;
+ }
 
- 
+#navi2_wrap{
+   width: 100%;
+   overflow-x: scroll;
+   background-color: #154790;
+}
+#navi2{
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
+   display: block;
+   width: max-content;
+   height: 38px;
+   padding-left: 50px;
+   padding-right: 50px;
+}
+#navi2>li{
+   display: inline-block;
+   list-style-type: none;
+   margin: 0;
+   height: 38px;
+   padding: 0 5px;
+}
+#navi2>li>a{
+   padding: 0 3px;
+   text-align: center;
+   display: inline-block;
+   text-decoration: none;
+   color: white;
+   width: 100%;
+   height: 100%;
+   line-height: 38px;
+}
+#navi2>li>a:hover{
+   background-color: #5283cc;
+}
+
+#navi2>li>.sub_manu2{
+   display: none;
+}
