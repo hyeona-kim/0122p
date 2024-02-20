@@ -44,20 +44,16 @@
 					<tr>
 						<th><label>과정명</label></th>
 						<td>
-						<select name="ct_idx" class="select">
+						<input type="text" id="ct_name" class="text" style="width: 40%;" disabled/> 
+						
+				
+						<select id ="c_idx" name="c_idx" class="select">
 							<option value="0">선택하세요</option>
-							<c:forEach items="${requestScope.ct_ar}" var="ct_ar"  varStatus="loop">
-								<option value="${ct_ar.ct_idx }">
-								 		${ct_ar.ct_name } 
-								 </option>
-							</c:forEach>
-						</select>
-						<select name="c_idx" class="select">
-							<option value="0">선택하세요</option>
-							<c:forEach items="${requestScope.ar3}" var="c_ar"  varStatus="loop">
+							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
 								<option value="${c_ar.c_idx }">
 								 		${c_ar.c_name } 
 								 </option>
+								 <input type="hidden" id="c_idx${c_ar.c_idx}" value="${c_ar.ctvo.ct_name}">
 							</c:forEach>
 						</select>
 						</td>

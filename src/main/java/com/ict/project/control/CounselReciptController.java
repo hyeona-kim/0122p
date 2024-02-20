@@ -209,11 +209,11 @@ public class CounselReciptController {
             e.printStackTrace();
         }
         List<CourseVO> list = new ArrayList<>();
-        for (int i = 0; i < ar3.length; i++) {
+        for (int i = 0; i < c_ar.length; i++) {
             if (c_ar[i].isC_reg())
                 list.add(c_ar[i]);
         }
-        ar3 = null;
+        c_ar = null;
         if (list != null && !list.isEmpty()) {
             c_ar = new CourseVO[list.size()];
             list.toArray(c_ar);
