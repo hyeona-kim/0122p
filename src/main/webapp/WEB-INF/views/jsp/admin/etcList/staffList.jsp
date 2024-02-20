@@ -95,12 +95,14 @@
                                                 <td>${vo2.sf_phone}</td>
                                                 <td>${vo2.sf_hire_date}</td>
                                                 <td>${vo2.sf_fire_date}</td>
-                                                <sf:if test="${vo2.rt_name ne null}">
-                                                    <td>${vo2.rt_name}</td>
-                                                </sf:if>
-                                                <sf:if test="${vo2.rt_name eq null}">
-                                                    <td></td>
-                                                </sf:if>
+												<sf:if test="${vo2.sf_mgr eq '1' or vo2.sf_tmgr eq '1'}">
+													<td>관리자그룹</td>
+												</sf:if>
+												<sf:if test="${vo2.sf_tmgr eq '0'}">
+													<sf:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
+														<td>교강사그룹</td>
+													</sf:if>
+												</sf:if>
                                                 <%-- sf_link가 1인 사람만 ON 마크 표시 --%>
                                                 <sf:if test="${vo2.sf_link eq '1'}">
                                                     <td><button type="button" id="block_btn" onclick="unblockStaff('${vo2.sf_idx}')" class="btn red2">ON</button></td>
@@ -108,16 +110,19 @@
                                                 <sf:if test="${vo2.sf_link eq '0'}">
                                                     <td></td>
                                                 </sf:if>
-                                                <%-- 사용권한이 9인 사람은 총책임자, 1인 사람은 교직원 마크 표시 --%>
-                                                <sf:if test="${vo2.rt_idx eq '1'}">
-                                                    <td><span id="faculty">교직원</span></td>
-                                                </sf:if>
-                                                <sf:if test="${vo2.rt_idx eq '9'}">
-                                                    <td><span id="director">총책임자</span></td>
-                                                </sf:if>
-                                                <sf:if test="${vo2.rt_idx ne '9' and vo2.rt_idx ne '1'}">
-                                                    <td></td>
-                                                </sf:if>
+												<sf:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
+													<td><span id="director">총책임자</span></td>
+												</sf:if>
+												<sf:if test="${vo2.sf_tmgr eq '0'}">
+													<sf:if test="${vo2.sf_mgr eq '1'}">
+														<td><span id="manager">관리자</span></td>
+													</sf:if>
+													<sf:if test="${vo2.sf_mgr eq '0'}">
+														<sf:if test="${vo2.sf_tcr eq '1'}">
+															<td><span id="faculty">교직원</span></td>
+														</sf:if>
+													</sf:if>
+												</sf:if>
                                                 <td colspan="2">
                                                     <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
                                                     <a href="javascript:delStaff('${vo2.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>

@@ -6,10 +6,7 @@
 	<!-- 교직원 목록을 반환하는 기능 
 		 삭제되지 않은 교직원만 반환-->
 	<select id="all" resultType="com.ict.project.vo.StaffVO">
-		select a.*, b.rt_name from
-			(select * from staff_t where status = 0) a,
-			(select * from right_t) b
-		where a.rt_idx = b.rt_idx
+		select * from staff_t where status = 0
 	</select>
 	<select id="paging" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from (select @RN:=@RN+1 as rnum, a.*from(select * from staff_t)a , 
@@ -18,13 +15,13 @@
 	<!-- 관리자 모드로 로그인하는 기능 -->
 	<select id="login_admin" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 
-		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx=9 and sf_link=0
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and sf_mgr=1 and sf_link=0
 	</select>
 	
 	<update id="login_block" parameterType="String">
 		update staff_t 
 		set sf_link = 1
-		where sf_id =#{sf_id}
+		where sf_id =#{sf_id} and sf_tmgr = 0 <!-- 최고 관리자 id의 경우 로그인 실패시에도 계속해서 로그인 가능(차단해제) -->
 	</update>
 
 	<update id="login_unblock" parameterType="String">
@@ -38,7 +35,7 @@
 	<!-- 강사 모드로 로그인하는 기능 -->
 	<select id="login_teacher" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 
-		where sf_id=#{u_id} and sf_pwd =#{u_pw} and rt_idx between 0 and 9
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and sf_tcr = 1;
 	</select>
 	
 	<!-- 교직원 추가하기 전 교수코드 중복 확인을 위해 검색하는 기능 -->
@@ -48,9 +45,10 @@
 	</select>
 	
 	<!-- 교직원 추가하는 기능 -->
-	<insert id="add" parameterType="com.ict.project.vo.StaffVO">
-		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, rt_idx, status, sf_code, sf_mgr,sf_link)
-		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{rt_idx}, 0, #{sf_code}, #{rt_idx},0)
+	<insert id="add" parameterType="com.ict.project.vo.StaffVO"> <!-- 기본적으로 sf_tmgr은 0이 들어간다. (1개만 존재가능, 현 최고관리자가 직접 양도해야함) -->
+		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, sf_tcr, status, sf_code, sf_mgr,sf_link, sf_tmgr)
+		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{sf_tcr}, 0, #{sf_code}, #{sf_mgr},0,
+		<if test="sf_tmgr ne null">#{sf_tmgr}</if><if test="sf_tmgr eq null">0</if>)
 	</insert>
 
 	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">
@@ -64,11 +62,11 @@
 		where sf_idx = #{sf_idx}
 	</select>
 
-	<!-- 교직원 삭제하는 기능 -->
+	<!-- 교직원 삭제하는 기능(최고 관리자는 권한 양도 전 삭제 불가) -->
 	<update id="delete" parameterType="String">
 		update staff_t
 		set status = 1
-		where sf_idx = #{idx}
+		where sf_idx = #{idx} and sf_tmgr = 0
 	</update>
 
 	<!-- 교직원 수정하는 기능 -->
@@ -80,11 +78,14 @@
 			sf_id = #{sf_id},
 			sf_pwd = #{sf_pwd},
 			sf_hire_date = #{sf_hire_date},
-			rt_idx = #{rt_idx},
-			sf_mgr = #{rt_idx},
+			sf_tcr = #{sf_tcr},
+			sf_mgr = #{sf_mgr},
 			sf_code = #{sf_code},
 			sf_fire_date = #{sf_fire_date},
-			sf_phone = #{sf_phone}
+			sf_phone = #{sf_phone},
+			<if test="sf_tmgr ne null"> <!-- 최고 관리자 양도시에만 작동 -->
+				sf_tmgr = #{sf_tmgr},
+			</if>
 		</trim>
 		where sf_idx = #{sf_idx}
 	</update>
