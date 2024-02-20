@@ -53,11 +53,13 @@ public class StraffController {
     }
 
     @RequestMapping("addStaff")
-    public String addStaff(StaffVO svo) {
+    public String addStaff(StaffVO svo, String authority, String log_idx) {
         String code = null;
 
-        // 사용권한이 교강사인 경우(rt_idx가 1) 교수코드를 생성
-        if (svo.getRt_idx().equals("1")) {
+        // 사용권한이 교강사인 경우 교수코드를 생성
+        if (authority.equals("0")) {
+            svo.setSf_tcr("1");
+            svo.setSf_mgr("0");
             String[] s_ar = s_Service.searchSfCode();
             HashSet<String> set = new HashSet<String>();
 
@@ -75,6 +77,14 @@ public class StraffController {
                 num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
+        } else if (authority.equals("2")){
+            // 최고관리자는 교강사 및 모든 관리자 페이지를 열람할 수 있어야 하므로 모두 1값으로 고정
+            svo.setSf_tmgr("1");
+            svo.setSf_mgr("1");
+            svo.setSf_tcr("1");
+            StaffVO svo2 = s_Service.getStaff(log_idx); // 권한을 양도하였으므로 기존 로그인한 인원의 권한을 관리자로 변경해야함
+            svo2.setSf_tmgr("0");
+            s_Service.editStaff(svo2);
         }
         svo.setSf_code("tc" + code);
 
@@ -84,6 +94,11 @@ public class StraffController {
         svo.setSf_phone(phone);
 
         s_Service.addStaff(svo);
+
+        if(authority.equals("2")){
+            session.removeAttribute("vo");
+            return "redirect:index";
+        }
         return "redirect:staffList";
     }
 
@@ -119,9 +134,9 @@ public class StraffController {
     }
 
     @RequestMapping("editStaff")
-    public String editStaff(StaffVO vo) {
+    public String editStaff(StaffVO vo, String authority, String log_idx) {
         String code = null;
-        if (vo.getRt_idx().equals("1")) {
+        if (authority.equals("0")) {
             String[] s_ar = s_Service.searchSfCode();
             HashSet<String> set = new HashSet<String>();
 
@@ -139,6 +154,14 @@ public class StraffController {
                 num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
+        } else if (authority.equals("2")){
+            // 최고관리자는 교강사 및 모든 관리자 페이지를 열람할 수 있어야 하므로 모두 1값으로 고정
+            vo.setSf_tmgr("1");
+            vo.setSf_mgr("1");
+            vo.setSf_tcr("1");
+            StaffVO svo2 = s_Service.getStaff(log_idx); // 권한을 양도하였으므로 기존 로그인한 인원의 권한을 관리자로 변경해야함
+            svo2.setSf_tmgr("0");
+            s_Service.editStaff(svo2);
         }
         vo.setSf_code("tc" + code);
         // 퇴사일을 지정하지 않았을 경우 null로 지정
@@ -152,6 +175,11 @@ public class StraffController {
         vo.setSf_phone(phone);
 
         s_Service.editStaff(vo);
+
+        if(authority.equals("2")){
+            session.removeAttribute("vo");
+            return "redirect:index";
+        }
         return "redirect:staffList";
     }
 
