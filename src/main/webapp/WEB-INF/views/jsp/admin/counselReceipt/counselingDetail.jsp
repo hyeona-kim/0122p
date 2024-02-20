@@ -239,6 +239,7 @@
 
             $("#c_select").change(function(){
                 cSelect =this.value;
+                console.log(cSelect);
                 $.ajax({
                     url:"searchCounseldetail",
                     type:"post",
