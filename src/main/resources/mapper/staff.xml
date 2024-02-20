@@ -11,7 +11,10 @@
 			(select * from right_t) b
 		where a.rt_idx = b.rt_idx
 	</select>
-	
+	<select id="paging" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
+		select * from (select @RN:=@RN+1 as rnum, a.*from(select * from staff_t)a , 
+		(select @RN:=0) b) c where c.rnum between #{begin} and #{end}
+	</select>
 	<!-- 관리자 모드로 로그인하는 기능 -->
 	<select id="login_admin" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 

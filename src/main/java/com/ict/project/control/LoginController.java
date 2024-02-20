@@ -11,8 +11,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @org.springframework.stereotype.Controller
 public class LoginController {
     @Autowired
@@ -21,82 +19,81 @@ public class LoginController {
     HttpSession session;
     @Autowired
     ServletContext application;
-	@Autowired
-	LoginService l_Service;
+    @Autowired
+    LoginService l_Service;
     @Autowired
     StaffService s_Service;
-    
-    int cnt=0;
-    
+
+    int cnt = 0;
+
     @RequestMapping("index")
     public String requestMethodName() {
         return "/jsp/index";
     }
+
     @RequestMapping("login")
-    public String requestMethodName(String select){
+    public String requestMethodName(String select) {
         String viewPath = null;
-		
-		String enc_type = request.getContentType();
-		if(enc_type == null || enc_type.isEmpty()) {	
-			if(select.equalsIgnoreCase("admin")) {
-				viewPath = "/jsp/login/login_admin";
-			}else if(select.equalsIgnoreCase("train")) {
-				viewPath = "/jsp/login/login_train";
-			}else if(select.equalsIgnoreCase("teacher")) {
-				viewPath = "/jsp/login/login_teacher";
-			}
-		}
-		return viewPath;
+
+        String enc_type = request.getContentType();
+        if (enc_type == null || enc_type.isEmpty()) {
+            if (select.equalsIgnoreCase("admin")) {
+                viewPath = "/jsp/login/login_admin";
+            } else if (select.equalsIgnoreCase("train")) {
+                viewPath = "/jsp/login/login_train";
+            } else if (select.equalsIgnoreCase("teacher")) {
+                viewPath = "/jsp/login/login_teacher";
+            }
+        }
+        return viewPath;
     }
+
     @RequestMapping("login_ok")
-    public ModelAndView login_ok(String select,String ID,String PW) {
+    public ModelAndView login_ok(String select, String ID, String PW) {
         ModelAndView mv = new ModelAndView();
         String viewPath = null;
-		if(select.equalsIgnoreCase("admin")) {
-            
+        if (select.equalsIgnoreCase("admin")) {
+
             StaffVO vo = l_Service.login_admin(ID, PW);
-            if(vo == null){
-                if(s_Service.sf_link(ID).equals("1")){
+            if (vo == null) {
+                viewPath = "/jsp/index";
+            } else {
+                viewPath = "/jsp/admin/main_admin";
+            }
+
+        } else if (select.equalsIgnoreCase("teacher")) {
+            StaffVO vo = l_Service.login_teacher(ID, PW);
+            if (vo == null) {
+                if (s_Service.sf_link(ID).equals("1")) {
                     mv.addObject("block", "true");
                 }
-                if(session.getAttribute("cnt")==null)
-                    session.setAttribute("cnt", 0);
-                cnt = (int)session.getAttribute("cnt");
+                if (session.getAttribute("cnt") == null)
+                    session.setAttribute("cnt", 1);
+                cnt = (int) session.getAttribute("cnt");
                 mv.addObject("login", "fail");
-                session.setAttribute("cnt", cnt+1);
-                if(cnt >= 5){
+                session.setAttribute("cnt", cnt + 1);
+                if (cnt >= 5) {
                     s_Service.block(ID);
                     session.removeAttribute("cnt");
                     mv.addObject("block", "true");
                 }
                 viewPath = "/jsp/index";
-            }
-            else{
-			    //viewPath = "/jsp/admin/counselReceipt/main";
-			    viewPath = "/jsp/admin/main";
+            } else {
+                // viewPath = "/jsp/admin/counselReceipt/main";
+                viewPath = "/jsp/admin/main";
                 session.removeAttribute("cnt");
             }
-			session.setAttribute("vo", vo);	
-		}else if(select.equalsIgnoreCase("train")) {			
-			viewPath = "/jsp/train/main";
-		}else if(select.equalsIgnoreCase("teacher")) {
-            StaffVO vo = l_Service.login_teacher(ID,PW);
-            if(vo == null){
-                viewPath = "/jsp/login/login_teacher";
-                mv.addObject("login", "fail");
-            }
-            else 
-			    viewPath = "/jsp/teacher/counselReceipt/main";
             session.setAttribute("vo", vo);
-		}
-		mv.setViewName(viewPath);
-		return mv;
+        }
+        mv.setViewName(viewPath);
+        return mv;
     }
+
     @RequestMapping("logout")
     public String logout() {
         session.removeAttribute("vo");
-		
-		return "redirect:index";
+
+        return "redirect:index";
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.StaffService;
+import com.ict.project.util.Paging;
 import com.ict.project.vo.StaffVO;
 
 import jakarta.servlet.ServletContext;
@@ -26,11 +27,22 @@ public class StraffController {
     StaffService s_Service;
 
     @RequestMapping("staffList")
-    public ModelAndView staffList() {
+    public ModelAndView staffList(String main, String cPage) {
         ModelAndView mv = new ModelAndView();
         StaffVO[] ar = s_Service.getList();
         mv.addObject("ar", ar);
-        mv.setViewName("/jsp/admin/etcList/staffList");
+        if (main == null) {
+            mv.setViewName("/jsp/admin/etcList/staffList");
+        } else {
+            Paging page = new Paging();
+            page.setTotalRecord(ar.length);
+            page.setNowPage(Integer.parseInt(cPage));
+            mv.addObject("page", page);
+            ar = s_Service.getList2(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+            mv.addObject("ar", ar);
+            mv.addObject("admin_menu", "staff");
+            mv.setViewName("/jsp/admin/main_admin_ajax");
+        }
         return mv;
     }
 
