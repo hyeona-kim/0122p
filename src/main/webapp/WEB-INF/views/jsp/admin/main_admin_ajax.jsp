@@ -35,16 +35,16 @@
                 <th colspan="2">관리</th>
             </tr>
             <%-- ===== 교직원 목록 출력 ===== --%>
-                <c:forEach items="${requestScope.ar}" varStatus="vs" var="sfvo">
+                <c:forEach items="${requestScope.ar}" varStatus="vs" var="vo2">
                     <tr>
 
                         <td>${vo2.sf_name}</td>
                         <%-- 사용권한이 1(교수)인 사람만
                              교수코드(sf_code)를 출력 --%>
-                        <c:if test="${sfvo.sf_code ne 'tcnull'}">
-                            <td>${sfvo.sf_code}</td>
+                        <c:if test="${vo2.sf_code ne 'tcnull'}">
+                            <td>${vo2.sf_code}</td>
                         </c:if>
-                        <c:if test="${sfvo.sf_code eq 'tcnull'}">
+                        <c:if test="${vo2.sf_code eq 'tcnull'}">
                             <td></td>
                         </c:if>
 
@@ -91,8 +91,8 @@
                             </c:if>
                         </c:if>
                         <td colspan="2">
-                            <a href="javascript:editStaffForm('${sfvo.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
-                            <a href="javascript:delStaff('${sfvo.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>
+                            <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
+                            <a href="javascript:delStaff('${vo2.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>
                         </td>
                     </tr>
                 </c:forEach>
