@@ -41,24 +41,25 @@
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="rt_idx" class="select">
+					<select name="authority" class="select">
+					<c:if test="${vo.sf_tmgr eq '0'}">
 						<c:choose>
-							<c:when test="${vo.rt_idx eq '9'}" >
-								<option value="0">기본(일반행정 및 보조직원)</option>
-								<option value="1">교직원</option>
-								<option value="9" selected>총책임자</option>
+							<c:when test="${vo.sf_mgr eq '1'}" >
+								<option value="0">교직원</option>
+								<option value="1" selected>관리자</option>
 							</c:when>
-							<c:when test="${vo.rt_idx eq '1'}" >
-								<option value="0">기본(일반행정 및 보조직원)</option>
-								<option value="1" selected>교직원</option>
-								<option value="9">총책임자</option>
-							</c:when>
-							<c:when test="${vo.rt_idx eq '0'}" >
-								<option value="0" selected>기본(일반행정 및 보조직원)</option>
-								<option value="1">교직원</option>
-								<option value="9">총책임자</option>
+							<c:when test="${vo.sf_mgr eq '0' and vo.sf_tcr eq '1'}" >
+								<option value="0">교직원</option>
+								<option value="1" selected>관리자</option>
 							</c:when>
 						</c:choose>
+						<c:if test="${sessionScope.vo.sf_tmgr eq '1'}"> <%-- 이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
+							<option value="2">최고 관리자</option>
+						</c:if>
+					</c:if>
+					<c:if test="${vo.sf_tmgr eq '1'}">
+						<option value="2" selected>최고 관리자</option>
+					</c:if>
 					</select>
 				</td>
 			</tr>

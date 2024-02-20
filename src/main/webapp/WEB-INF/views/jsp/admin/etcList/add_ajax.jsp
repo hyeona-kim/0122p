@@ -40,10 +40,14 @@
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="rt_idx" class="select">
-						<option value="0">기본(일반행정 및 보조직원)</option>
-						<option value="1">교직원</option>
-						<option value="9">총책임자</option>
+					<select name="authority" class="select">
+						<option value="0">교직원</option>
+						<option value="1">관리자</option>
+						<c:if test="${sessionScope.vo.sf_tmgr eq '1'}">
+							<option value="2">최고관리자</option> 
+							<%-- 로그인한 계정의 sf_tmgr이 1일때만 보이게하기 
+								이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
+						</c:if>
 					</select>
 				</td>
 			</tr>

@@ -21,7 +21,6 @@
         <tbody>
             <%-- ===== 출력할 교직원 항목 ===== --%>
             <tr>
-                <th>번호</th>
                 <th>성명</th>
                 <th>교수코드</th>
                 <th>직급</th>
@@ -38,8 +37,8 @@
             <%-- ===== 교직원 목록 출력 ===== --%>
                 <c:forEach items="${requestScope.ar}" varStatus="vs" var="sfvo">
                     <tr>
-                        <td>${vs.index+1}</td>
-                        <td>${sfvo.sf_name}</td>
+
+                        <td>${vo2.sf_name}</td>
                         <%-- 사용권한이 1(교수)인 사람만
                              교수코드(sf_code)를 출력 --%>
                         <c:if test="${sfvo.sf_code ne 'tcnull'}">
@@ -48,17 +47,24 @@
                         <c:if test="${sfvo.sf_code eq 'tcnull'}">
                             <td></td>
                         </c:if>
-                        <td>${sfvo.sf_job}</td>
-                        <td>${sfvo.sf_id}</td>
-                        <td>${sfvo.sf_pwd}</td>
-                        <td>${sfvo.sf_phone}</td>
-                        <td>${sfvo.sf_hire_date}</td>
-                        <td>${sfvo.sf_fire_date}</td>
-                        <c:if test="${sfvo.rt_name ne null}">
-                            <td>${sfvo.rt_name}</td>
+
+                        <td>${vo2.sf_job}</td>
+                        <td>${vo2.sf_id}</td>
+                        <td>${vo2.sf_pwd}</td>
+                        <td>${vo2.sf_phone}</td>
+                        <td>${vo2.sf_hire_date}</td>
+                        <td>${vo2.sf_fire_date}</td>
+                        <c:if test="${vo2.sf_mgr eq '1' or vo2.sf_tmgr eq '1'}">
+                            <td>관리자그룹</td>
                         </c:if>
-                        <c:if test="${sfvo.rt_name eq null}">
-                            <td></td>
+                        <c:if test="${vo2.sf_tmgr eq '0'}">
+                            <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
+                                <td>교강사그룹</td>
+                            </c:if>
+                            <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '0'}">
+                                <td></td>
+                            </c:if>
+
                         </c:if>
                         <%-- sf_link가 1인 사람만 ON 마크 표시 --%>
                         <c:if test="${sfvo.sf_link eq '1'}">
@@ -67,15 +73,22 @@
                         <c:if test="${sfvo.sf_link eq '0'}">
                             <td></td>
                         </c:if>
-                        <%-- 사용권한이 9인 사람은 총책임자, 1인 사람은 교직원 마크 표시 --%>
-                        <c:if test="${sfvo.rt_idx eq '1'}">
-                            <td><span id="faculty">교직원</span></td>
+
+                        <c:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
+                            <td><span id="director">최고 관리자</span></td>
                         </c:if>
-                        <c:if test="${sfvo.rt_idx eq '9'}">
-                            <td><span id="director">총책임자</span></td>
-                        </c:if>
-                        <c:if test="${sfvo.rt_idx ne '9' and sfvo.rt_idx ne '1'}">
-                            <td></td>
+                        <c:if test="${vo2.sf_tmgr eq '0'}">
+                            <c:if test="${vo2.sf_mgr eq '1'}">
+                                <td><span id="manager">관리자</span></td>
+                            </c:if>
+                            <c:if test="${vo2.sf_mgr eq '0'}">
+                                <c:if test="${vo2.sf_tcr eq '1'}">
+                                    <td><span id="faculty">교직원</span></td>
+                                </c:if>
+                                <c:if test="${vo2.sf_tcr eq '0'}">
+                                    <td></td>
+                                </c:if>
+                            </c:if>
                         </c:if>
                         <td colspan="2">
                             <a href="javascript:editStaffForm('${sfvo.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
