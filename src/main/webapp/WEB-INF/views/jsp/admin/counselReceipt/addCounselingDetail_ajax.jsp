@@ -54,7 +54,7 @@
 						</select>
 						<select name="c_idx" class="select">
 							<option value="0">선택하세요</option>
-							<c:forEach items="${requestScope.c_ar}" var="c_ar"  varStatus="loop">
+							<c:forEach items="${requestScope.ar3}" var="c_ar"  varStatus="loop">
 								<option value="${c_ar.c_idx }">
 								 		${c_ar.c_name } 
 								 </option>
