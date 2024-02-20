@@ -8,19 +8,41 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    #faculty{
+		display: inline-block;
+		padding: 6px 6px;
+		border: none;
+		border-radius: 5px 5px;
+		background-color: #154790;
+		color: white;
+	}
+	#director{
+		display: inline-block;
+		padding: 6px 6px;
+		border: none;
+		border-radius: 5px 5px;
+		background-color: #F55944;
+		color: white;
+	}
+</style>
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
+
     <article class="top">
         <div>
-            <img src="${pageContext.request.contextPath }/image/top_main4.jpg"/>
-        </div>
-        <div>
-            <div id="course_log">
-                <!--반복문 띄우기 쿨릭시 함수주기.(c_idx가지는 )-->
-                
+            <div>
+                <img src="${pageContext.request.contextPath }/image/banner1.png" alt="1"/>
+                <img src="${pageContext.request.contextPath }/image/banner2.png" alt="2"/>
+                <img src="${pageContext.request.contextPath }/image/banner3.png" alt="3"/>
+                <img src="${pageContext.request.contextPath }/image/banner4.jpg" alt="4"/>
+                <img src="${pageContext.request.contextPath }/image/banner5.png" alt="5"/>
             </div>
-            <div id="trainee_diary">
+        </div>
+        <div id="calendar_wrap">
+            <div class="title">&nbsp;&nbsp;&nbsp;&nbsp;일정관리</div>
+            <div class="calendar">
 
             </div>
         </div>
@@ -32,16 +54,33 @@
                 <div class="select" id="1">교직원 관리</div>
                 <div class="select" id="2">입학상담관리</div>
                 <div class="select" id="3">사후관리</div>
+                <div class="select" id="4">전체메뉴보기</div>
             </article>
         </div>    
         <div id="menu">
-            원하시는 관리메뉴를 선택해주세요 
+            <div class="first">
+                <span>원하시는 관리메뉴를 선택해주세요 </span>
+            </div>
         </div>
     </article>
-    <div id="dialog" hidden></div>
+   
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        $(".sub_manu2").mouseover(function(){
+            $(this).css("display","block");
+        });
+        $(".menu2").mouseover(function(){
+            console.log("dd");
+            $(this).next().css("display","block");
+        });
+        $(".menu2").mouseout(function(){
+            $(this).next().css("display","none");
+        });
+        $(".sub_manu2").mouseout(function(){
+            $(this).css("display","none");
+        });
+        
         $(function(){
             $(".select").click(function(){
                 $(".selected").removeClass("selected");
@@ -59,6 +98,14 @@
                     $("#menu").html("입학상담관리");
                 }else if( select =="3"){
                     $("#menu").html("사후관리");
+                }else if( select =="4"){
+                    $.ajax({
+                        url :"staffList",
+                        type:"post",
+                        data:"main=admin"
+                    }).done(function(res){
+                        $("#menu").html(res);
+                    });
                 }
             });
         });

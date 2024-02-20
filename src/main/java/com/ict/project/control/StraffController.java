@@ -34,14 +34,19 @@ public class StraffController {
         if (main == null) {
             mv.setViewName("/jsp/admin/etcList/staffList");
         } else {
-            Paging page = new Paging();
-            page.setTotalRecord(ar.length);
-            page.setNowPage(Integer.parseInt(cPage));
-            mv.addObject("page", page);
-            ar = s_Service.getList2(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-            mv.addObject("ar", ar);
-            mv.addObject("admin_menu", "staff");
-            mv.setViewName("/jsp/admin/main_admin_ajax");
+            if (cPage == null) {
+                mv.addObject("admin_menu", "allMenu");
+                mv.setViewName("/jsp/admin/main_admin_ajax");
+            } else {
+                Paging page = new Paging();
+                page.setTotalRecord(ar.length);
+                page.setNowPage(Integer.parseInt(cPage));
+                mv.addObject("page", page);
+                ar = s_Service.getList2(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+                mv.addObject("ar", ar);
+                mv.addObject("admin_menu", "staff");
+                mv.setViewName("/jsp/admin/main_admin_ajax");
+            }
         }
         return mv;
     }

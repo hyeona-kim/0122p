@@ -10,10 +10,16 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
     <article class="top">
         <div>
-            <img src="${pageContext.request.contextPath }/image/top_main4.jpg"/>
+            <div>
+                <img src="${pageContext.request.contextPath }/image/banner1.png" />
+                <img src="${pageContext.request.contextPath }/image/banner2.png"/>
+                <img src="${pageContext.request.contextPath }/image/banner3.png"/>
+                <img src="${pageContext.request.contextPath }/image/banner4.jpg"/>
+                <img src="${pageContext.request.contextPath }/image/banner5.png"/>
+            </div>
         </div>
         <div>
             <div id="course_log">
@@ -61,6 +67,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+       
         let c_idx = "${cvo.c_idx}"
         $(function(){	
             $.ajax({

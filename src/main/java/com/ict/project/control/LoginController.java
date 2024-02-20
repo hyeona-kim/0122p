@@ -60,7 +60,7 @@ public class LoginController {
             } else {
                 viewPath = "/jsp/admin/main_admin";
             }
-
+            session.setAttribute("vo", vo);
         } else if (select.equalsIgnoreCase("teacher")) {
             StaffVO vo = l_Service.login_teacher(ID, PW);
             if (vo == null) {
