@@ -327,6 +327,10 @@
                  room_length = 7;
                  $("#dialog3").dialog( "close" );
             });
+            $("#c_idx").change(function(){
+                let str = $("#c_idx"+this.value).val();
+                $("#ct_name").val(str);
+            });
 
         });
     }
