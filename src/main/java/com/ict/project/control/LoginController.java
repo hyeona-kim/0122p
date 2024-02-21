@@ -61,6 +61,7 @@ public class LoginController {
             } else {
                 viewPath = "/jsp/admin/main_admin";
                 session.removeAttribute("cnt");
+                session.setAttribute("main_select", "1");
             }
             session.setAttribute("vo", vo);
         } else if (select.equalsIgnoreCase("teacher")) {
@@ -87,6 +88,7 @@ public class LoginController {
                 // viewPath = "/jsp/admin/counselReceipt/main";
                 viewPath = "/jsp/admin/main";
                 session.removeAttribute("cnt");
+                session.setAttribute("main_select", "2");
             }
             session.setAttribute("vo", vo);
         }
@@ -97,8 +99,20 @@ public class LoginController {
     @RequestMapping("logout")
     public String logout() {
         session.removeAttribute("vo");
-
+        session.removeAttribute("main_select");
         return "redirect:index";
     }
 
+    @RequestMapping("clickLogo")
+    public String clickLogo() {
+        String select = (String) session.getAttribute("main_select");
+        String viewPath = "/jsp/index";
+
+        if (select.equals("1")) {
+            viewPath = "/jsp/admin/main_admin";
+        } else if (select.equals("2")) {
+            viewPath = "/jsp/admin/main";
+        }
+        return viewPath;
+    }
 }

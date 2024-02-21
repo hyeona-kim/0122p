@@ -82,7 +82,7 @@ public class StraffController {
                 num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
-        } else if (authority.equals("2")){
+        } else if (authority.equals("2")) {
             // 최고관리자는 교강사 및 모든 관리자 페이지를 열람할 수 있어야 하므로 모두 1값으로 고정
             svo.setSf_tmgr("1");
             svo.setSf_mgr("1");
@@ -100,7 +100,7 @@ public class StraffController {
 
         s_Service.addStaff(svo);
 
-        if(authority.equals("2")){
+        if (authority.equals("2")) {
             session.removeAttribute("vo");
             return "redirect:index";
         }
@@ -159,7 +159,7 @@ public class StraffController {
                 num = (int) Math.floor(Math.random() * 999999 + 100000);
                 code = String.valueOf(num);
             }
-        } else if (authority.equals("2")){
+        } else if (authority.equals("2")) {
             // 최고관리자는 교강사 및 모든 관리자 페이지를 열람할 수 있어야 하므로 모두 1값으로 고정
             vo.setSf_tmgr("1");
             vo.setSf_mgr("1");
@@ -181,7 +181,7 @@ public class StraffController {
 
         s_Service.editStaff(vo);
 
-        if(authority.equals("2")){
+        if (authority.equals("2")) {
             session.removeAttribute("vo");
             return "redirect:index";
         }
@@ -189,9 +189,12 @@ public class StraffController {
     }
 
     @RequestMapping("unblockStaff")
-    public String unblockStaff(String sf_idx) {
+    public String unblockStaff(String sf_idx, String main) {
         s_Service.unblockStaff(sf_idx);
-        return "redirect:staffList";
+        if (main == null)
+            return "redirect:staffList";
+        else
+            return null;
     }
 
 }
