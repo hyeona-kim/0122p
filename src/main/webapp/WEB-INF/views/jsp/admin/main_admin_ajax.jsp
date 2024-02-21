@@ -90,6 +90,7 @@
                                 <td></td>
                             </c:if>
                         </c:if>
+                        </c:if>
                         <td colspan="2">
                         <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
                         <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
