@@ -37,7 +37,7 @@
                 <img src="${pageContext.request.contextPath }/image/banner2.png" alt="2"/>
                 <img src="${pageContext.request.contextPath }/image/banner3.png" alt="3"/>
                 <img src="${pageContext.request.contextPath }/image/banner4.jpg" alt="4"/>
-                <img src="${pageContext.request.contextPath }/image/banner5.png" alt="5"/>
+                <img src="${pageContext.request.contextPath }/image/banner5.jpg" alt="5"/>
             </div>
         </div>
         <div id="calendar_wrap">
@@ -67,21 +67,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
-        $(".sub_manu2").mouseover(function(){
-            $(this).css("display","block");
-        });
-        $(".menu2").mouseover(function(){
-            console.log("dd");
-            $(this).next().css("display","block");
-        });
-        $(".menu2").mouseout(function(){
-            $(this).next().css("display","none");
-        });
-        $(".sub_manu2").mouseout(function(){
-            $(this).css("display","none");
-        });
-        
         $(function(){
+           
+
             $(".select").click(function(){
                 $(".selected").removeClass("selected");
                 $(this).addClass("selected");
@@ -106,6 +94,7 @@
                     }).done(function(res){
                         $("#menu").html(res);
                     });
+
                 }
             });
         });
