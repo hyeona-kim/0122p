@@ -24,7 +24,27 @@ public class EvaluationManageController {
         if (listSelect.equals("1")) {
             mv.setViewName("/jsp/admin/evaluationManage/settingSubject");
         } else if (listSelect.equals("2")) {
-            mv.setViewName(" ");
+            mv.setViewName("/jsp/admin/evaluationManage/testSubject");
+        } else if (listSelect.equals("3")) {
+            mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest");
+        } else if (listSelect.equals("4")) {
+            mv.setViewName("/jsp/admin/evaluationManage/upskill");
+        } else if (listSelect.equals("5")) {
+            mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty");
+        } else if (listSelect.equals("6")) {
+            mv.setViewName("/jsp/admin/evaluationManage/skillseveralty");
+        } else if (listSelect.equals("7")) {
+            mv.setViewName("/jsp/admin/evaluationManage/skilltest");
+        } else if (listSelect.equals("8")) {
+            mv.setViewName("/jsp/admin/evaluationManage/deviation");
+        } else if (listSelect.equals("9")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testcomparison");
+        } else if (listSelect.equals("10")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_mt");
+        } else if (listSelect.equals("11")) {
+            mv.setViewName("/jsp/admin/evaluationManage/upskilltest");
+        } else if (listSelect.equals("12")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testfile");
         }
 
         return mv;
@@ -55,10 +75,32 @@ public class EvaluationManageController {
         CourseVO[] ar = c_Service.searchCourse(select, value, year, String.valueOf(page.getBegin()),
                 String.valueOf(page.getEnd()));
         mv.addObject("c_ar", ar);
-        if (listSelect.equals("1"))
+        if (listSelect.equals("1")) {
             mv.setViewName("/jsp/admin/evaluationManage/settingSubject_ajax");
-        else if (listSelect.equals("2"))
-            mv.setViewName("");
+        } else if (listSelect.equals("2")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testSubject_ajax");
+        } else if (listSelect.equals("3")) {
+            mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest_ajax");
+        } else if (listSelect.equals("4")) {
+            mv.setViewName("/jsp/admin/evaluationManage/upskill_ajax");
+        } else if (listSelect.equals("5")) {
+            mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty_ajax");
+        } else if (listSelect.equals("6")) {
+            mv.setViewName("/jsp/admin/evaluationManage/skillseveralty_ajax");
+        } else if (listSelect.equals("7")) {
+            mv.setViewName("/jsp/admin/evaluationManage/skilltest_ajax");
+        } else if (listSelect.equals("8")) {
+            mv.setViewName("/jsp/admin/evaluationManage/deviation_ajax");
+        } else if (listSelect.equals("9")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_ajax");
+        } else if (listSelect.equals("10")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_mt_ajax");
+        } else if (listSelect.equals("11")) {
+            mv.setViewName("/jsp/admin/evaluationManage/upskilltest_ajax");
+        } else if (listSelect.equals("12")) {
+            mv.setViewName("/jsp/admin/evaluationManage/testfile_ajax");
+        }
+
         return mv;
     }
 
