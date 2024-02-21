@@ -18,7 +18,7 @@
                 <img src="${pageContext.request.contextPath }/image/banner2.png"/>
                 <img src="${pageContext.request.contextPath }/image/banner3.png"/>
                 <img src="${pageContext.request.contextPath }/image/banner4.jpg"/>
-                <img src="${pageContext.request.contextPath }/image/banner5.png"/>
+                <img src="${pageContext.request.contextPath }/image/banner5.jpg"/>
             </div>
         </div>
         <div>
