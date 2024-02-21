@@ -40,10 +40,10 @@
                     <li>
                         학적부
                     </li>
-                    <li><a href="suggestionList?cPage=1">&nbsp;&nbsp;&nbsp;고충 및 건의사항</a></li>
                     <li><a href="traincurrent">&nbsp;&nbsp;&nbsp;과정별 훈련생 현황</a></li>
                     <li><a href="trainupload">&nbsp;&nbsp;&nbsp;훈련생확인서류등록</a></li>
                     <li><a href="trainconfirm">&nbsp;&nbsp;&nbsp;훈련생확인서류관리</a></li>
+                    <li><a href="suggestionList?cPage=1">&nbsp;&nbsp;&nbsp;고충 및 건의사항</a></li>
                     <li><a href="boardMainList">&nbsp;&nbsp;&nbsp;게시판</a></li>
                 </ul>
             </li>
@@ -92,7 +92,6 @@
                     <li>통합관리</li>
                     <li><a href="total?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;과정별 통합관리</a></li>
                     <li><a href="total?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;과정별 학생관리</a></li>
-                    <li><a href="total?listSelect=3&cPage=1">&nbsp;&nbsp;&nbsp;일정관리</a></li>
                 </ul>
             </li>
             <li>
@@ -103,10 +102,7 @@
                     <li>기타관리</li>
                     <li><a href="staffList">&nbsp;&nbsp;&nbsp;&nbsp;교직원현황</a></li>
                     <li><a href="weeklyMeeting">&nbsp;&nbsp;&nbsp;&nbsp;주간회의록</a></li>	
-                    <li><a href="formDownload">&nbsp;&nbsp;&nbsp;&nbsp;서식자료실</a></li>	
-                    <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;훈련교재현황</a></li>	
-                    <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;훈련시설현황</a></li>	
-                    <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;훈련장비현황</a></li>	
+                    <li><a href="formDownload">&nbsp;&nbsp;&nbsp;&nbsp;서식자료실</a></li>		
                     <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;휴일일정관리</a></li>	
                 </ul>
             </li>
