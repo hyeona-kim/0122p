@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <h2 class="title">교직원 등록</h2>
 <form action="addStaff" method="post">
+	<input type="hidden" name="log_idx" value="${sessionScope.vo.sf_idx}">
 	<table class="table">
 		<colgroup>
 			<col width="15%">

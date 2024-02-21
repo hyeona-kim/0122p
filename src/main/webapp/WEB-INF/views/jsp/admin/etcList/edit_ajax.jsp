@@ -5,6 +5,7 @@
 <h2 class="title">교직원 수정</h2>
 <form action="editStaff" method="post" encType="multipart/form-data">
 	<input type="hidden" name="sf_idx" value="${vo.sf_idx}">
+	<input type="hidden" name="log_idx" value="${sessionScope.vo.sf_idx}">
 	<table class="table">
 		<colgroup>
 			<col width="15%">

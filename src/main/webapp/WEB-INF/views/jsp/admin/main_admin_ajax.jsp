@@ -41,6 +41,7 @@
                     <tr>
                         <td>${vs.index+1}</td>
                         <td>${vo2.sf_name}</td>
+
                         <%-- 사용권한이 1(교수)인 사람만
                              교수코드(sf_code)를 출력 --%>
                         <c:if test="${vo2.sf_code ne 'tcnull'}">
@@ -55,17 +56,18 @@
                         <td>${vo2.sf_phone}</td>
                         <td>${vo2.sf_hire_date}</td>
                         <td>${vo2.sf_fire_date}</td>
-            <c:if test="${vo2.sf_mgr eq '1' or vo2.sf_tmgr eq '1'}">
-               <td>관리자그룹</td>
-            </c:if>
-            <c:if test="${vo2.sf_tmgr eq '0'}">
-               <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
-                  <td>교강사그룹</td>
-               </c:if>
-               <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '0'}">
-                  <td></td>
-               </c:if>
-            </c:if>
+                        <c:if test="${vo2.sf_mgr eq '1' or vo2.sf_tmgr eq '1'}">
+                            <td>관리자그룹</td>
+                        </c:if>
+                        <c:if test="${vo2.sf_tmgr eq '0'}">
+                        <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
+                            <td>교강사그룹</td>
+                        </c:if>
+                        <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '0'}">
+                            <td></td>
+                        </c:if>
+                        </c:if>
+
                         <%-- sf_link가 1인 사람만 ON 마크 표시 --%>
                         <c:if test="${vo2.sf_link eq '1'}">
                             <td><button type="button" id="block_btn" onclick="unblockStaff('${vo2.sf_idx}')" class="btn red2">ON</button></td>
@@ -73,27 +75,26 @@
                         <c:if test="${vo2.sf_link eq '0'}">
                             <td></td>
                         </c:if>
-            <c:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
-               <td><span id="director">최고 관리자</span></td>
-            </c:if>
-            <c:if test="${vo2.sf_tmgr eq '0'}">
-               <c:if test="${vo2.sf_mgr eq '1'}">
-                  <td><span id="manager">관리자</span></td>
-               </c:if>
-               <c:if test="${vo2.sf_mgr eq '0'}">
-                  <c:if test="${vo2.sf_tcr eq '1'}">
-                     <td><span id="faculty">교직원</span></td>
-                  </c:if>
-                  <c:if test="${vo2.sf_tcr eq '0'}">
-                     <td></td>
-                  </c:if>
-               </c:if>
-            </c:if>
+                        <c:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
+                            <td><span id="director">최고 관리자</span></td>
+                        </c:if>
+                        <c:if test="${vo2.sf_tmgr eq '0'}">
+                        <c:if test="${vo2.sf_mgr eq '1'}">
+                            <td><span id="manager">관리자</span></td>
+                        </c:if>
+                        <c:if test="${vo2.sf_mgr eq '0'}">
+                            <c:if test="${vo2.sf_tcr eq '1'}">
+                                <td><span id="faculty">교직원</span></td>
+                            </c:if>
+                            <c:if test="${vo2.sf_tcr eq '0'}">
+                                <td></td>
+                            </c:if>
+                        </c:if>
                         <td colspan="2">
-            <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
-               <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
-                            <a href="javascript:delStaff('${vo2.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>
-            </c:if>
+                        <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
+                        <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
+                                        <a href="javascript:delStaff('${vo2.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>
+                        </c:if>
                         </td>
                     </tr>
                 </c:forEach>
