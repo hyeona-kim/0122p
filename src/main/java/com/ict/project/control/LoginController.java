@@ -57,8 +57,10 @@ public class LoginController {
             StaffVO vo = l_Service.login_admin(ID, PW);
             if (vo == null) {
                 viewPath = "/jsp/index";
+                mv.addObject("login", "fail");
             } else {
                 viewPath = "/jsp/admin/main_admin";
+                session.removeAttribute("cnt");
             }
             session.setAttribute("vo", vo);
         } else if (select.equalsIgnoreCase("teacher")) {
@@ -66,14 +68,17 @@ public class LoginController {
             if (vo == null) {
                 if (s_Service.sf_link(ID).equals("1")) {
                     mv.addObject("block", "true");
+                    mv.setViewName("/jsp/index");
                 }
                 if (session.getAttribute("cnt") == null)
-                    session.setAttribute("cnt", 1);
+                    session.setAttribute("cnt", 0);
                 cnt = (int) session.getAttribute("cnt");
                 mv.addObject("login", "fail");
                 session.setAttribute("cnt", cnt + 1);
-                if (cnt >= 5) {
-                    s_Service.block(ID);
+                if (cnt >= 4) {
+                    // 아이디 블락 처리
+                    int tt = s_Service.block(ID);
+                    System.out.println(tt);
                     session.removeAttribute("cnt");
                     mv.addObject("block", "true");
                 }

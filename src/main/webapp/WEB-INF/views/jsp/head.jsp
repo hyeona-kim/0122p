@@ -70,15 +70,6 @@
             </li>
             <li>
                 <a href="" class="menu1">
-                    사전평가
-                    <img src="${pageContext.request.contextPath }/image/ict_icon/before_icon.png" alt="이미지"/>
-                </a>
-                <ul class="sub_manu"> 
-                    <li>사전평가</li>
-                </ul>
-            </li>
-            <li>
-                <a href="" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/evaluate_icon.png" alt="이미지"/>평가관리
                 </a>
                 <ul class="sub_manu">
