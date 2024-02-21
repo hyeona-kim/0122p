@@ -104,7 +104,7 @@
 		
 		
 		
-		let now = new Date();	// 현재 날짜 및 시간
+		let now = new Date();	// 현재 날짜 및 시간22
 		let year = now.getFullYear();
 		let str = "<option>년도선택</option>";
 		
