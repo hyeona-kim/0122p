@@ -14,7 +14,7 @@
 		padding: 6px 6px;
 		border: none;
 		border-radius: 5px 5px;
-		background-color: #154790;
+		background-color: #a2caf8;
 		color: white;
 	}
 	#director{
@@ -25,6 +25,14 @@
 		background-color: #F55944;
 		color: white;
 	}
+    #manager{
+        display: inline-block;
+		padding: 6px 6px;
+		border: none;
+		border-radius: 5px 5px;
+		background-color: #154790;
+		color: white;
+    }
 </style>
 </head>
 <body>
@@ -107,6 +115,13 @@
                 $("#menu").html(res);
             });
         }
+        function unblockStaff(idx) {
+			if(confirm("해제하시겠습니까?")){
+				location.href="unblockStaff?sf_idx="+idx+"&main=ok";
+			}else{
+				return false;
+			};
+		};
     </script>
 </body>
 </html>

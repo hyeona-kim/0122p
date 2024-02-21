@@ -81,15 +81,15 @@
         function list(num){
             // 메뉴 클릭시 해당 메뉴로 이동한다.
             if(num=="1"){
-                location.href="menu?select=schoolRecord";
+                location.href="traincurrent";
             }else if(num =="2"){
-                location.href="menu?select=totalManage";
+                location.href="total?listSelect=1&cPage=1";
             }else if(num =="3"){
-                location.href="menu?select=trainingLog";
+                location.href="t_log?listSelect=1&cPage=1";
             }else if(num =="4"){
-                location.href="menu?select=counselReceipt";
+                location.href="counselReceipt?listSelect=1&cPage=1";
             }else if(num =="5"){
-                location.href="menu?select=counselManage";
+                location.href="counsel?listSelect=1&cPage=1";
             }
         
         }
