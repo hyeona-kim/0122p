@@ -265,9 +265,18 @@
 					return; // 수행 중단
 				};
 			};
-
-			$("#sf_fname").val(f);
-			$("#frm2").submit();
+			if(confirm("수정하시겠습니까?")){
+				if($("#authority").val() == '3' && t == '1'){
+					if(!confirm("권한 양도시 열람 및 수정의 제한이 생기실 수 있습니다. 정말로 양도하시겠습니까?")){
+						return;
+					}
+				}
+				$("#sf_fname").val(f);
+				alert("수정되었습니다");
+				$("#frm2").submit();
+			} else {
+				return;
+			}
 		};
 		
 		/* 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
@@ -360,8 +369,19 @@
 						return; // 수행 중단
 				};
 			};
-			$("#sf_fname").val(f);
-			$("#frm1").submit();
+
+			if(confirm("추가 하시겠습니까?")){
+				if($("#authority").val() == '3' && t == '1'){
+					if(!confirm("권한 양도시 열람 및 수정의 제한이 생기실 수 있습니다. 정말로 양도하시겠습니까?")){
+						return;
+					}
+				}
+				$("#sf_fname").val(f);
+				alert("성공적으로 추가되었습니다");
+				$("#frm1").submit();
+			} else {
+				return;
+			}
 			
 
 		};

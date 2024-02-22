@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="authority" class="select">
+					<select name="authority" class="select" id="authority">
 						<c:if test="${vo.sf_tmgr eq '0'}">
 							<c:choose>
 								<c:when test="${vo.sf_mgr eq '1' and vo.sf_tcr eq '1'}" >

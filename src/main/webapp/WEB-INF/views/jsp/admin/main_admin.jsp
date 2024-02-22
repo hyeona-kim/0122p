@@ -128,6 +128,7 @@
     <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
 	<script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
+        let f = "";
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
@@ -271,8 +272,8 @@
             // 이름, 직급, 아이디, 암호, 입사일 유효성 검사
             // 퇴사일은 값이 없어도 Controller에서 처리함
             let ar = document.forms[0].elements;
-            for(let i=0 ; i<ar.length-10; i++){
-                console.log(ar[10+i].value);
+            for(let i=0 ; i<ar.length-12; i++){
+                
                 if(ar[i].value ==""){
                     alert(ar[i].dataset.str+"을 입력하세요");
                     ar[i].focus();
@@ -280,36 +281,34 @@
                 };
             };
 
-            // 연락처 맨 앞자리 유효성 검사
-            if(ar[8].value.trim().length != '3'){
-                alert(ar[8].dataset.str+"을 입력하세요");
-                ar[8].focus();
+        // 연락처 맨 앞자리 유효성 검사
+        if(ar[8].value.trim().length != '3'){
+            alert(ar[8].dataset.str+"을 입력하세요");
+            ar[8].focus();
+            return; // 수행 중단
+        };
+
+        // 연락처 가운데, 뒷자리 유효성 검사
+        for(let i=9 ; i<ar.length-8; i++){
+            if(ar[i].value.trim().length != '4'){
+                alert(ar[i].dataset.str+"을 입력하세요");
+                ar[i].focus();
                 return; // 수행 중단
             };
-
-            // 연락처 가운데, 뒷자리 유효성 검사
-            for(let i=9 ; i<ar.length-6; i++){
-                if(ar[i].value.trim().length != '4'){
-                    alert(ar[i].dataset.str+"을 입력하세요");
-                    ar[i].focus();
-                    return; // 수행 중단
-                };
-            };
-
-            if(t == '1' && ar[11].value == '3' && idx != i){
-                if(confirm("권한을 이전하시겠습니까?(이전 시 로그아웃 됩니다)")){
-                    document.forms[0].submit();
-                } else {
-                    return false;
-                }
-            } else {
-                if(confirm("수정 하시겠습니까?")){
-                    document.forms[0].submit();
-                } else {
-                    return false;
+        };
+        if(confirm("수정하시겠습니까?")){
+            if($("#authority").val() == '3' && t == '1'){
+                if(!confirm("권한 양도시 열람 및 수정의 제한이 생기실 수 있습니다. 정말로 양도하시겠습니까?")){
+                    return;
                 }
             }
-        };
+            $("#sf_fname").val(f);
+            alert("수정되었습니다");
+            $("#frm2").submit();
+        } else {
+            return;
+        }
+    };
     
         /* 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
             교직원의 status를 0->1 로 변경해서 보이지 않게 한다 */
@@ -371,6 +370,43 @@
 				break;
 			};
 		};
+
+        function addSign(){
+			if( $("#certification").val() == "sign"){
+
+				let canvas = document.getElementById("signature");
+
+				let fdata = new FormData();
+
+			  
+				let imgDataUrl = canvas.toDataURL('image/png');
+				let binaryData = atob(imgDataUrl.split(',')[1]); // base54 데이터 디코딩
+				let array = [];
+			  
+				for (let i = 0; i < binaryData.length; i++) {
+					array.push(binaryData.charCodeAt(i)); // 하나의 파일로 만들기 위해 모든 값들을 배열에 집어넣음
+				}
+			  
+				let file = new File([new Uint8Array(array)], {type: 'image/png'}); // 이미지파일 만들기
+
+				fdata.append("s_file", file);
+
+				$.ajax({
+					url: "addSign",
+					data: fdata,
+					type: "POST",
+					contentType: false, // 파일 첨부시 필요한 속성들
+					processData: false,
+					cache: false,
+					dataType: "json", // 서버에서 보내오는 자원의 타입
+				}).done(function(data) {
+					f = data.f_name
+					alert("파일이 저장되었습니다.");
+					$("#certi_sign").hide();
+				});
+			}
+			
+		}
     </script>
 </body>
 </html>
