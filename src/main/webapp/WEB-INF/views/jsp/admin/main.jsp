@@ -13,13 +13,7 @@
     <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
     <article class="top">
         <div>
-            <div>
-                <img src="${pageContext.request.contextPath }/image/banner1.png" />
-                <img src="${pageContext.request.contextPath }/image/banner2.png"/>
-                <img src="${pageContext.request.contextPath }/image/banner3.png"/>
-                <img src="${pageContext.request.contextPath }/image/banner4.jpg"/>
-                <img src="${pageContext.request.contextPath }/image/banner5.jpg"/>
-            </div>
+            
         </div>
         <div>
             <div id="course_log">
@@ -68,14 +62,15 @@
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
        
-        let c_idx = "${cvo.c_idx}"
+        let s_idx = "${vo.sf_idx}"
         $(function(){	
-            $.ajax({
+            console.log(s_idx);
+            /*$.ajax({
                 url:"main_course",
                 type:"post",
             }).done(function(result){
                 $("#course_log").html(result);
-            });
+            });*/
         });
 
         function list(num){
@@ -93,7 +88,8 @@
             }
         
         }
-        function course_log(c_idx){
+        /*
+        function course_log(){
 
             console.log(c_idx);
             //location.href="trainingDiary?c_idx="+c_idx;
@@ -116,6 +112,7 @@
                 $("#course_log").html(result);
             });
         }
+
         function write_btn(c_idx){
             console.log(1+c_idx);
             $("#dialog").dialog("open");
@@ -136,7 +133,7 @@
 			maxHeight: 900,
 			width: 1200,
 			modal: true,
-        });
+        });*/
     </script>
 </body>
 </html>

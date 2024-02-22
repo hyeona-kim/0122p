@@ -89,8 +89,8 @@
                                     검색
                                     <select name="" id="select" class="select">
                                         <option value="0">전체</option>
-                                        <option value="1">모집중</option>
-                                        <option value="2">교육중</option>
+                                        <option value="1">교육중</option>
+                                        <option value="2">모집중</option>
                                     </select>
                                 </div>
                                 
