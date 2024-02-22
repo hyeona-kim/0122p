@@ -197,6 +197,7 @@ public class StraffController {
 
         }
         if (authority.equals("0")) {
+            vo.setSf_tcr("1");
             String[] s_ar = s_Service.searchSfCode();
             HashSet<String> set = new HashSet<String>();
 

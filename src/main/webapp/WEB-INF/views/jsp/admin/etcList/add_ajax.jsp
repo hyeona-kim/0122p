@@ -41,7 +41,7 @@
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="authority" class="select">
+					<select name="authority" class="select" id="authority">
 						<option value="0">교직원</option>
 						<option value="1">관리자</option>
 						<option value="2">관리자(강사겸임)</option>
