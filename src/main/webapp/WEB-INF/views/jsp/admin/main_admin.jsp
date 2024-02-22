@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/fullcalendar.css"/>
 <style>
     #faculty{
 		display: inline-block;
@@ -40,17 +41,63 @@
 
     <article class="top">
         <div>
+            <!-- 
+                전체적인 관리 페이지 ( view용 )
+                오늘날짜 O
+                최근문의 
+                지원자수 (결재금액)
+                공지사항 
+            -->
             <div>
-                <img src="${pageContext.request.contextPath }/image/banner1.png" alt="1"/>
-                <img src="${pageContext.request.contextPath }/image/banner2.png" alt="2"/>
-                <img src="${pageContext.request.contextPath }/image/banner3.png" alt="3"/>
-                <img src="${pageContext.request.contextPath }/image/banner4.jpg" alt="4"/>
-                <img src="${pageContext.request.contextPath }/image/banner5.jpg" alt="5"/>
+                <div id="today">TODAY</div>
+                <div>
+                    <div id="time"></div>
+                    <div id="day"></div>
+                    <select class="select" id="day_select">
+                        <option value="0">오늘</option>
+                        <option value="1">일주일</option>
+                        <option value="2">한달</option>
+                    </select>
+                    <article>
+                        <table>
+                            <caption>접수내역</caption>
+                            <colgroup>
+                                <col width="33.3%"/>
+                                <col width="33.3%"/>
+                                <col width="33.3%"/>
+                            </colgroup>
+                            <tr>
+                                <th>문의</th>
+                                <th>상담</th>
+                                <th>등록</th>
+                            </tr>
+                            <tr>
+                                <td>(0)건</td>
+                                <td>(0)건</td>
+                                <td>(0)건</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">결제 총액 (0)원</th>
+                            </tr>
+                        </table>
+                    </article>
+                </div>
+            </div>
+            <div>
+                <div id="today">훈련일지 결재</div>
+                <div>
+                    <article>
+                        <select class="select" id="daily_select">
+                            <option value="0">미결재</option>
+                            <option value="1">결재</option>
+                            <option value="2">전체</option>
+                        </select>     
+                    </article>
+                </div>
             </div>
         </div>
         <div id="calendar_wrap">
-            <div class="title">&nbsp;&nbsp;&nbsp;&nbsp;일정관리</div>
-            <div class="calendar">
+            <div class="calendar" id="calendar">
 
             </div>
         </div>
@@ -78,13 +125,66 @@
     <%-- ========== 교직원 등록,수정 폼 끝 ========== --%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
+	<script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
+    //<!-- 이벤트 나중에 할게요..^^-->
+    document.addEventListener('DOMContentLoaded', function() {   
+        init();    
+        var calendarEl = document.getElementById('calendar');       
+        var calendar = new FullCalendar.Calendar(calendarEl,{    
+            
+            headerToolbar:{
+                right:'prev,next',
+                center:'title',
+                left:'today'
+            },
+            locale: "ko",                  
+            dayMaxEventRows: true,         
+            googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
+            buttonsStyling: false,    
+            showNonCurrentDates:false,      
+        });
+        calendar.render();
+       
+        
+    });
+        function clock() {
+            var date = new Date();
+            var years = date.getFullYear();
+            var month = Number(date.getMonth())+1;
+            month = (month<10)?"0"+month:month;
+            var clockDate = date.getDate();
+            var day = date.getDay();
+            var week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            var hours = date.getHours();
+            hours = (hours < 10)? "0"+hours:hours;
+            var a_hours = hours-12;
+            if(a_hours>0){
+                hours = "PM "+a_hours;
+            }else{
+                hours = "AM "+ hours;
+            }
+
+            
+            var minutes = date.getMinutes();
+            minutes = (minutes < 10)?"0"+minutes: minutes;
+
+            var seconds = date.getSeconds();
+            seconds=(seconds < 10)?"0"+seconds:seconds;
+            $("#day").html(years+"-"+month+"-"+ clockDate+"  "+(week[day]));
+            $("#time").html(hours+":"+minutes+":"+seconds+"");
+        }
+        function init() {
+            clock();
+            setInterval(clock, 1000);
+        }
+
         $(function(){
            
-
             $(".select").click(function(){
                 $(".selected").removeClass("selected");
                 $(this).addClass("selected");
@@ -111,6 +211,14 @@
                     });
 
                 }
+            });
+            $("#day_select").change(function(){
+                console.log("날짜가 바뀌는 영역"+this.value)
+                ///////////////////////////수정 예정
+            });
+            $("#daily_select").change(function(){
+                console.log("결재 미결재 내용 "+this.value)
+                ///////////////////////////수정 예정
             });
         });
         function paging(cPage){
