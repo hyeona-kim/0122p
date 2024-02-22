@@ -158,8 +158,8 @@
 			$("#courseLog_Table").html(result);
 		});
 	}
-	function trainingDaily(c_idx){
-		location.href="trainingDiary?c_idx="+c_idx;
+	function subjectStatus(c_idx){
+		location.href="subjectStatus?c_idx="+c_idx;
 	}
     </script>
 </body>

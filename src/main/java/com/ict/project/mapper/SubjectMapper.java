@@ -7,7 +7,9 @@ import com.ict.project.vo.SubjectVO;
 
 public interface SubjectMapper {
     List<SubjectVO> list(int c_idx);
-    int add(Map<String,List<SubjectVO>> map);
+
+    int add(Map<String, List<SubjectVO>> map);
+
     int edit_sb(SubjectVO sfvo);
- 
+
 }
