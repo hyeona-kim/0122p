@@ -5,7 +5,6 @@
 <table id="makeTime" class="table">
 					<caption>과정별 교수계획서 및 학습 안내서 리스트</caption>
 						<thead >
-							
 							<tr>
 								<th>삭제<br></th>
 								<th>번호</th>

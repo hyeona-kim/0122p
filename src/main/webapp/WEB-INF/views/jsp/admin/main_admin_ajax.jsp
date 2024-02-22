@@ -36,7 +36,6 @@
                 <th colspan="2">관리</th>
             </tr>
             <%-- ===== 교직원 목록 출력 ===== --%>
-            <c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
                 <c:forEach items="${requestScope.ar}" varStatus="vs" var="vo2">
                     <tr>
                         <td>${vs.index+1}</td>
@@ -60,12 +59,12 @@
                             <td>관리자그룹</td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '0'}">
-                        <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
-                            <td>교강사그룹</td>
-                        </c:if>
-                        <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '0'}">
-                            <td></td>
-                        </c:if>
+                            <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '1'}">
+                                <td>교강사그룹</td>
+                            </c:if>
+                            <c:if test="${vo2.sf_mgr eq '0' and vo2.sf_tcr eq '0'}">
+                                <td></td>
+                            </c:if>
                         </c:if>
 
                         <%-- sf_link가 1인 사람만 ON 마크 표시 --%>
@@ -79,17 +78,19 @@
                             <td><span id="director">최고 관리자</span></td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '0'}">
-                        <c:if test="${vo2.sf_mgr eq '1'}">
-                            <td><span id="manager">관리자</span></td>
-                        </c:if>
-                        <c:if test="${vo2.sf_mgr eq '0'}">
-                            <c:if test="${vo2.sf_tcr eq '1'}">
-                                <td><span id="faculty">교직원</span></td>
+                            <c:if test="${vo2.sf_mgr eq '1'}">
+                                <td><span id="manager">관리자</span></td>
                             </c:if>
-                            <c:if test="${vo2.sf_tcr eq '0'}">
-                                <td></td>
+                            <c:if test="${vo2.sf_mgr eq '0'}">
+                                <c:if test="${vo2.sf_tcr eq '1'}">
+                                    <td><span id="faculty">교직원</span></td>
+                                </c:if>
+                                <c:if test="${vo2.sf_tcr eq '0'}">
+                                    <td></td>
+                                </c:if>
                             </c:if>
                         </c:if>
+                        
                         <td colspan="2">
                         <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
                         <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
@@ -98,7 +99,6 @@
                         </td>
                     </tr>
                 </c:forEach>
-            </c:if>
         </tbody>
     </table>
     <div>
