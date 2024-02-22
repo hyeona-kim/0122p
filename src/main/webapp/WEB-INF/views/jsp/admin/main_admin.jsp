@@ -76,7 +76,6 @@
             </div>
         </div>
         <div id="calendar_wrap">
-            <div class="title">&nbsp;&nbsp;&nbsp;&nbsp;일정관리</div>
             <div class="calendar" id="calendar">
 
             </div>
@@ -108,6 +107,7 @@
         init();    
         var calendarEl = document.getElementById('calendar');       
         var calendar = new FullCalendar.Calendar(calendarEl,{    
+            
             headerToolbar:{
                 right:'prev,next',
                 center:'title',
@@ -118,44 +118,9 @@
             googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
             buttonsStyling: false,    
             showNonCurrentDates:false,      
-            eventSources: [  
-                {
-                    googleCalendarId: 'lke829@naver.com',             
-                    className: 'ict',             
-                    color: 'red',
-                },           
-                {
-                    googleCalendarId : '9705f4b043bcea4005de8b1cabb6331b88539cb26aa94e220e350032009c076b@group.calendar.google.com',              
-                    textColor: 'red',
-                    color:"#ababab", 
-                },
-                {
-                    googleCalendarId : 'ko.south_korea#holiday@group.v.calendar.google.com', 
-                    color: '#ababab',             
-                    textColor: 'black' , 
-                }
-            ],
         });
         calendar.render();
-        let ar = $(".fc-daygrid-day-number");
-        for(let i=0; i<ar.length;i++){
-            ar[i].innerHTML= i+1;
-        }
-        $(".fc-daygrid-day-number").css("color","#ababab");
-        $(".fc-daygrid-day-frame").css("background-color","#fff");
-        $(".fc-daygrid-day-frame").css("border","1px solid #ababab");
-
-        $(".fc-button").click(function(){
-            console.log($(".fc-daygrid-day-number").length)
-            let ar = $(".fc-daygrid-day-number");
-            for(let i=0; i<ar.length;i++){
-                ar[i].innerHTML= i+1;
-            }
-            $(".fc-daygrid-day-number").css("color","#ababab");
-            $(".fc-daygrid-day-frame").css("border","1px solid #ababab");
-            $(".fc-daygrid-day-frame").css("background-color","#fff");
-        });
-        var week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+       
         
     });
         function clock() {
