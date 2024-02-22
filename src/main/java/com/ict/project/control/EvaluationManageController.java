@@ -7,8 +7,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
 import com.ict.project.service.SubjectService;
+import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.SubjectVO;
+import com.ict.project.vo.TrainingDiaryVO;
 
 @Controller
 public class EvaluationManageController {
@@ -17,6 +20,9 @@ public class EvaluationManageController {
     CourseService c_Service;
     @Autowired
     SubjectService s_Service;
+
+    @Autowired
+    TrainingDiaryService td_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -101,6 +107,34 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/testfile_ajax");
         }
 
+        return mv;
+    }
+
+    @RequestMapping("subjectStatus")
+    public ModelAndView subjectStatus(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus");
+        return mv;
+    }
+
+    @RequestMapping("diary_ajax2")
+    public ModelAndView diary(String listSelect, String select, String value, String num, String cPage, String c_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+            num = null;
+        if (cPage == null)
+            cPage = "1";
+
+        SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
+
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.addObject("s_ar", s_ar);
+
+        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax");
         return mv;
     }
 
