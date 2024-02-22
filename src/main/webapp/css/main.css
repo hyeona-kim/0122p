@@ -37,7 +37,7 @@
  .top>div{
     display: inline-block;
     width: 50%;
-    height: 420px;
+    height: 460px;
  }
 
  .top>div:first-child{
@@ -324,32 +324,41 @@
  #calendar_wrap{
    display: block;
  }
- #calendar_wrap>.title{
-   width: 100%;
-   text-align: left;
-   height: 10%;
-   padding: 0;
-   margin: 0;
+ #calendar_wrap>#calendar table{
+   overflow: hidden;
+   border-collapse: collapse;
+   border-radius: 10px 10px 0 0;
+   margin:5px auto;
+   width: 98%;
+   height: 98%;
+ }
+ #calendar_wrap>#calendar table th{
    background-color: #154790;
+   
+ }
+ #calendar_wrap>#calendar table th a{
    color: white;
  }
- #calendar_wrap>#calendar{
-   display: block;
-   margin: 0;
-   margin: auto;
-   margin-top: 5px;
-   height: 83%;
-   width: 95%;
-   padding: 0;
+ #calendar_wrap>#calendar table td{
    background-color: white;
-   overflow-y: scroll;
+   border: 1px solid #ababab;
+   border-right: none;
  }
- #calendar_wrap>#calendar>.fc{
-
-   margin: 0;
-   padding: 0;
-   width: 100%;
-   height: 100%;
+ #calendar_wrap>#calendar table td a{
+   color: #ababab;
+ }
+ #calendar_wrap>#calendar{
+   width: 95%;
+   height: 420px;
+   font-size: 11px;
+   background-color: white;
+   margin: auto ;
+   margin-top: 20px;
+   overflow-y: hidden;
+ }
+ #calendar_wrap>#calendar>div{
+   background-color: white;
+   width: 95%;
  }
 #navi2_wrap{
    width: 100%;
