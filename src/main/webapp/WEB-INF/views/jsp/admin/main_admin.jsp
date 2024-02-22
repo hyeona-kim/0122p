@@ -49,30 +49,51 @@
                 공지사항 
             -->
             <div>
-                <div id="time"></div>
-                <div id="day"></div>
-                <div style="border-bottom:1px solid white;"></div>
+                <div id="today">TODAY</div>
                 <div>
+                    <div id="time"></div>
+                    <div id="day"></div>
                     <select class="select" id="day_select">
-                        <option>오늘</option>
-                        <option>일주일</option>
-                        <option>한달</option>
+                        <option value="0">오늘</option>
+                        <option value="1">일주일</option>
+                        <option value="2">한달</option>
                     </select>
                     <article>
-                        <div class="content">문의 :(0)건</div>
-                        <div class="content">상담 :(0)건</div>
-                        <div class="content">등록 :(0)건</div>
-                        <div class="content">결재 총액:(0)₩</div>
+                        <table>
+                            <caption>접수내역</caption>
+                            <colgroup>
+                                <col width="33.3%"/>
+                                <col width="33.3%"/>
+                                <col width="33.3%"/>
+                            </colgroup>
+                            <tr>
+                                <th>문의</th>
+                                <th>상담</th>
+                                <th>등록</th>
+                            </tr>
+                            <tr>
+                                <td>(0)건</td>
+                                <td>(0)건</td>
+                                <td>(0)건</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">결제 총액 (0)원</th>
+                            </tr>
+                        </table>
                     </article>
                 </div>
             </div>
             <div>
-                <div>훈련일지 결재</div>
-                <select class="select" id="dialy_select">
-                    <option>미결재</option>
-                    <option>결재</option>
-                    <option>전체</option>
-                </select>
+                <div id="today">훈련일지 결재</div>
+                <div>
+                    <article>
+                        <select class="select" id="daily_select">
+                            <option value="0">미결재</option>
+                            <option value="1">결재</option>
+                            <option value="2">전체</option>
+                        </select>     
+                    </article>
+                </div>
             </div>
         </div>
         <div id="calendar_wrap">
@@ -103,6 +124,7 @@
     <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
 	<script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
+    //<!-- 이벤트 나중에 할게요..^^-->
     document.addEventListener('DOMContentLoaded', function() {   
         init();    
         var calendarEl = document.getElementById('calendar');       
@@ -135,15 +157,19 @@
             hours = (hours < 10)? "0"+hours:hours;
             var a_hours = hours-12;
             if(a_hours>0){
-                hours = "오후"+a_hours;
+                hours = "PM "+a_hours;
+            }else{
+                hours = "AM "+ hours;
             }
+
+            
             var minutes = date.getMinutes();
             minutes = (minutes < 10)?"0"+minutes: minutes;
 
             var seconds = date.getSeconds();
             seconds=(seconds < 10)?"0"+seconds:seconds;
             $("#day").html(years+"-"+month+"-"+ clockDate+"  "+(week[day]));
-            $("#time").html(hours+"시"+minutes+"분"+seconds+"초");
+            $("#time").html(hours+":"+minutes+":"+seconds+"");
         }
         function init() {
             clock();
@@ -179,7 +205,14 @@
 
                 }
             });
-      
+            $("#day_select").change(function(){
+                console.log("날짜가 바뀌는 영역"+this.value)
+                ///////////////////////////수정 예정
+            });
+            $("#daily_select").change(function(){
+                console.log("결재 미결재 내용 "+this.value)
+                ///////////////////////////수정 예정
+            });
         });
         function paging(cPage){
             $.ajax({

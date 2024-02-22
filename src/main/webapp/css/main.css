@@ -33,74 +33,107 @@
     width: 80%;
     margin: auto;
  }   
-  /* 배너 관련  */
+  /*관리자 정보*/
  .top>div{
     display: inline-block;
     width: 50%;
     height: 460px;
  }
 
+ /*관리자의 정보 띄어주는 박스 */
  .top>div:first-child{
-   /*관리자의 정보를 띄어준다 */
    background-color: #154790;
    border-radius:  20px 20px;
    display: inline-flex;
    justify-content: space-evenly;
  }
  #day{
-   margin: auto;
-   color: #154790;
+   color: #7797c7;
    font-size: 20px;
    font-weight: bold;
-   text-align: right;
-   width: 90%;
-   margin-bottom: 2px;
- }
- #time{
-   margin: auto;
-   color: #b3cef7;
-   font-size: 15px;
-   text-align: right;
-   width: 90%;
-   margin-top: 5px;
+   position: absolute;
+   left: 20px;
+   top: 30px;
+}
+#time{
+   color: #7797c7;
+   font-size: 12px;
+   position: absolute;
+   left: 20px;
+   top: 18px;
 }
  
  .top>div:first-child>div{
    display: inline-block;
-   width: 40%;
-   height: 80%;
+   width: 45%;
+   height: 90%;
    border-radius: 20px 20px;
    background-color: #dedede;
-   margin-top: 40px;
+   margin-top: 20px;
+ }
+ .top>div:first-child>div #today{
+   width: 80%;
+   margin: auto;
+   font-size: 31px;
+   font-weight: bold;
+   height: 60px;
+   line-height: 80px;
+   color: #154790;
  }
  .top>div:first-child>div>div:last-child{
    width: 90%;
    margin: auto;
    background-color: white;
-   height: 260px;
+   height: 310px;
    margin-top: 10px;
    border-radius: 20px 20px;
    position: relative;
  }
+ 
  #day_select{
-   top: 10px;
+   top: 30px;
    display: inline-block;
    position: absolute;
    right: 20px;
  }
- .top>div:first-child>div>div:last-child>article{
+ #daily_select{
+   top: 5px;
    display: inline-block;
-   height: 80%;
-   width: 100%;
-   margin-top: 40px;
- }
- .top>div:first-child>div>div:last-child>article>.content{
-   width: 80%;
-   height: 25%;
-   line-height: 80px;
-   margin-left: 20px;
+   position: absolute;
+   right: 20px;
  }
 
+ .top>div:first-child>div>div:last-child>article{
+   display: inline-block;
+   height: 90%;
+   width: 100%;
+   margin-top: 80px;
+ }
+ .top>div:first-child>div>div:last-child>article>table{
+   width: 85%;
+   margin: auto;
+   border-collapse: collapse;
+   margin-top: 10px;
+ }
+ .top>div:first-child>div>div:last-child>article>table caption{
+   height: 0;
+   text-indent: -9999px;
+ }
+ .top>div:first-child>div>div:last-child>article>table th{
+   background-color: #154790;
+   color: white;
+ }
+ .top>div:first-child>div>div:last-child>article>table tr:last-child th{
+   background-color: white;
+   color: black;
+ }
+ .top>div:first-child>div>div:last-child>article>table td,.top>div:first-child>div>div:last-child>article>table th{
+   border: 1px solid #ababab;
+   height: 45px;
+   padding: 5px;
+   text-align: center;
+
+ }
 /*하단 영역*/
  .list{
     height: 420px;
