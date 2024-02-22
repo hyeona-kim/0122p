@@ -9,7 +9,7 @@
 		select * from staff_t where status = 0
 	</select>
 	<select id="paging" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
-		select * from (select @RN:=@RN+1 as rnum, a.*from(select * from staff_t)a , 
+		select * from (select @RN:=@RN+1 as rnum, a.*from(select * from staff_t where status = 0 order by sf_hire_date desc)a , 
 		(select @RN:=0) b) c where c.rnum between #{begin} and #{end}
 	</select>
 	<!-- 관리자 모드로 로그인하는 기능 -->
@@ -46,9 +46,9 @@
 	
 	<!-- 교직원 추가하는 기능 -->
 	<insert id="add" parameterType="com.ict.project.vo.StaffVO"> <!-- 기본적으로 sf_tmgr은 0이 들어간다. (1개만 존재가능, 현 최고관리자가 직접 양도해야함) -->
-		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, sf_tcr, status, sf_code, sf_mgr,sf_link, sf_tmgr)
+		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, sf_tcr, status, sf_code, sf_mgr,sf_link, sf_tmgr, sf_fname)
 		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{sf_tcr}, 0, #{sf_code}, #{sf_mgr},0,
-		<if test="sf_tmgr ne null">#{sf_tmgr}</if><if test="sf_tmgr eq null">0</if>)
+		<if test="sf_tmgr != null">#{sf_tmgr}</if><if test="sf_tmgr == null">0</if>, #{sf_fname})
 	</insert>
 
 	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">
@@ -83,8 +83,11 @@
 			sf_code = #{sf_code},
 			sf_fire_date = #{sf_fire_date},
 			sf_phone = #{sf_phone},
-			<if test="sf_tmgr ne null"> <!-- 최고 관리자 양도시에만 작동 -->
+			<if test="sf_tmgr != null"> <!-- 최고 관리자 양도시에만 작동 -->
 				sf_tmgr = #{sf_tmgr},
+			</if>
+			<if test="sf_fname != null">
+				sf_fname = #{sf_fname},
 			</if>
 		</trim>
 		where sf_idx = #{sf_idx}
