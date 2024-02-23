@@ -88,24 +88,18 @@
                             </div>
                             <div id="ttop">
                                 <div id="t1" class="main_item main_color">
-                                    <select name="" id="select" class="select">
-                                        <option value="0">전체</option>
-                                        <option value="1">모집중</option>
-                                        <option value="2">교육중</option>
+                                    <select id="courseType" class="select">
+                                        <option value="0" selected>-과정타입을 선택해주세요-</option>
+                                            <c:forEach var="ctvo" items="${ct_ar}">
+                                                <option value="${ctvo.ct_idx}">${ctvo.ct_name}</option>
+                                            </c:forEach>
                                     </select>
                                     <select id="searchCourse" class="select">
                                         <option value="0" selected>-과정을 선택해주세요-</option>
-                                        <c:if test="${length > 1}">
                                             <c:forEach var="cvo" items="${c_ar}">
                                                 <option value="${cvo.c_idx}">${cvo.c_name}(${cvo.start_date}~${cvo.end_date})</option>
                                             </c:forEach>
-                                        </c:if>
-                                        <c:if test="${length <= 1}">
-                                            <option value="${c_ar.c_idx}">${c_ar.c_name}(${c_ar.start_date}~${c_ar.end_date})</option>
-                                        </c:if>
                                     </select>
-                                    <input type="text" id="" name=""/>~<input type="text" id="" name=""/>
-                                    <button type="button" id="" name="">검색</button>
                                 </div>
                                 
                                 <article id="t2" class="main_item">
@@ -179,20 +173,31 @@
 			$.ajax({
 				url: "job",
 				type: "post",
-				data:"selectList=1&c_idx=0",
+				data:"selectList=1&c_idx=0&ct_idx=0",
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
         
 			
-			
-
-            $("#searchCourse").change(function(){
-                let select = $("#searchCourse").val();
+			$("#courseType").change(function(){
+                let select = $("#courseType").val();
+                let c_idx = $("#searchCourse").val();
                 $.ajax({
                     url: "job",
                     type: "post",
-                    data:"selectList=1&c_idx="+select,
+                    data:"selectList=1&ct_idx="+select+"&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#counselReceipt_Table").html(result);
+                });
+            });
+
+            $("#searchCourse").change(function(){
+                let c_idx = $("#searchCourse").val();
+                let select = $("#courseType").val();
+                $.ajax({
+                    url: "job",
+                    type: "post",
+                    data:"selectList=1&c_idx="+c_idx+"&ct_idx="+select,
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
