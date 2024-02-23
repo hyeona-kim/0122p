@@ -7,13 +7,19 @@
       <result property="s_idx" column="s_idx"/>
 		  <collection property="sk_ar" column="s_idx" ofType="com.ict.project.vo.SkillVO" select="getSkill"/>
 	  </resultMap>
+  
+  <select id="list2" parameterType="String" resultType="com.ict.project.vo.SubjectVO">
+    SELECT * FROM subject_t WHERE s_idx = #{s_idx}
+  </select>
 
   <select id="getSkill" parameterType="String" resultType="com.ict.project.vo.SkillVO">
     select * from skill_t where s_idx =#{s_idx} and sk_status =0
   </select>
+
   <select id="list" resultMap="map1" parameterType="int">
     select * from subject_t where c_idx = #{c_idx}
   </select>
+
   <insert id="add" parameterType="Map">
      INSERT INTO subject_t (s_title, us_name, s_type, sf_name, s_category_num, hour, r_name, c_idx,s_status)
      VALUES 
@@ -38,5 +44,6 @@
     </trim>
 		where s_idx = #{s_idx}
   </update>
+
 
 </mapper>

@@ -8,8 +8,6 @@
 		where s_idx = #{s_idx} and es_status = 0
 	</select>
 
-
-
     <insert id="add" parameterType="com.ict.project.vo.EvaluationStatusVO">
         insert INTO evaluation_status (bs_name, bs_job, bs_re, bs_workdpt, bs_position, bs_phone, bs_location, tr_idx)
         VALUES (#{bs_name}, #{bs_job}, #{bs_re}, #{bs_workdpt}, #{bs_position}, #{bs_phone}, #{bs_location}, #{tr_idx})

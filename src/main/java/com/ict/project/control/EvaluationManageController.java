@@ -135,25 +135,35 @@ public class EvaluationManageController {
 
         SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
         mv.addObject("s_ar", s_ar);
-        for (int i = 0; i < s_ar.length; i++) {
-            EvaluationStatusVO[] es_ar = es_Service.list(s_ar[i].getS_idx());
-            mv.addObject("es_ar" + i, es_ar);
-        }
 
         mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax");
         return mv;
     }
 
-    @RequestMapping("evaluationStatus_ajax")
-    public ModelAndView requestMethodName(String s_idx) {
+    @RequestMapping("evaluationInfo")
+    public ModelAndView evaluationInfo(String s_idx) {
         ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+
+        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo");
+        return mv;
+    }
+
+    @RequestMapping("diary_ajax3")
+    public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+            num = null;
+        if (cPage == null)
+            cPage = "1";
 
         EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
         mv.addObject("es_ar", es_ar);
 
-        System.out.println("길이=" + s_idx);
-
-        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax2");
+        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
         return mv;
     }
 

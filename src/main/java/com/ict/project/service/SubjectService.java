@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.SubjectMapper;
+import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.SubjectVO;
 
 @Service
@@ -30,6 +31,10 @@ public class SubjectService {
 
     public int editSubject(SubjectVO sfvo) {
         return sb_mapper.edit_sb(sfvo);
+    }
+
+    public SubjectVO list2(String s_idx) {
+        return sb_mapper.list2(s_idx);
     }
 
 }
