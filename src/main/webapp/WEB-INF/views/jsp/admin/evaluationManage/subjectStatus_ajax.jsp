@@ -22,16 +22,7 @@
             <th rowspan="2">능력단위명</th>
             <th rowspan="2">NCS</th>
             <th rowspan="2">교강사</th>
-            <th colspan="6">평가현황</th>
             <th rowspan="2">관리현황</th>
-        </tr>
-        <tr>
-            <th>평가명</th>
-            <th>평가일</th>
-            <th>평가유형</th>
-            <th>출제여부</th>
-            <th>채점여부</th>
-            <th>응시확인</th>
         </tr>
     </thead>
 
@@ -43,18 +34,13 @@
         </c:if>
         <c:if test="${s_ar ne null}">
             <c:forEach var="svo" items="${s_ar}" varStatus="vs">
+                <input type="hidden" value="${svo.s_idx}" class="subject_t"/>
                 <tr>
                     <td>${vs.index+1}</td>
                     <td>${svo.s_title}</td>
                     <td>${svo.us_name}</td>
                     <td>${svo.s_type}</td>
-                    <td>관리자</td>
-                    <td>평가명</td>
-                    <td>평가일</td>
-                    <td>평가유형</td>
-                    <td>출제여부</td>
-                    <td>채점여부</td>
-                    <td><button type="button" class="btn">응시여부</button></td>
+                    <td>관리자</td>  
                     <td>
                         <button type="button" class="btn green" onclick="viewTraining('${tdvo.td_idx}')">평가기본정보</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험출제</button>
@@ -63,6 +49,7 @@
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험결과오픈</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가별 시험예시</button>
                     </td>
+
                 </tr>
             </c:forEach>
         </c:if>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.EvaluationStatusMapper">
+	<select id="list" resultType="com.ict.project.vo.EvaluationStatusVO">
+		select * from evaluation_status
+		where s_idx = #{s_idx} and es_status = 0
+	</select>
+
+
+
+    <insert id="add" parameterType="com.ict.project.vo.EvaluationStatusVO">
+        insert INTO evaluation_status (bs_name, bs_job, bs_re, bs_workdpt, bs_position, bs_phone, bs_location, tr_idx)
+        VALUES (#{bs_name}, #{bs_job}, #{bs_re}, #{bs_workdpt}, #{bs_position}, #{bs_phone}, #{bs_location}, #{tr_idx})
+    </insert>
+
+    <update id="edit" parameterType="com.ict.project.vo.EvaluationStatusVO">
+        update evaluation_status
+        <set>
+            <if test="bs_name != null">bs_name = #{bs_name},</if>
+            <if test="bs_job != null">bs_job = #{bs_job},</if>
+            <if test="bs_re != null">bs_re = #{bs_re},</if>
+            <if test="bs_workdpt != null">bs_workdpt = #{bs_workdpt},</if>
+            <if test="bs_position != null">bs_position = #{bs_position},</if>
+            <if test="bs_phone != null">bs_phone = #{bs_phone},</if>
+            <if test="bs_location != null">bs_location = #{bs_location},</if>
+        </set>
+        where es_idx = #{es_idx}
+    </update>
+
+    
+	
+</mapper>
