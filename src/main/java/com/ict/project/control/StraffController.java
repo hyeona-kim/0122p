@@ -178,7 +178,6 @@ public class StraffController {
         vo.setSf_mgr("0");
         vo.setSf_tmgr("0");
         String realPath = application.getRealPath("upload_sign");
-        
         if(ifile != null && ifile.getSize() > 0){
             System.out.println("ifile");
             String f_name = FileRenameUtil.checkSameFileName(ifile.getOriginalFilename(), realPath); 
@@ -224,9 +223,11 @@ public class StraffController {
             vo.setSf_tmgr("1");
             vo.setSf_mgr("1");
             vo.setSf_tcr("1");
-            StaffVO svo2 = s_Service.getStaff(log_idx); // 권한을 양도하였으므로 기존 로그인한 인원의 권한을 관리자로 변경해야함
-            svo2.setSf_tmgr("0");
-            s_Service.editStaff(svo2);
+            if(!log_idx.equals(vo.getSf_idx())){ // 본인 계정을 수정할 경우 권한변경 및 로그아웃 할 필요가 없음
+                StaffVO svo2 = s_Service.getStaff(log_idx); // 권한을 양도하였으므로 기존 로그인한 인원의 권한을 관리자로 변경해야함
+                svo2.setSf_tmgr("0");
+                s_Service.editStaff(svo2);
+            }
         }
         vo.setSf_code("tc" + code);
         // 퇴사일을 지정하지 않았을 경우 null로 지정
@@ -241,7 +242,7 @@ public class StraffController {
 
         s_Service.editStaff(vo);
 
-        if (authority.equals("3") && vo.getSf_idx() != log_idx) { // 자신을 수정한 것이 아닐 경우에는 로그아웃 시켜야 함
+        if (authority.equals("3") && !vo.getSf_idx().equals(log_idx)) { // 자신을 수정한 것이 아닐 경우에는 로그아웃 시켜야 함
             session.removeAttribute("vo");
             return "redirect:index";
         } else if (place != null && place.trim().length() > 0){

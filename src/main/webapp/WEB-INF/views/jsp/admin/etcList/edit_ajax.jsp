@@ -87,7 +87,7 @@ pageEncoding="UTF-8"%>
 	<tfoot>
 		<tr>
 			<td colspan="4">
-				<button type="button" onclick="javascript:editStaff()" class="btn">수정</button>
+				<button type="button" onclick="javascript:editStaff('${vo.sf_idx}')" class="btn">수정</button>
 				<button type="button" id="cc_btn" class="btn">취소</button>
 			</td>
 		</tr>
