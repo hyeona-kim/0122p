@@ -43,9 +43,10 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${cvo.c_name}"과목현황</div>
+                            <div id="staffList_top" class="title">"${svo.s_title}"평가기본정보</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
+                                    <button type="button" class="btn" onclick="">평가기본정보등록</button>
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>
@@ -68,7 +69,7 @@
         let numPerPage = "";
         let searchValue ="";
         let cPage = "1";
-        let c_idx = "${cvo.c_idx}"
+        let s_idx = "${svo.s_idx}"
         let value = 0;
         let change = true;
         let count = 0;
@@ -82,10 +83,11 @@
        
 
         $.ajax({
-            url: "diary_ajax2",
+            url: "diary_ajax3",
             type:"post",
-            data:"listSelect=1&cPage=1&num="+numPerPage+"&c_idx="+c_idx,
+            data:"listSelect=1&cPage=1&num="+numPerPage+"&s_idx="+s_idx,
         }).done(function(result){
+            console.log("s_idx="+s_idx);
             $("#courseLog_Table").html(result);
 
         });
@@ -118,9 +120,6 @@
 			modal: true,
         });
 
-        function evaluationInfo(s_idx){
-            location.href="evaluationInfo?s_idx="+s_idx;
-        }
     </script>
 </body>
 </html>

@@ -12,4 +12,6 @@ public interface SubjectMapper {
 
     int edit_sb(SubjectVO sfvo);
 
+    SubjectVO list2(String s_idx);
+
 }
