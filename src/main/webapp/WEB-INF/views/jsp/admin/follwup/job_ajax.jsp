@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-    <c:if test="${length > 1}">
+    <c:if test="${ar ne null}">
         <c:forEach var="cvo" items="${ar}" varStatus="vs">
             <tr>
                 <td bgcolor="${cvo.ctvo.ct_color}">${cvo.ctvo.ct_name}</td>
@@ -38,23 +38,6 @@
                 <td>0</td>
             </tr>                
         </c:forEach>
-    </c:if>
-    <c:if test="${length ==1}">
-        <tr>
-            <td bgcolor="${ar.ctvo.ct_color}">${ar.ctvo.ct_name}</td>
-            <td>${ar.c_name}</td>
-            <td>${ar.svo.sf_name}</td>
-            <c:if test="${ar.c_reg eq false}">
-                <td>${ar.start_date}~${ar.end_date}</td>
-            </c:if>
-            <td>${fn:length(ar.tr_ar)}</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-        </tr>
     </c:if>
     </tbody>
 </table>
