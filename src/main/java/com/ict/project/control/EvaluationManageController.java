@@ -6,12 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
+import com.ict.project.service.EvaluationStatusService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class EvaluationManageController {
@@ -20,9 +24,10 @@ public class EvaluationManageController {
     CourseService c_Service;
     @Autowired
     SubjectService s_Service;
-
     @Autowired
     TrainingDiaryService td_Service;
+    @Autowired
+    EvaluationStatusService es_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -120,7 +125,7 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("diary_ajax2")
-    public ModelAndView diary(String listSelect, String select, String value, String num, String cPage, String c_idx) {
+    public ModelAndView diary(String listSelect, String num, String cPage, String c_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
 
         if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
@@ -129,12 +134,26 @@ public class EvaluationManageController {
             cPage = "1";
 
         SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
-
-        CourseVO cvo = c_Service.getCourse2(c_idx);
-        mv.addObject("cvo", cvo);
         mv.addObject("s_ar", s_ar);
+        for (int i = 0; i < s_ar.length; i++) {
+            EvaluationStatusVO[] es_ar = es_Service.list(s_ar[i].getS_idx());
+            mv.addObject("es_ar" + i, es_ar);
+        }
 
         mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax");
+        return mv;
+    }
+
+    @RequestMapping("evaluationStatus_ajax")
+    public ModelAndView requestMethodName(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
+        mv.addObject("es_ar", es_ar);
+
+        System.out.println("길이=" + s_idx);
+
+        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax2");
         return mv;
     }
 

@@ -43,14 +43,16 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${cvo.c_name}"훈1212련일지</div>
+                            <div id="staffList_top" class="title">"${cvo.c_name}"과목현황</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>
                             <div id="courseLog_Table">
+
                                 <!--비동기 통신으로 가져올 내용 -->
+
                             </div>
                         </article>
                     </div>
@@ -71,35 +73,14 @@
         let change = true;
         let count = 0;
         let nowValue = 0;
+        let s_idx = "";
 
-        $(".sub_manu").mouseover(function(){
-            $(this).css("display","block");
-        });
-        $(".menu1").mouseover(function(){
-            $(this).next().css("display","block");
-        });
-        $(".menu1").mouseout(function(){
-            $(this).next().css("display","none");
-        });
-        $(".sub_manu").mouseout(function(){
-            $(this).css("display","none");
-        });
-        
-	$(function() {
+      
+	$(function() { 
         $(".subSelect").removeClass("subSelect");
         $("#l_one").addClass("subSelect");
 
-        $("#numPerPage").on("change",function(){
-            numPerPage = this.value;
-            $.ajax({
-                url: "diary_ajax2",
-                type:"post",
-                data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&c_idx="+c_idx,
-            }).done(function(result){
-                $("#courseLog_Table").html(result);
-            });
-
-        });
+       
 
         $.ajax({
             url: "diary_ajax2",
@@ -107,6 +88,23 @@
             data:"listSelect=1&cPage=1&num="+numPerPage+"&c_idx="+c_idx,
         }).done(function(result){
             $("#courseLog_Table").html(result);
+
+            var s_idxArray = []; // 배열을 초기화
+
+            $(".subject_t").each(function () {
+                s_idxArray.push($(this).val()); // 배열에 각 subject_t의 값 추가
+            });
+        
+            // 배열을 콤마로 구분된 문자열로 변환
+            var s_idxString = s_idxArray.join(',');
+
+            $.ajax({
+                url: "evaluationStatus_ajax",
+                type: "post",
+                data: "s_idx=" + s_idxString,
+            }).done(function (evaluationResult) {
+                $("#evaluationStatus_Table").html(evaluationResult);
+            });
         });
 
     
