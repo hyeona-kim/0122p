@@ -380,6 +380,9 @@
  #calendar_wrap>#calendar table td a{
    color: #ababab;
  }
+ #calendar_wrap>#calendar table .fc-day-today a{
+   color: #154790;
+ }
  #calendar_wrap>#calendar{
    width: 95%;
    height: 420px;

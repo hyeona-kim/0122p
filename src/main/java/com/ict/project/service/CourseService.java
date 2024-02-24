@@ -81,6 +81,10 @@ public class CourseService {
         return c_mapper.count();
     }
 
+    public int time_exel(String c_idx, String c_timeExel) {
+        return c_mapper.time_exel(c_idx, c_timeExel);
+    }
+
     // 검색 결과에서의 Paging기법을 위해
     // 다시 totalRecord를 검색하는 기능
     public int getSearchCount(String select, String value, String year) {
@@ -105,6 +109,7 @@ public class CourseService {
 
     public int tnadd(String tn_idx, String c_idx) {
         return c_mapper.tnAdd(tn_idx, c_idx);
+
     }
 
     public CourseVO[] search_ct(String c_idx, String ct_idx) {
