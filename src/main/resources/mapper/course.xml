@@ -16,6 +16,11 @@
 		<collection property="cs_ar" column="c_idx" ofType="com.ict.project.vo.CounselVO" select="counsel"></collection>
 		<collection property="td_ar" column="c_idx" ofType="com.ict.project.vo.TrainingDiaryVO" select="trainingDiary"></collection>
 	</resultMap>
+	<resultMap type="com.ict.project.vo.CourseVO" id="map2">
+		<result column="c_idx" property="c_idx" />
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
 		select * 
@@ -160,7 +165,7 @@
 
 
 	<select id="all" resultType="com.ict.project.vo.CourseVO">
-		select * from course_t
+		select * from course_t where c_status = 0
 	</select>
 
 	<update id="tnAdd" parameterType="com.ict.project.vo.CourseVO">
@@ -168,9 +173,23 @@
 		set tn_idx = #{tn_idx}
 		where c_idx = #{c_idx}
 	</update>
+
 	<update id="time_exel" parameterType="Map">
 		update course_t 
 		set c_timeExel = #{c_timeExel}
 		where c_idx = #{c_idx}
 	</update>
+
+
+	<select id="search_ct" parameterType="String" resultMap="map2">
+		select * from course_t 
+		<where>
+			<trim suffixOverrides="and">
+					c_status = 0 and
+					<if test="c_idx != 0">c_idx = #{c_idx} and</if>
+					<if test="ct_idx != 0">ct_idx = #{ct_idx} and</if>
+			</trim>
+		</where>
+	</select>
+
 </mapper>

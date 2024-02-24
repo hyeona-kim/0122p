@@ -118,12 +118,20 @@
             </div>
         </div>
     </article>
-   
+    <%-- ========== 교직원 등록,수정 폼 시작 ========== --%>
+    <div id="addForm" type="hidden">
+        
+    </div>
+    <%-- ========== 교직원 등록,수정 폼 끝 ========== --%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
 	<script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
+        let f = "";
+        let i = '${sessionScope.vo.sf_idx}';
+        let t = '${sessionScope.vo.sf_tmgr}';
+        let m = '${sessionScope.vo.sf_mgr}'; 
     //<!-- 이벤트 나중에 할게요..^^-->
     document.addEventListener('DOMContentLoaded', function() {   
         init();    
@@ -230,6 +238,175 @@
 				return false;
 			};
 		};
+        /* 교직원현황 - [수정]버튼을 클릭했을 때
+		 비동기통신을 이용해 dialog를 띄우는 기능 */
+		function editStaffForm(idx) {
+			// 오직 자기 자신의 정보만 수정이 가능하게 해야하므로 로그인한 사람의 idx와 비교
+			if(i != idx && t == '0')
+				alert("권한이 없습니다.");
+			else{
+
+				$.ajax({
+					url: "staffEditForm",
+					type: "post",
+					data: "sf_idx="+idx + "&place=1"
+				}).done(function(result){
+					$("#addForm").dialog("open");
+					$("#addForm").html(result);
+					$("#cc_btn").click(function(){
+						$("#addForm").dialog("close");
+					});
+				});
+				
+				$("#addForm").dialog({
+					title : '교직원수정',
+					modal : true,
+					width : 1000,
+					maxHeight : 800
+				});
+			}
+		};
+			
+        /* 교직원수정 폼에서 [수정]버튼을 클릭했을 때 수행하는 곳 */
+        function editStaff(idx) {
+            // 이름, 직급, 아이디, 암호, 입사일 유효성 검사
+            // 퇴사일은 값이 없어도 Controller에서 처리함
+            let ar = document.forms[0].elements;
+            for(let i=0 ; i<ar.length-12; i++){
+                
+                if(ar[i].value ==""){
+                    alert(ar[i].dataset.str+"을 입력하세요");
+                    ar[i].focus();
+                    return; // 수행 중단
+                };
+            };
+
+        // 연락처 맨 앞자리 유효성 검사
+        if(ar[8].value.trim().length != '3'){
+            alert(ar[8].dataset.str+"을 입력하세요");
+            ar[8].focus();
+            return; // 수행 중단
+        };
+
+        // 연락처 가운데, 뒷자리 유효성 검사
+        for(let i=9 ; i<ar.length-8; i++){
+            if(ar[i].value.trim().length != '4'){
+                alert(ar[i].dataset.str+"을 입력하세요");
+                ar[i].focus();
+                return; // 수행 중단
+            };
+        };
+        if(confirm("수정하시겠습니까?")){
+            if($("#authority").val() == '3' && t == '1' && idx != i){
+                if(!confirm("권한 양도시 열람 및 수정의 제한이 생기실 수 있습니다. 정말로 양도하시겠습니까?")){
+                    return;
+                }
+            }
+            $("#sf_fname").val(f);
+            alert("수정되었습니다");
+            $("#frm2").submit();
+        } else {
+            return;
+        }
+    };
+    
+        /* 교직원현황 - [삭제]버튼을 클릭했을 때 data를 삭제하는 곳
+            교직원의 status를 0->1 로 변경해서 보이지 않게 한다 */
+        function delStaff(idx, tcr, mgr, tmgr) { // 관리자는 교강사를, 최고관리자는 관리자, 강사 모두를 삭제 가능하다
+            // 교강사는 관리자체가 불가능하므로 관리자 이상급의 권한만 확인한다.
+            let chk = false;
+            if(tmgr != '1'){ // 최고 관리자는 삭제될 수 없으므로 비교
+                if(t == '1') {
+                    chk = true;
+                } else if(m == '1' && mgr == '0') { // 로그인한 사람이 관리자이고 삭제하려는 직급이 강사일때
+                    chk = true;
+                } else { // 관리자가 관리자를 삭제하려 했을 때
+                    alert("권한이 없습니다.");
+                }
+            } else {
+                alert("최고 관리자는 삭제가 불가능합니다.");	
+            }
+
+            if (chk){
+                if(confirm("삭제하시겠습니까?")){
+                    location.href="delStaff?sf_idx="+idx;
+                }else{
+                    return false;
+                }
+            }
+        };
+
+        function changeCertifi() {
+			/* option에서 선택된 값을 value에 저장 */
+			let value = $("#certification").val();
+			
+			switch(value){
+				case "none":{
+					$("#certi_image").hide();
+					$("#certi_sign").hide();				
+				}
+				break;
+				case "image":{
+					$("#certi_image").show();
+					$("#certi_sign").hide();			
+				}
+				break;
+				case "sign":{
+					$("#certi_image").hide();
+					$("#certi_sign").show();
+					
+					var canvas = $("#signature")[0];
+					var signature = new SignaturePad(canvas, {
+									minWidth : 2,
+									maxWidth : 2,
+									penColor : "rgb(0, 0, 0)"
+					});
+					
+					/* 교직원등록에서 전자서명패드를 clear하는 기능 */
+					$("#clear_btn").bind("click", function() {
+						signature.clear();
+					});
+				}
+				break;
+			};
+		};
+
+        function addSign(){
+			if( $("#certification").val() == "sign"){
+
+				let canvas = document.getElementById("signature");
+
+				let fdata = new FormData();
+
+			  
+				let imgDataUrl = canvas.toDataURL('image/png');
+				let binaryData = atob(imgDataUrl.split(',')[1]); // base54 데이터 디코딩
+				let array = [];
+			  
+				for (let i = 0; i < binaryData.length; i++) {
+					array.push(binaryData.charCodeAt(i)); // 하나의 파일로 만들기 위해 모든 값들을 배열에 집어넣음
+				}
+			  
+				let file = new File([new Uint8Array(array)], {type: 'image/png'}); // 이미지파일 만들기
+
+				fdata.append("s_file", file);
+
+				$.ajax({
+					url: "addSign",
+					data: fdata,
+					type: "POST",
+					contentType: false, // 파일 첨부시 필요한 속성들
+					processData: false,
+					cache: false,
+					dataType: "json", // 서버에서 보내오는 자원의 타입
+				}).done(function(data) {
+					f = data.f_name
+					alert("파일이 저장되었습니다.");
+					$("#certi_sign").hide();
+				});
+			}
+			
+		}
     </script>
 </body>
 </html>

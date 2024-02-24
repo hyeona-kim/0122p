@@ -109,5 +109,18 @@ public class CourseService {
 
     public int tnadd(String tn_idx, String c_idx) {
         return c_mapper.tnAdd(tn_idx, c_idx);
+
+    }
+
+    public CourseVO[] search_ct(String c_idx, String ct_idx) {
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.search_ct(c_idx, ct_idx);
+        if (list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+
     }
 }

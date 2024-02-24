@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <h2 class="title">교직원 수정</h2>
-<form action="editStaff" method="post" encType="multipart/form-data">
+<form action="editStaff?place=${place}" method="post" encType="multipart/form-data" id="frm2">
 	<input type="hidden" name="sf_idx" value="${vo.sf_idx}">
 	<input type="hidden" name="log_idx" value="${sessionScope.vo.sf_idx}">
 	<table class="table">
@@ -42,47 +42,56 @@
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="authority" class="select">
-					<c:if test="${vo.sf_tmgr eq '0'}">
-						<c:choose>
-							<c:when test="${vo.sf_mgr eq '1'}" >
-								<option value="0">교직원</option>
-								<option value="1" selected>관리자</option>
-							</c:when>
-							<c:when test="${vo.sf_mgr eq '0' and vo.sf_tcr eq '1'}" >
-								<option value="0">교직원</option>
-								<option value="1" selected>관리자</option>
-							</c:when>
-						</c:choose>
-						<c:if test="${sessionScope.vo.sf_tmgr eq '1'}"> <%-- 이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
-							<option value="2">최고 관리자</option>
+					<select name="authority" class="select" id="authority">
+						<c:if test="${vo.sf_tmgr eq '0'}">
+							<c:choose>
+								<c:when test="${vo.sf_mgr eq '1' and vo.sf_tcr eq '1'}" >
+									<option value="0">교직원</option>
+									<option value="1">관리자</option>
+									<option value="2" selected>관리자(강사겸임)</option>
+								</c:when>
+								<c:when test="${vo.sf_mgr eq '1' and vo.sf_tcr eq '0'}" >
+									<option value="0">교직원</option>
+									<option value="1" selected>관리자</option>
+									<option value="2">관리자(강사겸임)</option>
+								</c:when>
+								<c:when test="${vo.sf_mgr eq '0' and vo.sf_tcr eq '1'}" >
+									<option value="0" selected>교직원</option>
+									<option value="1">관리자</option>
+									<option value="2">관리자(강사겸임)</option>
+								</c:when>
+							</c:choose>
+							<c:if test="${sessionScope.vo.sf_tmgr eq '1'}"> <%-- 이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
+							<option value="3">최고 관리자</option>
+							</c:if>
 						</c:if>
-					</c:if>
-					<c:if test="${vo.sf_tmgr eq '1'}">
-						<option value="2" selected>최고 관리자</option>
-					</c:if>
+						<c:if test="${vo.sf_tmgr eq '1'}">
+							<option value="3" selected>최고 관리자</option>
+						</c:if>
 					</select>
 				</td>
 			</tr>
-			<tr>
-				<th>인증선택</th>
+		<tr>
+			<c:if test="${sessionScope.vo.sf_idx eq vo.sf_idx}">
+			<th>인증선택</th>
 				<td colspan="3">
 					<select id="certification" onchange="changeCertifi()" class="select">
-						<option value="none">사용안함</option>
+						<option value="none" selected>사용안함</option>
 						<option value="image">도장이미지</option>
 						<option value="sign">전자서명</option>
 					</select>
 				</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="4">
-					<button onclick="javascript:editStaff()" class="btn">수정</button>
-					<button onclick="" class="btn">취소</button>
-				</td>
-			</tr>
-		</tfoot>
+			</c:if>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4">
+				<button type="button" onclick="javascript:editStaff('${vo.sf_idx}')" class="btn">수정</button>
+				<button type="button" id="cc_btn" class="btn">취소</button>
+			</td>
+		</tr>
+	</tfoot>
 	</table>
 	<%-- 전자서명 표현 부분 --%>
 	<div id="certi_sign" hidden="hidden">
@@ -90,10 +99,24 @@
 			<caption>전자서명 입력 테이블</caption>
 			<tbody>
 				<tr>
-					<td style="border: none;">*전자서명을 사용하실 경우 서명을 등록해주세요!</td>
+					<c:if test="${vo.sf_fname eq null}">	
+						<td style="border: none;">*전자서명을 사용하실 경우 서명을 등록해주세요!</td>
+					</c:if>
 				</tr>
+				<c:if test="${vo.sf_fname ne null}">
+					<tr>
+						<td>
+							<img src="${pageContext.request.contextPath}/upload_sign/${vo.sf_fname}" onerror="this.style.display='none'" width="100%" />
+						</td>
+					</tr>
+					
+					<tr><td style="border: none;">기존 사인을 수정하시려면 아래에 새로 입력해주세요(반드시 수정 후 저장해야 적용됩니다)</td></tr>
+				</c:if>
 				<tr>
-					<td style="border: none;"><button type="button" id="clear_btn" onclick="padClear()" class="btn red2">다시</button></td>
+					<td style="border: none;">
+						<button type="button" id="clear_btn" class="btn red2">다시</button>
+						<button type="button" onclick="addSign()" class="btn red2">저장</button>
+					</td>
 				</tr>
 				<tr>
 					<td>
@@ -112,9 +135,10 @@
 					<td style="border: none;">*서명에 사용할 도장을 등록해주세요!</td>
 				</tr>
 				<tr>
-					<td style="border: none;"><input type="file" name="img_file" class="text"></td>
+					<td style="border: none;"><input type="file" name="ifile" class="text"></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	<input type="hidden" id="sf_fname" name="sf_fname" value=""/>
 </form>

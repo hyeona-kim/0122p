@@ -57,7 +57,7 @@
 							<tr>
                                 <td>${num-vs.index}</td>
 								<td>${cvo.c_name}</td>
-								<td>과정코드</td>
+								<td>${cvo.ctvo.ct_name}</td>
 								<td>${cvo.svo.sf_name}</td>
 								<td>${cvo.start_date }</td>
 								<td>${cvo.end_date }</td>
@@ -66,7 +66,7 @@
 								<td>${cvo.c_peo_num}</td>
 								<td>
 									<button type="button" class="btn" 
-                                    onclick="trainingDaily('${cvo.c_idx}')">과목별 평가설정</button>
+                                    onclick="subjectStatus('${cvo.c_idx}')">과목별 평가설정</button>
                                     <button type="button" class="btn"
                                     onclick="">성적표 오픈</button>
 								</td>

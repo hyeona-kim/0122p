@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <h2 class="title">교직원 등록</h2>
-<form action="addStaff" method="post">
-	<input type="hidden" name="log_idx" value="${sessionScope.vo.sf_idx}">
+<form action="addStaff" method="post" enctype="multipart/form-data" id="frm1">
 	<table class="table">
 		<colgroup>
 			<col width="15%">
@@ -16,7 +15,7 @@
 		<tbody>
 			<tr>
 				<th>이름</th>
-				<td><input class="text" type="text" placeholder="이름" data-str="이름" name="sf_name"/></td>
+				<td><input class="text" type="text" placeholder="이름" data-str="이름" name="sf_name" id="sf_name" /></td>
 				<th>직급</th>
 				<td><input class="text" type="text" placeholder="직급" data-str="직급" name="sf_job"/></td>
 			</tr>
@@ -42,14 +41,15 @@
 				</td>
 				<th>사용권한</th>
 				<td>
-					<select name="authority" class="select">
+					<select name="authority" class="select" id="authority">
 						<option value="0">교직원</option>
 						<option value="1">관리자</option>
+						<option value="2">관리자(강사겸임)</option>
 						<c:if test="${sessionScope.vo.sf_tmgr eq '1'}">
-							<option value="2">최고관리자</option> 
-							<%-- 로그인한 계정의 sf_tmgr이 1일때만 보이게하기 
-								이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
+							<option value="3">최고관리자</option> 
 						</c:if>
+						<%-- 로그인한 계정의 sf_tmgr이 1일때만 보이게하기 
+							이 옵션이 선택된 상태로 저장버튼 누르면 확인창 띄워서 권한이전을 하시겠습니까? 물어보기 --%>
 					</select>
 				</td>
 			</tr>
@@ -57,7 +57,7 @@
 				<th>인증선택</th>
 				<td colspan="3">
 					<select id="certification" onchange="changeCertifi()" class="select">
-						<option value="none">사용안함</option>
+						<option value="none" selected>사용안함</option>
 						<option value="image">도장이미지</option>
 						<option value="sign">전자서명</option>
 					</select>
@@ -74,7 +74,7 @@
 					<td style="border: none; ">*서명에 사용할 도장을 등록해주세요!</td>
 				</tr>
 				<tr>
-					<td style="border: none; "><input type="file" name="img_file" class="text"></td>
+					<td style="border: none; "><input type="file" name="ifile" class="text"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -89,20 +89,21 @@
 				</tr>
 				<tr>
 					<td style="border: none; ">
-						<button type="button" id="clear_btn" onclick="padClear()" class="btn">다시</button>
-						<button id="save" class="btn">저장</button>
+						<button type="button" id="clear_btn" class="btn red2">다시</button>
+						<button type="button" onclick="addSign()" class="btn red2">저장</button>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<canvas id="canvas" width="600" height="200"></canvas>
+						<canvas id="signature" width="600" height="200"></canvas>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<div class="main_item align_center">
-		<button onclick="javascript:addStaff()" class="btn">등록</button>
-		<button id="cc_btn" class="btn">취소</button>
+		<button type="button" onclick="javascript:addStaff()" class="btn">등록</button>
+		<button type="button" id="cc_btn" class="btn">취소</button>
 	</div>
+	<input type="hidden" id="sf_fname" name="sf_fname" value=""/>
 </form>

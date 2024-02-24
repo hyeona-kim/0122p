@@ -85,7 +85,7 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <button class="btn" onclick="addList()">+ 훈련사항추가</button>
+                    <button type="button" class="btn" onclick="addList()">+ 훈련사항추가</button>
                 </td>
             </tr>
         </tfoot>

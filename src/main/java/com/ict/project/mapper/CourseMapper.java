@@ -32,5 +32,9 @@ public interface CourseMapper {
 
     int tnAdd(String tn_idx, String c_idx);
 
+
     int time_exel(String c_idx, String c_timeExel);
+
+    List<CourseVO> search_ct(String c_idx, String ct_idx);
+
 }

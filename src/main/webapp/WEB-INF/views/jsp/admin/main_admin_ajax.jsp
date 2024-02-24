@@ -90,12 +90,12 @@
                                 </c:if>
                             </c:if>
                         </c:if>
-                        <td colspan="2">
-                        <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
-                        <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
-                                        <a href="javascript:delStaff('${vo2.sf_idx}')" class="btn red" style="text-decoration: none;">삭제</a>
-                        </c:if>
-                        </td>
+                            <td colspan="2">
+                            <c:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
+                                <a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
+                                    <a href="javascript:delStaff('${vo2.sf_idx}', '${vo2.sf_tcr}', '${vo2.sf_mgr}', '${vo2.sf_tmgr}')" class="btn red" style="text-decoration: none;">삭제</a>
+                            </c:if>
+                            </td>
                     </tr>
                 </c:forEach>
         </tbody>
@@ -172,6 +172,13 @@
             <li>
                 <a href="" class="menu2">사후관리</a>
                 <ul class="sub_manu2">
+                    <li><a href="f_log?listSelect=1&cPage=1" id="l_one">일일취업보고</a></li>
+                    <li><a href="f_log?listSelect=2&cPage=1" id="l_two">취업현황보고</a></li>
+                    <li><a href="f_log?listSelect=3&cPage=1" id="l_three">사후관리현황</a></li>
+                    <li><a href="f_log?listSelect=4&cPage=1" id="l_four">사후관리현황표</a></li>
+                    <li><a href="f_log?listSelect=5&cPage=1" id="l_five">취업확인서</a></li>
+                    <li><a href="f_log?listSelect=6&cPage=1" id="l_six">전체취업생현황</a></li>
+
                     
                 </ul>
             </li>

@@ -6,9 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
+import com.ict.project.service.EvaluationStatusService;
 import com.ict.project.service.SubjectService;
+import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.SubjectVO;
+import com.ict.project.vo.TrainingDiaryVO;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class EvaluationManageController {
@@ -17,6 +24,10 @@ public class EvaluationManageController {
     CourseService c_Service;
     @Autowired
     SubjectService s_Service;
+    @Autowired
+    TrainingDiaryService td_Service;
+    @Autowired
+    EvaluationStatusService es_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -101,6 +112,58 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/testfile_ajax");
         }
 
+        return mv;
+    }
+
+    @RequestMapping("subjectStatus")
+    public ModelAndView subjectStatus(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus");
+        return mv;
+    }
+
+    @RequestMapping("diary_ajax2")
+    public ModelAndView diary(String listSelect, String num, String cPage, String c_idx, String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+            num = null;
+        if (cPage == null)
+            cPage = "1";
+
+        SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
+        mv.addObject("s_ar", s_ar);
+
+        mv.setViewName("/jsp/admin/evaluationManage/subjectStatus_ajax");
+        return mv;
+    }
+
+    @RequestMapping("evaluationInfo")
+    public ModelAndView evaluationInfo(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+
+        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo");
+        return mv;
+    }
+
+    @RequestMapping("diary_ajax3")
+    public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+            num = null;
+        if (cPage == null)
+            cPage = "1";
+
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
+        mv.addObject("es_ar", es_ar);
+
+        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
         return mv;
     }
 

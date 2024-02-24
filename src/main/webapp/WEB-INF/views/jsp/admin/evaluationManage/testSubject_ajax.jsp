@@ -57,7 +57,7 @@
 							<tr>
                                 <td>${num-vs.index}</td>
 								<td>${cvo.c_name}</td>
-								<td>과정코드</td>
+								<td>${cvo.ctvo.ct_name}</td>
 								<td>${cvo.svo.sf_name}</td>
 								<td>${cvo.start_date }</td>
 								<td>${cvo.end_date }</td>
