@@ -168,4 +168,9 @@
 		set tn_idx = #{tn_idx}
 		where c_idx = #{c_idx}
 	</update>
+	<update id="time_exel" parameterType="Map">
+		update course_t 
+		set c_timeExel = #{c_timeExel}
+		where c_idx = #{c_idx}
+	</update>
 </mapper>

@@ -11,18 +11,16 @@ import com.ict.project.vo.StaffVO;
 
 @Service
 public class CourseService {
-    
+
     @Autowired
     private CourseMapper c_mapper;
-
-    
 
     // 과정 검색하는 기능
     public CourseVO[] searchCourse(String select, String value, String year, String begin, String end) {
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.search(select, value, year, begin, end);
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CourseVO[list.size()];
             list.toArray(ar);
         }
@@ -35,7 +33,7 @@ public class CourseService {
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.list(begin, end);
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CourseVO[list.size()];
             list.toArray(ar);
         }
@@ -43,11 +41,11 @@ public class CourseService {
         return ar;
     }
 
-     public CourseVO[] getList() {
+    public CourseVO[] getList() {
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.all();
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CourseVO[list.size()];
             list.toArray(ar);
         }
@@ -63,7 +61,7 @@ public class CourseService {
     public CourseVO getCourse(String c_idx) {
         return c_mapper.getCourse(c_idx);
     }
-    
+
     public CourseVO getCourse2(String c_idx) {
         return c_mapper.getCourse2(c_idx);
     }
@@ -83,27 +81,33 @@ public class CourseService {
         return c_mapper.count();
     }
 
+    public int time_exel(String c_idx, String c_timeExel) {
+        return c_mapper.time_exel(c_idx, c_timeExel);
+    }
+
     // 검색 결과에서의 Paging기법을 위해
     // 다시 totalRecord를 검색하는 기능
     public int getSearchCount(String select, String value, String year) {
         return c_mapper.search_count(select, value, year);
     }
 
-    public int reg_count(String year){
+    public int reg_count(String year) {
         return c_mapper.reg_count(year);
     }
-    public CourseVO[] reg_search(String year){
+
+    public CourseVO[] reg_search(String year) {
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.reg_search(year);
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new CourseVO[list.size()];
             list.toArray(ar);
         }
 
         return ar;
     }
-    public int tnadd(String tn_idx, String c_idx){
-        return c_mapper.tnAdd(tn_idx,c_idx);
+
+    public int tnadd(String tn_idx, String c_idx) {
+        return c_mapper.tnAdd(tn_idx, c_idx);
     }
 }
