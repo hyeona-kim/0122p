@@ -34,5 +34,12 @@ public class EvaluationStatusService {
         return es_Mapper.add(bvo);
     }
 
- 
+    public int del(String es_idx) {
+        return es_Mapper.del(es_idx);
+    }
+
+    public EvaluationStatusVO getone(String es_idx) {
+        return es_Mapper.getone(es_idx);
+    }
+
 }
