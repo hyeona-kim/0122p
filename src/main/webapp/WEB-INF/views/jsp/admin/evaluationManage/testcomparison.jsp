@@ -116,7 +116,7 @@
 		$("#selectYear").on("change",function(){
 			selectYear = this.value;
 			$.ajax({
-				url: "trainingLog",
+				url: "evalutationManageLog",
 			    type:"post",
 			    data:"listSelect=9&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
 			}).done(function(result){
@@ -126,7 +126,7 @@
 		$("#numPerPage").on("change",function(){
 			numPerPage = this.value;
 			$.ajax({
-                url: "trainingLog",
+                url: "evalutationManageLog",
 			    type:"post",
 			    data:"listSelect=9&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
             }).done(function(result){
@@ -138,7 +138,7 @@
 			searchValue = $("#searchValue").val();
 			
 			$.ajax({
-                url: "trainingLog",
+                url: "evalutationManageLog",
 			    type:"post",
 			    data:"listSelect=9&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
             }).done(function(result){
@@ -151,7 +151,7 @@
 	function paging(str) {
         cPage =str;
 		$.ajax({
-			url: "trainingLog",
+			url: "evalutationManageLog",
 			type:"post",
 			data:"listSelect=9&cPage="+cPage+"&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
 		}).done(function(result){
