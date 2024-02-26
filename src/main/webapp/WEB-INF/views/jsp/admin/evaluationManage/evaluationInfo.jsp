@@ -46,7 +46,7 @@
                             <div id="staffList_top" class="title">"${svo.s_title}"평가기본정보</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
-                                    <button type="button" class="btn" onclick="">평가기본정보등록</button>
+                                    <button id="add_btn" type="button" class="btn" onclick="">평가기본정보등록</button>
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>
@@ -61,7 +61,11 @@
             </div> 
         </article>
     </article>
-    <div id="dialog" hidden></div>
+    
+    <div id="dialog" hidden>
+        
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -74,32 +78,30 @@
         let change = true;
         let count = 0;
         let nowValue = 0;
-
-      
-	$(function() { 
-        $(".subSelect").removeClass("subSelect");
-        $("#l_one").addClass("subSelect");
-
-       
-
-        $.ajax({
-            url: "diary_ajax3",
-            type:"post",
-            data:"listSelect=1&cPage=1&num="+numPerPage+"&s_idx="+s_idx,
-        }).done(function(result){
-            console.log("s_idx="+s_idx);
-            $("#courseLog_Table").html(result);
-
-        });
-
-    
-        $("#write_btn").click(function(){
-            $("#dialog").dialog("open");
-            // /tl_dialog
+        let es_idx = "";
+        
+        
+        $(function() { 
+            $(".subSelect").removeClass("subSelect");
+            $("#l_one").addClass("subSelect");
+            
+           
             $.ajax({
-                url: "tl_dialog",
+                url: "diary_ajax3",
                 type:"post",
-                data:"c_idx="+c_idx,
+                data:"listSelect=1&cPage=1&num="+numPerPage+"&s_idx="+s_idx,
+            }).done(function(result){
+                console.log("s_idx="+s_idx);
+                $("#courseLog_Table").html(result);
+                
+            });
+            
+            
+            $("#add_btn").click(function(){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog",
+                type:"post",
             }).done(function(result){
                 $("#dialog").html(result);
                 $("#cc_cancle").click(function(){
@@ -107,11 +109,31 @@
                 });
                 value = $("#attend").val();
                 cnt = 4; // 시작값 4
+                $("#selectType").on("change", function(){
+                    let type = $("#selectType").val();
+                    console.log("value="+type);
+                    switch(type){
+                        case '1' :{
+                            $("#selectType1").show();
+                            $("#selectType2").hide();
+                            break;
+                        }
+                        case '2' :{
+                            $("#selectType1").hide();
+                            $("#selectType2").show();
+                            break;
+                        }
+            
+                    }
+                });
+                
+                
             });
         });
         
         
         });
+
        
         $("#dialog").dialog({
 			autoOpen: false,
@@ -119,6 +141,16 @@
 			width: 1200,
 			modal: true,
         });
+
+        function delEs(es_idx){
+            
+			if( confirm("삭제하시겠습니까?")){
+			
+                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
+			}else{
+                return;
+            }
+		}
 
     </script>
 </body>

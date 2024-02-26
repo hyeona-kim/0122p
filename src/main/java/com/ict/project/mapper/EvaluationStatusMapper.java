@@ -12,4 +12,8 @@ public interface EvaluationStatusMapper {
 
     int add(EvaluationStatusVO esvo);
 
+    int del(String es_idx);
+
+    EvaluationStatusVO getone(String es_idx);
+
 }

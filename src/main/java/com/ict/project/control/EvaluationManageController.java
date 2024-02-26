@@ -167,4 +167,26 @@ public class EvaluationManageController {
         return mv;
     }
 
+    @RequestMapping("delEvaluationStatus")
+    public String delEvaluationStatus(String es_idx, String s_idx) {
+        int cnt = es_Service.del(es_idx);
+
+        return "redirect:evaluationInfo?s_idx=" + s_idx;
+    }
+
+    @RequestMapping("es_dialog")
+    public ModelAndView es_dialog(String es_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        if (es_idx == null || es_idx.trim().length() < 1) {
+            mv.setViewName("/jsp/admin/evaluationManage/addEvaluationInfo_ajax");
+        } else {
+            EvaluationStatusVO esvo = es_Service.getone(es_idx);
+            mv.addObject("esvo", esvo);
+            mv.setViewName("/jsp/admin/evaluationManage/editEvaluationInfo_ajax");
+        }
+
+        return mv;
+    }
+
 }
