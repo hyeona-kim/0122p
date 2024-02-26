@@ -24,6 +24,7 @@
         <ul class="mypage_ul" id="mypage_ul">
             <li><a onclick="changePass()">비밀번호변경</a></li>
             <li><a onclick="changeMe()">정보수정</a></li>
+            <li><a onclick="message()">쪽지</a></li>
         </ul>
     </div>
     <article id="top">
