@@ -133,28 +133,23 @@
             });
             
             
+            $("#q1, #q2, #q3").change(function() {
+                console.log("type+"+type);
+                // 필답형과 단답형 값이 변경될 때마다 합산하여 총 문항수 필드에 넣기
+                if(type == "1"){
+                    $('#totalQuestions').val($("#q1").val());
+                }
+                else{
+                    $('#q2, #q3').on('input', function() {
+                        var q2Value = parseInt($('#q2').val()); // 필답형 값
+                        var q3Value = parseInt($('#q3').val()); // 단답형 값
+                        var totalQuestions = q2Value + "/" + q3Value; // 두 값을 합산
+                        $('#totalQuestions').val(totalQuestions); // 합산된 값을 총 문항수 필드에 넣기
+                });
+            }
+            });
         });
 
-                $("#q1, #q2, #q3").change(function() {
-                    console.log("type+"+type);
-                    // 필답형과 단답형 값이 변경될 때마다 합산하여 총 문항수 필드에 넣기
-                    if(type == "1"){
-                        $('#totalQuestions').val($("#q1").val());
-                    }
-                    else{
-                        $('#q2, #q3').on('input', function() {
-                            var q2Value = parseInt($('#q2').val()); // 필답형 값
-                            var q3Value = parseInt($('#q3').val()); // 단답형 값
-                            var totalQuestions = q2Value + "/" + q3Value; // 두 값을 합산
-                            $('#totalQuestions').val(totalQuestions); // 합산된 값을 총 문항수 필드에 넣기
-                    });
-                }
-                });
-
-                
-                
-            });
-        };
       function editEI(idx){
             $("#dialog").dialog("open");
             $.ajax({
@@ -184,7 +179,9 @@
                     }
                 });
 
-       
+            });
+        }
+        
         $("#dialog").dialog({
 			autoOpen: false,
 			maxHeight: 900,
