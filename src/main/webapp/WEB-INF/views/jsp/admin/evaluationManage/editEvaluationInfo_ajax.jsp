@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<h2 id="table_h2" class="title">${svo.s_title}평가기본정보수정</h2>
-	<form action="editEvaluationInfo" method="post" name="frm02">
+	<form action="editEvaluationStatus" method="post" name="frm02">
 			<table id="table" class="table">
 				<colgroup>
 					<col width="10%"/>
@@ -17,27 +17,27 @@
                         <c:if test="${esvo.es_name eq '평가1'}">
                             <td>
                                 <select name="es_name" class="select">
-                                    <option value="1" selected>평가1</option>
-                                    <option value="2">평가2</option>
-                                    <option value="3">평가3</option>
+                                    <option selected>평가1</option>
+                                    <option>평가2</option>
+                                    <option>평가3</option>
                                 </select>
                             </td>
                         </c:if>
                         <c:if test="${esvo.es_name eq '평가2'}">
                             <td>
                                 <select name="es_name" class="select">
-                                    <option value="1">평가1</option>
-                                    <option value="2" selected>평가2</option>
-                                    <option value="3">평가3</option>
+                                    <option>평가1</option>
+                                    <option selected>평가2</option>
+                                    <option>평가3</option>
                                 </select>
                             </td>
                         </c:if>
                         <c:if test="${esvo.es_name eq '평가3'}">
                             <td>
                                 <select name="es_name" class="select">
-                                    <option value="1">평가1</option>
-                                    <option value="2">평가2</option>
-                                    <option value="3" selected>평가3</option>
+                                    <option>평가1</option>
+                                    <option>평가2</option>
+                                    <option selected>평가3</option>
                                 </select>
                             </td>
                         </c:if>
@@ -68,7 +68,7 @@
 					<tr>
 						<th><label>난이도</label></th>
 						<td>
-						<input type="text" id="es_level" class="text" style="width: 40%;" value="${esvo.es_level}"/> 
+						<input type="text" name="es_level" class="text" style="width: 40%;" value="${esvo.es_level}"/> 
 						</td>
 						<th><label>문항수</label></th>
 						<td>
@@ -97,7 +97,7 @@
 						<th><label>훈련교사</label></th>
 						<td>
 						<select name="sf_idx" class="select">
-							<option value="${esvo.sf_idx}">${sf_name}</option>
+							<option value="${esvo.sf_idx}">${sfvo.sf_name}</option>
 						</select>
 					</td>
 						<th><label>총배점</label></th>
@@ -108,7 +108,7 @@
 				<tfoot>
 					<tr>
 						<td colspan="4" id="counselDetail_add_btn">
-							<input type="button" value="수정" class="btn" onclick="editEvaluationInfo()">
+							<input type="submit" value="수정" class="btn" id="edit_btn">
 							<input type="button" value="목록" id="cc_cancle" class="btn">
 						</td>
 					</tr>
@@ -117,8 +117,7 @@
 			
 			<input type="hidden" name="cPage" value="${param.cPage}"/>
 			<input type="hidden" name="es_idx" value="${esvo.es_idx}"/>
-			<input type="hidden" name="sf_idx" value="${esvo.sf_idx}"/>
 			<input type="hidden" name="s_idx" value="${esvo.s_idx}"/>
-            <input type="hidden" name="es_num_question" value="${esvo.es_num_question}"/>
+            <input type="hidden" name="es_num_question" id="totalQuestions" class="text" style="width: 40%;" readonly/>
 		</form>
 		
