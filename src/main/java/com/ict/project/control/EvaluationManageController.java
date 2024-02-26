@@ -11,6 +11,7 @@ import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.StaffVO;
@@ -179,8 +180,11 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("es_dialog")
-    public ModelAndView es_dialog(String es_idx) {
+    public ModelAndView es_dialog(String es_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
 
         if (es_idx == null || es_idx.trim().length() < 1) {
             mv.setViewName("/jsp/admin/evaluationManage/addEvaluationInfo_ajax");
@@ -198,6 +202,13 @@ public class EvaluationManageController {
         }
 
         return mv;
+    }
+
+    @RequestMapping("addEvaluationStatus")
+    public String addCounselingDetail(EvaluationStatusVO esvo, String s_idx) {
+        es_Service.add(esvo);
+
+        return "redirect:evaluationInfo?s_idx=" + s_idx;
     }
 
 }

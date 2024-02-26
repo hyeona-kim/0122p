@@ -32,4 +32,8 @@ public interface StaffMapper {
     String sf_link(String sf_id);
 
     int unblockStaff(String sf_idx);
+
+    int editPass(String sf_idx, String sf_pwd);
+
+    int editMe(String sf_idx, String sf_id, String sf_email, String sf_phone);
 }

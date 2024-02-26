@@ -107,6 +107,22 @@ public class CourseService {
         return ar;
     }
 
+    public int staffCourse_count(String sf_idx) {
+        return c_mapper.staffCourse_count(sf_idx);
+    }
+
+    public CourseVO[] staffCourse(String sf_idx, String begin, String end) {
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.staffCourse(sf_idx, begin, end);
+        if (list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
     public int tnadd(String tn_idx, String c_idx) {
         return c_mapper.tnAdd(tn_idx, c_idx);
 
