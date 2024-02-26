@@ -56,14 +56,14 @@
 							<div hidden="hidden" id="selectType2">
 								필답형: <input type="text"   id="q2" class="text" style="width: 40%;" value="0"/> <br/>
 								단답형: <input type="text"  id="q3" class="text" style="width: 40%;" value="0"/>  <br/>
-								<input type="text" name="es_num_question" id="totalQuestions" class="text" style="width: 40%;" value="0" readonly/>
+								<input type="hidden" name="es_num_question" id="totalQuestions" class="text" style="width: 40%;" value="0" readonly/>
 							</div>	
 
 						</td>
 					</td>
 					</tr>
 					<tr>
-						<th><label>훈련교사</label></th>
+						<th><label>훈련교 사</label></th>
 						<td>
 						<select name="sf_idx" class="select">
 							<option value="${sessionScope.vo.sf_idx}">${sessionScope.vo.sf_name}</option>
