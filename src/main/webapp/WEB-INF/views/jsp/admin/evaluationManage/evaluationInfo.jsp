@@ -98,20 +98,54 @@
             
             
             $("#add_btn").click(function(){
+                $("#dialog").dialog("open");
+                $.ajax({
+                    url: "es_dialog",
+                    type:"post",
+                }).done(function(result){
+                    $("#dialog").html(result);
+                    $("#cc_cancle").click(function(){
+                        $("#dialog").dialog("close");
+                    });
+                    value = $("#attend").val();
+                    cnt = 4; // 시작값 4
+                    $("#selectType").on("change", function(){
+                        let type = $("#selectType").val();
+                        console.log("value="+type);
+                        switch(type){
+                            case '1' :{
+                                $("#selectType1").show();
+                                $("#selectType2").hide();
+                                break;
+                            }
+                            case '2' :{
+                                $("#selectType1").hide();
+                                $("#selectType2").show();
+                                break;
+                            }
+                
+                        }
+                    });
+                
+                
+                });
+            });
+            
+            
+        });
+        function editEI(idx){
             $("#dialog").dialog("open");
             $.ajax({
                 url: "es_dialog",
                 type:"post",
+                data:"es_idx="+idx,
             }).done(function(result){
                 $("#dialog").html(result);
                 $("#cc_cancle").click(function(){
                     $("#dialog").dialog("close");
                 });
-                value = $("#attend").val();
-                cnt = 4; // 시작값 4
                 $("#selectType").on("change", function(){
                     let type = $("#selectType").val();
-                    console.log("value="+type);
                     switch(type){
                         case '1' :{
                             $("#selectType1").show();
@@ -126,13 +160,10 @@
             
                     }
                 });
-                
-                
+            
+            
             });
-        });
-        
-        
-        });
+        };
 
        
         $("#dialog").dialog({
