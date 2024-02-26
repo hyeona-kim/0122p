@@ -125,7 +125,7 @@
                     <li><a href="staffList">&nbsp;&nbsp;&nbsp;&nbsp;교직원현황</a></li>
                     <li><a href="weeklyMeeting">&nbsp;&nbsp;&nbsp;&nbsp;주간회의록</a></li>	
                     <li><a href="formDownload">&nbsp;&nbsp;&nbsp;&nbsp;서식자료실</a></li>		
-                    <li><a href="">&nbsp;&nbsp;&nbsp;&nbsp;휴일일정관리</a></li>	
+                    <li><a href="calendar">&nbsp;&nbsp;&nbsp;&nbsp;휴일일정관리</a></li>	
                 </ul>
             </li>
         </ul>

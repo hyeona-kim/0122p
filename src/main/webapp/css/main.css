@@ -356,9 +356,35 @@
  }
  #calendar_wrap{
    display: block;
+   position: relative;
  }
+ #calendar_wrap>span{
+   position: absolute;
+   right: 130px;
+   top: 22px;
+   z-index: 20;
+   display: inline-block;
+   width: 100px;
+   height: 32px;
+   background-color: #77828C;
+   border-radius: 3px 3px;
+ }
+ #calendar_wrap>span>a{
+   display: inline-block;
+   color: white;
+   width: 100%;
+   height: 100%;
+   line-height: 32px;
+   text-align: center;
+   font-size: 14px;
+   font-weight: bold;
+ }
+ #calendar_wrap>span:hover{
+   background-color: #32373b;
+ }
+ 
  #calendar_wrap>#calendar table{
-   overflow: hidden;
+   overflow-y: auto;
    border-collapse: collapse;
    border-radius: 10px 10px 0 0;
    margin:5px auto;
@@ -369,6 +395,7 @@
    background-color: #154790;
    
  }
+
  #calendar_wrap>#calendar table th a{
    color: white;
  }
@@ -376,12 +403,24 @@
    background-color: white;
    border: 1px solid #ababab;
    border-right: none;
+   position: relative;
+ }
+ #calendar_wrap>#calendar table td .fc-daygrid-more-link{
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   color: #154790;
+ }
+ #calendar_wrap>#calendar .fc-popover-title{
+   font-size: 12px;
+   margin:auto;
  }
  #calendar_wrap>#calendar table td a{
    color: #ababab;
  }
  #calendar_wrap>#calendar table .fc-day-today a{
-   color: #154790;
+   color: #0b1f3b;
+   font-weight: bolder;
  }
  #calendar_wrap>#calendar{
    width: 95%;
@@ -390,12 +429,15 @@
    background-color: white;
    margin: auto ;
    margin-top: 20px;
-   overflow-y: hidden;
+   overflow:hidden;
  }
  #calendar_wrap>#calendar>div{
    background-color: white;
    width: 95%;
  }
+ #calendar_wrap>#calendar .korea_holiday{
+   pointer-events: none;
+}
 #navi2_wrap{
    width: 100%;
    height: 100%;

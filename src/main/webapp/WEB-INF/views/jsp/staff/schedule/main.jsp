@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main_staff.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/fullcalendar2.css"/>
 </head>
 <body bgcolor="#eeeeee"> 
     <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
@@ -19,7 +20,7 @@
             <option>ㅎㅇ</option>
         </select>
         <span>
-            <a id="my_page"><img alt="마이페이지" src="${pageContext.request.contextPath }/image/my_page.png"/></a>
+            <a id="my_page"><img alt="마이페이지" src="${pageContext.request.contextPath }/image/myPage2.png"/></a>
         </span>
         <ul class="mypage_ul" id="mypage_ul">
             <li><a onclick="changePass()">비밀번호변경</a></li>
@@ -38,7 +39,7 @@
             </ul>
         </div>
         <div class="right">
-
+            <div id="calendar2" class="main_item"></div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->
         <div hidden id="changePassword">
@@ -68,6 +69,8 @@
     <div id="dialog2" hidden></div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
+    <script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
     <script>
         //로그인된 강사 정보 가져오기
         let s_idx = "${vo.sf_idx}";
@@ -118,6 +121,52 @@
                 c_idx = this.value;
             }); 
         });
+
+        document.addEventListener('DOMContentLoaded', function() {  
+            var calendarEl = document.getElementById('calendar2');    
+            var calendar = new FullCalendar.Calendar(calendarEl,{  
+                height:"98%",  
+                headerToolbar:{
+                    right:'today,prev,next',
+                    center:'title',
+                    left:'listMonth,dayGridMonth'
+                },
+                locale: "ko",                  
+                dayMaxEventRows: 2,         
+                googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
+         
+                showNonCurrentDates:false,      
+                eventSources: [           
+                {             
+                    googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
+                    className: 'korea_holiday',             
+                    color: 'white',
+                    textColor:'red',           
+                    editable: false,
+                    eventClick:false,
+                    href:"",
+                },           
+                ],
+                events:[
+                {
+                    title : "이력서접수기간", color : "#FF0000", textColor : "#FFFF00", start : "2024-05-02", end : "2024-05-06T10:00:00" 
+                },  
+                {
+                    title : "학원 조기 종료", color : "#FF0000", textColor : "#FFFF00", start : "2024-02-02", end : "2024-02-06T10:00:00" 
+                },
+                {  title : "발길향하는 공간"  , url : "http://www.wickedmiso.com/"  , start : "2016-05-25" } 
+                ],
+                editable: false,
+                //droppable을 사용할때 droppable true 드롭이벤트
+                droppable: false,
+                
+            });
+            $(".korea_holiday").click(function(a){
+                return false;
+            })
+            calendar.render();
+        });
+
         function changePass(){
             /*패스워드 바꾸기*/
             $("#changePassword").dialog({
