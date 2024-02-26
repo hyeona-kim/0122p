@@ -42,6 +42,14 @@ public class StaffService {
         return s_mapper.add(vo);
     }
 
+    public int editPass(String sf_idx, String sf_pwd) {
+        return s_mapper.editPass(sf_idx, sf_pwd);
+    }
+
+    public int editMe(String sf_idx, String sf_id, String sf_email, String sf_phone) {
+        return s_mapper.editMe(sf_idx, sf_id, sf_email, sf_phone);
+    }
+
     // 교직원 검색
     public StaffVO searchList(String sf_name) {
         return s_mapper.search(sf_name);
