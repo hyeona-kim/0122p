@@ -205,10 +205,16 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("addEvaluationStatus")
-    public String addCounselingDetail(EvaluationStatusVO esvo, String s_idx) {
+    public String addCounselingDetail(EvaluationStatusVO esvo) {
         es_Service.add(esvo);
 
-        return "redirect:evaluationInfo?s_idx=" + s_idx;
+        return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
     }
+    
+    @RequestMapping("editEvaluationStatus")
+    public String editEvaluationStatus(EvaluationStatusVO esvo) {
+        es_Service.edit(esvo);
 
+        return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
+    }
 }

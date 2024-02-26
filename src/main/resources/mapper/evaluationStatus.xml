@@ -26,13 +26,20 @@
     <update id="edit" parameterType="com.ict.project.vo.EvaluationStatusVO">
         update evaluation_status
         <set>
-            <if test="bs_name != null">bs_name = #{bs_name},</if>
-            <if test="bs_job != null">bs_job = #{bs_job},</if>
-            <if test="bs_re != null">bs_re = #{bs_re},</if>
-            <if test="bs_workdpt != null">bs_workdpt = #{bs_workdpt},</if>
-            <if test="bs_position != null">bs_position = #{bs_position},</if>
-            <if test="bs_phone != null">bs_phone = #{bs_phone},</if>
-            <if test="bs_location != null">bs_location = #{bs_location},</if>
+            <trim suffixOverrides=",">
+                <if test="es_name != null">es_name = #{es_name},</if>
+                <if test="es_type != null">es_type = #{es_type},</if>
+                <if test="es_examStatus != null">es_examStatus = #{es_examStatus},</if>
+                <if test="es_gradingStatus != null">es_gradingStatus = #{es_gradingStatus},</if>
+                <if test="sf_idx != null">sf_idx = #{sf_idx},</if>
+                <if test="es_date != null">es_date = #{es_date},</if>
+                <if test="es_time != null">es_time = #{es_time},</if>
+                <if test="es_totalScore != null">es_totalScore = #{es_totalScore},</if>
+                <if test="es_level != null">es_level = #{es_level},</if>
+                <if test="es_num_question != null">es_num_question = #{es_num_question},</if>
+                <if test="sk_idx != null">sk_idx = #{sk_idx},</if>
+                <if test="s_idx != null">s_idx = #{s_idx},</if>
+            </trim>
         </set>
         where es_idx = #{es_idx}
     </update>
