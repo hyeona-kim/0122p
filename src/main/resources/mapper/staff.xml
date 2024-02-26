@@ -99,4 +99,18 @@
 		set sf_link = 0
 		where sf_idx = #{sf_idx}
 	</update>
+
+	<update id="editPass" parameterType="Map">
+		update staff_t
+		set sf_pwd = #{sf_pwd}
+		where sf_idx = #{sf_idx}
+	</update>
+	<update id="editMe" parameterType="Map">
+		update staff_t
+		set 
+		sf_id = #{sf_id},
+		sf_phone = #{sf_phone},
+		sf_email =#{sf_email}
+		where sf_idx = #{sf_idx}
+	</update>
 </mapper>

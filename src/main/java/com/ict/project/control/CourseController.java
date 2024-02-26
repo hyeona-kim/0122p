@@ -1042,4 +1042,18 @@ public class CourseController {
 		return "redirect:upskill?skill=" + skill + "&c_idx=" + c_idx + "&s_idx=" + s_idx;
 	}
 
+	@RequestMapping("staffCourse")
+	@ResponseBody
+	public Map<String, Object> staffCourse(String sf_idx) {
+		Map<String, Object> map = new HashMap<>();
+		if (c_Service.staffCourse_count(sf_idx) == 0) {
+			map.put("c_ar", null);
+		} else {
+			CourseVO[] c_ar = c_Service.staffCourse(sf_idx, "0", String.valueOf(c_Service.staffCourse_count(sf_idx)));
+			map.put("c_ar", c_ar);
+		}
+
+		return map;
+	}
+
 }
