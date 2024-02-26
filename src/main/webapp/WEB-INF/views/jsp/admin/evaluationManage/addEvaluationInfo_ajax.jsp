@@ -63,7 +63,7 @@
 					</td>
 					</tr>
 					<tr>
-						<th><label>훈련교 사</label></th>
+						<th><label>훈련교사</label></th>
 						<td>
 						<select name="sf_idx" class="select">
 							<option value="${sessionScope.vo.sf_idx}">${sessionScope.vo.sf_name}</option>
