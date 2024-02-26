@@ -7,12 +7,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
 import com.ict.project.service.EvaluationStatusService;
+import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,8 @@ public class EvaluationManageController {
     TrainingDiaryService td_Service;
     @Autowired
     EvaluationStatusService es_Service;
+    @Autowired
+    StaffService sf_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -186,7 +190,14 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/addEvaluationInfo_ajax");
         } else {
             EvaluationStatusVO esvo = es_Service.getone(es_idx);
-            mv.addObject("esvo", esvo);
+            StaffVO sfvo = sf_Service.getStaff(esvo.getSf_idx());
+            if(esvo.getEs_type().equals("2")){
+                String[] str = esvo.getEs_num_question().split("/");
+                mv.addObject("q1", str[0]);
+                mv.addObject("q2", str[1]);
+            }
+                mv.addObject("esvo", esvo);
+                mv.addObject("sfvo", sfvo);
             mv.setViewName("/jsp/admin/evaluationManage/editEvaluationInfo_ajax");
         }
 

@@ -58,7 +58,7 @@
                     <td>${esvo.es_examStatus}</td>  
                     <td>${esvo.es_gradingStatus}</td>  
                     <td>
-                        <button type="button" class="btn green" onclick="">수정</button>
+                        <button type="button" class="btn green" onclick="editEI('${esvo.es_idx}')">수정</button>
                         <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
                         <button type="button" class="btn blue" onclick="">시험출제</button>
                         <button type="button" class="btn blue" onclick="">응시확인</button>

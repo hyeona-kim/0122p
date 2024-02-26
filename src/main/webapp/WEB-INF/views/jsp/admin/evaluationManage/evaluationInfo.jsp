@@ -99,35 +99,41 @@
             
             
             $("#add_btn").click(function(){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "es_dialog",
-                type:"post",
-                data:"s_idx="+s_idx,
-            }).done(function(result){
-                $("#dialog").html(result);
-                $("#cc_cancle").click(function(){
-                    $("#dialog").dialog("close");
+                $("#dialog").dialog("open");
+                $.ajax({
+                    url: "es_dialog",
+                    type:"post",
+                }).done(function(result){
+                    $("#dialog").html(result);
+                    $("#cc_cancle").click(function(){
+                        $("#dialog").dialog("close");
+                    });
+                    value = $("#attend").val();
+                    cnt = 4; // 시작값 4
+                    $("#selectType").on("change", function(){
+                        let type = $("#selectType").val();
+                        console.log("value="+type);
+                        switch(type){
+                            case '1' :{
+                                $("#selectType1").show();
+                                $("#selectType2").hide();
+                                break;
+                            }
+                            case '2' :{
+                                $("#selectType1").hide();
+                                $("#selectType2").show();
+                                break;
+                            }
+                
+                        }
+                    });
+                
+                
                 });
-                value = $("#attend").val();
-                cnt = 4; // 시작값 4
-                $("#selectType").on("change", function(){
-                    type = $("#selectType").val();
-                    switch(type){
-                        case "1" :{
-                            $("#selectType1").show();
-                            $("#selectType2").hide();
-                            break;
-                        }
-                        case "2" :{
-                            $("#selectType1").hide();
-                            $("#selectType2").show();
-                            break;
-                        }
+            });
             
-                    }
-                });
-
+            
+        });
 
                 $("#q1, #q2, #q3").change(function() {
                     console.log("type+"+type);
@@ -148,10 +154,35 @@
                 
                 
             });
-        });
-        
-        
-        });
+        };
+      function editEI(idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog",
+                type:"post",
+                data:"es_idx="+idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+                $("#cc_cancle").click(function(){
+                    $("#dialog").dialog("close");
+                });
+                $("#selectType").on("change", function(){
+                    let type = $("#selectType").val();
+                    type = $("#selectType").val();
+                    switch(type){
+                        case "1" :{
+                            $("#selectType1").show();
+                            $("#selectType2").hide();
+                            break;
+                        }
+                        case "2" :{
+                            $("#selectType1").hide();
+                            $("#selectType2").show();
+                            break;
+                        }
+            
+                    }
+                });
 
        
         $("#dialog").dialog({
