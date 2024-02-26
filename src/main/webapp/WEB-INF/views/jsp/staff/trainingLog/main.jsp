@@ -19,7 +19,7 @@
             <option>ㅎㅇ</option>
         </select>
         <span>
-            <a id="my_page"><img alt="마이페이지" src="${pageContext.request.contextPath }/image/my_page.png"/></a>
+            <a id="my_page"><img alt="마이페이지" src="${pageContext.request.contextPath }/image/myPage2.png"/></a>
         </span>
         <ul class="mypage_ul" id="mypage_ul">
             <li><a onclick="changePass()">비밀번호변경</a></li>
