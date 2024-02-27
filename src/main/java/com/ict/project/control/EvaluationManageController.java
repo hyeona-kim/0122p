@@ -17,6 +17,9 @@ import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
+
+import ch.qos.logback.core.model.Model;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -216,5 +219,38 @@ public class EvaluationManageController {
         es_Service.edit(esvo);
 
         return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
+    }
+
+    @RequestMapping("gradeManage")
+    public ModelAndView gradeManage(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        EvaluationStatusVO[] es_ar= es_Service.list(s_idx);
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+        mv.addObject("es_ar", es_ar);
+
+        mv.setViewName("/jsp/admin/evaluationManage/gradeManage");
+        return mv;
+    }
+
+    @RequestMapping("grade_ajax")
+    public ModelAndView grade_ajax(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+        mv.addObject("es_ar", es_ar);
+
+        mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
+        return mv;
+    }
+
+    @RequestMapping("TraineeScoreList")
+    public ModelAndView TraineeScoreList(String es_idx){
+        ModelAndView mv = new ModelAndView();
+
+        return mv;
     }
 }

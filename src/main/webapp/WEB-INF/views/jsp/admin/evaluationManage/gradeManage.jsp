@@ -33,7 +33,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;평가관리</header>
+                <header>&nbsp;&nbsp;성적관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -43,7 +43,7 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${cvo.c_name}"과목현황</div>
+                            <div id="staffList_top" class="title">"${svo.s_title}"성적관리</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
@@ -60,7 +60,11 @@
             </div> 
         </article>
     </article>
-    <div id="dialog" hidden></div>
+    
+    <div id="dialog" hidden>
+        
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -68,62 +72,50 @@
         let numPerPage = "";
         let searchValue ="";
         let cPage = "1";
-        let c_idx = "${cvo.c_idx}"
+        let s_idx = "${svo.s_idx}"
         let value = 0;
         let change = true;
         let count = 0;
         let nowValue = 0;
-
-      
-	$(function() { 
-        $(".subSelect").removeClass("subSelect");
-        $("#l_one").addClass("subSelect");
-
-       
-
-        $.ajax({
-            url: "diary_ajax2",
-            type:"post",
-            data:"listSelect=1&cPage=1&num="+numPerPage+"&c_idx="+c_idx,
-        }).done(function(result){
-            $("#courseLog_Table").html(result);
-
-        });
-
-    
-        $("#write_btn").click(function(){
-            $("#dialog").dialog("open");
-            // /tl_dialog
+        let es_idx = "";
+        let type = "";
+        
+        
+        $(function() { 
+            $(".subSelect").removeClass("subSelect");
+            $("#l_one").addClass("subSelect");
+            
+           
             $.ajax({
-                url: "tl_dialog",
+                url: "grade_ajax",
                 type:"post",
-                data:"c_idx="+c_idx,
+                data:"s_idx="+s_idx,
             }).done(function(result){
-                $("#dialog").html(result);
-                $("#cc_cancle").click(function(){
-                    $("#dialog").dialog("close");
+                console.log("s_idx="+s_idx);
+                $("#courseLog_Table").html(result);
+                
+
+                $("#grading").click(function(){
+                    location.href = "TraineeScoreList?es_idx="+es_idx;
                 });
-                value = $("#attend").val();
-                cnt = 4; // 시작값 4
+            
+            
+            
+                
             });
         });
-        
-        
-        });
-       
-        $("#dialog").dialog({
-			autoOpen: false,
-			maxHeight: 900,
-			width: 1200,
-			modal: true,
-        });
 
-        function evaluationInfo(s_idx){
-            location.href="evaluationInfo?s_idx="+s_idx;
-        }
-        function gradeManage(s_idx){
-            location.href="gradeManage?s_idx="+s_idx;
-        }
+
+        function delEs(es_idx){
+            
+			if( confirm("삭제하시겠습니까?")){
+			
+                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
+			}else{
+                return;
+            }
+		}
+
     </script>
 </body>
 </html>

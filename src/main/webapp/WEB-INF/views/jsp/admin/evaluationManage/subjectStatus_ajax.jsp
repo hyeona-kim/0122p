@@ -39,7 +39,7 @@
                     <td>
                         <button type="button" class="btn green" onclick="evaluationInfo('${svo.s_idx}')">평가기본정보</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험출제</button>
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">성적관리</button>
+                        <button type="button" class="btn blue" onclick="gradeManage('${svo.s_idx}')">성적관리</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가현황</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험결과오픈</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가별 시험예시</button>
