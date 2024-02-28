@@ -19,11 +19,12 @@
     </select>
 
      <!-- 생성시 Controller에서 관련 tr_idx를 가져와서 반복문으로 add해야함-->
-    <insert id="add" parameterType="com.ict.project.vo.QuestionVO"> 
+    <insert id="add" parameterType="com.ict.project.vo.GradeCheckVO"> 
     <!-- 작성답안(gc_answer)과 비고(gc_memo)는 추가하는 과정에서 필요 x -->
-    <!-- qc_score(받은 점수)에는 기본적으로 0이 들어가니 주의 -->
-        INSERT INTO gradeCheck_t(qt_idx, gc_score, tr_idx)
-			values(#{qt_idx}, 0, , #{tr_idx})
+    <!-- 점수 및 답안에는 기본적으로 0, 'NONE'이 들어가니 주의 -->
+    <!-- 응시여부는 답안에 'NONE'이 아닌 값이 들어갔을 경우임 -->
+        INSERT INTO gradeCheck_t(qt_idx, gc_score, tr_idx, gc_answer)
+			values(#{qt_idx}, 0, , #{tr_idx}, 'NONE')
     </insert>
 
     <select id="qtOne" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
@@ -34,7 +35,7 @@
         select * from trainee_t where tr_idx = #{tr_idx}
     </select>
 
-    <update id="staff_edit" parameterType="com.ict.project.vo.GradeCheckVO">
+    <update id="staff_edit" parameterType="String">
         update gradeCheck_t
         <set>
             <trim suffixOverrides=","> <!-- qt_idx 및 tr_idx는 고정. 강사전용이므로 정답, 점수 및 비고만 수정 가능-->
@@ -45,7 +46,7 @@
         where gc_idx = #{gc_idx}
     </update>
 
-    <update id="trainee_edit" parameterType="com.ict.project.vo.GradeCheckVO">
+    <update id="trainee_edit" parameterType="String"><!-- 답안 작성후 제출시에 실행 -->
         update gradeCheck_t
         <set>
             <trim suffixOverrides=","> <!-- qt_idx 및 tr_idx는 고정. 학생전용이므로 답안만 수정 가능-->
