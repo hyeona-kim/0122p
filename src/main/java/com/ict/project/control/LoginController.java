@@ -102,7 +102,7 @@ public class LoginController {
             } else {
                 // 로그인 성공
                 // viewPath = "/jsp/admin/counselReceipt/main";
-                viewPath = "/jsp/staff/main_staff";
+                viewPath = "redirect:staffMain?leftList=1";
                 session.removeAttribute("cnt");
                 session.setAttribute("main_select", "2");
             }
