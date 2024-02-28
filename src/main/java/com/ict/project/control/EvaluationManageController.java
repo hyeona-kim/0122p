@@ -269,21 +269,21 @@ public class EvaluationManageController {
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO[] es_ar= es_Service.list(s_idx);
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
-        mv.addObject("es_ar", es_ar);
 
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage");
         return mv;
     }
 
     @RequestMapping("grade_ajax")
-    public ModelAndView grade_ajax(String es_idx) {
+    public ModelAndView grade_ajax(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-        QuestionVO[] qt_ar = qt_Service.list(es_idx);
-        mv.addObject("qt_ar", qt_ar);
+        EvaluationStatusVO[] es_ar= es_Service.list(s_idx);
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+        mv.addObject("es_ar", es_ar);
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
         return mv;
     }
@@ -291,8 +291,9 @@ public class EvaluationManageController {
     @RequestMapping("TraineeScoreList")
     public ModelAndView TraineeScoreList(String tr_idx){
         ModelAndView mv = new ModelAndView();
-
+        
         return mv;
 
     }
+    
 }
