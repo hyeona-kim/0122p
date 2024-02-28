@@ -14,11 +14,11 @@ public class QuestionService {
     @Autowired
     private QuestionMapper qt_mapper;
 
-    public QuestionVO[] list(){
+    public QuestionVO[] list(String es_idx){
 
         QuestionVO[] ar = null;
 
-        List<QuestionVO> list = qt_mapper.list();
+        List<QuestionVO> list = qt_mapper.list(es_idx);
         if (list != null && list.size() > 0) {
             ar = new QuestionVO[list.size()];
             list.toArray(ar);

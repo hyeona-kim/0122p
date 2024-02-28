@@ -7,6 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
 import com.ict.project.service.EvaluationStatusService;
+import com.ict.project.service.GradeCheckService;
+import com.ict.project.service.QuestionService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TrainingDiaryService;
@@ -14,6 +16,7 @@ import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
@@ -36,6 +39,10 @@ public class EvaluationManageController {
     EvaluationStatusService es_Service;
     @Autowired
     StaffService sf_Service;
+    @Autowired
+    QuestionService qt_Service;
+    @Autowired
+    GradeCheckService gc_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -235,20 +242,17 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("grade_ajax")
-    public ModelAndView grade_ajax(String s_idx) {
+    public ModelAndView grade_ajax(String es_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
-        SubjectVO svo = s_Service.list2(s_idx);
-        mv.addObject("svo", svo);
-        mv.addObject("es_ar", es_ar);
-
+        QuestionVO[] qt_ar = qt_Service.list(es_idx);
+        mv.addObject("qt_ar", qt_ar);
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
         return mv;
     }
 
     @RequestMapping("TraineeScoreList")
-    public ModelAndView TraineeScoreList(String es_idx){
+    public ModelAndView TraineeScoreList(String tr_idx){
         ModelAndView mv = new ModelAndView();
 
         return mv;
