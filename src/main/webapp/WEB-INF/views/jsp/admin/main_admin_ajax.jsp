@@ -189,7 +189,7 @@
                     <li><a href="staffList">&nbsp;교직원현황</a></li>
                     <li><a href="weeklyMeeting">&nbsp;주간회의록</a></li>	
                     <li><a href="formDownload">&nbsp;서식자료실</a></li>	
-                    <li><a href="">&nbsp;일정관리</a></li>	
+                    <li><a href="calendar">&nbsp;일정관리</a></li>	
                 </ul>
             </li>
            

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ict.project.mapper.QuestionMapper">
+    <resultMap type="com.ict.project.vo.QuestionVO" id="map1">
+		<result column="qt_idx" property="qt_idx" />
+		<association property="esvo" column="es_idx" javaType="com.ict.project.vo.EvaluationStatusVO" select="esOne"></association>
+		<collection property="gc_ar" column="qt_idx" ofType="com.ict.project.vo.EvaluationStatusVO" select="gc_list"></collection>
+	</resultMap>
+
+    <select id="list" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
+        select * from question_t where es_idx = #{es_idx};
+    </select>
+
+    <select id="getOne" parameterType="String" resultMap="map1">
+        select * from question_t where qt_idx = #{qt_idx};
+    </select>
+
+    <insert id="add" parameterType="com.ict.project.vo.QuestionVO">
+        INSERT INTO question_t(es_idx, qt_name, qt_score, qt_type, qt_correct)
+			values(#{es_idx}, #{qt_name}, #{qt_score}, #{qt_type}, #{qt_correct})
+    </insert>
+
+    <select id="esOne" parameterType="String" resultType="com.ict.project.vo.EvaluationStatusVO">
+        select * from evaluation_status where es_idx = #{es_idx} and es_status = 0;
+    </select>
+
+    <select id="gc_list" parameterType="String" resultType="com.ict.project.vo.GradeCheckVO">
+        select * from gradeCheck_t where qt_idx = #{qt_idx}
+    </select>
+
+    <update id="edit" parameterType="com.ict.project.vo.QuestionVO">
+        update question_t
+        <set>
+            <trim suffixOverrides=","> <!-- es_idx는 고정 -->
+                <if test="qt_name != null">qt_name = #{qt_name},</if>
+                <if test="qt_score != null">qt_score = #{qt_score},</if>
+                <if test="qt_type != null">qt_type = #{qt_type},</if>
+                <if test="qt_correct != null">qt_correct = #{qt_correct},</if>
+            </trim>
+        </set>
+        where qt_idx = #{qt_idx}
+    </update>
+</mapper>

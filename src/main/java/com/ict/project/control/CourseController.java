@@ -1056,4 +1056,11 @@ public class CourseController {
 		return map;
 	}
 
+	@RequestMapping("calendar")
+	public String calendar() {
+		// mv.setViewName("/jsp/admin/courseReg/weekTime_ajax");
+		return "/jsp/admin/etcList/schedule/calendar";
+
+	}
+
 }

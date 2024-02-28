@@ -234,6 +234,19 @@ input[id="menuicon"]:checked +div .navi>li>a:hover{
     font-weight: bold;
     background-color:  rgb(21, 71, 144, 0.8);
 }
+#calendar2{
+    margin-top: 5px;
+}
+#calendar2 .fc-col-header-cell {
+    background-color: rgb(21, 71, 144, 0.8);
+}
+#calendar2 .fc-col-header-cell a{
+    color: white;
+}
+#calendar2 .korea_holiday{
+    pointer-events: none;
+}
+
 .time_table{
     width: 85%;
     margin: auto;

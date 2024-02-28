@@ -97,6 +97,9 @@
             </div>
         </div>
         <div id="calendar_wrap">
+            <span>
+                <a href="calendar">일정관리</a>
+            </span>
             <div class="calendar" id="calendar">
 
             </div>
@@ -132,22 +135,36 @@
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
-    //<!-- 이벤트 나중에 할게요..^^-->
+
     document.addEventListener('DOMContentLoaded', function() {   
         init();    
         var calendarEl = document.getElementById('calendar');       
         var calendar = new FullCalendar.Calendar(calendarEl,{    
-            
             headerToolbar:{
                 right:'prev,next',
                 center:'title',
                 left:'today'
             },
             locale: "ko",                  
-            dayMaxEventRows: true,         
+            dayMaxEventRows: 0,         
             googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
-            buttonsStyling: false,    
+     
             showNonCurrentDates:false,      
+            eventSources: [           
+            {             
+                googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
+                className: 'korea_holiday',             
+                color: 'white',
+                textColor:'red',           
+            },           
+            ],
+            events:[
+            {
+                title : "빨강색 배경 & 글자색 노랑색", color : "#FF0000", textColor : "#FFFF00", start : "2024-05-02", end : "2024-05-06T10:00:00" 
+            }
+            
+            ]
+            
         });
         calendar.render();
        

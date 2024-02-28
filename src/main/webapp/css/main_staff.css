@@ -116,7 +116,21 @@
 #course_wrap ul{
     display: none;
 }
-
+#calendar2{
+    margin-top: 5px;
+}
+#calendar2 .fc-col-header-cell {
+    background-color: rgb(21, 71, 144, 0.8);
+}
+#calendar2 .fc-col-header-cell a{
+    color:white;
+}
+#calendar2 .fc-toolbar-title{
+    color: rgb(21, 71, 144, 0.8);
+}
+#calendar2 .korea_holiday{
+    pointer-events: none;
+}
 .mypage_ul{
     position: absolute;
     bottom: -90px;
