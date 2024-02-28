@@ -12,8 +12,10 @@ import com.ict.project.service.SubjectService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselingdetailVO;
+import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.RoomVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
@@ -156,6 +158,17 @@ public class EvaluationManageController {
         return mv;
     }
 
+    @RequestMapping("examInput")
+    public ModelAndView examInput(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+
+        mv.setViewName("/jsp/admin/evaluationManage/examInput");
+        return mv;
+    }
+
     @RequestMapping("diary_ajax3")
     public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx) {
         ModelAndView mv = new ModelAndView();
@@ -168,7 +181,10 @@ public class EvaluationManageController {
         EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
         mv.addObject("es_ar", es_ar);
 
-        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
+        if (listSelect.equals("1"))
+            mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
+        else if (listSelect.equals("2"))
+            mv.setViewName("/jsp/admin/evaluationManage/examInput_ajax");
         return mv;
     }
 
@@ -191,13 +207,13 @@ public class EvaluationManageController {
         } else {
             EvaluationStatusVO esvo = es_Service.getone(es_idx);
             StaffVO sfvo = sf_Service.getStaff(esvo.getSf_idx());
-            if(esvo.getEs_type().equals("2")){
+            if (esvo.getEs_type().equals("2")) {
                 String[] str = esvo.getEs_num_question().split("/");
                 mv.addObject("q1", str[0]);
                 mv.addObject("q2", str[1]);
             }
-                mv.addObject("esvo", esvo);
-                mv.addObject("sfvo", sfvo);
+            mv.addObject("esvo", esvo);
+            mv.addObject("sfvo", sfvo);
             mv.setViewName("/jsp/admin/evaluationManage/editEvaluationInfo_ajax");
         }
 
@@ -210,11 +226,29 @@ public class EvaluationManageController {
 
         return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
     }
-    
+
     @RequestMapping("editEvaluationStatus")
     public String editEvaluationStatus(EvaluationStatusVO esvo) {
         es_Service.edit(esvo);
 
         return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
+    }
+
+    @RequestMapping("es_dialog2")
+    public ModelAndView c_dialog(String listSelect, String es_idx, String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+        EvaluationStatusVO esvo = es_Service.getone(es_idx);
+        mv.addObject("esvo", esvo);
+
+        if (listSelect.equals("1"))
+            mv.setViewName("/jsp/admin/evaluationManage/addEvidence_ajax");
+        else if (listSelect.equals("2"))
+            mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
+
+        return mv;
+
     }
 }

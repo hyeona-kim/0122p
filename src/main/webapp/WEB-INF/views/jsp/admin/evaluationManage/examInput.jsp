@@ -43,8 +43,10 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${cvo.c_name}"과목현황</div>
+                            <div id="staffList_top" class="title">"${svo.s_title}"평가별 시험출제정보</div>
                             <div id="search_area" class="main_item">
+                                <h2>능력 단위명 : ${svo.s_title} 훈련교사 : ${svo.sf_name} </h2>
+                                <hr/>
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
@@ -60,7 +62,11 @@
             </div> 
         </article>
     </article>
+    
     <div id="dialog" hidden></div>
+    <div id="dialog2" hidden></div>
+    <div id="dialog3" hidden></div>
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -68,49 +74,47 @@
         let numPerPage = "";
         let searchValue ="";
         let cPage = "1";
-        let c_idx = "${cvo.c_idx}"
+        let s_idx = "${svo.s_idx}"
         let value = 0;
         let change = true;
         let count = 0;
         let nowValue = 0;
-
-      
-	$(function() { 
-        $(".subSelect").removeClass("subSelect");
-        $("#l_one").addClass("subSelect");
-
-       
-
-        $.ajax({
-            url: "diary_ajax2",
-            type:"post",
-            data:"listSelect=1&cPage=1&num="+numPerPage+"&c_idx="+c_idx,
-        }).done(function(result){
-            $("#courseLog_Table").html(result);
-
-        });
-
-    
-        $("#write_btn").click(function(){
-            $("#dialog").dialog("open");
-            // /tl_dialog
+        let es_idx = "${esvo.es_idx}";
+        let type = "";
+        
+        
+        $(function() { 
+            $(".subSelect").removeClass("subSelect");
+            $("#l_one").addClass("subSelect");
+            
+           
             $.ajax({
-                url: "tl_dialog",
+                url: "diary_ajax3",
                 type:"post",
-                data:"c_idx="+c_idx,
+                data:"listSelect=2&cPage=1&num="+numPerPage+"&s_idx="+s_idx+"&es_idx="+es_idx,
+            }).done(function(result){
+                console.log("s_idx="+s_idx);
+                $("#courseLog_Table").html(result);
+                
+            });
+            
+            
+            
+            
+        });
+        
+      function addEvidence(){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=1",
             }).done(function(result){
                 $("#dialog").html(result);
-                $("#cc_cancle").click(function(){
-                    $("#dialog").dialog("close");
-                });
-                value = $("#attend").val();
-                cnt = 4; // 시작값 4
+             
             });
-        });
-        
-        
-        });
-       
+        }
+
         $("#dialog").dialog({
 			autoOpen: false,
 			maxHeight: 900,
@@ -118,13 +122,39 @@
 			modal: true,
         });
 
-        function evaluationInfo(s_idx){
-            location.href="evaluationInfo?s_idx="+s_idx;
+        function viewExam(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=2&es_idx="+es_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
         }
 
-        function examInput(s_idx){
-            location.href="examInput?s_idx="+s_idx;
-        }
+        $("#dialog2").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
+
+
+
+
+        function delEs(es_idx){
+            
+			if( confirm("삭제하시겠습니까?")){
+			
+                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
+			}else{
+                return;
+            }
+		}
+
     </script>
 </body>
 </html>
