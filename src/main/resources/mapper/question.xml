@@ -10,8 +10,8 @@
 		<collection property="gc_ar" column="qt_idx" ofType="com.ict.project.vo.EvaluationStatusVO" select="gc_list"></collection>
 	</resultMap>
 
-    <select id="list" resultType="com.ict.project.vo.QuestionVO">
-        select * from question_t;
+    <select id="list" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
+        select * from question_t where es_idx = #{es_idx};
     </select>
 
     <select id="getOne" parameterType="String" resultMap="map1">

@@ -16,6 +16,7 @@ import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TrainingDiaryVO;
@@ -244,7 +245,8 @@ public class EvaluationManageController {
     public ModelAndView grade_ajax(String es_idx) {
         ModelAndView mv = new ModelAndView();
 
-
+        QuestionVO[] qt_ar = qt_Service.list(es_idx);
+        mv.addObject("qt_ar", qt_ar);
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
         return mv;
     }
