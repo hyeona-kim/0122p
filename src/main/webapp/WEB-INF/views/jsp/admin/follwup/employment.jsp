@@ -22,7 +22,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;사후관리현황</header>
+                <header>&nbsp;&nbsp;취업확인서</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -31,7 +31,7 @@
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
                     <div id="staffWrap">
-                        <div id="staffList_top" class="title">사후관리 현황</div>
+                        <div id="staffList_top" class="title">취업확인서</div>
                         <table id="searchTime" class="table">
                             <caption>과정검색</caption>
                                 <thead>
@@ -125,7 +125,7 @@
 		let searchValue="";
 		let searchnum="";
 		let searchyear="";
-        
+
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -205,7 +205,7 @@
             $.ajax({
                 url: "ex_post",
                 type:"post",
-                data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1"+"&listselect=3",
+                data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1"+"&listselect=5",
             }).done(function(result){
                 $("#result").html(result);
 
@@ -218,7 +218,7 @@
 			$.ajax({
 				url: "ex_post",
 				type:"post",
-				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str+"&listselect=3",
+				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str+"&listselect=5",
 			}).done(function(result){
 				$("#result").html(result);
 			});
@@ -226,7 +226,7 @@
 		}
 
         function bt1(c_idx){
-			location.href="current?c_idx="+c_idx+"&listselect=3";
+			location.href="current?c_idx="+c_idx+"&listselect=5";
 		}
 		
     </script>

@@ -171,6 +171,14 @@
             $(this).css("display","none");
         });
         $(function(){
+            $.ajax({
+				url: "job",
+				type: "post",
+				data:"listSelect=1&c_idx="+c_idx+"&ct_idx="+ct_idx,
+			}).done(function(result){
+				$("#counselReceipt_Table").html(result);
+			});
+        
 
             
 			$.ajax({

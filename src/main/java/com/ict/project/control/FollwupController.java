@@ -46,9 +46,9 @@ public class FollwupController {
         } else if (listSelect.equals("3")) {
             mv.setViewName("/jsp/admin/follwup/ex_post");
         } else if (listSelect.equals("4")) {
-            mv.setViewName("/jsp/admin/follwup/");
+            mv.setViewName("/jsp/admin/follwup/ex_postlist");
         } else if (listSelect.equals("5")) {
-            mv.setViewName("/jsp/admin/follwup/");
+            mv.setViewName("/jsp/admin/follwup/employment");
         } else if (listSelect.equals("6")) {
             mv.setViewName("/jsp/admin/follwup/");
         }
@@ -82,7 +82,7 @@ public class FollwupController {
 
     /* 과정별 훈련생 현황 메뉴 */
     @RequestMapping("ex_post")
-    public ModelAndView ex_post(String cPage, String value, String select, String year, String num) {
+    public ModelAndView ex_post(String cPage, String value, String select, String year, String num, String listselect) {
         ModelAndView mv = new ModelAndView();
         if (cPage == null)
             cPage = "1";
@@ -109,13 +109,20 @@ public class FollwupController {
         CourseVO[] ar = c_Service.searchCourse(select, value, year, String.valueOf(page.getBegin()),
                 String.valueOf(page.getEnd()));
         mv.addObject("ar", ar);
-        mv.setViewName("/jsp/admin/follwup/ex_post_ajax");
+
+        if (listselect != null && listselect.equals("3")) {
+            mv.setViewName("/jsp/admin/follwup/ex_post_ajax");
+        } else if (listselect != null && listselect.equals("4")) {
+            mv.setViewName("/jsp/admin/follwup/ex_postlist_ajax");
+        } else if (listselect != null && listselect.equals("5")) {
+            mv.setViewName("/jsp/admin/follwup/employment_ajax");
+        }
 
         return mv;
     }
 
     @RequestMapping("current")
-    public ModelAndView traineecurrentbt1(String cPage, String c_idx) {
+    public ModelAndView traineecurrentbt1(String cPage, String c_idx, String listselect) {
         ModelAndView mv = new ModelAndView();
         Paging page = new Paging();
 
@@ -135,7 +142,12 @@ public class FollwupController {
         mv.addObject("page", page);
         mv.addObject("c_idx", c_idx);
         mv.addObject("aa", aa);
-        mv.setViewName("jsp/admin/follwup/postcurrent");
+
+        if (listselect != null && listselect.equals("3")) {
+            mv.setViewName("jsp/admin/follwup/postcurrent");
+        } else if (listselect != null && listselect.equals("5"))
+            mv.setViewName("jsp/admin/follwup/employmentbt");
+
         return mv;
     }
 }
