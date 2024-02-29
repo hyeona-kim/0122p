@@ -247,7 +247,6 @@ public class EvaluationManageController {
         return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
     }
 
-
     @RequestMapping("es_dialog2")
     public ModelAndView c_dialog(String listSelect, String es_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
@@ -264,7 +263,8 @@ public class EvaluationManageController {
 
         return mv;
 
-=======
+    }
+
     @RequestMapping("gradeManage")
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
@@ -280,7 +280,7 @@ public class EvaluationManageController {
     public ModelAndView grade_ajax(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO[] es_ar= es_Service.list(s_idx);
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
         mv.addObject("es_ar", es_ar);
@@ -289,11 +289,11 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("TraineeScoreList")
-    public ModelAndView TraineeScoreList(String tr_idx){
+    public ModelAndView TraineeScoreList(String tr_idx) {
         ModelAndView mv = new ModelAndView();
-        
+
         return mv;
 
     }
-    
+
 }
