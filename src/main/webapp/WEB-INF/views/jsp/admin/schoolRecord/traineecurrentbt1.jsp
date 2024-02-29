@@ -327,7 +327,7 @@
 		$.ajax({
             url: "mangecard",
             type: "post",
-            data:"tr_idx="+tt+"&c_idx="+tt1
+            data:"tr_idx="+tt+"&c_idx="+tt1,
          }).done(function(result){
             $("#m1").html(result);
          });

@@ -57,6 +57,10 @@
 #top>.left>ul>li:hover{
      background-color: rgb(21, 71, 144);
 }
+#top>.left>ul>li:first-child{
+    margin-top: 10px;
+ 
+}
 .selected{
     background-color: rgb(21, 71, 144);
 }
@@ -119,6 +123,9 @@
 #calendar2{
     margin-top: 5px;
 }
+#calendar2 .fc-button{
+    background-color: rgb(21, 71, 144);
+}
 #calendar2 .fc-col-header-cell {
     background-color: rgb(21, 71, 144, 0.8);
 }
@@ -143,11 +150,13 @@
     border-radius: 10px 10px;
 }
 .mypage_ul>li{
+    display: block;
     list-style-type: none;
     padding: 0;
     margin: 0;
     text-align: center;  
 }
+
 .mypage_ul>li>a{
     display: inline-block;
     padding: 5px;

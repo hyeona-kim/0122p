@@ -20,6 +20,7 @@
 		<result column="c_idx" property="c_idx" />
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
 		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -211,13 +212,14 @@
 	</update>
 
 
-	<select id="search_ct" parameterType="String" resultMap="map2">
+	<select id="search_ct" parameterType="Map" resultMap="map2">
 		select * from course_t 
 		<where>
 			<trim suffixOverrides="and">
 					c_status = 0 and
 					<if test="c_idx != 0">c_idx = #{c_idx} and</if>
 					<if test="ct_idx != 0">ct_idx = #{ct_idx} and</if>
+			
 			</trim>
 		</where>
 	</select>

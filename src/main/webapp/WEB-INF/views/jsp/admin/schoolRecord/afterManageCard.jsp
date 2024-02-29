@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- colgroup으로 비율 맞춰놔서 width만 100%맞추면 돼요-->
     <h2 class="title">사후관리</h2>
-    <form action="afterManage_axaj" method="post" name="qwe" encType="multipart/form-data">
+    <form action="afterManage_axaj?select=${select}" method="post" name="qwe" encType="multipart/form-data">
     <table class="table" id="makeTime">
         <colgroup>
             <col width="16%"/>

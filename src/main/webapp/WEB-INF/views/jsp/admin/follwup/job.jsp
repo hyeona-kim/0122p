@@ -155,6 +155,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        let c_idx = "0";
+        let ct_idx = "0";
+
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -173,31 +176,31 @@
 			$.ajax({
 				url: "job",
 				type: "post",
-				data:"selectList=1&c_idx=0&ct_idx=0",
+				data:"listSelect=1&c_idx="+c_idx+"&ct_idx="+ct_idx,
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
 			});
         
 			
 			$("#courseType").change(function(){
-                let select = $("#courseType").val();
-                let c_idx = $("#searchCourse").val();
+                ct_idx = $("#courseType").val();
+                c_idx = $("#searchCourse").val();
                 $.ajax({
                     url: "job",
                     type: "post",
-                    data:"selectList=1&ct_idx="+select+"&c_idx="+c_idx,
+                    data:"listSelect=1&ct_idx="+ct_idx+"&c_idx="+c_idx,
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
             });
 
             $("#searchCourse").change(function(){
-                let c_idx = $("#searchCourse").val();
-                let select = $("#courseType").val();
+                c_idx = $("#searchCourse").val();
+                ct_idx = $("#courseType").val();
                 $.ajax({
                     url: "job",
                     type: "post",
-                    data:"selectList=1&c_idx="+c_idx+"&ct_idx="+select,
+                    data:"listSelect=1&c_idx="+c_idx+"&ct_idx="+ct_idx,
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
                 });
