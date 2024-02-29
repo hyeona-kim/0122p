@@ -332,4 +332,12 @@ public class EvaluationManageController {
 
     }
 
+    @RequestMapping("grading")
+    public ModelAndView grading(String tr_idx, String es_idx){
+        ModelAndView mv = new ModelAndView();
+
+
+        return mv;
+    }
+
 }
