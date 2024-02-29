@@ -81,8 +81,9 @@
         let nowValue = 0;
         let es_idx = "${esvo.es_idx}";
         let type = "";
-        
-        
+        let cnt = "";
+        let cnt2 = "";
+
         $(function() { 
             $(".subSelect").removeClass("subSelect");
             $("#l_one").addClass("subSelect");
@@ -149,6 +150,10 @@
                 data:"listSelect=3&es_idx="+es_idx+"&s_idx="+s_idx,
             }).done(function(result){
                 $("#dialog").html(result);
+
+                cnt = $("#idx").val();
+                cnt2 = 0;
+                
             });
         }
 
@@ -161,18 +166,24 @@
 
         function addExamFill() {
             let str = $("#examFill_tbody").html();
-            let str2="<tr>"+
-                "<th><label><input type='text' name='' /></label></th>"+
-                "<td colspan='3'>"+
-                    "[문항] <input type='text' name=''/><br/>"+
-                    "<textarea cols='80' rows='4' >{문제 내용}</textarea><br/>"+
-                        "1) {보기1}<input type='text' name=''/><hr/>"+
-                        "1) {보기1}<input type='text' name=''/><hr/>"+
-                        "1) {보기1}<input type='text' name=''/><hr/>"+
-                        "1) {보기1}<input type='text' name=''/><hr/>"+
-                    "정답 : <input type='text'/>"+
+            let str2="<tr><th rowspan='6'><label><input type='text' name='' class='text'/></label></th>"+
+            "</tr><tr><td><input type='text' name='' placeholder='문항' class='text'/>"+
+                "</td></tr><tr><td><textarea cols='80' rows='4' placeholder='문제 내용' class='textarea'></textarea>"+
+                "</td></tr><tr><td id='selectExam"+ ++cnt2 +"'>"+
+                    "<input type='text' value="+ ++cnt +" id='idx"+ cnt +"' readonly class='text' style='width: 10%;'/>"+
+                    "<input type='text' name='' value='' class='text' style='width: 70%'/>"+
+                "</td></tr><tr><td><input type='button' value='추가' onclick='addSelect()' class='btn'>"+
+                "</td></tr><tr><td> 정답 : <input type='text' class='text'/>"+
                 "</td></tr>";
             $("#examFill_tbody").html(str+str2);
+        }
+
+        function addSelect(){
+            let str3 = ++cnt2;
+            let str = $('#selectExam'+str3).html();
+            let str2 = "</br><input type='text' value="+ ++cnt + " readonly class='text' style='width: 10%;'/>"+
+            "<input type='text' name='' value='' class='text' style='width: 70%'/>"
+            $("#selectExam"+str3).html(str + str2);
         }
 
 
