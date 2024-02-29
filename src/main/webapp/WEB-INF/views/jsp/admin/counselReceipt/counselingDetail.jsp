@@ -394,7 +394,8 @@
     function addInflowPath() {
         room_length +=1;
         let str = $("#addInflowPath_tbody").html();
-        let str2="<tr><td><strong>"+room_length+"</strong><br/><button type='button' class='btn red'>삭제</button> </td> <td><input type='text' name='InflowPathName' class='text'/> </td>";
+        let str2="<tr><td><strong>"+room_length+"</strong><br/><button type='button' class='btn red'>삭제</button> </td>"
+                    +"<td><input type='text' name='InflowPathName' class='text'/> </td>";
         
         $("#addInflowPath_tbody").html(str+str2);
     }

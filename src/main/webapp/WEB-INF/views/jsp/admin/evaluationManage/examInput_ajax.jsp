@@ -54,7 +54,9 @@
                     <td>${esvo.es_examStatus}</td>  
                     <td>
                         <button type="button" class="btn green" onclick="viewExam('${esvo.es_idx}')">시험지보기</button>
-                        <button type="button" class="btn green" onclick="editEI('${esvo.es_idx}')">시험채점</button>
+                    
+                        <button type="button" class="btn green" onclick="examFill('${esvo.es_idx}')">시험출제</button>
+
                         <button type="button" class="btn green" onclick="addEvidence()">증빙자료</button>
 
                     </td>  

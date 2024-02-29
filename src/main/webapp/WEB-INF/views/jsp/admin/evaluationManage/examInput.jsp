@@ -141,19 +141,42 @@
 			modal: true,
         });
 
+        function examFill(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=3&es_idx="+es_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+            });
+        }
+
+        $("#dialog3").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
+        function addExamFill() {
+            let str = $("#examFill_tbody").html();
+            let str2="<tr>"+
+                "<th><label><input type='text' name='' /></label></th>"+
+                "<td colspan='3'>"+
+                    "[문항] <input type='text' name=''/><br/>"+
+                    "<textarea cols='80' rows='4' >{문제 내용}</textarea><br/>"+
+                        "1) {보기1}<input type='text' name=''/><hr/>"+
+                        "1) {보기1}<input type='text' name=''/><hr/>"+
+                        "1) {보기1}<input type='text' name=''/><hr/>"+
+                        "1) {보기1}<input type='text' name=''/><hr/>"+
+                    "정답 : <input type='text'/>"+
+                "</td></tr>";
+            $("#examFill_tbody").html(str+str2);
+        }
 
 
-
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
+    
 
     </script>
 </body>
