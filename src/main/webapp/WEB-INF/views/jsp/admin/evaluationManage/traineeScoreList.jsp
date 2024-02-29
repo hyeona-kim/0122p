@@ -43,15 +43,17 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${svo.s_title}"성적관리</div>
+                            <div id="staffList_top" class="title">"${svo.s_title} 과목 ≫ ${esvo.es_name}" 채점 리스트</div>
                             <div id="search_area" class="main_item">
+                                <div class="align_left">
+                                    훈련교사명: ${sfvo.sf_name}
+                                </div>
+                                <hr/>
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>
                             <div id="courseLog_Table">
-
-                                <!--비동기 통신으로 가져올 내용 -->
 
                             </div>
                         </article>
@@ -69,8 +71,9 @@
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         let cPage = "1";
-        let s_idx = "${svo.s_idx}"
-        let es_idx = "";
+        let s_idx = "${svo.s_idx}";
+        let es_idx = "${esvo.es_idx}";
+        let c_idx = "${svo.c_idx}";
         
         
         $(function() { 
@@ -79,16 +82,16 @@
             
            
             $.ajax({
-                url: "grade_ajax",
+                url: "list_ajax",
                 type:"post",
-                data:"s_idx="+s_idx,
+                data:"c_idx="+c_idx + "&es_idx="+es_idx,
             }).done(function(result){
                 $("#courseLog_Table").html(result);
 
             });
         });
 
-        function scoreList(idx){
+        function grading(idx){
             location.href = "TraineeScoreList?s_idx="+s_idx+"&es_idx="+idx;
         }
 

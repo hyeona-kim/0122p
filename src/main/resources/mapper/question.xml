@@ -7,7 +7,7 @@
     <resultMap type="com.ict.project.vo.QuestionVO" id="map1">
 		<result column="qt_idx" property="qt_idx" />
 		<association property="esvo" column="es_idx" javaType="com.ict.project.vo.EvaluationStatusVO" select="esOne"></association>
-		<collection property="gc_ar" column="qt_idx" ofType="com.ict.project.vo.EvaluationStatusVO" select="gc_list"></collection>
+		<collection property="gc_ar" column="qt_idx" ofType="com.ict.project.vo.GradeCheckVO" select="gc_list"></collection>
 	</resultMap>
 
     <select id="list" parameterType="String" resultType="com.ict.project.vo.QuestionVO">

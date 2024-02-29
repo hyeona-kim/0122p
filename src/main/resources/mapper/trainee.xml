@@ -69,7 +69,7 @@
 
 <select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 	select * from trainee_t
-	where status = 0 and c_idx = #{c_idx}
+	where status = 0 and c_idx = #{c_idx} order by tr_idx
 </select>
 
 <select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
