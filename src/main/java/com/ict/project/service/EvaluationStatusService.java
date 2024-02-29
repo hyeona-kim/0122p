@@ -42,4 +42,8 @@ public class EvaluationStatusService {
         return es_Mapper.getone(es_idx);
     }
 
+    public int getSearchCount(String es_idx) {
+        return es_Mapper.search_count(es_idx);
+    }
+
 }

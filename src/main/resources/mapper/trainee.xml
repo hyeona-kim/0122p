@@ -228,4 +228,11 @@
     </foreach>
 </insert>
 
+ <select id="getEs" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+		select * from trainee_t
+		where status = 0 and es_idx = #{es_idx}
+</select>
+
+
+
 </mapper>

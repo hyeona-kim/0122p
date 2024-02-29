@@ -51,7 +51,7 @@ public class EvaluationManageController {
     @Autowired
     GradeCheckService gc_Service;
     @Autowired
-    TraineeService t_Service;
+    TraineeService tr_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -251,7 +251,6 @@ public class EvaluationManageController {
         return "redirect:evaluationInfo?s_idx=" + esvo.getS_idx();
     }
 
-
     @RequestMapping("es_dialog2")
     public ModelAndView c_dialog(String listSelect, String es_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
@@ -265,13 +264,17 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/addEvidence_ajax");
         else if (listSelect.equals("2"))
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
-
+        else if (listSelect.equals("3"))
+            mv.setViewName("/jsp/admin/evaluationManage/examFill_ajax");
         return mv;
     }
 
     @RequestMapping("gradeManage")
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
+
+
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
 
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);

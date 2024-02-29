@@ -43,9 +43,9 @@
 
                         <button type="button" class="btn blue" onclick="gradeManage('${svo.s_idx}')">성적관리</button>
 
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가현황</button>
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험결과오픈</button>
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가별 시험예시</button>
+                        <button type="button" class="btn blue" onclick="">평가현황</button>
+                        <button type="button" class="btn blue" onclick="">시험결과오픈</button>
+                        <button type="button" class="btn blue" onclick="">평가별 시험예시</button>
                     </td>
 
                 </tr>
