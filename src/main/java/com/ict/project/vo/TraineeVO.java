@@ -17,4 +17,5 @@ public class TraineeVO {
 	private MultipartFile file;
 	private CourseVO cvo;
 	private boolean gender;
+	private GradeCheckVO[] gc_ar;
 }

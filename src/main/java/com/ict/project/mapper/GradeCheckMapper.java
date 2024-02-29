@@ -6,7 +6,7 @@ import com.ict.project.vo.GradeCheckVO;
 
 public interface GradeCheckMapper {
 
-    List<GradeCheckVO> list();
+    List<GradeCheckVO> list(String tr_idx);
     GradeCheckVO getOne(String gc_idx);
     int add(GradeCheckVO vo);
     int staff_edit(String gc_idx, String gc_score, String gc_memo);
