@@ -115,6 +115,7 @@
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"' selected>"+data.c_ar[i].c_name+"</option>";
                         }else{
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"'>"+data.c_ar[i].c_name+"</option>";
+                            
                         }
                     }
                 }else{
@@ -142,10 +143,25 @@
                 c_idx = this.value;
             }); 
         });
-
+        let calendarEl =null;
+        let calendar = null;
+        let ar = [];
+        let events_ar = [];
         document.addEventListener('DOMContentLoaded', function() {  
-            var calendarEl = document.getElementById('calendar2');    
-            var calendar = new FullCalendar.Calendar(calendarEl,{  
+            $.ajax({
+                url :"http://localhost:5000/list",
+                type:"get",
+                dataType:"json"
+            }).done(function(data){
+                //console.log(data);
+                ar = data;
+                for(let i=0; i<ar.length; i++){
+                    if(ar[i].status == 0){
+                        events_ar.push(ar[i])
+                    }
+                }
+                calendarEl = document.getElementById('calendar2');    
+            calendar = new FullCalendar.Calendar(calendarEl,{  
                 height:"98%",  
                 headerToolbar:{
                     right:'today,prev,next',
@@ -168,24 +184,16 @@
                     href:"",
                 },           
                 ],
-                events:[
-                {
-                    title : "이력서접수기간", color : "#FF0000", textColor : "#FFFF00", start : "2024-05-02", end : "2024-05-06T10:00:00" 
-                },  
-                {
-                    title : "학원 조기 종료", color : "#FF0000", textColor : "#FFFF00", start : "2024-02-02", end : "2024-02-06T10:00:00" 
-                },
-                {  title : "발길향하는 공간"  , url : "http://www.wickedmiso.com/"  , start : "2016-05-25" } 
-                ],
+                events: events_ar,
                 editable: false,
                 //droppable을 사용할때 droppable true 드롭이벤트
                 droppable: false,
                 
             });
-            $(".korea_holiday").click(function(a){
-                return false;
-            })
+            
             calendar.render();
+
+            });
         });
 
 

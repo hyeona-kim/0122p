@@ -115,7 +115,6 @@
 
                         }
                     }
-                    c_idx = data.c_ar[0].c_idx;
                 }else{
                     str = "<option>:::존재하는 과정이 없습니다:::</option>";
                     $("#menu_list").html("<li id='l_five'><a onclick='list(5)'>일정보기</a></li>");
