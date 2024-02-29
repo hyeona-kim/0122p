@@ -90,7 +90,7 @@
             <c:forEach var="qvo" items="${qvo}" varStatus="vs">
                 <td colspan="2">${vs.index+1}.${qvo.qc_name}</td>
             </c:forEach>
-            <c:if test="${length < 3}">
+            <c:if test="${fn:length(qvo) < 3}">
                 <c:forEach begin="${length+1}" end="3" var="i" >
                 <td colspan="2"></td>
                 </c:forEach>

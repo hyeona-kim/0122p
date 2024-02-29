@@ -11,19 +11,21 @@ import com.ict.project.service.GradeCheckService;
 import com.ict.project.service.QuestionService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
+import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
-
+import com.ict.project.vo.GradeCheckVO;
 import com.ict.project.vo.RoomVO;
 
 import com.ict.project.vo.QuestionVO;
 
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
+import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingDiaryVO;
 
 import ch.qos.logback.core.model.Model;
@@ -48,6 +50,8 @@ public class EvaluationManageController {
     QuestionService qt_Service;
     @Autowired
     GradeCheckService gc_Service;
+    @Autowired
+    TraineeService tr_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -260,13 +264,16 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/addEvidence_ajax");
         else if (listSelect.equals("2"))
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
-
+        else if (listSelect.equals("3"))
+            mv.setViewName("/jsp/admin/evaluationManage/examFill_ajax");
         return mv;
     }
 
     @RequestMapping("gradeManage")
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
+
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
 
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
@@ -288,9 +295,39 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("TraineeScoreList")
-    public ModelAndView TraineeScoreList(String tr_idx) {
+    public ModelAndView TraineeScoreList(String s_idx, String es_idx) {
         ModelAndView mv = new ModelAndView();
 
+        EvaluationStatusVO esvo = es_Service.getone(es_idx);
+        SubjectVO svo = s_Service.list2(s_idx);
+        StaffVO sfvo = sf_Service.getStaff(esvo.getSf_idx());
+
+        mv.addObject("svo", svo);
+        mv.addObject("esvo", esvo);
+        mv.addObject("sfvo", sfvo);
+        mv.setViewName("/jsp/admin/evaluationManage/traineeScoreList");
+        return mv;
+
+    }
+
+    @RequestMapping("list_ajax")
+    public ModelAndView list_ajax(String c_idx, String es_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        System.out.println(es_idx + "/");
+        TraineeVO[] tr_ar = tr_Service.clist(c_idx, null, null);
+        if (tr_ar != null) {
+
+            int[] totalScore = new int[tr_ar.length];
+            for (int i = 0; i < tr_ar.length; i++) {
+                tr_ar[i].setGc_ar(gc_Service.list(tr_ar[i].getTr_idx()));
+                totalScore[i] = gc_Service.all_grade(es_idx, tr_ar[i].getTr_idx());
+            }
+
+            mv.addObject("tr_ar", tr_ar);
+            mv.addObject("totalScore", totalScore);
+        }
+        mv.setViewName("/jsp/admin/evaluationManage/traineeScoreList_ajax");
         return mv;
 
     }

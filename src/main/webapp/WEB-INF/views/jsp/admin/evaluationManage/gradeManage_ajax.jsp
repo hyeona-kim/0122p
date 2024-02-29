@@ -46,7 +46,7 @@
                     <td>${esvo.es_num_question}</td>  
                     <td>${esvo.sk_idx}</td>
                     <td>
-                        <button type="button" class="btn green" onclick="grading('${esvo.es_idx}')">시험 채점</button>
+                        <button type="button" class="btn green" onclick="scoreList('${esvo.es_idx}')">평가별 학생 리스트</button>
                     </td>
                 </tr>
             </c:forEach>

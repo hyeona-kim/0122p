@@ -16,4 +16,6 @@ public interface EvaluationStatusMapper {
 
     EvaluationStatusVO getone(String es_idx);
 
+    int search_count(String es_idx);
+
 }

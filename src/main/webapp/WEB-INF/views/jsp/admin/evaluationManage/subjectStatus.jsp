@@ -125,7 +125,7 @@
 
         function examInput(s_idx){
             location.href="examInput?s_idx="+s_idx;
-
+        }
         function gradeManage(s_idx){
             location.href="gradeManage?s_idx="+s_idx;
 
