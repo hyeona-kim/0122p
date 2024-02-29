@@ -714,28 +714,26 @@ public class TraineeController {
 		TrfinalVO tfvo = tf_Service.list(tr_idx);
 		QcVO[] qvo = q_Service.list(tr_idx);
 		WorkplusVO wvo = w_Service.list(tr_idx,c_idx);
-
-
-
-
-		String str2 = vo.getTr_rrn();
-		int divisionCode = Integer.parseInt(str2.substring(7,8));
-		if(divisionCode%2 ==0)//여자
+      if(vo != null){
+         String str2 = vo.getTr_rrn();
+         int divisionCode = Integer.parseInt(str2.substring(7,8));
+         if(divisionCode%2 ==0)//여자
 			vo.setGender(false);
-		else//남자
+         else//남자
 			vo.setGender(true);
-		String dateOfBirth = null;
-		if(divisionCode == 1 || divisionCode == 2 || divisionCode == 5 || divisionCode == 6){
-			// 한국인 1900~, 외국인 1900~
-			dateOfBirth = "19"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
-		}else if(divisionCode == 3 || divisionCode == 4 || divisionCode == 7 || divisionCode == 8){
-			// 한국인 2000~, 외국인 2000~
-			dateOfBirth = "20"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
-		}else if(divisionCode == 9 || divisionCode == 0){
-			// 한국인 1800~
-			dateOfBirth = "18"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
-		}
-		vo.setTr_rrn(dateOfBirth);
+         String dateOfBirth = null;
+         if(divisionCode == 1 || divisionCode == 2 || divisionCode == 5 || divisionCode == 6){
+            // 한국인 1900~, 외국인 1900~
+            dateOfBirth = "19"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+         }else if(divisionCode == 3 || divisionCode == 4 || divisionCode == 7 || divisionCode == 8){
+            // 한국인 2000~, 외국인 2000~
+            dateOfBirth = "20"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+         }else if(divisionCode == 9 || divisionCode == 0){
+            // 한국인 1800~
+            dateOfBirth = "18"+str2.substring(0, 2)+"-"+str2.substring(2, 4)+"-"+str2.substring(4, 6);
+         }
+         vo.setTr_rrn(dateOfBirth);
+      }
 		if(wvo != null){
 
 			String[] skill = wvo.getWp_skill().split("/");
@@ -747,7 +745,6 @@ public class TraineeController {
 
 		mv.addObject("wvo", wvo);
 		mv.addObject("qvo", qvo);
-      mv.addObject("length", qvo.length);
 		mv.addObject("tfvo", tfvo);
 		mv.addObject("tr_idx", tr_idx);
 		mv.addObject("c_idx", c_idx);
