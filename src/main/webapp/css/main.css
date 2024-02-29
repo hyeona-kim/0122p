@@ -383,7 +383,11 @@
  #calendar_wrap>span:hover{
    background-color: #154790;
  }
- 
+ #calendar_wrap>#calendar .fc-event-title-container{
+   height: 16px;
+   line-height: 16px;
+ }
+
  #calendar_wrap>#calendar table{
    overflow-y: auto;
    border-collapse: collapse;

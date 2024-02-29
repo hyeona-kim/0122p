@@ -69,8 +69,8 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <input type="button" value="추가" class="btn"/>
-                        <input type="button" value="수정" class="btn" hidden/>
+                        <input type="button" value="추가" class="btn" id="write_btn"/>
+                        <input type="button" value="수정" class="btn" id="update_btn" hidden/>
                         <input type="button" value="취소" class="btn" onclick="cancle()" />
                     </td>
                 </tr>
@@ -99,10 +99,25 @@
         $(".sub_manu").mouseout(function(){
             $(this).css("display","none");
         });
-
+        let events_ar = [];
+        let calendarEl =null;
+        let calendar = null;
+        
         document.addEventListener('DOMContentLoaded', function() {  
-            var calendarEl = document.getElementById('calendar2');    
-            var calendar = new FullCalendar.Calendar(calendarEl,{  
+            $.ajax({
+                url :"http://localhost:5000/list",
+                type:"get",
+                dataType:"json"
+            }).done(function(data){
+                //console.log(data);
+                ar = data;
+                for(let i=0; i<ar.length; i++){
+                    if(ar[i].status == 0){
+                        events_ar.push(ar[i])
+                    }
+                }
+                calendarEl = document.getElementById('calendar2');    
+                calendar = new FullCalendar.Calendar(calendarEl,{  
                 height:"98%",  
                 headerToolbar:{
                     right:'today,prev,next',
@@ -122,18 +137,7 @@
                     textColor:'red',           
                 },                   
                 ],
-                events:[
-                    {
-                        title : "이력서접수기간", color : "#154790", textColor : "white", start : "2024-05-02T09:00:00", end : "2024-05-06T10:00:00" 
-                    },  
-                    {
-                        title : "테스트", color : "#154790", textColor : "white", start : "2024-05-02T09:00:00", end : "2024-05-03T10:00:00" 
-                    },  
-                    {
-                        title : "학원 조기 종료", color : "#154790", textColor : "white", start : "2024-02-02T09:00:00", end : "2024-02-06T10:00:00" 
-                    },
-                    {  title : "발길향하는 공간"  , url : "http://www.wickedmiso.com/"  , start : "2016-05-25" } 
-                    ],
+                events: events_ar,
                 editable: true,
                 //droppable을 사용할때 droppable true 드롭이벤트
                 droppable: true,
@@ -142,7 +146,10 @@
                     //info에서 console 찍어보면 편함
                     //console.log(info.dateStr);
                     $("#startdate").val(info.dateStr);
+                    $("#enddate").val(info.dateStr);
                     if(confirm("일정을 추가하시겠습니까?")){
+                        $("#write_btn").attr("hidden",false);
+                        $("#update_btn").attr("hidden",true);
                         $("#dialogTitle").html("일정 등록");
                         $("#dialog").dialog({
                             width: 500,
@@ -154,8 +161,7 @@
                 eventClick: function(info) {
                     // 일정 클릭 시 발생할 이벤트
                     //클릭한 일정 Id
-                    var id = info.event._def.defId;
-                    console.log(info.event);
+                    clickInfo =info
                     $("#dialog2").dialog({
                         modal: true,
                         height:150,
@@ -175,10 +181,43 @@
                         location.reload(true);
                     }
                 },      
-                
-                
-            });
+                });
             calendar.render();
+            });  
+        });
+        $(function(){
+            $("#write_btn").click(function(){
+                console.log("write")
+                let title =$("#title").val();
+                let startdate= $("#startdate").val();
+                let enddate = $("#enddate").val();
+                console.log(title+"/"+startdate+"/"+enddate);
+                
+                $.ajax({
+                    url :"http://localhost:5000/write?title="+title+"&startdate="+startdate+"&enddate="+enddate,
+                    type:"get",
+                    dataType:"json"
+                }).done(function(data){
+                    
+                });
+                location.reload(true);
+            });
+            $("#update_btn").click(function(){
+
+                let title =$("#title").val();
+                let startdate= $("#startdate").val();
+                let enddate = $("#enddate").val();
+                console.log(title+"/"+startdate+"/"+enddate);
+                
+                $.ajax({
+                    url :"http://localhost:5000/update?title="+title+"&startdate="+startdate+"&enddate="+enddate+"&id="+clickInfo.event._def.extendedProps.pyid,
+                    type:"get",
+                    dataType:"json"
+                }).done(function(data){
+                    console.log(data);
+                });
+                location.reload(true);
+            });
         });
         function timeAdd(){ 
             let str = $("#startdate").val();
@@ -213,17 +252,28 @@
             i++;
         }
         function edit(){
+            $("#write_btn").attr("hidden",true);
+            $("#update_btn").attr("hidden",false);
             $("#dialogTitle").html("일정 수정");
             $("#dialog").dialog({
                 width: 500,
                 modal: true,
             });
+            
             $("#startdate").val(clickInfo.event.startStr.substring(0,10));
             $("#enddate").val(clickInfo.event.endStr.substring(0,10));
             $("#title").val(clickInfo.event._def.title);
         }
         function del(){
+            console.log(clickInfo.event._def.extendedProps.pyid);
             if(confirm("정말 삭제하시겠습니까?")){
+                $.ajax({
+                    url :"http://localhost:5000/del?id="+clickInfo.event._def.extendedProps.pyid,
+                    type:"get",
+                    dataType:"json"
+                }).done(function(data){
+                    console.log(data);
+                });
                 location.reload(true);
             }
         }

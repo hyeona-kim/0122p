@@ -112,13 +112,14 @@
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"' selected>"+data.c_ar[i].c_name+"</option>";
                         }else{
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"'>"+data.c_ar[i].c_name+"</option>";
+                            
                         }
                     }
-                    c_idx = data.c_ar[0].c_idx;
                 }else{
                     str = "<option>:::존재하는 과정이 없습니다:::</option>";
                     $("#menu_list").html("<li id='l_five'><a onclick='list(5)'>일정보기</a></li>");
-                    $("#l_five").addClass("selected");
+                
+                    location.href = "staffMain?leftList=5&c_idx="+c_idx;
                 }
             
                 $("#select_course").html(str);
