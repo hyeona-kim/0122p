@@ -81,8 +81,9 @@
         let nowValue = 0;
         let es_idx = "${esvo.es_idx}";
         let type = "";
-        
-        
+        let cnt = "";
+        let cnt2 = "";
+
         $(function() { 
             $(".subSelect").removeClass("subSelect");
             $("#l_one").addClass("subSelect");
@@ -141,19 +142,52 @@
 			modal: true,
         });
 
+        function examFill(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=3&es_idx="+es_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+
+                cnt = $("#idx").val();
+                cnt2 = 0;
+                
+            });
+        }
+
+        $("#dialog3").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
+        function addExamFill() {
+            let str = $("#examFill_tbody").html();
+            let str2="<tr><th rowspan='6'><label><input type='text' name='' class='text'/></label></th>"+
+            "</tr><tr><td><input type='text' name='' placeholder='문항' class='text'/>"+
+                "</td></tr><tr><td><textarea cols='80' rows='4' placeholder='문제 내용' class='textarea'></textarea>"+
+                "</td></tr><tr><td id='selectExam"+ ++cnt2 +"'>"+
+                    "<input type='text' value="+ ++cnt +" id='idx"+ cnt +"' readonly class='text' style='width: 10%;'/>"+
+                    "<input type='text' name='' value='' class='text' style='width: 70%'/>"+
+                "</td></tr><tr><td><input type='button' value='추가' onclick='addSelect()' class='btn'>"+
+                "</td></tr><tr><td> 정답 : <input type='text' class='text'/>"+
+                "</td></tr>";
+            $("#examFill_tbody").html(str+str2);
+        }
+
+        function addSelect(){
+            let str3 = ++cnt2;
+            let str = $('#selectExam'+str3).html();
+            let str2 = "</br><input type='text' value="+ ++cnt + " readonly class='text' style='width: 10%;'/>"+
+            "<input type='text' name='' value='' class='text' style='width: 70%'/>"
+            $("#selectExam"+str3).html(str + str2);
+        }
 
 
-
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
+    
 
     </script>
 </body>

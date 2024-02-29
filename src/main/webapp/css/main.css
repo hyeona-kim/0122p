@@ -366,7 +366,7 @@
    display: inline-block;
    width: 100px;
    height: 32px;
-   background-color: #77828C;
+   background-color: #6581aa;
    border-radius: 3px 3px;
  }
  #calendar_wrap>span>a{
@@ -378,11 +378,16 @@
    text-align: center;
    font-size: 14px;
    font-weight: bold;
+   text-decoration: none;
  }
  #calendar_wrap>span:hover{
-   background-color: #32373b;
+   background-color: #154790;
  }
- 
+ #calendar_wrap>#calendar .fc-event-title-container{
+   height: 16px;
+   line-height: 16px;
+ }
+
  #calendar_wrap>#calendar table{
    overflow-y: auto;
    border-collapse: collapse;
@@ -435,6 +440,9 @@
    background-color: white;
    width: 95%;
  }
+ #calendar .fc-button{
+   background-color: rgb(21, 71, 144);
+}
  #calendar_wrap>#calendar .korea_holiday{
    pointer-events: none;
 }
