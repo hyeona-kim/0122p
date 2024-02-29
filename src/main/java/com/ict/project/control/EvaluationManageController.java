@@ -273,7 +273,6 @@ public class EvaluationManageController {
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-
         EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
 
         SubjectVO svo = s_Service.list2(s_idx);
@@ -287,7 +286,7 @@ public class EvaluationManageController {
     public ModelAndView grade_ajax(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO[] es_ar= es_Service.list(s_idx);
+        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
         mv.addObject("es_ar", es_ar);
@@ -296,10 +295,10 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("TraineeScoreList")
-    public ModelAndView TraineeScoreList(String s_idx, String es_idx){
+    public ModelAndView TraineeScoreList(String s_idx, String es_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO esvo= es_Service.getone(es_idx);
+        EvaluationStatusVO esvo = es_Service.getone(es_idx);
         SubjectVO svo = s_Service.list2(s_idx);
         StaffVO sfvo = sf_Service.getStaff(esvo.getSf_idx());
 
@@ -310,22 +309,21 @@ public class EvaluationManageController {
         return mv;
 
     }
-    
 
     @RequestMapping("list_ajax")
-    public ModelAndView list_ajax(String c_idx, String es_idx){
+    public ModelAndView list_ajax(String c_idx, String es_idx) {
         ModelAndView mv = new ModelAndView();
 
-        System.out.println(es_idx+"/");
-        TraineeVO[] tr_ar = t_Service.clist(c_idx, null, null);
-        if(tr_ar != null){
+        System.out.println(es_idx + "/");
+        TraineeVO[] tr_ar = tr_Service.clist(c_idx, null, null);
+        if (tr_ar != null) {
 
             int[] totalScore = new int[tr_ar.length];
-            for(int i = 0; i < tr_ar.length; i++){
+            for (int i = 0; i < tr_ar.length; i++) {
                 tr_ar[i].setGc_ar(gc_Service.list(tr_ar[i].getTr_idx()));
                 totalScore[i] = gc_Service.all_grade(es_idx, tr_ar[i].getTr_idx());
             }
-            
+
             mv.addObject("tr_ar", tr_ar);
             mv.addObject("totalScore", totalScore);
         }
@@ -333,5 +331,5 @@ public class EvaluationManageController {
         return mv;
 
     }
-    
+
 }
