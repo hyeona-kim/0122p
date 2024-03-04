@@ -1,5 +1,5 @@
 # SpringBoot-Project LMS
-* Model-View-Controller Pattern LMS Project 에서 SpringBoot으로 작업 환경 변경 
+  - Model-View-Controller Pattern LMS Project 에서 SpringBoot으로 작업 환경 변경 
 * mvc패턴 평가관가관리 시스템 
 
 ## 📃 프로젝트 소개 
