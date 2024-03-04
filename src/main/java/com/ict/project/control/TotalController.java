@@ -93,6 +93,7 @@ public class TotalController {
 
     @RequestMapping("traineeTotal")
     public ModelAndView trainee(String listSelect, String c_idx, String value, String select) {
+
         ModelAndView mv = new ModelAndView();
         if (value == null || value.length() == 0)
             select = null;

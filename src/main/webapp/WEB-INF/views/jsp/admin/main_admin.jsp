@@ -169,7 +169,7 @@
                     {             
                         googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
                         className: 'korea_holiday',             
-                        color: 'white',
+                        color: '#dedede',
                         textColor:'red',           
                     },           
                     ],

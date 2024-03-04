@@ -96,6 +96,7 @@
 
                 </ul>
             </li>
+            <!--
             <li>
                 <a href="total?listSelect=1&cPage=1" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/totalManage_icon.png" alt="이미지"/>통합관리
@@ -106,6 +107,7 @@
                     <li><a href="total?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;과정별 학생관리</a></li>
                 </ul>
             </li>
+            -->
             <li>
                 <a href="staffList" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/etc_icon.png" alt="이미지"/>기타관리

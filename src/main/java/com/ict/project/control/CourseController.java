@@ -57,8 +57,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -456,6 +454,7 @@ public class CourseController {
 	public ModelAndView course_file(FileVO fvo, String listSelect, String cPage) {
 		ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
+
 		if (encType.startsWith("application")) {
 			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
 

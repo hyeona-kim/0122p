@@ -21,7 +21,6 @@ import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
 import com.ict.project.service.QcService;
-import com.ict.project.service.TrainConfirmService;
 import com.ict.project.service.TraineeCurrentService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrfinalService;
@@ -44,8 +43,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TraineeController {

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<form action="addDiary" method="post" >
+<form action="s_addDiary" method="post" >
 
     <div id="staffList_top" class="title">"${cvo.c_name}"과정 훈련일지</div> 
     <input type="hidden" name="c_idx" value="${cvo.c_idx}"/>
@@ -36,11 +36,11 @@
             <th>출석</th>
             <td><input type="text" id="attend" value="${fn:length(cvo.tr_ar3)}" class="text"/></td>
             <th>결석</th>
-            <td><input type="text" id="absence" class="text" value="0" name="td_attend"/></td>
+            <td><input type="text" id="absence" class="text" value="0" name="attend_check"/></td>
             <th>지각</th>
-            <td><input type="text" id="tardy" class="text" value="0" name="td_tardy"/></td>
+            <td><input type="text" id="tardy" class="text" value="0" name="tardy_check"/></td>
             <th>조퇴</th>
-            <td><input type="text" id="earlyLeave" class="text" value="0" name="td_earlyLeave"/></td>
+            <td><input type="text" id="earlyLeave" class="text" value="0" name="earlyLeave_check"/></td>
         </tr>
     </table>
     <table class="table" id="diaryTable">
@@ -162,7 +162,7 @@
         </tr>
     </table>
     <div class="main_item align_center">
-        <button class="btn" type="submit">저장</button>
+        <button class="btn" type="button" onclick="addDiary(this.form)">저장</button>
         <button type="button" class="btn" id="cc_cancle">목록</button>
     </div>
 </form>

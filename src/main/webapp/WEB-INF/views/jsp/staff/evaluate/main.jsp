@@ -32,8 +32,7 @@
             <ul id="menu_list">
                 <li id='l_one'><a onclick="list(1)">훈련일지</a></li>
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
-                <li id='l_three'><a onclick="list(3)">상담관리</a></li>
-                <li id='l_four'><a onclick="list(4)">학적부</a></li>
+                <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
             </ul>
         </div>

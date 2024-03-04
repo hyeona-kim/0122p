@@ -73,7 +73,7 @@ public class LoginController {
                 // 로그인 성공
                 viewPath = "/jsp/admin/main_admin";
                 session.removeAttribute("cnt");
-                session.setAttribute("main_select", "1");
+                session.setAttribute("main_select", 1);
             }
             session.setAttribute("vo", vo);
             session.setAttribute("main_select", 1);
@@ -104,7 +104,7 @@ public class LoginController {
                 // viewPath = "/jsp/admin/counselReceipt/main";
                 viewPath = "redirect:staffMain?leftList=1";
                 session.removeAttribute("cnt");
-                session.setAttribute("main_select", "2");
+                session.setAttribute("main_select",2);
             }
             session.setAttribute("vo", vo);
             session.setAttribute("main_select", 2);
@@ -121,18 +121,35 @@ public class LoginController {
     }
 
     @RequestMapping("clickLogo")
-    public String clickLogo() {
+    public String clickLogo(String mode) {
         Object select = session.getAttribute("main_select");
         String viewPath = "/jsp/index";
         int select2 = 0;
         if (select != null)
             select2 = (int) select;
-
-        if (select2 == 1) {
-            viewPath = "/jsp/admin/main_admin";
-        } else if (select2 == 2) {
-            viewPath = "/jsp/staff/main_staff";
+        if(mode == null){
+            if (select2 == 1) {
+                //관리자인 경우
+                viewPath = "/jsp/admin/main_admin";
+            } else if (select2 == 2) {
+                //교강사인 경우
+                viewPath = "/jsp/staff/trainingLog/main";
+            }
+        }else{
+            System.out.println(select2);
+            if (select2 == 1) {
+                //관리자인경우 ( 교강사 모드로 변경)
+                session.removeAttribute("main_select");
+                session.setAttribute("main_select", 2);
+                viewPath = "/jsp/staff/trainingLog/main";
+            } else if (select2 == 2) {
+                //교강사인경우 (관리자 모드로 변경)
+                session.removeAttribute("main_select");
+                session.setAttribute("main_select", 1);
+                viewPath = "/jsp/admin/main_admin";
+            }
         }
+        
         return viewPath;
     }
 
@@ -191,8 +208,6 @@ public class LoginController {
             mv.setViewName("/jsp/staff/trainingLog/main");
         } else if (leftList.equals("2")) {
             mv.setViewName("/jsp/staff/evaluate/main");
-        } else if (leftList.equals("3")) {
-            mv.setViewName("/jsp/staff/counselManage/main");
         } else if (leftList.equals("4")) {
             mv.setViewName("/jsp/staff/schoolRecord/main");
         } else if (leftList.equals("5")) {
