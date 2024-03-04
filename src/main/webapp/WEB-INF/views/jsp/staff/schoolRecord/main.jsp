@@ -9,6 +9,51 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main_staff.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    .tr_ul{
+        display: flex;
+    }
+    .tr_li{
+        list-style-type: none;
+        display: inline-flex;
+        width: 220px;
+        height: 65px;
+    }
+
+    .tr_li .l_div{
+        display: inline-block;
+        width: 64px;
+        height: 65px;
+        margin: 0;
+    }
+    .tr_li .info{
+        display: inline-block;
+        border: 1px solid #ababab;
+        height: 63px;
+        width: 140px;
+        margin: 0;
+        border-bottom: none;
+    }
+    .tr_li .info div{
+        display: inline-block;
+        width: 100%;
+        height: 49%;
+        border-bottom: 1px solid #ababab;
+    }
+    .tr_select{
+        background-color: rgb(21, 71, 144,0.6);
+        color: white;
+        border: none;
+    }
+    /*man,woman,giveup,employ,finish,none,*/
+    .woman{color: #F51901;}
+    .man{color:#493BF5 ;}
+    .giveup{color:#C33BF5 ;}
+    .employ{color: #F5A82F;}
+    .finish{color: #7BF587;}
+    .none{color: #66F4E6;}
+    .weeding{color: #67BAF5;}
+</style>
 </head>
 <body bgcolor="#eeeeee"> 
     <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
@@ -32,13 +77,31 @@
             <ul id="menu_list">
                 <li id='l_one'><a onclick="list(1)">훈련일지</a></li>
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
-                <li id='l_three'><a onclick="list(3)">상담관리</a></li>
-                <li id='l_four'><a onclick="list(4)">학적부</a></li>
+                <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
             </ul>
         </div>
         <div class="right">
-
+            <div id="courseLog_Table" class="main_item" style="color: #154790; font-weight: bold;">
+                <span class="man">●</span>남자 
+                <span class="woman">●</span>여자 
+                <span class="giveup">■</span>수강포기
+                <span class="employ">■</span>조기취업
+                <span class="finish">■</span>조기수료
+                <span class="none">■</span>미수료
+                <span class="weeding">■</span>제적
+                <div align="right">
+                    <button type="button" class="btn" style="margin-right: 3px;">훈련생종합성적표</button> 
+                </div>
+            </div>
+            <div id="btn_area" class="main_item align_center">
+                <button type="button" class="btn" id="traineeEdit" >정보변경</button> 
+                <button type="button" class="btn">신상기록부</button> 
+                <button type="button" class="btn">사후관리카드</button> 
+                <button type="button" class="btn">사후관리취업지원</button> 
+                <button type="button" class="btn" id ="ss_dialog">상담관리</button> 
+                <button type="button" class="btn">성적표</button> 
+            </div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->
         <div hidden id="checkPassword">
@@ -94,6 +157,8 @@
         let s_idx = "${vo.sf_idx}";
         // 선택된 과정 정보 가지고오기
         let c_idx ="";
+        let selectTr=""; //훈련생
+    
         $(function(){	
             c_idx = "${param.c_idx}";
             $(".selected").removeClass("selected")
@@ -122,6 +187,45 @@
                 }
             
                 $("#select_course").html(str);
+                $.ajax({
+                    url: "traineeTotal",
+                    type: "post",
+                    data:"listSelect="+encodeURIComponent("2")+"&c_idx="+c_idx
+                }).done(function(result){
+                    let html = "<span class='man'>●</span>남자 "+
+                                "<span class='woman'>●</span>여자 "+
+                                "<span class='giveup'>■</span>수강포기"+
+                                "<span class='employ'>■</span>조기취업"+ 
+                                "<span class='finish'>■</span>조기수료"+
+                                "<span class='none'>■</span>미수료"+ 
+                                "<span class='weeding'>■</span>제적"+
+                                "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
+                                "</div>" ;
+                    $("#courseLog_Table").html(html+result);
+                });
+
+            });
+
+            $("#select_course").change(function(){
+                c_idx = this.value
+
+                $.ajax({
+                    url: "traineeTotal",
+                    type: "post",
+                    data:"listSelect="+encodeURIComponent("2")+"&c_idx="+c_idx
+                }).done(function(result){
+                    let html = "<span class='man'>●</span>남자 "+
+                                "<span class='woman'>●</span>여자 "+
+                                "<span class='giveup'>■</span>수강포기"+
+                                "<span class='employ'>■</span>조기취업"+ 
+                                "<span class='finish'>■</span>조기수료"+
+                                "<span class='none'>■</span>미수료"+ 
+                                "<span class='weeding'>■</span>제적"+
+                                "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
+                                "</div>" ;
+                    $("#courseLog_Table").html(html+result);
+                    
+                });
             });
             /* 마이페이지 ul 띄우기 숨기기 */
             $("#my_page").mouseover(function(){
@@ -136,9 +240,6 @@
             $("#mypage_ul").mouseout(function(){
                 $("#mypage_ul").css("display","none")
             });
-            $("#select_course").change(function(){
-                c_idx = this.value;
-            }); 
         });
         function changePass(){
             /*패스워드 바꾸기*/
@@ -185,6 +286,7 @@
                                     alert("변경 실패")
                                     $("#changePassword").dialog("close");
                                 }
+                                
                                 
                             });
                         });
@@ -258,6 +360,12 @@
             });
             
         }
+        function traineeSelect(tr_idx,tt){
+            selectTr =tr_idx;
+            $(".tr_select").removeClass("tr_select");
+            tt.setAttribute('class','info tr_select');
+        }
+
         function cancle(str){
             $("#"+str).dialog("close");
         }
