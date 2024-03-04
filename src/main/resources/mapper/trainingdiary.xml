@@ -50,5 +50,12 @@
                     where c_idx =#{c_idx}
                 )a ,(select @RN:=0) b) c 
     </select>
-
+    <insert id="add_td" parameterType="com.ict.project.vo.TrainingDiaryVO">
+        insert into trainingdiary_t
+        (write_date, td_attend, td_tardy, td_earlyLeave, td_instruction, td_significant,
+        c_idx, admin_check, ceo_check, attend_check, tardy_check, earlyLeave_check, classTime, s_name, sf_name, s_detail) 
+        values 
+        (#{write_date}, #{td_attend}, #{td_tardy}, #{td_earlyLeave}, #{td_instruction}, #{td_significant}, #{c_idx}, #{admin_check}, #{ceo_check}, 
+        #{attend_check}, #{tardy_check}, #{earlyLeave_check}, #{classTime}, #{s_name}, #{sf_name}, #{s_detail})
+    </insert>
 </mapper>

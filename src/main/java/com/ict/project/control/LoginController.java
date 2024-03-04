@@ -121,18 +121,31 @@ public class LoginController {
     }
 
     @RequestMapping("clickLogo")
-    public String clickLogo() {
+    public String clickLogo(String mode) {
         Object select = session.getAttribute("main_select");
         String viewPath = "/jsp/index";
         int select2 = 0;
         if (select != null)
             select2 = (int) select;
-
-        if (select2 == 1) {
-            viewPath = "/jsp/admin/main_admin";
-        } else if (select2 == 2) {
-            viewPath = "/jsp/staff/main_staff";
+        if(mode == null){
+            if (select2 == 1) {
+                viewPath = "/jsp/staff/trainingLog/main";
+            } else if (select2 == 2) {
+                viewPath = "/jsp/admin/main_admin";
+            }
+        }else{
+            System.out.println(select2);
+            if (select2 == 1) {
+                session.removeAttribute("main_select");
+                session.setAttribute("main_select", 2);
+                viewPath = "/jsp/admin/main_admin";
+            } else if (select2 == 2) {
+                session.removeAttribute("main_select");
+                session.setAttribute("main_select", 1);
+                viewPath = "/jsp/staff/trainingLog/main";
+            }
         }
+        
         return viewPath;
     }
 
@@ -191,8 +204,6 @@ public class LoginController {
             mv.setViewName("/jsp/staff/trainingLog/main");
         } else if (leftList.equals("2")) {
             mv.setViewName("/jsp/staff/evaluate/main");
-        } else if (leftList.equals("3")) {
-            mv.setViewName("/jsp/staff/counselManage/main");
         } else if (leftList.equals("4")) {
             mv.setViewName("/jsp/staff/schoolRecord/main");
         } else if (leftList.equals("5")) {

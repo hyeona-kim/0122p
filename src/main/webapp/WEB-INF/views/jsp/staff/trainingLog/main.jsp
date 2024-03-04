@@ -8,12 +8,13 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main_staff.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body bgcolor="#eeeeee"> 
     <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
     <div id="course_wrap">
-        <select class="select" id="select_course" >
+        <select class="select" id="select_course">
             <option>과정을 선택 해주세요</option>
             <option>ㅎㅇ</option>
             <option>ㅎㅇ</option>
@@ -32,13 +33,20 @@
             <ul id="menu_list">
                 <li id='l_one'><a onclick="list(1)">훈련일지</a></li>
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
-                <li id='l_three'><a onclick="list(3)">상담관리</a></li>
-                <li id='l_four'><a onclick="list(4)">학적부</a></li>
+                <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
             </ul>
         </div>
         <div class="right">
-
+            <div class="main_item">
+                <div class="align_right">
+                    <button type="button" class="btn blue">훈련일지 일괄출력</button>
+                    <button type="button" class="btn" id="write_btn">훈련일지 등록</button>
+                </div>
+            </div>
+            <div id="courseLog_Table">
+                <!--비동기 통신으로 가져올 내용 -->
+            </div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->
         <div hidden id="checkPassword">
@@ -121,9 +129,27 @@
                 
                     location.href = "staffMain?leftList=5&c_idx="+c_idx;
                 }
-            
+                
                 $("#select_course").html(str);
+                $.ajax({
+                    url: "diary_ajax",
+                    type:"post",
+                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#courseLog_Table").html(result);
+                });
             });
+            $("#select_course").change(function(){
+                c_idx = this.value;
+                $.ajax({
+                    url: "diary_ajax",
+                    type:"post",
+                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#courseLog_Table").html(result);
+                });
+            }); 
+
             /* 마이페이지 ul 띄우기 숨기기 */
             $("#my_page").mouseover(function(){
                 $("#mypage_ul").css("display","block")
@@ -137,9 +163,7 @@
             $("#mypage_ul").mouseout(function(){
                 $("#mypage_ul").css("display","none")
             });
-            $("#select_course").change(function(){
-                c_idx = this.value;
-            }); 
+          
         });
         function changePass(){
             /*패스워드 바꾸기*/

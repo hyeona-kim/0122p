@@ -6,6 +6,7 @@
 <form action="addDiary" method="post" >
 
     <div id="staffList_top" class="title">"${cvo.c_name}"과정 훈련일지</div> 
+    <input type="hidden" name="c_idx" value="${cvo.c_idx}"/>
     <div>
         <div style="color: red; font-size: 12px;" class="main_item">
             *출석현황은 직접 기입하지 않고,결석자,지각자,조퇴자를 체크하면 자동기입됩니다.
@@ -35,11 +36,11 @@
             <th>출석</th>
             <td><input type="text" id="attend" value="${fn:length(cvo.tr_ar3)}" class="text"/></td>
             <th>결석</th>
-            <td><input type="text" id="absence" class="text" value="0"/></td>
+            <td><input type="text" id="absence" class="text" value="0" name="td_attend"/></td>
             <th>지각</th>
-            <td><input type="text" id="tardy" class="text" value="0"/></td>
+            <td><input type="text" id="tardy" class="text" value="0" name="td_tardy"/></td>
             <th>조퇴</th>
-            <td><input type="text" id="earlyLeave" class="text" value="0"/></td>
+            <td><input type="text" id="earlyLeave" class="text" value="0" name="td_earlyLeave"/></td>
         </tr>
     </table>
     <table class="table" id="diaryTable">
@@ -106,9 +107,9 @@
         <tr>
             <th>훈련기간</th>
             <th>이론</th>
-            <td><input type="text" class="text"/></td>
+            <td><input type="text" class="text" value="0"/></td>
             <th>실습</th>
-            <td><input type="text" class="text"/></td>
+            <td><input type="text" class="text" value="0"/></td>
         </tr>
         <tr>
             <th>지시사항</th>
