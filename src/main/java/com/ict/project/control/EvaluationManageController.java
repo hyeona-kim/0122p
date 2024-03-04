@@ -26,6 +26,7 @@ import com.ict.project.vo.CheckExamFileVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.FileVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
