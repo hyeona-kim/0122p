@@ -1,10 +1,17 @@
 package com.ict.project.control;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.CheckExamFileService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.EvaluationStatusService;
 import com.ict.project.service.GradeCheckService;
@@ -13,28 +20,33 @@ import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrainingDiaryService;
+import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
-import com.ict.project.vo.CounselingdetailVO;
-import com.ict.project.vo.CourseTypeVO;
+import com.ict.project.vo.CheckExamFileVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
-import com.ict.project.vo.GradeCheckVO;
-import com.ict.project.vo.RoomVO;
-
-import com.ict.project.vo.QuestionVO;
-
+import com.ict.project.vo.FileVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
-import com.ict.project.vo.TrainingDiaryVO;
 
-import ch.qos.logback.core.model.Model;
-
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class EvaluationManageController {
+
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    HttpServletResponse response;
+    @Autowired
+    HttpSession session;
+    @Autowired
+    ServletContext application;
 
     @Autowired
     CourseService c_Service;
@@ -52,6 +64,8 @@ public class EvaluationManageController {
     GradeCheckService gc_Service;
     @Autowired
     TraineeService tr_Service;
+    @Autowired
+    CheckExamFileService cef_Service;
 
     @RequestMapping("em_log")
     public ModelAndView em_log(String listSelect) {
@@ -266,6 +280,8 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
         else if (listSelect.equals("3"))
             mv.setViewName("/jsp/admin/evaluationManage/examFill_ajax");
+        else if (listSelect.equals("4"))
+            mv.setViewName("/jsp/admin/evaluationManage/checkExam_ajax");
         return mv;
     }
 
@@ -332,6 +348,119 @@ public class EvaluationManageController {
 
     }
 
+
+    @RequestMapping("checkExam_file")
+    public ModelAndView course_file(CheckExamFileVO cefvo) {
+        ModelAndView mv = new ModelAndView();
+        String encType = request.getContentType();
+
+        System.out.println("enctype=" + encType);
+
+        if (encType.startsWith("application")) {
+            EvaluationStatusVO esvo = es_Service.getone(cefvo.getEs_idx());
+            CheckExamFileVO ar = cef_Service.getFile2(cefvo.getEs_idx());
+            mv.addObject("fvo2", ar);
+            mv.addObject("esvo", esvo);
+            mv.setViewName("/jsp/admin/evaluationManage/checkExam_ajax");
+        } else if (encType.startsWith("multipart")) {
+            String realPath = application.getRealPath("upload_courseFile");
+            String es_idx = cefvo.getEs_idx();
+
+            MultipartFile[] f_ar = new MultipartFile[1];
+            f_ar[0] = cefvo.getFile1();
+
+            if (cefvo.getCef_idx() == null || cefvo.getCef_idx().length() == 5) {
+                // 파일이 존재하지 않는 경우
+
+                String fname = FileRenameUtil.checkSameFileName(f_ar[0].getOriginalFilename(), realPath);
+
+                try {
+                    f_ar[0].transferTo(new File(realPath, fname));// 파일 업로드
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cefvo.setCef_name(fname);
+
+                cef_Service.addFile(cefvo);
+                // fvo가 이전의 파일명을 가지고 또 저장하기때문에 중복되는걸 막고자 fvo를 초기화 한다.
+                cefvo = new CheckExamFileVO();
+                cefvo.setEs_idx(es_idx);
+
+            } else {
+                // 파일 존재
+                String[] f_idx = cefvo.getCef_idx().split(",");
+
+                if (f_ar[0].getSize() > 0) {
+                    String fname = FileRenameUtil.checkSameFileName(f_ar[0].getOriginalFilename(), realPath);
+                    try {
+                        f_ar[0].transferTo(new File(realPath, fname)); // 파일 업로드
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    cefvo.setCef_idx(f_idx[0]);
+                    cefvo.setCef_name(fname);
+                    cef_Service.editFile(cefvo);
+                }
+
+            }
+            mv.setViewName("redirect:evaluationInfo?listselect=2");
+
+        }
+        return mv;
+    }
+
+    @RequestMapping("checkExam_fileDown")
+    public String checkExam_fileDown(CheckExamFileVO fvo) {
+        String filename = fvo.getCef_name();
+        String realPath = request.getServletContext().getRealPath("upload_courseFile");
+        // System.out.println(realPath);
+        String fullPath = realPath + System.getProperty("file.separator") + filename;
+
+        File f = new File(fullPath);
+        if (f.exists() && f.isFile()) {
+            byte[] buf = new byte[2048];
+
+            BufferedInputStream bis = null;
+            BufferedOutputStream bos = null;
+            FileInputStream fis = null;
+            ServletOutputStream sos = null;
+            try {
+                response.setContentType("application/x-msdownload");
+                response.setHeader("Content-Disposition",
+                        "attachment;filename=" + new String(filename.getBytes(), "8859_1"));
+                fis = new FileInputStream(f);
+                bis = new BufferedInputStream(fis);
+                // 응답 객체를 통해 output스트림 생성
+                sos = response.getOutputStream();
+                bos = new BufferedOutputStream(sos);
+                int size = -1;
+                while ((size = bis.read(buf)) != -1) {
+                    bos.write(buf, 0, size);
+                    bos.flush();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fis != null)
+                        fis.close();
+                    if (bis != null)
+                        bis.close();
+                    if (sos != null)
+                        sos.close();
+                    if (bos != null)
+                        bos.close();
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+
+        }
+        return null;
+    }
+
+
     @RequestMapping("grading")
     public ModelAndView grading(String tr_idx, String es_idx){
         ModelAndView mv = new ModelAndView();
@@ -339,5 +468,4 @@ public class EvaluationManageController {
 
         return mv;
     }
-
 }
