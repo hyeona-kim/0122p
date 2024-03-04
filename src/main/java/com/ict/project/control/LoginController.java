@@ -73,7 +73,7 @@ public class LoginController {
                 // 로그인 성공
                 viewPath = "/jsp/admin/main_admin";
                 session.removeAttribute("cnt");
-                session.setAttribute("main_select", "1");
+                session.setAttribute("main_select", 1);
             }
             session.setAttribute("vo", vo);
             session.setAttribute("main_select", 1);
@@ -104,7 +104,7 @@ public class LoginController {
                 // viewPath = "/jsp/admin/counselReceipt/main";
                 viewPath = "redirect:staffMain?leftList=1";
                 session.removeAttribute("cnt");
-                session.setAttribute("main_select", "2");
+                session.setAttribute("main_select",2);
             }
             session.setAttribute("vo", vo);
             session.setAttribute("main_select", 2);
@@ -129,20 +129,24 @@ public class LoginController {
             select2 = (int) select;
         if(mode == null){
             if (select2 == 1) {
-                viewPath = "/jsp/staff/trainingLog/main";
-            } else if (select2 == 2) {
+                //관리자인 경우
                 viewPath = "/jsp/admin/main_admin";
+            } else if (select2 == 2) {
+                //교강사인 경우
+                viewPath = "/jsp/staff/trainingLog/main";
             }
         }else{
             System.out.println(select2);
             if (select2 == 1) {
+                //관리자인경우 ( 교강사 모드로 변경)
                 session.removeAttribute("main_select");
                 session.setAttribute("main_select", 2);
-                viewPath = "/jsp/admin/main_admin";
+                viewPath = "/jsp/staff/trainingLog/main";
             } else if (select2 == 2) {
+                //교강사인경우 (관리자 모드로 변경)
                 session.removeAttribute("main_select");
                 session.setAttribute("main_select", 1);
-                viewPath = "/jsp/staff/trainingLog/main";
+                viewPath = "/jsp/admin/main_admin";
             }
         }
         
