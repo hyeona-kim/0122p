@@ -11,7 +11,7 @@
 
 ### 👫 멤버 구성
 - 팀장 정재영 jeongjjy - 
-- 팀원 이가은 Lee Ga Eun -  
+- 팀원 이가은 Lee Ga Eun (https://github.com/lkeeeeeee) -  
 - 팀원 조성훈 sannabie -  
 - 팀원 우선우 tanksoda - 
 - 팀원 김현아 hyeona-kim - 
