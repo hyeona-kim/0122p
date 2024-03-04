@@ -19,6 +19,8 @@ Spring Boot, React, Next.js를 이용한 평가관리시스템(LMS) 구축
 ### ⚙️ 개발 환경
 - `java 11`
 - `JDK 11.0.18`
+- IDE : STS 3.9
+- Framework : Springboot(3.x)
 - **Database : Mysql 8.0 CE**
 - **ORM : Mybatis**
 
