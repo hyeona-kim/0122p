@@ -1,5 +1,5 @@
-# (2차) Model-View-Controller Pattern LMS Project
-# (3차) SpringBoot-Project LMS
+# SpringBoot-Project LMS
+* Model-View-Controller Pattern LMS Project
 mvc패턴 평가관가관리 시스템 
 
 ## 📃 프로젝트 소개 
