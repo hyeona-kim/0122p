@@ -64,7 +64,6 @@
     
     <div id="dialog" hidden></div>
     <div id="dialog2" hidden></div>
-    <div id="dialog3" hidden></div>
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -207,6 +206,25 @@
 			modal: true,
         });
 
+        function checkExam2(idx){
+            $("#dialog2").dialog("open");
+            $.ajax({
+                url: "checkExam_file",
+                type:"post",
+                data:"es_idx="+idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog2").html(result);
+             
+            });
+        }
+
+        $("#dialog2").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
         function delEs(es_idx){
             
 			if( confirm("삭제하시겠습니까?")){
@@ -216,6 +234,14 @@
                 return;
             }
 		}
+        function download2(fname) {
+			document.frm02.fname.value = fname;
+
+            document.frm02.action = "checkExam_fileDown";
+            
+			document.frm02.submit();
+
+		};
 
     </script>
 </body>

@@ -11,9 +11,6 @@ import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.TrainingDiaryVO;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 @Controller
 public class TrainingLogController {
 

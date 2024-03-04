@@ -1,7 +1,6 @@
 package com.ict.project.control;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,15 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.WeeklyMeetingService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
-import com.ict.project.vo.CounselingdetailVO;
 import com.ict.project.vo.WeeklyMeetingVO;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
