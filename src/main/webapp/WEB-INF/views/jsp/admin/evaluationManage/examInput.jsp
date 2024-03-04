@@ -163,11 +163,42 @@
             let str = $('#selectExam'+idx).html();
             let id = "idx"+idx;
             let i =  $("input[name='"+id+"']").last().val();
-            let str2 = "</br><input type='text' value='" + ++i + "' class='text' style='width: 10%' name='" + id + "'/>"
-            + "<input type='text' name='qt_select' value='' class='text' style='width: 70%'  placeholder='객관식 문항" + i + "'/>"
+            let str2 = "</br><input type='text' value='" + ++i + "' class='text' style='width: 10%' name='" + id + "' readonly />"
+            + "<input type='text' name='qt_select" + idx + "' value='' class='text' style='width: 70%'  placeholder='객관식 문항" + i + "'/>"
             $("#selectExam"+idx).html(str + str2);
         }
 
+        function addExam(idx, t, score, num){
+            let v = 0;
+            let id = "qt_score";
+            for(let i=0;i < num; i++){
+                v += Number($("input[name='"+ id +"']").eq(i).val()); // ... 정수로 변환해서 계산...
+                console.log(v);
+            }
+            if(score != v){
+                alert("총점:" + score + " 배분값:" + v);
+                alert("총점보다 값이 크거나 작습니다. 점수를 다시 배분해주세요!");
+                return ;
+            }
+            if(t == "2"){ // 객관식이 있을 경우에만 병합 실행
+
+                id = "qt_select";
+                let box = $("#box").html();
+                let k ="";
+                for(let i=1; i<=idx; i++ ){
+                    let a = "";
+                    for(let j = 0;j < $("input[name='" + id + i + "']").length;){
+                        a += $("input[name='" + id + i + "']").eq(j).val();
+                        if(++j < $("input[name='" + id + i + "']").length){
+                            a += "│"; // 객관식 문항을 구분하기 위한 구분자이므로 잘 쓰지않는 특수기호를 골라서 사용함
+                        }
+                    }
+                    k += "<input type='hidden' value='" + a + "' name='qt_select' />";
+                }
+                $("#box").html(box + k);
+            } // 주관식 및 서술형의 경우 즉시 이부분으로 옴
+                $("#frm").submit();
+            }
 
     
 

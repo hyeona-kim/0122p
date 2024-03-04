@@ -26,13 +26,13 @@ public class QuestionService {
 
         return ar;
     }
-    QuestionVO getOne(String qt_idx){
+    public QuestionVO getOne(String qt_idx){
         return qt_mapper.getOne(qt_idx);
     }
-    int add(QuestionVO vo){
+    public int add(QuestionVO vo){
         return qt_mapper.add(vo);
     }
-    int edit(QuestionVO vo){
+    public int edit(QuestionVO vo){
         return qt_mapper.edit(vo);
     }
 }
