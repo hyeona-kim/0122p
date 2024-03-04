@@ -92,7 +92,7 @@
         });
 
         function grading(idx){
-            location.href = "TraineeScoreList?s_idx="+s_idx+"&es_idx="+idx;
+            location.href = "grading?tr_idx="+idx+"&es_idx="+idx;
         }
 
         function delEs(es_idx){

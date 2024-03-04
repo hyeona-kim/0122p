@@ -348,6 +348,7 @@ public class EvaluationManageController {
 
     }
 
+
     @RequestMapping("checkExam_file")
     public ModelAndView course_file(CheckExamFileVO cefvo) {
         ModelAndView mv = new ModelAndView();
@@ -459,4 +460,12 @@ public class EvaluationManageController {
         return null;
     }
 
+
+    @RequestMapping("grading")
+    public ModelAndView grading(String tr_idx, String es_idx){
+        ModelAndView mv = new ModelAndView();
+
+
+        return mv;
+    }
 }
