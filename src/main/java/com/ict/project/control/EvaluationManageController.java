@@ -260,12 +260,30 @@ public class EvaluationManageController {
         EvaluationStatusVO esvo = es_Service.getone(es_idx);
         mv.addObject("esvo", esvo);
 
+        
         if (listSelect.equals("1"))
             mv.setViewName("/jsp/admin/evaluationManage/addEvidence_ajax");
-        else if (listSelect.equals("2"))
+        else if (listSelect.equals("2")){
+            QuestionVO[] qt_ar = qt_Service.list(es_idx);
+            String[] n = esvo.getEs_num_question().split("/");
+            mv.addObject("n1", n[0]);
+            mv.addObject("n2", n[1]);
+            String[] select = new String[n[0].length()];
+            for(int i = 0; i < Integer.parseInt(n[0]); i++){
+                select = qt_ar[i].getQt_select().split("│");
+                mv.addObject("select"+i, select);
+            }
+            mv.addObject("qt_ar", qt_ar);
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
-        else if (listSelect.equals("3"))
+        }
+        else if (listSelect.equals("3")){
+            if(esvo.getEs_type().equals("2")){
+                String[] n = esvo.getEs_num_question().split("/");
+                mv.addObject("n1", n[0]);
+                mv.addObject("n2", n[1]);
+            }  
             mv.setViewName("/jsp/admin/evaluationManage/examFill_ajax");
+        }
         return mv;
     }
 
@@ -337,7 +355,36 @@ public class EvaluationManageController {
         ModelAndView mv = new ModelAndView();
 
 
+
         return mv;
     }
+
+    @RequestMapping("addExam")
+    public ModelAndView requestMethodName(String[] sk_idx, String[] qt_name, String[] qt_content, String[] qt_select, String[] qt_correct, String[] qt_type, String[] qt_score, String es_idx, String s_idx ) {
+        ModelAndView mv = new ModelAndView();
+        QuestionVO qvo = new QuestionVO();
+        for(int i = 0; i < qt_name.length; i++){
+            if(qt_type[i].equals("0")){
+                qvo.setQt_select(qt_select[i]);
+                System.out.println(qt_select[i]);
+            } else {
+                qvo.setQt_select(null);
+            }
+            qvo.setEs_idx(es_idx);
+            qvo.setQt_name(qt_name[i]);
+            qvo.setQt_content(qt_content[i]);
+            qvo.setQt_correct(qt_correct[i]);
+            qvo.setQt_type(qt_type[i]);
+            qvo.setQt_score(qt_score[i]);
+            qt_Service.add(qvo);
+        }
+        EvaluationStatusVO esvo = new EvaluationStatusVO();
+        esvo.setEs_idx(es_idx);
+        esvo.setEs_examStatus("출제완료");
+        es_Service.edit(esvo);
+        mv.setViewName("redirect:examInput?s_idx="+s_idx);
+        return mv;
+    }
+    
 
 }
