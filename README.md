@@ -10,12 +10,12 @@
 * 24.02.02일 ~ (3차)
 
 ### 👫 멤버 구성
-- 팀장 정재영 jeongjjy - 
+- 팀장 [정재영](https://github.com/jeongjjy) jeongjjy - 
 - 팀원 [이가은](https://github.com/lkeeeeeee)Lee Ga Eun  -  
-- 팀원 조성훈 sannabie -  
-- 팀원 우선우 tanksoda - 
-- 팀원 김현아 hyeona-kim - 
-- 팀원 윤상기 sangkiYoon -
+- 팀원 [조성훈](https://github.com/sannabie) sannabie -  
+- 팀원 [우선우](https://github.com/tanksoda) tanksoda - 
+- 팀원 [김현아](https://github.com/hyeona-kim) hyeona-kim - 
+- 팀원 [윤상기](https://github.com/sangkiYoon) sangkiYoon -
 
 ### ⚙️ 개발 환경
 - `java 11`
