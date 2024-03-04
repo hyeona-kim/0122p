@@ -81,8 +81,7 @@
         let nowValue = 0;
         let es_idx = "${esvo.es_idx}";
         let type = "";
-        
-        
+
         $(function() { 
             $(".subSelect").removeClass("subSelect");
             $("#l_one").addClass("subSelect");
@@ -141,19 +140,36 @@
 			modal: true,
         });
 
+        function examFill(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=3&es_idx="+es_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+                
+            });
+        }
+
+        $("#dialog3").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
+        function addSelect(idx){
+            let str = $('#selectExam'+idx).html();
+            let id = "idx"+idx;
+            let i =  $("input[name='"+id+"']").last().val();
+            let str2 = "</br><input type='text' value='" + ++i + "' class='text' style='width: 10%' name='" + id + "'/>"
+            + "<input type='text' name='qt_select' value='' class='text' style='width: 70%'  placeholder='객관식 문항" + i + "'/>"
+            $("#selectExam"+idx).html(str + str2);
+        }
 
 
-
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
+    
 
     </script>
 </body>

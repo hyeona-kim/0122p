@@ -11,9 +11,6 @@ import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.TrainingDiaryVO;
 
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 @Controller
 public class TrainingLogController {
 
@@ -132,9 +129,16 @@ public class TrainingLogController {
     }
 
     @RequestMapping("addDiary")
-    public ModelAndView addDiary() {
+    public ModelAndView addDiary(String chk1, String chk2, String chk3, TrainingDiaryVO vo) {
         ModelAndView mv = new ModelAndView();
 
+        vo.setAttend_check(chk1);
+        vo.setTardy_check(chk2);
+        vo.setEarlyLeave_check(chk3);
+
+        CourseVO cvo = c_Service.getCourse2(vo.getC_idx());
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/trainingLog/trainingDiary");
         return mv;
     }
 

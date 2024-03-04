@@ -135,41 +135,55 @@
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
+        let calendarEl =null;
+        let calendar = null;
+        let ar = [];
+        let events_ar = [];
+        document.addEventListener('DOMContentLoaded', function() {  
+            init();
+            $.ajax({
+                url :"http://localhost:5000/list",
+                type:"get",
+                dataType:"json"
+            }).done(function(data){
+                //console.log(data);
+                ar = data;
+                for(let i=0; i<ar.length; i++){
+                    if(ar[i].status == 0){
+                        events_ar.push(ar[i])
+                    }
+                }
+                calendarEl = document.getElementById('calendar');    
+                calendar = new FullCalendar.Calendar(calendarEl,{  
+                    headerToolbar:{
+                        right:'prev,next',
+                        center:'title',
+                        left:'today'
+                    },
+                    locale: "ko",                  
+                    dayMaxEventRows: 1,         
+                    googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
+             
+                    showNonCurrentDates:false,      
+                    eventSources: [           
+                    {             
+                        googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
+                        className: 'korea_holiday',             
+                        color: '#dedede',
+                        textColor:'red',           
+                    },           
+                    ],
+                    events: events_ar,
+                    editable: false,
+                    //droppable을 사용할때 droppable true 드롭이벤트
+                    droppable: false,
+                    
+                });
+                
+                calendar.render();
 
-    document.addEventListener('DOMContentLoaded', function() {   
-        init();    
-        var calendarEl = document.getElementById('calendar');       
-        var calendar = new FullCalendar.Calendar(calendarEl,{    
-            headerToolbar:{
-                right:'prev,next',
-                center:'title',
-                left:'today'
-            },
-            locale: "ko",                  
-            dayMaxEventRows: 0,         
-            googleCalendarApiKey: 'AIzaSyCy-89GuDIuHHF68AJMQUc_Z0A7ZUogmkE',        
-     
-            showNonCurrentDates:false,      
-            eventSources: [           
-            {             
-                googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
-                className: 'korea_holiday',             
-                color: 'white',
-                textColor:'red',           
-            },           
-            ],
-            events:[
-            {
-                title : "빨강색 배경 & 글자색 노랑색", color : "#FF0000", textColor : "#FFFF00", start : "2024-05-02", end : "2024-05-06T10:00:00" 
-            }
-            
-            ]
-            
+            });
         });
-        calendar.render();
-       
-        
-    });
         function clock() {
             var date = new Date();
             var years = date.getFullYear();

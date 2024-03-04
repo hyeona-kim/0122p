@@ -42,7 +42,6 @@
             <th>Thu</th>
             <th>Fri</th>
             <th>Sat</th>
-           
         </tr>
         <tr>
             <c:forEach var="i" begin="0" end="6">
@@ -51,9 +50,9 @@
         </tr>
         <c:forEach  var="k" begin="1" end="8">
             <tr>
-                <td class="class"><a>${k}교시</a></td>
+                <td><input type="hidden" class="class${k}"/> <a>${k}교시</a></td>
                 <c:forEach var="i" begin="0" end="6">
-                    <td class="class${k}${i}"></td>
+                    <td id="id${k}${i}"></td>
                 </c:forEach>
             </tr>
         </c:forEach>

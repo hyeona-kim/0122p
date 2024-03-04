@@ -68,17 +68,9 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
-        let searchType ="";
-        let numPerPage = "";
-        let searchValue ="";
         let cPage = "1";
         let s_idx = "${svo.s_idx}"
-        let value = 0;
-        let change = true;
-        let count = 0;
-        let nowValue = 0;
         let es_idx = "";
-        let type = "";
         
         
         $(function() { 
@@ -91,20 +83,14 @@
                 type:"post",
                 data:"s_idx="+s_idx,
             }).done(function(result){
-                console.log("s_idx="+s_idx);
                 $("#courseLog_Table").html(result);
-                
 
-                $("#grading").click(function(){
-                    location.href = "TraineeScoreList?es_idx="+es_idx;
-                });
-            
-            
-            
-                
             });
         });
 
+        function scoreList(idx){
+            location.href = "TraineeScoreList?s_idx="+s_idx+"&es_idx="+idx;
+        }
 
         function delEs(es_idx){
             

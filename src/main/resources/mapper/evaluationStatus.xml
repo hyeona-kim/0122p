@@ -4,6 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.EvaluationStatusMapper">
 
+<resultMap type="com.ict.project.vo.EvaluationStatusVO" id="map1">
+	<association property="qtvo" column="qt_idx" javaType="com.ict.project.vo.QuestionVO" select="question"></association>
+</resultMap>
+	
+     <select id="question" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
+		select * from question_t where es_idx = #{es_idx}
+	</select>
+
+    <select id="search_count" parameterType="Map" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select es.*
+					from question_t q, evaluation_status es
+				<where>
+					<trim suffixOverrides="and">
+							es_status = 0 and es.es_idx = q.es_idx and
+							<if test="es_idx != null">q.es_idx=#{es_idx}</if>
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c
+	</select>
+
+
+
+
+
 	<select id="list" resultType="com.ict.project.vo.EvaluationStatusVO">
 		select * from evaluation_status
 		where s_idx = #{s_idx} and es_status = 0
