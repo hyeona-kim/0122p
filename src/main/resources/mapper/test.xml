@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.TestMapper">
+	
+	<select id="login" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+		select * from member_t
+		where m_id = #{m_id}
+	</select>
+
+    <select id="getCtList" resultType="com.ict.project.vo.CourseTypeVO">
+        select * from course_type_t
+    </select>
+
+    <select id="getSfList" resultType="com.ict.project.vo.StaffVO">
+        select * from staff_t
+        where status = 0 and sf_link = 0
+    </select>
+
+    <select id="ctList" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+        select * from course_t
+        where c_status = 0 and ct_idx = #{ct_idx}
+        order by start_date desc
+    </select>
+
+    <select id="searchCourse" parameterType="Map" resultType="com.ict.project.vo.CourseVO">
+        select * from course_t
+        where c_status = 0 and c_name like concat('%', #{c_name}, '%') and ct_idx = #{ct_idx}
+        order by start_date desc
+    </select>
+
+    <insert id="addAsk" parameterType="com.ict.project.vo.AskcounselingVO">
+		insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content, ac_write_date, ac_type, ac_title)
+		values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, now(), 0, #{ac_title})
+    </insert>
+
+    <insert id="regMember" parameterType="com.ict.project.vo.MemberVO">
+        insert into member_t (m_id, m_pw, m_email, m_phone, m_name)
+        values (#{m_id}, #{m_pw}, #{m_email}, #{m_phone}, #{m_name})
+    </insert>
+
+    <select id="checkSameId" parameterType="String" resultType="int">
+        select count(*) from member_t
+        where m_id = #{m_id}
+    </select>
+
+    <select id="myCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+        select d.* from 
+            (select a.*, b.c_idx from (select * from member_t where m_id = #{m_id}) a, trainee_t b
+            where b.tr_idx = a.tr_idx) c, course_t d
+        where c.c_idx = d.c_idx
+    </select>
+
+    <update id="editMyInfo" parameterType="Map">
+        update member_t
+        <trim prefix="set" suffixOverrides=",">
+            m_pw = #{m_pw},
+			m_email = #{m_email},
+            m_phone = #{m_phone},
+            m_name = #{m_name}
+		</trim>
+        where m_id = #{m_id}
+    </update>
+
+    <insert id="addaskcounseling" parameterType="com.ict.project.vo.AskcounselingVO">
+        insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content,ac_write_date,ac_type,ac_gender)
+        values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
+    </insert>
+
+    <insert id="qnawrite" parameterType="com.ict.project.vo.MemberVO">
+        insert into member_t (m_title,m_content,m_write_date,m_qstatus)
+        values (#{m_title}, #{m_content}, Now(),1)
+    </insert>
+
+    <select id="getmember" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+        select * from member_t
+        where m_id = #{m_id}
+    </select>
+
+    
+
+</mapper>

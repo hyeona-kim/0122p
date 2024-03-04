@@ -263,8 +263,7 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
 
         return mv;
-
-=======
+    }
     @RequestMapping("gradeManage")
     public ModelAndView gradeManage(String s_idx) {
         ModelAndView mv = new ModelAndView();
