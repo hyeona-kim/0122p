@@ -98,7 +98,7 @@ public class EvaluationManageController {
             num = null;
         if (cPage == null)
             cPage = "1";
-
+        System.out.println(listSelect+"/");
         Paging page = null;
         if (num == null)
             page = new Paging();
@@ -116,6 +116,15 @@ public class EvaluationManageController {
         } else if (listSelect.equals("2")) {
             mv.setViewName("/jsp/admin/evaluationManage/testSubject_ajax");
         } else if (listSelect.equals("3")) {
+            StaffVO svo = (StaffVO)session.getAttribute("vo");
+            CourseVO[] c_ar = c_Service.staffCourse(svo.getSf_idx() , String.valueOf(page.getBegin()),
+                String.valueOf(page.getEnd()));
+            page.setTotalRecord(c_Service.staffCourse_count(svo.getSf_idx()));
+            System.out.println(page.getTotalRecord());
+            System.out.println(svo.getSf_idx());
+            System.out.println(c_Service.staffCourse_count(svo.getSf_idx()));
+            mv.addObject("c_ar", c_ar);
+            mv.addObject("page2", page);
             mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest_ajax");
         } else if (listSelect.equals("4")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty_ajax");
