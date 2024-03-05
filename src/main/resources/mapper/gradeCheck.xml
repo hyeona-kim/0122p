@@ -11,7 +11,7 @@
 	</resultMap>
 
     <select id="list" parameterType="String" resultType="com.ict.project.vo.GradeCheckVO">
-        select * from gradeCheck_t where tr_idx = #{tr_idx}
+        select * from (select g.*, q.es_idx from gradeCheck_t g, question_t q where g.qt_idx = q.qt_idx) as a where tr_idx = #{tr_idx} and es_idx = #{es_idx}
     </select>
 
     <select id="getOne" parameterType="String" resultMap="map1">
