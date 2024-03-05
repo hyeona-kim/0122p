@@ -64,12 +64,12 @@
 						<th><label>능력단위요소</label></th>
 						<td colspan="3">${esvo.sk_idx}</td>
 					</tr>
+					<tr>
+						<th colspan="4">문항</th>
+					</tr>
 					<!--문제 반복문 처리-->
 					<c:forEach var="qvo" items="${qt_ar}" varStatus="vs">
 
-						<tr>
-							<th colspan="4">문항</th>
-						</tr>
 						<tr>
 							<th>
 								<label>{문제의 능력단위요소}</label><br/>
@@ -77,7 +77,7 @@
 							</th>
 							<td colspan="3">
 								문항${vs.index+1}. ${qvo.qt_name} <br/>
-								<textarea cols="80" rows="4" >${qt_content}</textarea><br/>
+								<textarea cols="80" rows="4" readonly>${qvo.qt_content}</textarea><br/>
 								<c:if test="${qvo.qt_type eq 0}">
 									<c:set var="select" value="select${vs.index}" />
 										

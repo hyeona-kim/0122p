@@ -61,7 +61,7 @@
 
                     </td>  
                     <td>
-                        <button type="button" class="btn green" onclick="editEI('${esvo.es_idx}')">수정</button>
+                        <button type="button" class="btn green" onclick="editExam('${esvo.es_idx}')">수정</button>
                         <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
                        
                     </td>
