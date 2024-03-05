@@ -78,22 +78,8 @@ public class EvaluationManageController {
         } else if (listSelect.equals("3")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest");
         } else if (listSelect.equals("4")) {
-            mv.setViewName("/jsp/admin/evaluationManage/upskill");
-        } else if (listSelect.equals("5")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty");
-        } else if (listSelect.equals("6")) {
-            mv.setViewName("/jsp/admin/evaluationManage/skillseveralty");
-        } else if (listSelect.equals("7")) {
-            mv.setViewName("/jsp/admin/evaluationManage/skilltest");
-        } else if (listSelect.equals("8")) {
-            mv.setViewName("/jsp/admin/evaluationManage/deviation");
-        } else if (listSelect.equals("9")) {
-            mv.setViewName("/jsp/admin/evaluationManage/testcomparison");
-        } else if (listSelect.equals("10")) {
-            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_mt");
-        } else if (listSelect.equals("11")) {
-            mv.setViewName("/jsp/admin/evaluationManage/upskilltest");
-        } else if (listSelect.equals("12")) {
+        } else if (listSelect.equals("5")) {
             mv.setViewName("/jsp/admin/evaluationManage/testfile");
         }
 
@@ -132,22 +118,8 @@ public class EvaluationManageController {
         } else if (listSelect.equals("3")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest_ajax");
         } else if (listSelect.equals("4")) {
-            mv.setViewName("/jsp/admin/evaluationManage/upskill_ajax");
-        } else if (listSelect.equals("5")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty_ajax");
-        } else if (listSelect.equals("6")) {
-            mv.setViewName("/jsp/admin/evaluationManage/skillseveralty_ajax");
-        } else if (listSelect.equals("7")) {
-            mv.setViewName("/jsp/admin/evaluationManage/skilltest_ajax");
-        } else if (listSelect.equals("8")) {
-            mv.setViewName("/jsp/admin/evaluationManage/deviation_ajax");
-        } else if (listSelect.equals("9")) {
-            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_ajax");
-        } else if (listSelect.equals("10")) {
-            mv.setViewName("/jsp/admin/evaluationManage/testcomparison_mt_ajax");
-        } else if (listSelect.equals("11")) {
-            mv.setViewName("/jsp/admin/evaluationManage/upskilltest_ajax");
-        } else if (listSelect.equals("12")) {
+        } else if (listSelect.equals("5")) {
             mv.setViewName("/jsp/admin/evaluationManage/testfile_ajax");
         }
 
@@ -275,31 +247,28 @@ public class EvaluationManageController {
         EvaluationStatusVO esvo = es_Service.getone(es_idx);
         mv.addObject("esvo", esvo);
 
-        
         if (listSelect.equals("1"))
             mv.setViewName("/jsp/admin/evaluationManage/addEvidence_ajax");
-        else if (listSelect.equals("2")){
+        else if (listSelect.equals("2")) {
             QuestionVO[] qt_ar = qt_Service.list(es_idx);
             String[] n = esvo.getEs_num_question().split("/");
             mv.addObject("n1", n[0]);
             mv.addObject("n2", n[1]);
             String[] select = new String[n[0].length()];
-            for(int i = 0; i < Integer.parseInt(n[0]); i++){
+            for (int i = 0; i < Integer.parseInt(n[0]); i++) {
                 select = qt_ar[i].getQt_select().split("│");
-                mv.addObject("select"+i, select);
+                mv.addObject("select" + i, select);
             }
             mv.addObject("qt_ar", qt_ar);
             mv.setViewName("/jsp/admin/evaluationManage/viewExam_ajax");
-        }
-        else if (listSelect.equals("3")){
-            if(esvo.getEs_type().equals("2")){
+        } else if (listSelect.equals("3")) {
+            if (esvo.getEs_type().equals("2")) {
                 String[] n = esvo.getEs_num_question().split("/");
                 mv.addObject("n1", n[0]);
                 mv.addObject("n2", n[1]);
-            }  
+            }
             mv.setViewName("/jsp/admin/evaluationManage/examFill_ajax");
-        }
-        else if (listSelect.equals("4"))
+        } else if (listSelect.equals("4"))
             mv.setViewName("/jsp/admin/evaluationManage/checkExam_ajax");
         return mv;
     }
@@ -366,7 +335,6 @@ public class EvaluationManageController {
         return mv;
 
     }
-
 
     @RequestMapping("checkExam_file")
     public ModelAndView course_file(CheckExamFileVO cefvo) {
@@ -479,22 +447,20 @@ public class EvaluationManageController {
         return null;
     }
 
-
     @RequestMapping("grading")
-    public ModelAndView grading(String tr_idx, String es_idx){
+    public ModelAndView grading(String tr_idx, String es_idx) {
         ModelAndView mv = new ModelAndView();
-
-
 
         return mv;
     }
 
     @RequestMapping("addExam")
-    public ModelAndView requestMethodName(String[] sk_idx, String[] qt_name, String[] qt_content, String[] qt_select, String[] qt_correct, String[] qt_type, String[] qt_score, String es_idx, String s_idx ) {
+    public ModelAndView requestMethodName(String[] sk_idx, String[] qt_name, String[] qt_content, String[] qt_select,
+            String[] qt_correct, String[] qt_type, String[] qt_score, String es_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
         QuestionVO qvo = new QuestionVO();
-        for(int i = 0; i < qt_name.length; i++){
-            if(qt_type[i].equals("0")){
+        for (int i = 0; i < qt_name.length; i++) {
+            if (qt_type[i].equals("0")) {
                 qvo.setQt_select(qt_select[i]);
                 System.out.println(qt_select[i]);
             } else {
@@ -512,7 +478,7 @@ public class EvaluationManageController {
         esvo.setEs_idx(es_idx);
         esvo.setEs_examStatus("출제완료");
         es_Service.edit(esvo);
-        mv.setViewName("redirect:examInput?s_idx="+s_idx);
+        mv.setViewName("redirect:examInput?s_idx=" + s_idx);
         return mv;
     }
 }
