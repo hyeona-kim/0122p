@@ -75,7 +75,8 @@
                             <td></td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
-                            <td><span id="director">최고 관리자</span></td>
+                            <td><span id="director">최고
+                                <br/>관리자</span></td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '0'}">
                             <c:if test="${vo2.sf_mgr eq '1'}">
@@ -139,7 +140,7 @@
                     <li><a href="traincurrent">과정별 훈련생 현황</a></li>
                     <li><a href="trainupload">훈련생확인서류등록</a></li>
                     <li><a href="trainconfirm">훈련생확인서류관리</a></li>
-                    <li><a href="suggestionList?cPage=1">고충 및 건의사항</a></li>
+                    <li><a href="suggestionList?cPage=1">Q&A</a></li>
                     <li><a href="boardMainList">게시판</a></li>
                 </ul>
             </li>
