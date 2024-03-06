@@ -150,6 +150,7 @@
 		let searchValue="";
 		let searchnum="";
 		let searchyear="";
+        let ar_length = '${param.ar_length}'
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -164,6 +165,9 @@
         });
         $(function() {
 			//$().removeClass("selected");
+            if(ar_length == 'null'){
+                alert("해당과정에 훈련생이 존재하지 않습니다.")
+            }
 			$(".subSelect").removeClass("subSelect");
 			$("#l_two").addClass("subSelect");
 			let now = new Date();	// 현재 날짜 및 시간

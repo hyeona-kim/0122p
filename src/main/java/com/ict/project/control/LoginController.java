@@ -11,8 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.LoginService;
 import com.ict.project.service.StaffService;
+import com.ict.project.service.TrainingDiaryService;
+import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.TrainingDiaryVO;
+
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -33,7 +37,8 @@ public class LoginController {
     StaffService s_Service;
     @Autowired
     CourseService c_Service;
-
+    @Autowired
+    TrainingDiaryService td_Service;
     int cnt = 0;
 
     @RequestMapping("index")
@@ -57,7 +62,35 @@ public class LoginController {
         }
         return viewPath;
     }
+    @RequestMapping("main_info")
+    @ResponseBody
+    public Map<String,Object> main_info(String cPage) {
+        Map<String,Object> map = new HashMap<>();
 
+        Paging page = new Paging(5,2);
+        if(cPage == null || cPage.trim().length() ==0){
+            cPage ="1";
+        }
+        page.setTotalRecord(td_Service.main_td_count());
+        page.setNowPage(Integer.valueOf(cPage));
+
+        TrainingDiaryVO[] ar = td_Service.main_td(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+
+        map.put("page", page);
+        map.put("td_ar",ar);
+        return map;
+    }
+    @RequestMapping("a_viewTD")
+    public ModelAndView a_viewTD(String td_idx) {
+        ModelAndView mv = new ModelAndView();
+        TrainingDiaryVO tdvo = td_Service.get_td(td_idx);
+        CourseVO cvo = c_Service.getCourse2(tdvo.getC_idx());
+        mv.addObject("cvo", cvo);
+        mv.addObject("tdvo", tdvo);
+        mv.setViewName("/jsp/admin/viewDiary");
+        return mv;
+    }
+    
     @RequestMapping("login_ok")
     public ModelAndView login_ok(String select, String ID, String PW) {
         ModelAndView mv = new ModelAndView();
@@ -73,6 +106,7 @@ public class LoginController {
                 // 로그인 성공
                 viewPath = "/jsp/admin/main_admin";
                 session.removeAttribute("cnt");
+                
                 session.setAttribute("main_select", 1);
             }
             session.setAttribute("vo", vo);
@@ -113,7 +147,7 @@ public class LoginController {
         return mv;
     }
 
-    @RequestMapping("logout")
+    @RequestMapping("logoutlll")
     public String logout() {
         session.removeAttribute("vo");
         session.removeAttribute("main_select");

@@ -3,6 +3,7 @@
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
    <ul id="tr_ul">
+    <input type="hidden" value="${fn:length(t_ar)}" id="t_ar_length"/>
     <c:if test="${t_ar ne null}">
         <c:forEach var="tvo" items="${t_ar}">
             <li class="tr_li">

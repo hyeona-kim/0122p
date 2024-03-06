@@ -12,6 +12,6 @@
             <button type="button" class="btn yellow"  onclick="location.href ='clickLogo?mode=change'">관리자모드</button> 
         </c:if>
         &nbsp;&nbsp;접속자:${vo.sf_name} / 
-        <a class="a" href="logout">로그아웃</a>
+        <a class="a" href="/logoutlll">로그아웃</a>
     </span>
 </article>

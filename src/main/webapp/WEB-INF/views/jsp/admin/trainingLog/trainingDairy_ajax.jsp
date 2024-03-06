@@ -21,7 +21,7 @@
         <tr>
             <th rowspan="2">
                 선택
-                <input type="checkbox"/>
+                <input type="checkbox"  id="chk_all"/>
             </th>
             <th rowspan="2">번호</th>
             <th rowspan="2">작성일</th>
@@ -85,32 +85,76 @@
                 <tr>
                     <td>
                         선택
-                        <input type="checkbox"/>
+                        <input type="checkbox"  name="chk"  class="chk"/>
                     </td>
                     <td>${num-vs.index}</td>
                     <td>${tdvo.write_date}</td>
                     <td>${fn:length(cvo.tr_ar3)}</td>
                     <td>${fn:length(cvo.tr_ar3)}</td>
-                    <td>${tdvo.td_attend}</td>
-                    <td>${tdvo.td_tardy}</td>
-                    <td>${tdvo.td_earlyLeave}</td>
+                    <td>${tdvo.attend_check}</td>
+                    <td>${tdvo.tardy_check}</td>
+                    <td>${tdvo.earlyLeave_check}</td>
                     <td>${tdvo.td_significant}</td>
-                    <c:if test="${tdvo.admin_check eq 0}">
-                        <td style="color: blue;">결</td>
+                    <c:if test="${vo.sf_tmgr eq 1}">
+                        <!--총책임자인 경우-->
+                        <c:if test="${tdvo.ceo_check eq 1 || tdvo.admin_check eq 1}">
+                            <!-- ceo_check 나 admin_check가 하나라도 있다면 ...-->
+                            <!-- 결재가 있는곳에 결재 사인 이미지 파일 넣어주기 -->
+                            <c:if test="${tdvo.admin_check eq 0}">
+                                <td style="color: blue;">결</td> 
+                            </c:if>
+                            <c:if test="${tdvo.admin_check eq 1}">
+                                <td style="color: red;">미</td>
+                            </c:if>
+                            <c:if test="${tdvo.ceo_check eq 0}">
+                                <td style="color: blue;">결</td>
+                            </c:if>
+                            <c:if test="${tdvo.ceo_check eq 1}">
+                                <td style="color: red;">미</td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${tdvo.ceo_check eq 0 && tdvo.admin_check eq 0}">
+                            <td style="color: red;">미</td>
+                            <td><a style="color: red; text-decoration: underline;" onclick="sign('${tdvo.td_idx}')">미</a></td>
+                        </c:if>
                     </c:if>
-                    <c:if test="${tdvo.admin_check eq 1}">
-                        <td style="color: red;">미</td>
-                    </c:if>
-                    <c:if test="${tdvo.ceo_check eq 0}">
-                        <td style="color: blue;">결</td>
-                    </c:if>
-                    <c:if test="${tdvo.ceo_check eq 1}">
-                        <td style="color: red;">미</td>
+                    <c:if test="${vo.sf_tmgr eq 0}">
+                        <!--총책임자가 아닌 경우-->
+                        <c:if test="${tdvo.ceo_check eq 0 || tdvo.admin_check eq 0}">
+                            <!-- ceo_check 나 admin_check가 하나라도 있다면 ...-->
+                            <!-- 결재가 있는곳에 결재 사인 이미지 파일 넣어주기 -->
+                            <c:if test="${tdvo.admin_check eq 0}">
+                                <td style="color: blue;">
+                                    <a onclick="showSign('${tdvo.td_idx}')">결</a>
+                                    <div hidden id="img_div${tdvo.td_idx}">
+                                        <img style="display: inline-block; width: 100%; height: 98%;" src="${pageContext.request.contextPath }/trainingLog_sign/${tdvo.td_sign}"/>
+                                    </div>
+                                </td> 
+                            </c:if>
+                            <c:if test="${tdvo.admin_check eq 1}">
+                                <td style="color: red;">미</td>
+                            </c:if>
+                            <c:if test="${tdvo.ceo_check eq 0}">
+                                <td style="color: blue;">
+                                    <a onclick="showSign('${tdvo.td_idx}')">결</a>
+                                    <div hidden id="img_div${tdvo.td_idx}">
+                                        <img style="display: inline-block; width: 100%; height: 98%;" src="${pageContext.request.contextPath }/trainingLog_sign/${tdvo.td_sign}"/>
+                                    </div>
+                                </td> 
+                            </c:if>
+                            <c:if test="${tdvo.ceo_check eq 1}">
+                                <td style="color: red;">미</td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${tdvo.ceo_check eq 1 && tdvo.admin_check eq 1}">
+                            <td><a style="color: red; text-decoration: underline;" onclick="sign('${tdvo.td_idx}','${vo.sf_tmgr}')">미</a></td>
+                            <td style="color: red;">미</td>
+                        </c:if>
                     </c:if>
                     <td>
                         <button type="button" class="btn green" onclick="viewTraining('${tdvo.td_idx}')">훈련일지</button>
                         <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">수정</button>
-                        <button type="button" class="btn red">삭제</button>
+                        <button type="button" class="btn red" onclick="delTraining('${tdvo.td_idx}')">삭제</button>
                     </td>
                 </tr>
             </c:forEach>

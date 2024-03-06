@@ -35,12 +35,13 @@ import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
-import jakarta.servlet.http.HttpSession;
 import com.ict.project.vo.AskcounselingVO;
 
 @RestController
 @RequestMapping("/login")
 public class TestController {
+    @Autowired
+    private HttpSession session;
     @Autowired
     private TestService t_Service;
 

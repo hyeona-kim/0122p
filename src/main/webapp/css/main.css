@@ -74,11 +74,35 @@
  .top>div:first-child>div #today{
    width: 80%;
    margin: auto;
-   font-size: 31px;
+   font-size: 22px;
    font-weight: bold;
    height: 60px;
    line-height: 80px;
    color: #154790;
+ }
+ .sign{
+   width: 90%;
+   margin: auto;
+   border-radius: 10px 10px;
+   height: 40px;
+   line-height: 40px;
+   margin-bottom: 5px;
+   background-color: #6581aa;
+   color: white;
+   font-weight: bolder;
+ }
+ .sign:hover{
+   background-color: #154790;
+ }
+ .sign_disabled{
+   width: 90%;
+   margin: auto;
+   border-radius: 10px 10px;
+   height: 40px;
+   line-height: 40px;
+   margin-bottom: 5px;
+   background-color: white;
+   color: white;
  }
  .top>div:first-child>div>div:last-child{
    width: 90%;
@@ -282,6 +306,18 @@
    color: #154790;
 }
 .staff>div:last-child article .disable,.staff>div:last-child article .disable:hover{
+    color: #ababab;
+}
+
+
+#td_list a{
+   text-decoration: none;
+   color: #5283cc;
+}
+#td_list a:hover{
+   color: #154790;
+}
+#td_list .disable,#td_list .disable:hover{
     color: #ababab;
 }
 
@@ -517,3 +553,20 @@
    padding: 0;
 }
 
+.top>div:first-child>div:last-child>div:last-child>article>div:first-child{
+   text-align: right;
+}
+.top>div:first-child>div:last-child>div:last-child>article>div:last-child{
+   text-align: center;
+}
+#noSign{
+   width: 90%;
+   height: 220px;
+   margin: 20px auto;
+   background: linear-gradient(to top, #154790, #5283cc);
+   color: white;
+   line-height: 220px;
+   text-align: center;
+   border-radius: 20px 20px;
+   font-weight: bold;
+}

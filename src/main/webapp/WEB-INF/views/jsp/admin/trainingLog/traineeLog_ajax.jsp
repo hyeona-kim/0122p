@@ -65,11 +65,14 @@
 								<td>${cvo.c_round_num }</td>
 								<td>${cvo.c_peo_num}</td>
 								<td>
-									<c:if test="${fn:length(cvo.tr_ar) eq 0}">
+									<c:if test="${fn:length(cvo.td_ar) eq 0}">
 										<button type="button" class="btn" onclick="trainingDaily('${cvo.c_idx}')" >과정별 훈련일지</button>
 									</c:if>
-									<c:if test="${fn:length(cvo.tr_ar) > 0}">
-										<button type="button" class="btn yellow" onclick="trainingDaily('${cvo.c_idx}')">과정별 훈련일지</button>
+									<c:if test="${fn:length(cvo.td_ar) > 0}">
+										<button type="button" class="btn yellow" onclick="trainingDaily('${cvo.c_idx}')">
+											과정별 훈련일지<br/>
+											Last:(${cvo.td_ar[0].write_date})
+										</button>
 									</c:if>
 								</td>
 							</tr>

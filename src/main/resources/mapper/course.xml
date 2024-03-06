@@ -88,7 +88,7 @@
 		select * from subject_t where c_idx=#{c_idx}
 	</select>
 	<select id="trainingDiary" resultType="com.ict.project.vo.TrainingDiaryVO" parameterType="String">
-		select * from trainingdiary_t where c_idx=#{c_idx} order by write_date desc
+		select * from trainingdiary_t where c_idx=#{c_idx} and td_status=0 order by write_date desc
 	</select>
 
 	<select id="trainee" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
