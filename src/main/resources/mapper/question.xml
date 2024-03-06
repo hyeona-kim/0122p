@@ -19,8 +19,8 @@
     </select>
 
     <insert id="add" parameterType="com.ict.project.vo.QuestionVO">
-        INSERT INTO question_t(es_idx, qt_name, qt_score, qt_type, qt_correct)
-			values(#{es_idx}, #{qt_name}, #{qt_score}, #{qt_type}, #{qt_correct})
+        INSERT INTO question_t(es_idx, qt_name, qt_score, qt_type, qt_correct, qt_content, qt_select)
+			values(#{es_idx}, #{qt_name}, #{qt_score}, #{qt_type}, #{qt_correct}, #{qt_content}, #{qt_select})
     </insert>
 
     <select id="esOne" parameterType="String" resultType="com.ict.project.vo.EvaluationStatusVO">
@@ -39,6 +39,8 @@
                 <if test="qt_score != null">qt_score = #{qt_score},</if>
                 <if test="qt_type != null">qt_type = #{qt_type},</if>
                 <if test="qt_correct != null">qt_correct = #{qt_correct},</if>
+                <if test="qt_content != null">qt_content = #{qt_content},</if>
+                <if test="qt_select != null">qt_select = #{qt_select},</if>
             </trim>
         </set>
         where qt_idx = #{qt_idx}

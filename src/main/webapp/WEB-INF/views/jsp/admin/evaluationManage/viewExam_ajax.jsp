@@ -62,30 +62,44 @@
 					</tr>
 					<tr>
 						<th><label>능력단위요소</label></th>
-						<th colspan="3">문항</th>
+						<td colspan="3">${esvo.sk_idx}</td>
+					</tr>
+					<tr>
+						<th colspan="4">문항</th>
 					</tr>
 					<!--문제 반복문 처리-->
-					<tr>
-						<th><label>{문제의 능력단위요소}</label></th>
-						<td colspan="3">
-							[문항{vs.index+1}] {문제 제목} <br/>
-							<textarea cols="80" rows="4" >{문제 내용}</textarea><br/>
-							<!--객관식일경우 반복식 수행-->
-								1) {보기1}<hr/>
-							
-							정답 : <input type="text"/>
+					<c:forEach var="qvo" items="${qt_ar}" varStatus="vs">
 
-						</td>
-					</tr>
+						<tr>
+							<th>
+								<label>{문제의 능력단위요소}</label><br/>
+								<input type="text" value="${esvo.sk_idx}" readonly />
+							</th>
+							<td colspan="3">
+								문항${vs.index+1}. ${qvo.qt_name} <br/>
+								<textarea cols="80" rows="4" readonly>${qvo.qt_content}</textarea><br/>
+								<c:if test="${qvo.qt_type eq 0}">
+									<c:set var="select" value="select${vs.index}" />
+										
+									<c:forEach var="s" items="${requestScope[select]}" varStatus="ss">
+										${ss.index+1}. ${s}<br/>
+									</c:forEach>
+								</c:if>
+									정답 : ${qvo.qt_correct}
+									<br/>
+									배점 : ${qvo.qt_score}
+							</td>
+						</tr>
+					</c:forEach>
+						
+					</tbody>
 					
-				</tbody>
-
-
-				<tfoot>
-					<tr>
-						<td colspan="4" style="color: #154790;">
-							
-						</td>
+					
+					<tfoot>
+						<tr>
+							<td colspan="4" style="color: #154790;">
+								
+							</td>
 					</tr>
 					<tr>
 						<td colspan="4" >
