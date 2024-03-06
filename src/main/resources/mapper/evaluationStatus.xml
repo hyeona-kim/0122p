@@ -32,7 +32,7 @@
 
 
 
-	<select id="list" parameterType="String" resultMap="map1">
+	<select id="subone" parameterType="String" resultMap="map1">
 		select * from evaluation_status
 		where s_idx = #{s_idx} and es_status = 0
 	</select>

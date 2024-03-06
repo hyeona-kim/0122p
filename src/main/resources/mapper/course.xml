@@ -18,9 +18,10 @@
 	</resultMap>
 	<resultMap type="com.ict.project.vo.CourseVO" id="map2">
 		<result column="c_idx" property="c_idx" />
+		<collection property="sb_ar" column="c_idx" ofType="com.ict.project.vo.SubjectVO" select="subject"></collection>
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
 		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
-		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee"></collection>
+		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="tlist"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -90,7 +91,6 @@
 	<select id="trainingDiary" resultType="com.ict.project.vo.TrainingDiaryVO" parameterType="String">
 		select * from trainingdiary_t where c_idx=#{c_idx} and td_status=0 order by write_date desc
 	</select>
-
 	<select id="trainee" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus !=9
 	</select>
@@ -99,6 +99,9 @@
 	</select>
 	<select id="trainee3" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 2 
+	</select>
+	<select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx}
 	</select>
 	<select id="list" parameterType="Map" resultMap="map1">
 		select * 
@@ -118,6 +121,10 @@
   </select>
 
   <select id="getCourse2" parameterType="String" resultMap="map1">
+    SELECT * FROM course_t WHERE c_idx = #{c_idx}
+  </select>
+  
+  <select id="getCourse3" parameterType="String" resultMap="map2">
     SELECT * FROM course_t WHERE c_idx = #{c_idx}
   </select>
   

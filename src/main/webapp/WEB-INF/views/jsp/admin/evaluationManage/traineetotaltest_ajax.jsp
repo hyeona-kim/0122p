@@ -71,8 +71,7 @@
 							<td>${cvo.c_round_num }</td>
 							<td>${cvo.c_peo_num}</td>
 							<td>
-								<button type="button" class="btn" onclick="allGradeList('${cvo.c_idx}')">종합성적표</button>
-								
+								<button type="button" class="btn" onclick="allGradeList('${cvo.c_idx}')">종합성적표${cvo.c_idx}</button>
 							</td>
 						</tr>
 					</c:forEach>

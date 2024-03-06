@@ -36,6 +36,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class EvaluationManageController {
@@ -120,9 +123,8 @@ public class EvaluationManageController {
             CourseVO[] c_ar = c_Service.staffCourse(svo.getSf_idx(), String.valueOf(page.getBegin()),
                     String.valueOf(page.getEnd()));
             page.setTotalRecord(c_Service.staffCourse_count(svo.getSf_idx()));
-            System.out.println(page.getTotalRecord());
-            System.out.println(svo.getSf_idx());
-            System.out.println(c_Service.staffCourse_count(svo.getSf_idx()));
+            page.setNowPage(Integer.parseInt(cPage));
+            System.out.println(page.getTotalRecord() + "/" + svo.getSf_idx() + "/" + c_Service.staffCourse_count(svo.getSf_idx()) + "/" + page.getStartPage() + "/" + page.getEndPage());
             mv.addObject("c_ar", c_ar);
             mv.addObject("page2", page);
             mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest_ajax");
@@ -202,7 +204,7 @@ public class EvaluationManageController {
         if (cPage == null)
             cPage = "1";
 
-        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
+        EvaluationStatusVO es_ar = es_Service.subone(s_idx);
         mv.addObject("es_ar", es_ar);
 
         if (listSelect.equals("1"))
@@ -331,7 +333,7 @@ public class EvaluationManageController {
     public ModelAndView grade_ajax(String s_idx) {
         ModelAndView mv = new ModelAndView();
 
-        EvaluationStatusVO[] es_ar = es_Service.list(s_idx);
+        EvaluationStatusVO es_ar = es_Service.subone(s_idx);
         SubjectVO svo = s_Service.list2(s_idx);
 
         mv.addObject("svo", svo);
@@ -573,4 +575,56 @@ public class EvaluationManageController {
         mv.setViewName("redirect:examInput?s_idx=" + s_idx);
         return mv;
     }
+
+    @RequestMapping("allGrade_ajax") // 만약 종합적인 값을 보아야 한다면 여기로!
+    public ModelAndView allGrade_ajax(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        System.out.println(c_idx + "/");
+        CourseVO cvo = c_Service.getCourse3(c_idx);
+        if(cvo.getSb_ar() != null && cvo.getSb_ar().length > 0){
+            SubjectVO[] sbvo = cvo.getSb_ar();
+            System.out.println(sbvo.length);
+            EvaluationStatusVO[] esvo = new EvaluationStatusVO[sbvo.length];
+            if(cvo.getTr_ar() != null && cvo.getTr_ar().length > 0){
+
+                Integer[] totalScore = new Integer[sbvo.length];
+                Integer[] total = new Integer[cvo.getTr_ar().length];
+                for(int i = 0; i < sbvo.length; i++){ // 과목별 평가번호를 가져와서 그 평가마다 받은 점수를 훈련생별로 저장함
+                    esvo[i] = es_Service.subone(sbvo[i].getS_idx());
+                }
+                for(int i = 0; i < cvo.getTr_ar().length; i++){
+                    if(total[i] == null)
+                        total[i] = 0;
+                    for(int j = 0; j < esvo.length; j++){
+                        totalScore[j] = gc_Service.all_grade(esvo[j].getEs_idx(), cvo.getTr_ar()[i].getTr_idx());
+                        if(totalScore[j] == null)
+                        totalScore[j] = 0;
+                        total[i] += totalScore[j];
+                    }
+                    mv.addObject("totalScore"+i, totalScore);
+                }
+                
+                Integer[] rank = new Integer[total.length]; 
+                for(int i = 0; i < total.length; i++){ // 값의 순위 정하기
+                    rank[i] = 1; // 모든 rank시작점은 1로 지정
+                    for(int j = 0; j < total.length; j++){ // 다른 total값과 비교하여 rank값 증가
+                        if(total[i] < total[j]) // 값이 작을때마다 1씩 증가함
+                        rank[i]++;
+                    }
+                }
+                Double[] average = new Double[total.length];
+                for(int i = 0; i < total.length; i++){ // 정확한 계산을 위해 평균은 맨 마지막에 구함
+                    average[i] = Double.valueOf(total[i]/total.length);
+                }
+                mv.addObject("average", average);
+                mv.addObject("rank", rank);
+            }
+            mv.addObject("cvo", cvo);
+            mv.addObject("sb_ar", sbvo);
+            
+        }
+        mv.setViewName("/jsp/admin/evaluationManage/allGradeList_ajax");
+        return mv;
+    }
+    
 }

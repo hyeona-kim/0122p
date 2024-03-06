@@ -18,4 +18,6 @@ public class TraineeVO {
 	private CourseVO cvo;
 	private boolean gender;
 	private GradeCheckVO[] gc_ar;
+
+	private Integer[] totalScore;
 }

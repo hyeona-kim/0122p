@@ -66,6 +66,10 @@ public class CourseService {
         return c_mapper.getCourse2(c_idx);
     }
 
+    public CourseVO getCourse3(String c_idx) {
+        return c_mapper.getCourse3(c_idx);
+    }
+
     // 과정 삭제하는 기능
     public int deleteCourse(String c_idx) {
         return c_mapper.del(c_idx);
