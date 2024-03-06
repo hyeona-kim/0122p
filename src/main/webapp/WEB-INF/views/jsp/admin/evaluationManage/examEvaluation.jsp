@@ -33,7 +33,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;성적관리</header>
+                <header>&nbsp;&nbsp;평가관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -43,17 +43,16 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${svo.s_title} 과목 ≫ ${esvo.es_name}" 채점 리스트</div>
+                            <div id="staffList_top" class="title">"${svo.s_title}"과목별 채점결과보기</div>
                             <div id="search_area" class="main_item">
-                                <div class="align_left">
-                                    훈련교사명: ${sfvo.sf_name}
-                                </div>
-                                <hr/>
                                 <div class="align_right">
+                                    <button id="add_btn" type="button" class="btn" onclick="">평가기본정보등록</button>
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>
                             <div id="courseLog_Table">
+
+                                <!--비동기 통신으로 가져올 내용 -->
 
                             </div>
                         </article>
@@ -63,18 +62,23 @@
         </article>
     </article>
     
-    <div id="dialog" hidden>
-        
-    </div>
+    <div id="dialog" hidden></div>
+    <div id="dialog2" hidden></div>
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        let searchType ="";
+        let numPerPage = "";
+        let searchValue ="";
         let cPage = "1";
-        let s_idx = "${svo.s_idx}";
-        let es_idx = "${esvo.es_idx}";
-        let c_idx = "${svo.c_idx}";
-        let listSelect = "";
+        let s_idx = "${svo.s_idx}"
+        let value = 0;
+        let change = true;
+        let count = 0;
+        let nowValue = 0;
+        let es_idx = "";
+        let type = "";
         
         
         $(function() { 
@@ -83,28 +87,26 @@
             
            
             $.ajax({
-                url: "list_ajax",
+                url: "diary_ajax3",
                 type:"post",
-                data:"c_idx="+c_idx + "&es_idx="+es_idx + "&listSelect=1",
+                data:"listSelect=4&cPage=1&num="+numPerPage+"&s_idx="+s_idx,
             }).done(function(result){
+                console.log("s_idx="+s_idx);
                 $("#courseLog_Table").html(result);
-
+                
             });
+            
+            
         });
 
-        function grading(idx){
-            location.href = "grading?tr_idx="+idx+"&es_idx="+idx;
+        function chcekTraineeScoreList(idx){
+            location.href = "chcekTraineeScoreList?s_idx="+s_idx+"&es_idx="+idx;
         }
+        
+     
 
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
+     
+      
 
     </script>
 </body>

@@ -171,6 +171,17 @@ public class EvaluationManageController {
         return mv;
     }
 
+    @RequestMapping("examEvaluation")
+    public ModelAndView examEvaluation(String s_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        SubjectVO svo = s_Service.list2(s_idx);
+        mv.addObject("svo", svo);
+
+        mv.setViewName("/jsp/admin/evaluationManage/examEvaluation");
+        return mv;
+    }
+
     @RequestMapping("examInput")
     public ModelAndView examInput(String s_idx) {
         ModelAndView mv = new ModelAndView();
@@ -183,7 +194,7 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("diary_ajax3")
-    public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx) {
+    public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx, String c_idx) {
         ModelAndView mv = new ModelAndView();
 
         if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
@@ -198,6 +209,12 @@ public class EvaluationManageController {
             mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
         else if (listSelect.equals("2"))
             mv.setViewName("/jsp/admin/evaluationManage/examInput_ajax");
+        else if (listSelect.equals("3")) {
+            SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
+            mv.addObject("s_ar", s_ar);
+            mv.setViewName("/jsp/admin/evaluationManage/scoreResult_ajax");
+        } else if (listSelect.equals("4"))
+            mv.setViewName("/jsp/admin/evaluationManage/examEvaluation_ajax");
         return mv;
     }
 
@@ -248,8 +265,9 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("es_dialog2")
-    public ModelAndView c_dialog(String listSelect, String es_idx, String s_idx) {
+    public ModelAndView es_dialog2(String listSelect, String es_idx, String s_idx) {
         ModelAndView mv = new ModelAndView();
+
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
         EvaluationStatusVO esvo = es_Service.getone(es_idx);
@@ -338,8 +356,24 @@ public class EvaluationManageController {
 
     }
 
+    @RequestMapping("chcekTraineeScoreList")
+    public ModelAndView chcekTraineeScoreList(String s_idx, String es_idx) {
+        ModelAndView mv = new ModelAndView();
+
+        EvaluationStatusVO esvo = es_Service.getone(es_idx);
+        SubjectVO svo = s_Service.list2(s_idx);
+        StaffVO sfvo = sf_Service.getStaff(esvo.getSf_idx());
+
+        mv.addObject("svo", svo);
+        mv.addObject("esvo", esvo);
+        mv.addObject("sfvo", sfvo);
+        mv.setViewName("/jsp/admin/evaluationManage/chcekTraineeScoreList");
+        return mv;
+
+    }
+
     @RequestMapping("list_ajax")
-    public ModelAndView list_ajax(String c_idx, String es_idx) {
+    public ModelAndView list_ajax(String c_idx, String es_idx, String listSelect) {
         ModelAndView mv = new ModelAndView();
 
         TraineeVO[] tr_ar = tr_Service.clist(c_idx, null, null);
@@ -354,7 +388,10 @@ public class EvaluationManageController {
             mv.addObject("tr_ar", tr_ar);
             mv.addObject("totalScore", totalScore);
         }
-        mv.setViewName("/jsp/admin/evaluationManage/traineeScoreList_ajax");
+        if (listSelect.equals("1"))
+            mv.setViewName("/jsp/admin/evaluationManage/traineeScoreList_ajax");
+        else if (listSelect.equals("2"))
+            mv.setViewName("/jsp/admin/evaluationManage/chcekTraineeScoreList_ajax");
         return mv;
 
     }
@@ -502,6 +539,13 @@ public class EvaluationManageController {
         return mv;
     }
 
+    @RequestMapping("scoreResult")
+    public ModelAndView trainingDiary(String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        CourseVO cvo = c_Service.getCourse2(c_idx);
+        mv.addObject("cvo", cvo);
+        mv.setViewName("/jsp/admin/evaluationManage/scoreResult");
+    }
     @RequestMapping("editExam")
     public ModelAndView editExam(String[] qt_idx, String[] sk_idx, String[] qt_name, String[] qt_content, String[] qt_select,
             String[] qt_correct, String[] qt_type, String[] qt_score, String es_idx, String s_idx) {

@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th>평가1</th>
+            <th>평가2</th>
+            <th>평가3</th>
+            <th>평가4</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>예상1</td>
+            <td>예상2</td>
+            <td>예상3</td>
+            <td>예상4</td>
+        </tr>
+    </tbody>
+</table>
