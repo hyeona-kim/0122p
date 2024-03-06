@@ -172,18 +172,23 @@ public class TestService {
         List<TrainingBookVO> list = t_Mapper.trBookList(c_idx);
         if (list != null && !list.isEmpty()) {
             ar = new TrainingBookVO[list.size()];
-    public int askcounseling(AskcounselingVO vo){
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
+    public int askcounseling(AskcounselingVO vo) {
         return t_Mapper.addaskcounseling(vo);
     }
 
-    public int qnawrite(MemberVO vo){
+    public int qnawrite(MemberVO vo) {
         return t_Mapper.qnawrite(vo);
     }
 
-    public MemberVO[] getmember(String m_id){
+    public MemberVO[] getmember(String m_id) {
         MemberVO[] ar = null;
         List<MemberVO> list = t_Mapper.getmember(m_id);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             ar = new MemberVO[list.size()];
             list.toArray(ar);
         }
