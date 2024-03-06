@@ -19,7 +19,7 @@
 						</tr>
 						<tr>
 							<td>
-								<input type="text" name="qt_name" placeholder="${i}번 문항" class="text"/>
+								문항${i} <input type="text" name="qt_name" placeholder="${i}번 문항" class="text"/>
 							</td>
 						</tr>
 						<tr>				
