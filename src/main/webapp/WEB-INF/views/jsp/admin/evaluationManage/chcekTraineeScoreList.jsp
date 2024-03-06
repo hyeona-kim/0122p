@@ -85,7 +85,7 @@
             $.ajax({
                 url: "list_ajax",
                 type:"post",
-                data:"c_idx="+c_idx + "&es_idx="+es_idx + "&listSelect=1",
+                data:"c_idx="+c_idx + "&es_idx="+es_idx + "&listSelect=2",
             }).done(function(result){
                 $("#courseLog_Table").html(result);
 

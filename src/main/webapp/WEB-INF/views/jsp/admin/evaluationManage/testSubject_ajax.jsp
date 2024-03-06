@@ -65,7 +65,7 @@
 								<td>${cvo.c_round_num }</td>
 								<td>${cvo.c_peo_num}</td>
 								<td>
-									<button type="button" class="btn">채점결과보기</button>
+									<button type="button" class="btn" onclick="scoreResult('${cvo.c_idx}')">채점결과보기</button>
 								</td>
 							</tr>
 						</c:forEach>
