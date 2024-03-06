@@ -16,14 +16,13 @@
 		select * 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name
-					from course_t c, staff_t s, course_type_t ct,
+			from (select cd.*, c.c_name, s.sf_name, ns.ns_name, id.id_name
+					from course_t c, staff_t s,
     						nextscheduled_t ns, inflowpath_t id, counselingdetail_t cd
 				<where>
 				<trim suffixOverrides="and">
 							cd_status2 = 0 and cd.c_idx = c.c_idx 
 											and cd.sf_idx = s.sf_idx 
-											and cd.ct_idx = ct.ct_idx 
 											and cd.ns_idx = ns.ns_idx 
 											and cd.id_idx = id.id_idx and
 							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>
@@ -44,14 +43,13 @@
 		select count(*) 
 			from 
 			(select @RN:=@RN+1 as rnum, a.* 
-			from (select cd.*, c.c_name, s.sf_name, ct.ct_name, ns.ns_name, id.id_name
-					from course_t c, staff_t s, course_type_t ct,
+			from (select cd.*, c.c_name, s.sf_name, ns.ns_name, id.id_name
+					from course_t c, staff_t s, 
     						nextscheduled_t ns, inflowpath_t id, counselingdetail_t cd
 				<where>
 					<trim suffixOverrides="and">
 							cd_status2 = 0 and cd.c_idx = c.c_idx 
 											and cd.sf_idx = s.sf_idx 
-											and cd.ct_idx = ct.ct_idx 
 											and cd.ns_idx = ns.ns_idx 
 											and cd.id_idx = id.id_idx and
 							<if test="select !=null and select == 1">cd_name like concat('%',#{value},'%') and</if>

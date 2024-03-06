@@ -38,9 +38,11 @@
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $(".sub_manu").mouseover(function(){
+            console.log("dd");
             $(this).css("display","block");
         });
         $(".menu1").mouseover(function(){
+            console.log("dd");
             $(this).next().css("display","block");
         });
         $(".menu1").mouseout(function(){

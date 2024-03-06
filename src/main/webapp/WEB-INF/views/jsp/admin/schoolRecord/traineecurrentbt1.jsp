@@ -117,6 +117,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
+        let tr_idx = "";
+        let c_idx = "";
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -287,6 +289,8 @@
 
 
 	function traineewrite(str1, str2){
+        tr_idx = str1;
+        c_idx = str2;
 		$.ajax({
             url: "traineewrite",
             type: "post",
@@ -323,7 +327,7 @@
 		$.ajax({
             url: "mangecard",
             type: "post",
-            data:"tr_idx="+tt+"&c_idx="+tt1
+            data:"tr_idx="+tt+"&c_idx="+tt1,
          }).done(function(result){
             $("#m1").html(result);
          });
@@ -348,19 +352,24 @@
 	
 	
 	function printPage(){
-		let initBody;
-			window.onbeforeprint = function(){
-			initBody = document.body.innerHTML;
+        let initBody;
+		window.onbeforeprint = function(){
+            $("#m1").dialog("close");
+            initBody = document.body.innerHTML;
 			document.body.innerHTML = document.getElementById('print').innerHTML;
 		};
-			window.onafterprint = function(){
-			document.body.innerHTML = initBody;
+		window.onafterprint = function(){
+            document.body.innerHTML = initBody;
+            traineewrite(tr_idx, c_idx);
+
 		};
         setTimeout(function (){
 			window.print();
 			return false;   
         },250);
 	}
+
+
 
 
 

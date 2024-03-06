@@ -1,13 +1,31 @@
 .logo{
-    width: 20%;
+    width: 100%;
     text-align: right;
     margin-bottom: 10px;
     margin-top: 10px;
+    position: relative;
+    height: 40px;
 }
-.logo>img{
+.logo>a{
     display: inline-block;
-    width: 250px;
-    margin-right: 25px;
+    position: absolute;
+    width: 250px;   
+    left: 50px;
+    height: 40px;
+}
+.logo>a>img{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+.logo>span{
+    display: inline-block;
+    position: absolute;
+    right:  0;
+    bottom: 5px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
 }
 .bottom{
     width: 100%;
@@ -90,6 +108,16 @@ input[id="menuicon"]:checked +div .navi>li>a{
     text-decoration: none;
     border-bottom: 1px solid none;
     line-height: 35px;
+    position: relative;
+}
+input[id="menuicon"]:checked +div .navi>li>a>img{
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    height: 15px;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 input[id="menuicon"]:checked +div .navi>li>ul{
     display: none;
@@ -206,33 +234,75 @@ input[id="menuicon"]:checked +div .navi>li>a:hover{
     font-weight: bold;
     background-color:  rgb(21, 71, 144, 0.8);
 }
+#calendar2{
+    margin-top: 5px;
+}
+#calendar2 .fc-col-header-cell {
+    background-color: rgb(21, 71, 144, 0.8);
+}
+#calendar2 .fc-col-header-cell a{
+    color: white;
+}
+#calendar2 .korea_holiday{
+    pointer-events: none;
+}
+#calendar2 .fullcalendar{
+    pointer-events: none;
+}
+#calendar2 .fc-event-time{
+    display: none;
+}
+#calendar2 .fc-button{
+    background-color: rgb(21, 71, 144);
+}
+#calendar2 .fc-toolbar-title{
+    color: rgb(21, 71, 144, 0.8);
+}
+.time_table{
+    width: 85%;
+    margin: auto;
+    border-collapse: collapse;
+}
+.time_table td,.time_table th{
+    height: 200px;
+    border: 1px solid #ababab;
+}
 
+.time_table  th{
+    background-color: #154790;
+    color: white;
+    height: 30px;
+}
 
-  @page {
-    size:auto;  /* 프린트 사이즈 */
-    margin: 0;  /* 프린트 여백 */
-    
-  }
+.time_table .class{
+   text-align: center;
+}
+.main_color{
+    color: #154790;
+}
+#page .before{
+    display: inline-block;
+    background-color: #577197;
+    color: white;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0 50px;
+    font-weight: bolder;
+    font-size: 20px;
+    text-decoration: none;
+}
+#page .before:hover{
+    background-color:#154790 ;
+}
 
-  @media print, screen {
-    
-    * {
-        margin: 0; 
-        padding: 0;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important; /* 크롬 배경화면 프린트 */
-    }
-    
-    /* .print-wrap {
-      display: block;
-    }
-  
-    .print-wrap .prd-list-tr {
-      page-break-inside: avoid; /* 해당 엘리먼트의 내부에서 페이지 넘김을 금지 */
-
-    }
-    
-
+#page .disable{
+    padding: 0;
+    background-color: #ababab;
+}
+#page .disable:hover{
+    background-color: #ababab;
+}
 

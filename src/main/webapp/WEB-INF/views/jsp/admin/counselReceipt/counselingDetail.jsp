@@ -39,14 +39,14 @@
                 <div class="right">
                     <div id="staffWrap">
                         <div id="staffList_top" class="main_item title">입학상담내역</div>
-                        <div id="cd_div" class="main_item data">
+                        <div id="cd_div" class="main_item data" style="display: none;">
                             <h3>${now} 금일 상담 예정자</h3>
                             <div id="cd_div2">
                                 <h4>금일 처리할 데이터가 없습니다</h4>
                             </div>
                         </div>
                         <p id="hd_btn" class="main_item align_right">
-                            <button type="button" onclick="togglek()" class="btn">숨기기</button>
+                            <input type="button" onclick="togglek()" class="btn" id="togglek" value="금일 상담 예정자 보기"/>
                         </p>
                         <form>
                             <table id="searchTime" class="table">
@@ -239,6 +239,7 @@
 
             $("#c_select").change(function(){
                 cSelect =this.value;
+                console.log(cSelect);
                 $.ajax({
                     url:"searchCounseldetail",
                     type:"post",
@@ -250,11 +251,6 @@
                 });
             });
         });
-
-
-
-
-
 
 
     function paging(str) {
@@ -331,6 +327,10 @@
                  room_length = 7;
                  $("#dialog3").dialog( "close" );
             });
+            $("#c_idx").change(function(){
+                let str = $("#c_idx"+this.value).val();
+                $("#ct_name").val(str);
+            });
 
         });
     }
@@ -382,17 +382,20 @@
     function togglek() {
         var cdDiv = document.getElementById("cd_div");
 
-        if (cdDiv.style.display === "none") {
-            cdDiv.style.display = "block";
-        } else {
+        if (cdDiv.style.display == "block") {
             cdDiv.style.display = "none";
+            $("#togglek").val("금일 상담 예정자 보기");
+        } else {
+            cdDiv.style.display = "block";
+            $("#togglek").val("숨기기");
         }
     }
 
     function addInflowPath() {
         room_length +=1;
         let str = $("#addInflowPath_tbody").html();
-        let str2="<tr><td><strong>"+room_length+"</strong><br/><button type='button' class='btn red'>삭제</button> </td> <td><input type='text' name='InflowPathName' class='text'/> </td>";
+        let str2="<tr><td><strong>"+room_length+"</strong><br/><button type='button' class='btn red'>삭제</button> </td>"
+                    +"<td><input type='text' name='InflowPathName' class='text'/> </td>";
         
         $("#addInflowPath_tbody").html(str+str2);
     }

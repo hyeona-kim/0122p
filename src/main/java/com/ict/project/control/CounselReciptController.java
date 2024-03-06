@@ -88,17 +88,43 @@ public class CounselReciptController {
     TraineeService tn_Service;
 
     @RequestMapping("counselReceipt")
-    public ModelAndView counselReceipt(String listSelect) {
+    public ModelAndView counselReceipt(String listSelect, String year, String select) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String now = formatter.format(new Date(System.currentTimeMillis()));
         ModelAndView mv = new ModelAndView();
 
         CourseTypeVO[] ct_ar1 = ct_Service.getList();
-        CourseVO[] c_ar1 = c_Service.getList();
+        CourseVO[] ar3 = c_Service.reg_search(now.substring(0, 4));
 
-        LocalDate now = LocalDate.now();
+        try {
+            Date today = new Date(formatter.parse(now).getTime());
+            for (int i = 0; i < ar3.length; i++) {
+                Date ar_date = new Date(formatter.parse(ar3[i].getStart_date()).getTime());
+                int cm = ar_date.compareTo(today);
 
-        mv.addObject("c_ar1", c_ar1);
+                if (cm > 0) {// 모집중
+                    ar3[i].setC_reg(true);
+                } else { // 교육중
+                    ar3[i].setC_reg(false);
+                }
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<CourseVO> list = new ArrayList<>();
+        for (int i = 0; i < ar3.length; i++) {
+            if (ar3[i].isC_reg())
+                list.add(ar3[i]);
+        }
+        ar3 = null;
+        if (list != null && !list.isEmpty()) {
+            ar3 = new CourseVO[list.size()];
+            list.toArray(ar3);
+        }
+        mv.addObject("c_ar1", ar3);
+
         mv.addObject("ct_ar1", ct_ar1);
-        mv.addObject("now", now);
 
         if (listSelect.equals("1"))
             mv.setViewName("/jsp/admin/counselReceipt/counselReceipt");
@@ -152,15 +178,46 @@ public class CounselReciptController {
     }
 
     @RequestMapping("cr_dialog")
-    public ModelAndView c_dialog(String select, String cr_idx) {
+    public ModelAndView c_dialog(String select, String cr_idx, String listSelect, String year) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String now = formatter.format(new Date(System.currentTimeMillis()));
+
         ModelAndView mv = new ModelAndView();
+
         CounselReceiptVO[] ar = cr_Service.getCounselReceiptList();
         EvaluationFactorVO[] ar2 = ef_Service.getEvaluationFactorList();
         InflowPathVO[] ar3 = id_Service.getList();
         NextscheduledVO[] ar4 = ns_Service.getList();
         StaffVO[] s_ar = s_Service.getList();
         CourseTypeVO[] ct_ar = ct_Service.getList();
-        CourseVO[] c_ar = c_Service.getList();
+        CourseVO[] c_ar = c_Service.reg_search(now.substring(0, 4));
+
+        try {
+            Date today = new Date(formatter.parse(now).getTime());
+            for (int i = 0; i < c_ar.length; i++) {
+                Date ar_date = new Date(formatter.parse(c_ar[i].getStart_date()).getTime());
+                int cm = ar_date.compareTo(today);
+
+                if (cm > 0) {// 모집중
+                    c_ar[i].setC_reg(true);
+                } else { // 교육중
+                    c_ar[i].setC_reg(false);
+                }
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<CourseVO> list = new ArrayList<>();
+        for (int i = 0; i < c_ar.length; i++) {
+            if (c_ar[i].isC_reg())
+                list.add(c_ar[i]);
+        }
+        c_ar = null;
+        if (list != null && !list.isEmpty()) {
+            c_ar = new CourseVO[list.size()];
+            list.toArray(c_ar);
+        }
 
         mv.addObject("c_ar", c_ar);
         mv.addObject("ct_ar", ct_ar);
@@ -635,7 +692,7 @@ public class CounselReciptController {
     @RequestMapping("searchCounseldetail")
     public ModelAndView searchCounseldetail(String num, String year, String select, String value, String listSelect,
             String cPage, String c_idx, String ct_idx) {
-
+        System.out.println(c_idx);
         System.out.println(ct_idx);
         if (value == null || value.trim().length() < 1) {
             value = null;
@@ -646,21 +703,21 @@ public class CounselReciptController {
             year = null;
         if (num.equals("표시개수"))
             num = null;
-        if (c_idx.equals("0") || c_idx.trim().length() < 1)
+        if (c_idx.trim().length() < 1 || c_idx.equals("0"))
             c_idx = null;
-        if (ct_idx.equals("0") || ct_idx.trim().length() < 1)
+        if (ct_idx.trim().length() < 1 || ct_idx.equals("0"))
             ct_idx = null;
         ModelAndView mv = new ModelAndView();
         Paging page = null;
+
         if (num != null && num.length() > 0)
             page = new Paging(Integer.parseInt(num), 5);
         else
             page = new Paging();
-        if (ct_idx == null)
-            System.out.println(1);
+
         page.setTotalRecord(cd_Service.getSearchCount(select, value, year, c_idx, ct_idx));
         page.setNowPage(Integer.parseInt(cPage));
-        System.out.println(page.getTotalPage() + "/" + page.getNowPage());
+
         CounselingdetailVO[] ar = null;
 
         ar = cd_Service.searchCounseldetail(select, value, year,

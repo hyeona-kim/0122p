@@ -1,24 +1,140 @@
 .logo{
-    width: 80%;
-    margin: 15px auto;
+   margin: auto;
+   width: 80%;
+   text-align: right;
+   margin-bottom: 10px;
+   margin-top: 10px;
+   position: relative;
+   height: 40px;
+}
+.logo>a{
+   display: inline-block;
+   position: absolute;
+   width: 250px;   
+   left: 0;
+   height: 40px;
+}
+.logo>a>img{
+   display: inline-block;
+   width: 100%;
+   height: 100%;
+}
+.logo>span{
+   display: inline-block;
+   position: absolute;
+   right:  10px;
+   bottom: 5px;
+   height: 20px;
+   line-height: 20px;
+   font-size: 12px;
 }
  .top{
     display: flex;
     width: 80%;
     margin: auto;
  }   
+  /*관리자 정보*/
  .top>div{
     display: inline-block;
     width: 50%;
-    height: 420px;
+    height: 460px;
  }
- .top>div:first-child>img{
-    display: inline-block;
-    width: 100%;
-    height:100%;
-    border-radius: 20px 20px;
-    margin-bottom: 0;
+
+ /*관리자의 정보 띄어주는 박스 */
+ .top>div:first-child{
+   background-color: #154790;
+   border-radius:  20px 20px;
+   display: inline-flex;
+   justify-content: space-evenly;
  }
+ #day{
+   color: #7797c7;
+   font-size: 20px;
+   font-weight: bold;
+   position: absolute;
+   left: 20px;
+   top: 30px;
+}
+#time{
+   color: #7797c7;
+   font-size: 12px;
+   position: absolute;
+   left: 20px;
+   top: 18px;
+}
+ 
+ .top>div:first-child>div{
+   display: inline-block;
+   width: 45%;
+   height: 90%;
+   border-radius: 20px 20px;
+   background-color: #dedede;
+   margin-top: 20px;
+ }
+ .top>div:first-child>div #today{
+   width: 80%;
+   margin: auto;
+   font-size: 31px;
+   font-weight: bold;
+   height: 60px;
+   line-height: 80px;
+   color: #154790;
+ }
+ .top>div:first-child>div>div:last-child{
+   width: 90%;
+   margin: auto;
+   background-color: white;
+   height: 310px;
+   margin-top: 10px;
+   border-radius: 20px 20px;
+   position: relative;
+ }
+ 
+ #day_select{
+   top: 30px;
+   display: inline-block;
+   position: absolute;
+   right: 20px;
+ }
+ #daily_select{
+   top: 5px;
+   display: inline-block;
+   position: absolute;
+   right: 20px;
+ }
+
+ .top>div:first-child>div>div:last-child>article{
+   display: inline-block;
+   height: 90%;
+   width: 100%;
+   margin-top: 80px;
+ }
+ .top>div:first-child>div>div:last-child>article>table{
+   width: 85%;
+   margin: auto;
+   border-collapse: collapse;
+   margin-top: 10px;
+ }
+ .top>div:first-child>div>div:last-child>article>table caption{
+   height: 0;
+   text-indent: -9999px;
+ }
+ .top>div:first-child>div>div:last-child>article>table th{
+   background-color: #154790;
+   color: white;
+ }
+ .top>div:first-child>div>div:last-child>article>table tr:last-child th{
+   background-color: white;
+   color: black;
+ }
+ .top>div:first-child>div>div:last-child>article>table td,.top>div:first-child>div>div:last-child>article>table th{
+   border: 1px solid #ababab;
+   height: 45px;
+   padding: 5px;
+   text-align: center;
+
+ }
+/*하단 영역*/
  .list{
     height: 420px;
     width: 80%;
@@ -28,6 +144,7 @@
     display: flex;
     justify-content: space-evenly;
  }
+
  .list>div{
     display: inline-block;
     width: 17%;
@@ -59,6 +176,115 @@
     width: 70%;
     margin: 20px auto;
  }
+ .staff{
+   height: 420px;
+   width: 80%;
+   background-color: #dedede;
+   border-radius: 20px 20px;
+   margin: auto;
+   display: flex;
+   justify-content: space-evenly;
+   text-align: center;
+}
+.staff>div:first-child{
+   width: 17%;
+   display: inline-block;
+   height: 360px;
+   margin-top: 30px;
+   background-color: white;
+   border-radius: 10px 10px;
+   position: relative;
+   text-align: center;
+}
+.staff>div:first-child>article{
+   width: 100%;
+   display: inline-flex;
+   margin-top: 50px;
+   flex-direction: column;
+   justify-content: space-evenly;
+   height: 80%;
+}
+
+.staff>div:first-child>article>div{
+   display: inline-block;  
+   width: 80%;
+   height: 35px;
+   margin: auto;
+   line-height: 35px;
+   background-color: #5283cc;
+   color: white;
+   border-radius: 5px 5px;
+   font-size: 15px;
+   font-weight: bold;
+}
+.staff>div:first-child>article>div:hover{
+   background-color: #154790;
+}
+.staff>div:first-child>article>.selected{
+   background-color: #154790;
+}
+.staff>div:first-child>.title{
+   width: 80%;
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   color: #154790;
+   font-size: 25px;
+   height: 30px;
+}
+
+.staff>div:last-child{
+   width: 70%;
+   display: inline-block;
+   height: 360px;
+   margin-top: 30px;
+   background-color: white;
+   border-radius: 10px 10px;
+}
+.staff>div:last-child>.first{
+   margin: 40px;
+   height: 78%;
+   border-radius: 20px 20px;
+   line-height: 280px;
+   font-size: 20px;
+   font-weight: bolder;
+   background: linear-gradient(to top, #154790, #5283cc);
+}
+.staff>div:last-child>.first>span{
+   font-size: 30px;
+   color: white;
+   
+}
+.staff>div:last-child article {
+   display: flex;
+   position: relative;
+}
+.staff>div:last-child article>div:first-child{
+   display: inline-block;
+   position: absolute;
+   top: 120px;
+   left: 0;
+   font-size: 20px;
+}
+.staff>div:last-child article>div:last-child{
+   display: inline-block;
+   position: absolute;
+   top: 120px;
+   right: 0;
+   font-size: 20px;
+}
+.staff>div:last-child article a{
+   text-decoration: none;
+   color: #5283cc;
+}
+.staff>div:last-child article a:hover{
+   color: #154790;
+}
+.staff>div:last-child article .disable,.staff>div:last-child article .disable:hover{
+    color: #ababab;
+}
+
  #school{
     line-height: 50px;
  }
@@ -81,7 +307,7 @@
     height: 80%;
     border-radius: 20px 20px;
     background-color: #dedede;
-    margin-top: 30px;
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -128,3 +354,166 @@
  .top>div:last-child>div>div:last-child>.disable, .top>div:last-child>div>div:last-child>.disable:hover{
     color: #ababab;
  }
+ #calendar_wrap{
+   display: block;
+   position: relative;
+ }
+ #calendar_wrap>span{
+   position: absolute;
+   right: 130px;
+   top: 22px;
+   z-index: 20;
+   display: inline-block;
+   width: 100px;
+   height: 32px;
+   background-color: #6581aa;
+   border-radius: 3px 3px;
+ }
+ #calendar_wrap>span>a{
+   display: inline-block;
+   color: white;
+   width: 100%;
+   height: 100%;
+   line-height: 32px;
+   text-align: center;
+   font-size: 14px;
+   font-weight: bold;
+   text-decoration: none;
+ }
+ #calendar_wrap>span:hover{
+   background-color: #154790;
+ }
+ #calendar_wrap>#calendar .fc-event-title-container{
+   height: 16px;
+   line-height: 16px;
+ }
+
+ #calendar_wrap>#calendar table{
+   overflow-y: auto;
+   border-collapse: collapse;
+   border-radius: 10px 10px 0 0;
+   margin:5px auto;
+   width: 98%;
+   height: 98%;
+ }
+ #calendar_wrap>#calendar table th{
+   background-color: #154790;
+   
+ }
+
+ #calendar_wrap>#calendar table th a{
+   color: white;
+ }
+ #calendar_wrap>#calendar table td{
+   background-color: white;
+   border: 1px solid #ababab;
+   border-right: none;
+   position: relative;
+ }
+ #calendar_wrap>#calendar table td .fc-daygrid-more-link{
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   color: #154790;
+ }
+ #calendar_wrap>#calendar .fc-popover-title{
+   font-size: 12px;
+   margin:auto;
+ }
+ #calendar_wrap>#calendar table td a{
+   color: #ababab;
+ }
+ #calendar_wrap>#calendar table .fc-day-today a{
+   color: #0b1f3b;
+   font-weight: bolder;
+ }
+ #calendar_wrap>#calendar{
+   width: 95%;
+   height: 420px;
+   font-size: 11px;
+   background-color: white;
+   margin: auto ;
+   margin-top: 20px;
+   overflow:hidden;
+ }
+ #calendar_wrap>#calendar>div{
+   background-color: white;
+   width: 95%;
+ }
+ #calendar .fc-button{
+   background-color: rgb(21, 71, 144);
+}
+ #calendar_wrap>#calendar .korea_holiday{
+   pointer-events: none;
+}
+#navi2_wrap{
+   width: 100%;
+   height: 100%;
+}
+#navi2{
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
+   display: flex;
+   width: 100%;
+   height: 100%;
+   background: linear-gradient(to top, #154790, #5283cc);
+   border-radius: 10px 10px;
+}
+#navi2>li{
+   list-style-type: none;
+   display: inline-block;
+   width: 300px;
+   height: 50px;
+   position: relative;
+
+}
+#navi2>li>a{
+   display: inline-block;
+   width: 100%;
+   height: 100%;
+   line-height: 50px;
+   font-size: 18px;
+   text-decoration: none;
+   color: white;
+   font-weight: bold;
+}
+#navi2>li>a:hover{
+   color: #cca740;
+}
+
+.sub_manu2{
+   display: block;
+   width: 100%;
+   height: 300px;
+   position: absolute;
+   top: 60px;
+   left: 0;
+   list-style: none;
+   margin: 0;
+   padding: 0;
+}
+.sub_manu2>li{
+   width: 100%;
+   height: 20px;
+   font-size: 15px;
+   line-height: 20px;
+}
+.sub_manu2>li{
+   margin: 0;
+   padding: 0;
+   margin-bottom: 20px;
+}
+.sub_manu2>li>a{
+   display: inline-block;
+   width: 100%;
+   height: 100%;
+   text-decoration: none;
+   font-size: 15px;
+   line-height: 20px;
+   color: #fcda7c;
+   text-align: center;
+   margin: 0;
+   padding: 0;
+}
+

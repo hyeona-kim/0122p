@@ -1,39 +1,14 @@
 package com.ict.project.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class TimeVO {
-	
-	private String ti_idx, ti_class, ti_str_time, ti_end_time;
-
-	public String getTi_idx() {
-		return ti_idx;
-	}
-
-	public void setTi_idx(String ti_idx) {
-		this.ti_idx = ti_idx;
-	}
-
-	public String getTi_class() {
-		return ti_class;
-	}
-
-	public void setTi_class(String ti_class) {
-		this.ti_class = ti_class;
-	}
-
-	public String getTi_str_time() {
-		return ti_str_time;
-	}
-
-	public void setTi_str_time(String ti_str_time) {
-		this.ti_str_time = ti_str_time;
-	}
-
-	public String getTi_end_time() {
-		return ti_end_time;
-	}
-
-	public void setTi_end_time(String ti_end_time) {
-		this.ti_end_time = ti_end_time;
-	}
+	// 훈련일자.,훈련시작시간,훈련종료시간,방학여부,시작시간,시간구분,훈련강사코드,교육장소코드,교과목능력단위코드
+	private String training_date, training_starttime, training_endtime, status, start_time, time_split, sf_name, r_name,
+			s_name,
+			week;
 
 }

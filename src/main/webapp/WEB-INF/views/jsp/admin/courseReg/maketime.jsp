@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,24 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    .time_divWrap{
+        background-color: white;
+        width: 98%;
+        height: 98%;
+        margin: auto;
+        border: 1px solid #154790;
+    }
+
+    .time_divWrap>.time_div{
+        height: 25%;
+        border-bottom: 1px solid #ababab;
+        text-align: center;
+    }
+    .time_divWrap>.time_div:nth-child(2n+1){
+        background-color: #dddddd;
+    }
+</style>
 </head>
 <body>
     <article>
@@ -79,6 +98,7 @@
         let select_year = "";
         let numPerPage = "";
         let value ="";
+        let select_idx ="";
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -164,8 +184,6 @@
     }
     function set(str,c_idx){
         
-     
-
         $.ajax({
             url:"exelAdd",
             type:"post",
@@ -195,7 +213,7 @@
     });
     function set2(c_idx){
         $( "#dialog2" ).dialog("open");
-
+        select_idx= c_idx;
         $.ajax({
             url:"weekTime",
             type:"post",
@@ -205,15 +223,136 @@
             $("#cc_cancle").click(function(){
                 $( "#dialog2" ).dialog("close");
             });
+            $.ajax({
+                url:"getTime",
+                type:"post",
+                data:"listSelect=3&c_idx="+c_idx+"&cPage=1",
+                dataType:"json",
+            }).done(function(data){
+               /*시간표의 정보를 가져올 */
+                dataSetting(data.w_list,data.page,data.week_ar);
+                
+            });
             
         });
+    }
+    function paging2(c_page){
+        $.ajax({
+            url:"getTime",
+            type:"post",
+            data:"listSelect=3&c_idx="+select_idx+"&cPage="+c_page,
+            dataType:"json",
+        }).done(function(data){
+           /*시간표의 정보를 가져올 */
+            dataSetting(data.w_list,data.page,data.week_ar);
+            $(".op"+(Number(c_page)-1)).attr("selected",true);
+        });
+    }
+    function dataSetting(list,page,week_ar){
+        // 시간표에 데이터를 세팅해준다 (class활용 예정)
+        start = format(list[0].training_date)
+        end = format(list[list.length-1].training_date)
+        $("#startDate").html(start)
+        $("#endDate").html(end)
+        let str = "";
+        //페이징을 하기위한 버튼 만들기
+        if(page.totalRecord >0){
+            if(page.nowPage == 1){
+                str +="<a class='disable before'>&#129152;</a>";
+            }else{
+                str +="<a href='javascript:paging2("+Number(page.nowPage-1)+")' class='before'>&#129152;</a>";
+            }   
+            if(page.nowPage != page.totalPage ){
+                str +="<a href='javascript:paging2("+Number(page.nowPage+1)+")' class='before'>&#129154;</a>";
+            }else{
+                str+="<a class='disable before'>&#129154;</a>";
+            }
+        }
+        $("#page").html(str);
+        
+        //주차 정보 띄어주기
+        week_vo = week_ar[Number(page.nowPage-1)];
+        
+        str = "";
+        str+="훈련시간표 ("+week_ar[Number(page.nowPage-1)].weekcount.substring(0,2)+"월"+week_ar[Number(page.nowPage-1)].weekcount.substring(2,4)+
+                "주차)<select class='select' onchange='select2(this)'>";
+        for(let i=0; i<week_ar.length;i++){
+            let weekcount = week_ar[i].weekcount;
+            weekcount = weekcount.substring(0,2)+"월"+weekcount.substring(2,4)+"주";
+            str +="<option value='"+i+"' class='op"+i+"'>"+weekcount+"</option>";
+        }
+        str += "</select>";
+        $("#weekCount").html(str);
+        
+        //날짜 띄어주기
+        for(let i=0; i<7;i++){
+            $(".day"+i).html(week_vo.day_ar[i].day);
+        }
 
+        
+        //액셀파일에서 가져온 정보와 동일한 날짜의 시간표를 가져와서 출력해준다.
+        $(".class1").val("0930");
+        $(".class2").val("1030");
+        $(".class3").val("1130");
+        $(".class4").val("1230");
+        $(".class5").val("1420");
+        $(".class6").val("1520");
+        $(".class7").val("1620");
+        $(".class8").val("1720");
+        for(let i=1; i<= 8; i++ ){
+            //$(".class"+i).val()
+            for(let k=0; k<7;k++){
+                let time_ar = week_vo.day_ar[k].time_ar;
+                console.log(time_ar);
+                if(time_ar != null){
+                    for(let t=0; t<time_ar.length; t++){
+                        if(time_ar[t].start_time == $(".class"+i).val()){
+                            let t_str = "";
+                            t_str 
+                            +="<div class='time_divWrap'><div class='time_div'>"+time_ar[t].start_time.substring(0,2)+":"+time_ar[t].start_time.substring(2)+"~"
+                            +(Number(time_ar[t].start_time.substring(0,2))+1)+":"+time_ar[t].start_time.substring(2)
+                            +"</div>"
+                            +"<div class='time_div'>"+time_ar[t].sf_name+"</div>"
+                            +"<div class='time_div'>"+time_ar[t].s_name+"</div>"
+                            +"<div class='time_div'>"+time_ar[t].r_name+"</div></div>"
+                            $("#id"+i+k).html(t_str);
+                        }
+                        //$("#id"+i+k).html(time_ar[t].s_name+"<br/>"+time_ar[t].start_time);
+                    }
+                }else{
+                    $("#id"+i+k).html("");
+                }
+                // 만약 시간표가 비어있다면 그 전 시간표의 정보를 가져와서 띄어준다
+                if( $("#id"+i+k).html().length<1){
+                    $("#id"+i+k).html($("#id"+(i-1)+k).html());
+                }
+            }
+        }
+    }
+    function select2(tt){
+        let idx =Number(tt.value)+1;
+        $.ajax({
+            url:"getTime",
+            type:"post",
+            data:"listSelect=3&c_idx="+select_idx+"&cPage="+(idx),
+            dataType:"json",
+        }).done(function(data){
+           /*시간표의 정보를 가져올 */
+            dataSetting(data.w_list,data.page,data.week_ar);
+            $(".op"+(idx-1)).attr("selected",true);
+        });
+    }
+    function format(str){
+        // 날짜형식을 yyyy-mm-dd형식으로 변환한다.
+        return str.substring(0,4)+"-"+str.substring(4,6)+"-"+str.substring(6);
     }
 
     $( "#dialog2" ).dialog({
         autoOpen: false,
-        width:1600,
+        width:2000,
         modal: true,
+        maxHeight:950,
+        position: { my: "center top", at: "center top"}
     });
     </script>
 </body>

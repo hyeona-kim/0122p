@@ -9,4 +9,8 @@ public interface TrainingDiaryMapper {
     int search_count(String c_idx,String select,String value);
     List<TrainingDiaryVO> course_list(String c_idx, String begin, String end);
     int list_count(String c_idx);
+    int add_td(TrainingDiaryVO tdvo);
+    int del_td(String td_idx);
+    int edit_td(TrainingDiaryVO tdvo);
+    TrainingDiaryVO get_td(String td_idx);
 }

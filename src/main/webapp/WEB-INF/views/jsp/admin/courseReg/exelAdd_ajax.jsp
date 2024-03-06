@@ -4,7 +4,7 @@
 
 <h2 id="e_h2" class="title">강사/시설/교과목 엑셀등록</h2>
 <div id="e_div" class="main_item" style="color: #154790;"><b>*HRD에서 받은 엑셀 파일을 조작없이 업로드해주세요</b></div>
-<form action="add_subject" method="post" enctype="multipart/form-data">
+<form action="addExelfile" method="post" enctype="multipart/form-data">
     <input type="hidden" name="listSelect" value="3"/>
     <input type="hidden" name="c_idx" value="${param.c_idx}"/>
     <table id="e_table" class="table">
@@ -14,7 +14,7 @@
         </colgroup>
         <tr>
             <th>첨부파일</th>
-            <td><input type="file" name="s_file" class="text"/></td>
+            <td><input type="file" name="c_file" class="text"/></td>
         </tr>
     </table>
     <div id="btns" class="main_item align_center">

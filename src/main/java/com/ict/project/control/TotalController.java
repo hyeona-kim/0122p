@@ -1,20 +1,33 @@
 package com.ict.project.control;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.CourseService;
+import com.ict.project.service.ScheduleService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.ScheduleVO;
 import com.ict.project.vo.TraineeVO;
 
 import jakarta.servlet.ServletContext;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TotalController {
@@ -24,6 +37,8 @@ public class TotalController {
     TraineeService tr_Service;
     @Autowired
     ServletContext application;
+    @Autowired
+    ScheduleService sc_Service;
 
     @RequestMapping("total")
     public ModelAndView total(String listSelect) {
@@ -39,7 +54,7 @@ public class TotalController {
             mv.addObject("c_ar", c_ar);
 
         } else if (listSelect.equals("3")) {
-            mv.setViewName("jsp/admin/totalManage/courseTotal");
+            mv.setViewName("jsp/admin/totalManage/scheduleManage");
         }
 
         return mv;
@@ -78,6 +93,7 @@ public class TotalController {
 
     @RequestMapping("traineeTotal")
     public ModelAndView trainee(String listSelect, String c_idx, String value, String select) {
+
         ModelAndView mv = new ModelAndView();
         if (value == null || value.length() == 0)
             select = null;
@@ -178,6 +194,15 @@ public class TotalController {
         // System.out.println(tvo.getTr_phone());
         mv.setViewName("redirect:total?listSelect=2&cPage=1&c_idx=" + tvo.getC_idx());
 
+        return mv;
+    }
+
+    @RequestMapping("schedual")
+    public ModelAndView calendar(String code, String acess_token) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("jsp/admin/totalManage/scheduleManage");
+        mv.addObject("code", code);
+        // 최종적으로 json을 반환한다.
         return mv;
     }
 

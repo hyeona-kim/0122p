@@ -19,7 +19,18 @@ public class StaffService {
         StaffVO[] ar = null;
 
         List<StaffVO> list = s_mapper.all();
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
+            ar = new StaffVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
+    public StaffVO[] getList2(String begin, String end) {
+        StaffVO[] ar = null;
+
+        List<StaffVO> list = s_mapper.paging(begin, end);
+        if (list != null && list.size() > 0) {
             ar = new StaffVO[list.size()];
             list.toArray(ar);
         }
@@ -29,6 +40,14 @@ public class StaffService {
     // 교직원 추가
     public int addStaff(StaffVO vo) {
         return s_mapper.add(vo);
+    }
+
+    public int editPass(String sf_idx, String sf_pwd) {
+        return s_mapper.editPass(sf_idx, sf_pwd);
+    }
+
+    public int editMe(String sf_idx, String sf_id, String sf_email, String sf_phone) {
+        return s_mapper.editMe(sf_idx, sf_id, sf_email, sf_phone);
     }
 
     // 교직원 검색
@@ -46,7 +65,7 @@ public class StaffService {
         String[] ar = null;
 
         List<String> list = s_mapper.search_sfCode();
-        if(list != null && list.size() > 0) {
+        if (list != null && list.size() > 0) {
             ar = new String[list.size()];
             list.toArray(ar);
         }
@@ -64,17 +83,17 @@ public class StaffService {
     }
 
     // 로그인 5회 실패시 차단하는 기능
-    public int block(String sf_id){
+    public int block(String sf_id) {
         return s_mapper.login_block(sf_id);
     }
 
     // 로그인 차단을 해제하는 기능(로그인 성공시)
-    public int unblock(String sf_id){
+    public int unblock(String sf_id) {
         return s_mapper.login_unblock(sf_id);
     }
 
     // 로그인 성공시 차단을 해제하기 위해 sf_link값을 검색하는 기능
-    public String sf_link(String sf_id){
+    public String sf_link(String sf_id) {
         return s_mapper.sf_link(sf_id);
     }
 

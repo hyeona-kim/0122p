@@ -16,6 +16,12 @@
 		<collection property="cs_ar" column="c_idx" ofType="com.ict.project.vo.CounselVO" select="counsel"></collection>
 		<collection property="td_ar" column="c_idx" ofType="com.ict.project.vo.TrainingDiaryVO" select="trainingDiary"></collection>
 	</resultMap>
+	<resultMap type="com.ict.project.vo.CourseVO" id="map2">
+		<result column="c_idx" property="c_idx" />
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee"></collection>
+	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
 		select * 
@@ -34,6 +40,36 @@
 				order by c_idx desc
 			)a ,(select @RN:=0) b) c 
 			where c.rnum between ${begin} and ${end} 
+	</select>
+
+	<select id="staffCourse" parameterType="Map" resultMap="map1">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							c.sf_idx =#{sf_idx}
+					</trim>
+				</where>
+				order by c_idx desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end} 
+	</select>
+
+	<select id="staffCourse_count" parameterType="String" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							c.sf_idx =#{sf_idx} and
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c 
 	</select>
 	
 	<select id="courseType" resultType="com.ict.project.vo.CourseTypeVO" parameterType="String">
@@ -160,7 +196,7 @@
 
 
 	<select id="all" resultType="com.ict.project.vo.CourseVO">
-		select * from course_t
+		select * from course_t where c_status = 0
 	</select>
 
 	<update id="tnAdd" parameterType="com.ict.project.vo.CourseVO">
@@ -168,4 +204,24 @@
 		set tn_idx = #{tn_idx}
 		where c_idx = #{c_idx}
 	</update>
+
+	<update id="time_exel" parameterType="Map">
+		update course_t 
+		set c_timeExel = #{c_timeExel}
+		where c_idx = #{c_idx}
+	</update>
+
+
+	<select id="search_ct" parameterType="Map" resultMap="map2">
+		select * from course_t 
+		<where>
+			<trim suffixOverrides="and">
+					c_status = 0 and
+					<if test="c_idx != 0">c_idx = #{c_idx} and</if>
+					<if test="ct_idx != 0">ct_idx = #{ct_idx} and</if>
+			
+			</trim>
+		</where>
+	</select>
+
 </mapper>

@@ -69,7 +69,7 @@
 
 <select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 	select * from trainee_t
-	where status = 0 and c_idx = #{c_idx}
+	where status = 0 and c_idx = #{c_idx} order by tr_idx
 </select>
 
 <select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
@@ -227,5 +227,12 @@
      (#{vo.tr_name}, #{vo.tr_rrn}, #{vo.tr_hp}, #{vo.tr_phone}, #{vo.tr_pos_code},#{vo.tr_addr} ,#{vo.c_idx}, #{vo.tr_nowstatus}, #{vo.tr_total_fee}, #{vo.tr_memo}, #{vo.tr_card},0)
     </foreach>
 </insert>
+
+ <select id="getEs" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+		select * from trainee_t
+		where status = 0 and es_idx = #{es_idx}
+</select>
+
+
 
 </mapper>

@@ -71,7 +71,7 @@
         update member_t
         <trim prefix="set" suffixOverrides=",">
             m_pw = #{m_pw},
-			m_email = #{m_email},
+			      m_email = #{m_email},
             m_phone = #{m_phone},
             m_name = #{m_name},
             m_addr = #{m_addr}
@@ -126,5 +126,19 @@
         select * from member_t
         where m_email = #{m_email}
     </select>
-    
+  
+    <insert id="addaskcounseling" parameterType="com.ict.project.vo.AskcounselingVO">
+        insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content,ac_write_date,ac_type,ac_gender)
+        values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
+    </insert>
+
+    <insert id="qnawrite" parameterType="com.ict.project.vo.MemberVO">
+        insert into member_t (m_title,m_content,m_write_date,m_qstatus)
+        values (#{m_title}, #{m_content}, Now(),1)
+    </insert>
+
+    <select id="getmember" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+        select * from member_t
+        where m_id = #{m_id}
+    </select>
 </mapper>

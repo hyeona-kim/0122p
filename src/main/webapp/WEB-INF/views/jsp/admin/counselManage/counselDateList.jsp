@@ -205,7 +205,7 @@
             type:"post",
             data:"&select="+encodeURIComponent("counselListAdd")+"&c_idx="+encodeURIComponent(c_idx)+"&tr_idx="+encodeURIComponent(tr_idx),
          }).done(function(result){
-         $("#dialog2").dialog("open");
+            $("#dialog2").dialog("open");
             $("#dialog2").html(result);
             
             $("#close").click(function(){

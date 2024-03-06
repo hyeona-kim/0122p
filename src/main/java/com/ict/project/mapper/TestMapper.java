@@ -26,7 +26,7 @@ public interface TestMapper {
     int regMember(MemberVO vo);
 
     int checkSameId(String m_id);
-
+  
     int checkSameEmail(String m_email);
 
     List<CourseVO> myCourse(String m_id);
@@ -48,4 +48,10 @@ public interface TestMapper {
     List<TrainingBookVO> trBookList(String c_idx);
 
     MemberVO checkEmail(String m_email);
+
+    int addaskcounseling(AskcounselingVO vo);
+
+    int qnawrite(MemberVO vo);
+
+    List<MemberVO> getmember(String m_id);
 }

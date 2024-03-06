@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ict.project.mapper.SubjectMapper;
+import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.SubjectVO;
 
 @Service
@@ -14,20 +15,26 @@ public class SubjectService {
     @Autowired
     SubjectMapper sb_mapper;
 
-    public SubjectVO[] getList(int c_idx){
+    public SubjectVO[] getList(int c_idx) {
         SubjectVO[] ar = null;
         List<SubjectVO> list = sb_mapper.list(c_idx);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             ar = new SubjectVO[list.size()];
             list.toArray(ar);
         }
         return ar;
     }
-    public int addSubject(Map<String,List<SubjectVO>> map){
+
+    public int addSubject(Map<String, List<SubjectVO>> map) {
         return sb_mapper.add(map);
     }
-    public int editSubject(SubjectVO sfvo){
+
+    public int editSubject(SubjectVO sfvo) {
         return sb_mapper.edit_sb(sfvo);
+    }
+
+    public SubjectVO list2(String s_idx) {
+        return sb_mapper.list2(s_idx);
     }
 
 }

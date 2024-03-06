@@ -86,6 +86,7 @@
         let change = true;
         let count = 0;
         let nowValue = 0;
+        let bool = false;
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -146,12 +147,101 @@
                     $("#dialog").dialog("close");
                 });
                 value = $("#attend").val();
+      
                 cnt = 4; // 시작값 4
+
+
             });
         });
         
         
         });
+        function getTime(frm){
+                if(frm.write_date.value.trim().length ==0){
+                    alert("날짜를 선택하세요.")
+                    frm.write_date.value ="";
+                    frm.write_date.focus();
+                    return;
+                }
+                $.ajax({
+                    url:"getTime",
+                    type:"post",
+                    data:"listSelect=3&c_idx="+c_idx+"&cPage=1",
+                    dataType:"json",
+                }).done(function(data){
+                   /*시간표의 정보를 가져올 */
+                    if(data == null || Object.entries(data).length == 0){
+                        //주간 시간표가 없는경우 
+                        alert("등록된 시간표가 존재하지 않습니다.")
+                        if(confirm("시간표를 등록하시겠습니까?")){
+                            location.href="course?listSelect=3&cPage=1";
+                        }
+                    }else{
+                        //주간시간표
+                        dataSetting(data.w_list,data.page,data.week_ar,frm.write_date.value);
+                    }
+                    
+                });
+                
+          
+        }
+
+        function dataSetting(list,page,week_ar,write_date){
+            //총 주수만큼 반복문을 돈다/-/g
+            write_date =  write_date.replace("-", "");
+            write_date =  write_date.replace("-", "");
+            let time_ar = [];
+            for(let i=0; i<week_ar.length; i++){
+                //일주일 반복문
+                for(let k=0; k<7; k++){
+                    if(week_ar[i].day_ar[k].day == write_date){
+                        time_ar=week_ar[i].day_ar[k].time_ar
+                    }
+                }
+            }
+            if(time_ar == null)
+                alert("해당 날짜의 등록된 일정이 없습니다.")
+            else{
+                let ar = ["0930","1030","1130","1230","1420","1520","1620","1720"]
+                cnt = 8;
+                let str ="";
+                let ar2 = [false,false,false,false,false,false,false,false];
+                for(let t=0; t<8;t++){
+                    let b = false;
+                    for(let i=0; i<time_ar.length; i++){
+                        if(ar[t] == time_ar[i].start_time){
+                            b = true;
+                            break;
+                        }
+                    }
+                    ar2[t] =b;
+                }
+                let ar3 =["","","","","","","",""]
+                let ar4 =["","","","","","","",""]
+                
+                for(let t=0; t<8;t++){
+                    ar4[t] = "<tr><td><input type='text' value='"+(t+1)+"' class='text'/></td>";
+                    if(ar2[t]){
+                        for(let i=0; i<time_ar.length; i++){
+                            if(ar[t] == time_ar[i].start_time){
+                                ar3[t] ="<td><input type='text' class='text'  value='"+time_ar[i].s_name+"'/></td>"+
+                                "<td><input type='text' class='text'   value='"+time_ar[i].sf_name+"'/></td>"+
+                                "<td><input type='text' class='text'  value='"+time_ar[i].r_name+"'/></td></tr>"
+                            }
+                        }
+                    }else{
+                        if(t != 0)
+                            ar3[t] = ar3[t-1];
+                    }
+                }
+                
+                for(let i=0; i<ar3.length; i++){
+                    str += (ar4[i]+ar3[i]);
+                }
+                $("#innerText").html(str);
+            }
+        }
+
 
         function paging(str) {
 			cPage =str;
