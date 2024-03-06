@@ -1,17 +1,27 @@
 package com.ict.project.control;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.CourseService;
+import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrainingDiaryService;
+import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingDiaryVO;
+
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -20,6 +30,12 @@ public class StaffModeController {
     CourseService c_Service;
     @Autowired
     TrainingDiaryService td_Service;
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    ServletContext application;
+    @Autowired
+    TraineeService t_Service;
     //훈련일지
     @RequestMapping("s_diary_ajax")
     public ModelAndView diary(String listSelect, String select, String value, String num, String cPage, String c_idx) {
@@ -126,5 +142,78 @@ public class StaffModeController {
 
 
     //과정별 훈련생 관리
+    @RequestMapping("s_traineeEdit")
+   public ModelAndView traineeEdit(TraineeVO tvo, String tr_idx, String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        String enc_type = request.getContentType();
+        String viewPath = null;
+        System.out.println();
+      if ( enc_type == null) {
+         TraineeVO vo = t_Service.tlist(tvo.getTr_idx(), c_idx);
+         CourseVO vo2 = c_Service.getCourse(c_idx);
+
+         mv.addObject("c_idx", c_idx);
+         mv.addObject("vo2", vo2);
+         mv.addObject("vo9", vo);
+         if (tvo.getT_path() != null) {
+            if (tvo.getT_path().contains("인터넷"))
+               mv.addObject("ch1", true);
+            if (tvo.getT_path().contains("전단지"))
+               mv.addObject("ch2", true);
+            if (tvo.getT_path().contains("현수막"))
+               mv.addObject("ch3", true);
+            if (tvo.getT_path().contains("생활정보지"))
+               mv.addObject("ch4", true);
+            if (tvo.getT_path().contains("고용지원센터"))
+               mv.addObject("ch5", true);
+            if (tvo.getT_path().contains("직접내방"))
+               mv.addObject("ch6", true);
+            if (tvo.getT_path().contains("지인소개"))
+               mv.addObject("ch7", true);
+            if (tvo.getT_path().contains("HRD"))
+               mv.addObject("ch8", true);
+            if (tvo.getT_path().contains("기타"))
+               mv.addObject("ch9", true);
+         }
+         viewPath = "jsp/staff/schoolRecord/traineeInfo";
+      } else if (enc_type != null && enc_type.startsWith("multipart")){
+         String[] ab = tvo.getTr_rrn().split(",");
+         tvo.setTr_rrn(ab[0] + "-" + ab[1]);
+         String[] ab2 = tvo.getTr_phone().split(",");
+         tvo.setTr_phone(ab2[0] + "-" + ab2[1] + "-" + ab2[2]);
+         String[] ab3 = tvo.getTr_hp().split(",");
+         tvo.setTr_hp(ab3[0] + "-" + ab3[1] + "-" + ab3[2]);
+
+         MultipartFile f = tvo.getFile();
+         if (f != null && f.getSize() > 0) {
+
+            String realPath = application.getRealPath("/upload_file");
+            String fname = f.getOriginalFilename();
+            tvo.setOri_name(fname);
+
+            fname = FileRenameUtil.checkSameFileName(fname, realPath);
+
+            try {
+               f.transferTo(new File(realPath, fname));
+               tvo.setFile_name(fname);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+         }
+
+         String str = tvo.getTr_addr();
+         String[] aa = str.split(",");
+         str = "";
+         for (String bb : aa) {
+            str += bb;
+         }
+         tvo.setTr_addr(str);
+
+         int cnt = t_Service.trainedit(tvo);
+         viewPath = ("redirect:traineecurrentbt1?c_idx=" + c_idx);
+      }
+      mv.setViewName(viewPath);
+      return mv;
+   }
 
 }

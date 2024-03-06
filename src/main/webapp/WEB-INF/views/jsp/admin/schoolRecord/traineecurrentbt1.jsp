@@ -13,7 +13,10 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <c:if test="${ar eq null}">
+        <c:redirect url="traincurrent?ar_length=null"/>
+    </c:if>
+    <article class="logo"><jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include></article>
     <article class="bottom">
         <article>
             <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -377,7 +380,7 @@
         location.href="traincurrent?cPage="+str
      }
 		
-		
+
     </script>
 </body>
 </html>

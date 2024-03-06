@@ -465,7 +465,6 @@ public class TraineeController {
    }
 
    @RequestMapping("traineeEdit")
-   @ResponseBody
    public ModelAndView traineeEdit(TraineeVO tvo, String tr_idx, String c_idx, String cPage, String edit) {
       ModelAndView mv = new ModelAndView();
       String enc_type = request.getContentType();
