@@ -18,9 +18,9 @@
 	</resultMap>
 	<resultMap type="com.ict.project.vo.CourseVO" id="map2">
 		<result column="c_idx" property="c_idx" />
-		<collection property="sb_ar" column="c_idx" ofType="com.ict.project.vo.SubjectVO" select="subject"></collection>
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
 		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<collection property="sb_ar" column="c_idx" ofType="com.ict.project.vo.SubjectVO" select="subject"></collection>
 		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="tlist"></collection>
 	</resultMap>
 

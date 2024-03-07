@@ -47,6 +47,7 @@ public class TestController {
     private HttpSession session;
     @Autowired
     private TestService t_Service;
+  
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
         Map<String, Object> map = new HashMap<>();
@@ -215,7 +216,6 @@ public class TestController {
         // json으로 보낼때 객체 1개를 보내더라도 꼭 배열 형태로 보내야한다.
         MemberVO[] vo = t_Service.getMember(m_id);
         map.put("memberVo", vo);
-        
         return map;
     }
 
@@ -294,7 +294,7 @@ public class TestController {
 
         return flag;
     }
-  
+
     // 마이페이지 안에서 수강하는 과정 반환하는 기능
     @RequestMapping("/myCourse")
     public Map<String, Object> myCourse(String m_id) {
@@ -333,13 +333,13 @@ public class TestController {
             flag = true;
         }
         map.put("flag", flag);
-      
+
         return map;
     }
 
     @RequestMapping("/online/add")
     public Map<String, Object> onlineAdd(AskcounselingVO vo) {
-        
+
         Map<String, Object> map = new HashMap<>();
 
         int cnt = t_Service.askcounseling(vo);
@@ -391,25 +391,25 @@ public class TestController {
 
     @RequestMapping("/qna/write")
     public Map<String, Object> write(MemberVO vo) {
-        
+
         Map<String, Object> map = new HashMap<>();
 
         int cnt = t_Service.qnawrite(vo);
         map.put("res", cnt);
-System.out.println(cnt);
+        System.out.println(cnt);
         return map;
     }
 
     @RequestMapping("/getmemberVO")
-    public Map<String,Object> getmember(String m_id){
-        
 
+    public Map<String,Object> getmember(String m_id){
         Map<String,Object> map = new HashMap<>();
+
 
         MemberVO[] ar = t_Service.getmember(m_id);
         map.put("ar", ar);
-System.out.println(ar);
+        System.out.println(ar);
         return map;
-        
+
     }
 }

@@ -249,5 +249,18 @@ public class LoginController {
         }
         return mv;
     }
-
+    @RequestMapping("getCountast")
+    @ResponseBody
+    public Map<String,Integer> getCountast(String select) {
+        Map<String,Integer> map = new HashMap<>();
+        //System.out.println(select);
+        map.put("title", 0);
+        //inquiry consult bookpay
+        map.put("inquiry",0);
+        map.put("consult",0);
+        map.put("bookpay",0);
+        map.put("total_pay",0);
+        return map;
+    }
+    
 }

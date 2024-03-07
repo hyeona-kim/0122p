@@ -85,12 +85,12 @@
                                 <th>등록</th>
                             </tr>
                             <tr>
-                                <td>(0)건</td>
-                                <td>(0)건</td>
-                                <td>(0)건</td>
+                                <td id="inquiry">(0)건</td>
+                                <td id="consult">(0)건</td>
+                                <td id="bookpay">(0)건</td>
                             </tr>
                             <tr>
-                                <th colspan="3">결제 총액 (0)원</th>
+                                <th colspan="3" id="total_pay">결제 총액 (0)원</th>
                             </tr>
                         </table>
                     </article>
@@ -163,6 +163,7 @@
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
+        let day_select = 0;
         let calendarEl =null;
         let calendar = null;
         let ar = [];
@@ -181,11 +182,12 @@
     
             // [이벤트 등록 함수 호출]
             init2();
-    
+            
             // [화면 조절 함수 호출]
             canvasResize();
 
             init();
+            init3();
             $.ajax({
                 url :"http://localhost:5000/list",
                 type:"get",
@@ -260,7 +262,25 @@
             clock();
             setInterval(clock, 1000);
         }
-
+        function init3() {
+            getInfo();
+            setInterval(getInfo, 60000);
+        }
+        function getInfo(){
+            console.log("dd")
+            $.ajax({
+                url:"getCountast",
+                type:"post",
+                data:"select="+day_select,
+                dataType:"json"
+            }).done(function(res){
+                console.log(res);
+                $("#inquiry").html(res.inquiry+"건");
+                $("#consult").html(res.consult+"건");
+                $("#bookpay").html(res.bookpay+"건");
+                $("#total_pay").html("총 결제금액 "+res.total_pay+"원")
+            });
+        }
         $(function(){
             
             $.ajax({
@@ -408,8 +428,7 @@
                 }
             });
             $("#day_select").change(function(){
-                console.log("날짜가 바뀌는 영역"+this.value)
-                ///////////////////////////수정 예정
+                day_select = this.value;
             });
         });
         function paging(cPage){
