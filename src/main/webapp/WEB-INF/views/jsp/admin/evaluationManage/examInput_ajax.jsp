@@ -35,13 +35,12 @@
     </thead>
 
 	<tbody>	
-        <c:if test="${es_ar eq null}">
+        <c:if test="${esvo eq null}">
             <td colspan="13">
                 등록된 과목이 존재하지 않습니다.
             </td>
         </c:if>
-        <c:if test="${es_ar ne null}">
-            <c:forEach var="esvo" items="${es_ar}" varStatus="vs">
+        <c:if test="${esvo ne null}">
                 <tr>
                     <td>${esvo.es_name}</td>
                     <td>${esvo.es_date}</td>  
@@ -68,7 +67,6 @@
                     <td> <button type="button" class="btn blue" onclick="">시험시작</button></td>  
 
                 </tr>
-            </c:forEach>
         </c:if>
 	</tbody>
 </table>
