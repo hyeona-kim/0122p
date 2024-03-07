@@ -52,16 +52,20 @@
                     <td>${esvo.sk_idx}</td>  
                     <td>${esvo.es_examStatus}</td>  
                     <td>
+                    <c:if test="${fn:length(esvo.qt_ar) > 0}">
                         <button type="button" class="btn green" onclick="viewExam('${esvo.es_idx}')">시험지보기</button>
-                    
+                    </c:if>
+                    <c:if test="${fn:length(esvo.qt_ar) == 0}">
                         <button type="button" class="btn green" onclick="examFill('${esvo.es_idx}')">시험출제</button>
-
+                    </c:if>
                         <button type="button" class="btn green" onclick="addEvidence()">증빙자료</button>
 
                     </td>  
                     <td>
-                        <button type="button" class="btn green" onclick="editExam('${esvo.es_idx}')">수정</button>
-                        <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
+                        <c:if test="${fn:length(esvo.qt_ar) > 0}">
+                            <button type="button" class="btn green" onclick="editExam('${esvo.es_idx}')">수정</button>
+                            <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
+                        </c:if>
                        
                     </td>
                     <td> <button type="button" class="btn blue" onclick="">시험시작</button></td>  
