@@ -5,18 +5,18 @@
 <table class="table">
     <colgroup>
         <col width="5%"/>
-        <col width="5%"/>
+        <col width="8%"/>
+        <col width="7%"/>
+        <col width="7%"/>
+        <col width="7%"/>
         <col width="5%"/>
         <col width="7%"/>
-        <col width="3%"/>
-        <col width="5%"/>
-        <col width="5%"/>
         <col width="5%"/>
         <col width="5%"/>
         <col width="10%"/>
         <col width="7%"/>
-        <col width="8%"/>
-        <col width="30%"/>
+        <col width="7%"/>
+        <col width="20%"/>
     </colgroup>
     <thead>
         <tr>
@@ -63,7 +63,7 @@
                     </td>
 
                 </tr>
-           
+
         </c:if>
 	</tbody>
 </table>

@@ -47,8 +47,7 @@ public class TestController {
     private HttpSession session;
     @Autowired
     private TestService t_Service;
-
-
+  
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
         Map<String, Object> map = new HashMap<>();
@@ -217,7 +216,6 @@ public class TestController {
         // json으로 보낼때 객체 1개를 보내더라도 꼭 배열 형태로 보내야한다.
         MemberVO[] vo = t_Service.getMember(m_id);
         map.put("memberVo", vo);
-
         return map;
     }
 

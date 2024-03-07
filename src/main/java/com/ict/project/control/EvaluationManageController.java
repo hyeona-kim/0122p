@@ -100,7 +100,6 @@ public class EvaluationManageController {
             num = null;
         if (cPage == null)
             cPage = "1";
-        System.out.println(listSelect + "/");
         Paging page = null;
         if (num == null)
             page = new Paging();
@@ -201,10 +200,10 @@ public class EvaluationManageController {
     @RequestMapping("diary_ajax3")
     public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx, String c_idx) {
         ModelAndView mv = new ModelAndView();
-
         if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
-            num = null;
+        num = null;
         if (cPage == null)
+
             cPage = "1";
 
         EvaluationStatusVO es_ar = es_Service.subone(s_idx);
@@ -212,10 +211,14 @@ public class EvaluationManageController {
 
         System.out.println(es_ar);
 
+
         if (listSelect.equals("1"))
-            mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
-        else if (listSelect.equals("2"))
+        mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
+        else if (listSelect.equals("2")){
+
+            System.err.println(listSelect+"/");
             mv.setViewName("/jsp/admin/evaluationManage/examInput_ajax");
+        }
         else if (listSelect.equals("3")) {
             SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
             mv.addObject("s_ar", s_ar);
@@ -590,7 +593,6 @@ public class EvaluationManageController {
     @RequestMapping("allGrade_ajax") // 만약 종합적인 값을 보아야 한다면 여기로!
     public ModelAndView allGrade_ajax(String c_idx) {
         ModelAndView mv = new ModelAndView();
-        System.out.println(c_idx + "/");
         CourseVO cvo = c_Service.getCourse3(c_idx);
         if (cvo.getSb_ar() != null && cvo.getSb_ar().length > 0) {
             SubjectVO[] sbvo = cvo.getSb_ar();
