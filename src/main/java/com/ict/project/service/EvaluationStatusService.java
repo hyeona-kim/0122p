@@ -13,17 +13,10 @@ public class EvaluationStatusService {
     @Autowired
     private EvaluationStatusMapper es_Mapper;
 
-    public EvaluationStatusVO[] list(String s_idx) {
+    public EvaluationStatusVO subone(String s_idx) {
 
-        EvaluationStatusVO[] ar = null;
+        return es_Mapper.subone(s_idx);
 
-        List<EvaluationStatusVO> list = es_Mapper.list(s_idx);
-        if (list != null && list.size() > 0) {
-            ar = new EvaluationStatusVO[list.size()];
-            list.toArray(ar);
-        }
-
-        return ar;
     }
 
     public int edit(EvaluationStatusVO bvo) {

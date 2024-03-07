@@ -21,6 +21,8 @@ public interface CourseMapper {
 
     CourseVO getCourse2(String c_idx);
 
+    CourseVO getCourse3(String c_idx);
+
     int search_count(String select, String value, String year);
 
     int reg_count(String year);

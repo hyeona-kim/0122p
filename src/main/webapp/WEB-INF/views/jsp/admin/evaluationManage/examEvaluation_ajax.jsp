@@ -25,7 +25,7 @@
 	<tbody>	
         <c:if test="${es_ar eq null}">
             <td colspan="13">
-                등록된 과목이 존재하지 않습니다.
+                등록된 평가가 존재하지 않습니다.
             </td>
         </c:if>
         <c:if test="${es_ar ne null}">
