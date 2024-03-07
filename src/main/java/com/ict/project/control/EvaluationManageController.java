@@ -593,11 +593,14 @@ public class EvaluationManageController {
                 for(int i = 0; i < cvo.getTr_ar().length; i++){
                     if(total[i] == null)
                         total[i] = 0;
-                    for(int j = 0; j < esvo.length; j++){
-                        totalScore[j] = gc_Service.all_grade(esvo[j].getEs_idx(), cvo.getTr_ar()[i].getTr_idx());
-                        if(totalScore[j] == null)
-                        totalScore[j] = 0;
-                        total[i] += totalScore[j];
+                    for(int j = 0; j < sbvo.length; j++){
+                        if(esvo[j] != null){
+
+                            totalScore[j] = gc_Service.all_grade(esvo[j].getEs_idx(), cvo.getTr_ar()[i].getTr_idx());
+                            if(totalScore[j] == null)
+                            totalScore[j] = 0;
+                            total[i] += totalScore[j];
+                        }
                     }
                     mv.addObject("totalScore"+i, totalScore);
                 }
