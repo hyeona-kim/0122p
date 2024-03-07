@@ -379,7 +379,7 @@
             $.ajax({
                 url: "s_diary_ajax",
                 type:"post",
-                data:"listSelect=1&cPage="+num+"&c_idx="+c_idx,
+                data:"listSelect=1&cPage="+cPage+"&c_idx="+c_idx,
             }).done(function(result){
                 $("#courseLog_Table").html(result);
             });

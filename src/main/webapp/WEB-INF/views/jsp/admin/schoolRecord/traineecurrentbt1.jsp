@@ -65,10 +65,18 @@
                             <!-- 학생에 대한 정보 입력  -->
                             <td>${num-(vs.index+2) }</td>
                             <c:if test="${vo7.file_name eq null}">
-                                <td></td>
+                                <td>
+                                    <div style="border:1px solid #ababab; width: 180px; height: 200px; margin: auto; line-height: 200px;">NOIMAGE</div>
+                                </td>
                             </c:if>
                             <c:if test="${vo7.file_name ne null}">
-                            <td><img src="${pageContext.request.contextPath }/upload_file/${vo7.file_name}" width="100" height="100"></td>
+                            <td>
+                                <div style="border:1px solid #ababab; width: 180px; height: 200px; margin: auto;">
+                                    <c:if test="${vo7.file_name ne null}">
+                                        <img src="${pageContext.request.contextPath }/upload_file/${vo7.file_name}" alt="" style="display: inline-block; width: 180px; height: 200px;" />
+                                    </c:if>
+                                </div>
+                            </td>
                             </c:if>
                             <td>${vo7.s_code}</td>
                             <td>${vo7.tr_name }</td>
