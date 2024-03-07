@@ -45,7 +45,8 @@
 
 	<tbody>	
         <c:if test="${cvo.tr_ar eq null}">
-            <td colspan="6">
+            <c:set var="k" value="${6+fn:length(sb_ar)}"/>
+            <td colspan="${k}">
                 학생이 존재하지 않습니다.
             </td>
         </c:if>

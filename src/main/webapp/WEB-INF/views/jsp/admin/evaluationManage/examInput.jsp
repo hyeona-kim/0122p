@@ -218,7 +218,7 @@
             let id = "qt_score";
             for(let i=0;i < num; i++){
                 v += Number($("input[name='"+ id +"']").eq(i).val()); // ... 정수로 변환해서 계산...
-                console.log(v);
+                console.log(v + "캥");
             }
             if(score != v){
                 alert("총점:" + score + " 배분값:" + v);
