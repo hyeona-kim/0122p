@@ -50,4 +50,19 @@ public class TrainingDiaryService {
     public int edit_td(TrainingDiaryVO tdvo){
         return td_mapper.edit_td(tdvo);
     }
+    public int sign_td(String td_idx,String td_sign,String sf_tmgr){
+        return td_mapper.sign_td(td_idx, td_sign,sf_tmgr);
+    }
+    public int main_td_count(){
+        return td_mapper.main_td_count();
+    }
+    public TrainingDiaryVO[] main_td(String begin,String end){
+        TrainingDiaryVO[] ar = null;
+        List<TrainingDiaryVO> list = td_mapper.main_td( begin, end);
+        if(list != null && !list.isEmpty()){
+            ar = new TrainingDiaryVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
 }

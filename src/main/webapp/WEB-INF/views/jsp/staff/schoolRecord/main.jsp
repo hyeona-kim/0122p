@@ -60,8 +60,6 @@
     <div id="course_wrap">
         <select class="select" id="select_course" >
             <option>과정을 선택 해주세요</option>
-            <option>ㅎㅇ</option>
-            <option>ㅎㅇ</option>
         </select>
         <span>
             <a id="my_page"><img alt="마이페이지" src="${pageContext.request.contextPath }/image/myPage2.png"/></a>
@@ -95,12 +93,12 @@
                 </div>
             </div>
             <div id="btn_area" class="main_item align_center">
-                <button type="button" class="btn" id="traineeEdit" >정보변경</button> 
-                <button type="button" class="btn">신상기록부</button> 
-                <button type="button" class="btn">사후관리카드</button> 
-                <button type="button" class="btn">사후관리취업지원</button> 
-                <button type="button" class="btn" id ="ss_dialog">상담관리</button> 
-                <button type="button" class="btn">성적표</button> 
+                <button type="button" class="btn" onclick="btn1(1)">정보변경</button> 
+                <button type="button" class="btn" onclick="btn1(2)">신상기록부</button> 
+                <button type="button" class="btn" onclick="btn1(3)">사후관리카드</button> 
+                <button type="button" class="btn" onclick="btn1(4)">사후관리취업지원</button> 
+                <button type="button" class="btn" onclick="btn1(5)">상담관리</button> 
+                <button type="button" class="btn" onclick="btn1(6)">성적표</button> 
             </div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->
@@ -150,6 +148,10 @@
         </article>
         <div id="dialog" hidden></div>
         <div id="dialog2" hidden></div>
+        <div id="btn_dialog" hidden>
+            <div id="btn_title" class="title"></div>
+            <div id="btn_content"></div>
+        </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -158,7 +160,7 @@
         // 선택된 과정 정보 가지고오기
         let c_idx ="";
         let selectTr=""; //훈련생
-    
+        let length = 0;
         $(function(){	
             c_idx = "${param.c_idx}";
             $(".selected").removeClass("selected")
@@ -202,6 +204,7 @@
                                 "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
                                 "</div>" ;
                     $("#courseLog_Table").html(html+result);
+                    length = $("#t_ar_length").val();
                 });
 
             });
@@ -224,7 +227,7 @@
                                 "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
                                 "</div>" ;
                     $("#courseLog_Table").html(html+result);
-                    
+                    length = $("#t_ar_length").val();
                 });
             });
             /* 마이페이지 ul 띄우기 숨기기 */
@@ -386,7 +389,75 @@
                 location.href = "staffMain?leftList=5&c_idx="+c_idx;
             }
         }
-
+        
+        function btn1(num){
+            //btn_content
+            if(length == 0){
+                alert("해당 과정의 훈련생이 없습니다. 훈련생을 등록하세요.")
+            }else{
+                let ar = $(".tr_select");
+                if(ar.length == 0){
+                    alert("훈련생을 선택하세요.")
+                    return;
+                }
+                if(num=="1"){
+                    //정보변경
+                    $("#btn_title").html("정보변경")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        maxHeight:900,
+                        position: { my: "center top", at: "center top" }
+                    })
+                    $.ajax({
+                        url:"s_traineeEdit",
+                        type:"get",
+                        data:"tr_idx="+selectTr+"&c_idx="+c_idx,
+                    }).done(function(result){
+                        $("#btn_content").html(result);
+                        $("#list_btn").click(function(){
+                            $("#btn_dialog").dialog("close");
+                        })
+                    })
+                }else if(num =="2"){
+                    //신상기록부
+                    $("#btn_title").html("신상기록부")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        heigth:800,
+                    })
+                }else if(num =="3"){
+                    //사후관리카드
+                    $("#btn_title").html("사후관리카드")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        heigth:800,
+                    })
+                }else if(num =="4"){
+                    //사후관리취업지원
+                    $("#btn_title").html("사후관리취업지원")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        heigth:800,
+                    })
+                }else if(num =="5"){
+                    //상담관리
+                    $("#btn_title").html("상담관리")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        heigth:800,
+                    })
+                }else if(num == "6"){
+                    //성적표
+                    $("#btn_title").html("성적표")
+                    $("#btn_dialog").dialog({
+                        width:1200,
+                        heigth:800,
+                    })
+                }
+            }
+           
+        }
+   
     </script>
 </body>
 </html>
