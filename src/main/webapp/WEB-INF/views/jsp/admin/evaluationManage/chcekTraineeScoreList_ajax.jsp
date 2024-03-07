@@ -50,8 +50,9 @@
                     </c:if>
                     </td>  
                     <td>
-                        <button type="button" class="btn green" onclick="">채점결과보기</button>
+                        <button type="button" class="btn green" onclick="scoreResultList('${tvo.tr_idx}')">채점결과보기</button>
                     </td>
+                    <input type="hidden" value="${tvo.tr_idx}" name="tr_idx">
                 </tr>
             </c:forEach>
         </c:if>

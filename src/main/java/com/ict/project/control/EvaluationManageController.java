@@ -267,7 +267,7 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("es_dialog2")
-    public ModelAndView es_dialog2(String listSelect, String es_idx, String s_idx) {
+    public ModelAndView es_dialog2(String listSelect, String es_idx, String s_idx, String tr_idx) {
         ModelAndView mv = new ModelAndView();
 
         SubjectVO svo = s_Service.list2(s_idx);
@@ -314,7 +314,13 @@ public class EvaluationManageController {
 
             }
             mv.setViewName("/jsp/admin/evaluationManage/editExam_ajax");
+        } else if (listSelect.equals("6")) {
+            TraineeVO tvo = tr_Service.view(tr_idx);
+            mv.addObject("tvo", tvo);
+
+            mv.setViewName("/jsp/admin/evaluationManage/scoreResultList_ajax");
         }
+
         return mv;
     }
 
@@ -576,6 +582,7 @@ public class EvaluationManageController {
         return mv;
     }
 
+
     @RequestMapping("allGrade_ajax") // 만약 종합적인 값을 보아야 한다면 여기로!
     public ModelAndView allGrade_ajax(String c_idx) {
         ModelAndView mv = new ModelAndView();
@@ -626,5 +633,5 @@ public class EvaluationManageController {
         mv.setViewName("/jsp/admin/evaluationManage/allGradeList_ajax");
         return mv;
     }
-    
+
 }
