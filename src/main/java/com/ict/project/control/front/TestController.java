@@ -48,6 +48,7 @@ public class TestController {
     @Autowired
     private TestService t_Service;
 
+
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
         Map<String, Object> map = new HashMap<>();
@@ -402,9 +403,10 @@ public class TestController {
     }
 
     @RequestMapping("/getmemberVO")
-    public Map<String, Object> getmember(String m_id) {
 
-        Map<String, Object> map = new HashMap<>();
+    public Map<String,Object> getmember(String m_id){
+        Map<String,Object> map = new HashMap<>();
+
 
         MemberVO[] ar = t_Service.getmember(m_id);
         map.put("ar", ar);

@@ -172,11 +172,13 @@ public class TestService {
         List<TrainingBookVO> list = t_Mapper.trBookList(c_idx);
         if (list != null && !list.isEmpty()) {
             ar = new TrainingBookVO[list.size()];
+
+            list.toArray(ar);
         }
         return ar;
     }
+    public int askcounseling(AskcounselingVO vo){
 
-    public int askcounseling(AskcounselingVO vo) {
         return t_Mapper.addaskcounseling(vo);
     }
 
