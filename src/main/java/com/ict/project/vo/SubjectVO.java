@@ -10,5 +10,6 @@ public class SubjectVO {
 	private SkillVO[] sk_ar;
 	private int size;
 	
+	private EvaluationStatusVO esvo;
 
 }
