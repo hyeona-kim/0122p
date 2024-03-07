@@ -37,8 +37,12 @@
             </ul>
         </div>
         <div class="right">
-
+        <hr/>
+            <div id="courseLog_Table">
+                <!--비동기 통신으로 가져올 내용 -->
+            </div>
         </div>
+        
           <!-- 비밀번호 변경을 위한 div -->
           <div hidden id="checkPassword">
             <div class="title">
@@ -123,7 +127,40 @@
                 }
             
                 $("#select_course").html(str);
+
+                $.ajax({
+                    url: "diary_ajax_s",
+                    type:"post",
+                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#courseLog_Table").html(result);
+                    //체크박스
+                    checked();
+                });
             });
+            $("#select_course").change(function(){
+                c_idx = this.value;
+                $.ajax({
+                    url: "diary_ajax_s",
+                    type:"post",
+                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#courseLog_Table").html(result);
+                    checked();
+                });
+            });
+
+            $("#eva_btn").click(function() {
+                $.ajax({
+                    url: "diary_ajax_s",
+                    type:"post",
+                    data:"listSelect=2&cPage=1&c_idx="+c_idx,
+                }).done(function(result){
+                    $("#courseLog_Table").html(result);
+                    checked();
+                });
+            });
+
             /* 마이페이지 ul 띄우기 숨기기 */
             $("#my_page").mouseover(function(){
                 $("#mypage_ul").css("display","block")
@@ -280,6 +317,11 @@
             }
         }
 
+        
+        
+        
+        //   function evaluationInfo(s_idx){
+        //   location.href="evaluationInfo?s_idx="+s_idx; }
     </script>
 </body>
 </html>
