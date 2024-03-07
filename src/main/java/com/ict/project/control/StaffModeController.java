@@ -16,7 +16,10 @@ import com.ict.project.service.BusinessService;
 import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
+import com.ict.project.service.EvaluationStatusService;
+import com.ict.project.service.GradeCheckService;
 import com.ict.project.service.QcService;
+import com.ict.project.service.StaffService;
 import com.ict.project.service.SubjectService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrainingDiaryService;
@@ -28,7 +31,9 @@ import com.ict.project.vo.BusinessVO;
 import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.QcVO;
+import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingDiaryVO;
@@ -73,6 +78,14 @@ public class StaffModeController {
    CounselService cc_Service;
    @Autowired
    SubjectService s_Service;
+   @Autowired
+   EvaluationStatusService es_Service;
+   @Autowired
+   StaffService sf_Service;
+   @Autowired
+   TraineeService tr_Service;
+   @Autowired
+   GradeCheckService gc_Service;
 
    // 훈련일지
    @RequestMapping("s_diary_ajax")
@@ -222,6 +235,68 @@ public class StaffModeController {
       return mv;
    }
 
+   @RequestMapping("diary_ajax_ss")
+   public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx, String c_idx) {
+      ModelAndView mv = new ModelAndView();
+
+      System.out.println("s+_idx" + s_idx);
+
+      if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+         num = null;
+      if (cPage == null)
+
+         cPage = "1";
+
+      EvaluationStatusVO es_ar = es_Service.subone(s_idx);
+      mv.addObject("esvo", es_ar);
+
+      if (listSelect.equals("1"))
+         mv.setViewName("/jsp/staff/evaluate/evaluationInfo_ajax");
+      else if (listSelect.equals("2")) {
+
+         System.err.println(listSelect + "/");
+         mv.setViewName("/jsp/admin/evaluationManage/examInput_ajax");
+      } else if (listSelect.equals("3")) {
+         SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
+         mv.addObject("s_ar", s_ar);
+         mv.setViewName("/jsp/admin/evaluationManage/scoreResult_ajax");
+      } else if (listSelect.equals("4"))
+         mv.setViewName("/jsp/admin/evaluationManage/examEvaluation_ajax");
+      return mv;
+   }
+
+   @RequestMapping("list_ajax_s")
+   public ModelAndView list_ajax(String c_idx, String es_idx, String listSelect) {
+      ModelAndView mv = new ModelAndView();
+
+      TraineeVO[] tr_ar = tr_Service.clist(c_idx, null, null);
+      if (tr_ar != null) {
+
+         Integer[] totalScore = new Integer[tr_ar.length];
+         for (int i = 0; i < tr_ar.length; i++) {
+            tr_ar[i].setGc_ar(gc_Service.list(es_idx, tr_ar[i].getTr_idx()));
+            totalScore[i] = gc_Service.all_grade(es_idx, tr_ar[i].getTr_idx());
+         }
+
+         mv.addObject("tr_ar", tr_ar);
+         mv.addObject("totalScore", totalScore);
+      }
+      if (listSelect.equals("1"))
+         mv.setViewName("/jsp/admin/evaluationManage/traineeScoreList_ajax");
+      else if (listSelect.equals("2"))
+         mv.setViewName("/jsp/admin/evaluationManage/chcekTraineeScoreList_ajax");
+      return mv;
+
+   }
+
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
    // 과정별 훈련생 관리
    @RequestMapping("s_traineeEdit")
    public ModelAndView traineeEdit(TraineeVO tvo, String tr_idx, String c_idx) {

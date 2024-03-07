@@ -38,7 +38,7 @@
                     <td>${svo.s_type}</td>
                     <td>관리자</td>  
                     <td>
-                        <button type="button" class="btn green" id="eva_btn">평가기본정보</button>
+                        <input type="button" class="btn blue" value="평가기본정보" id="eva_btn" onclick="evaInfo('${svo.s_idx}')" >
                         <button type="button" class="btn blue" onclick="examInput('${svo.s_idx}')">시험출제</button>
                     </td>
 
