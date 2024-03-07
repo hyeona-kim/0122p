@@ -203,11 +203,15 @@ public class EvaluationManageController {
         if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
         num = null;
         if (cPage == null)
-        cPage = "1";
-        
-        EvaluationStatusVO esvo = es_Service.subone(s_idx);
-        mv.addObject("esvo", esvo);
-        
+
+            cPage = "1";
+
+        EvaluationStatusVO es_ar = es_Service.subone(s_idx);
+        mv.addObject("esvo", es_ar);
+
+        System.out.println(es_ar);
+
+
         if (listSelect.equals("1"))
         mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
         else if (listSelect.equals("2")){
@@ -347,7 +351,7 @@ public class EvaluationManageController {
         SubjectVO svo = s_Service.list2(s_idx);
 
         mv.addObject("svo", svo);
-        mv.addObject("es_ar", es_ar);
+        mv.addObject("esvo", es_ar);
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
         return mv;
     }

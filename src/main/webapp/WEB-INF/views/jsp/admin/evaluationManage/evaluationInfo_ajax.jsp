@@ -39,7 +39,7 @@
 	<tbody>	
         <c:if test="${esvo eq null}">
             <td colspan="13">
-                등록된 과목이 존재하지 않습니다.
+                등록된 평가가 존재하지않습니다.
             </td>
         </c:if>
         <c:if test="${esvo ne null}">
@@ -63,6 +63,7 @@
                     </td>
 
                 </tr>
+
         </c:if>
 	</tbody>
 </table>
