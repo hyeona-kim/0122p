@@ -35,6 +35,9 @@ import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.ict.project.vo.AskcounselingVO;
 
 @RestController
@@ -44,9 +47,6 @@ public class TestController {
     private HttpSession session;
     @Autowired
     private TestService t_Service;
-
-    @Autowired
-    HttpSession session;
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
         Map<String, Object> map = new HashMap<>();
@@ -215,7 +215,7 @@ public class TestController {
         // json으로 보낼때 객체 1개를 보내더라도 꼭 배열 형태로 보내야한다.
         MemberVO[] vo = t_Service.getMember(m_id);
         map.put("memberVo", vo);
-        map.put("m_id", vo.getM_id());
+        
         return map;
     }
 
@@ -388,7 +388,7 @@ public class TestController {
         map.put("ar", ar);
         return map;
     }
-}
+
     @RequestMapping("/qna/write")
     public Map<String, Object> write(MemberVO vo) {
         
