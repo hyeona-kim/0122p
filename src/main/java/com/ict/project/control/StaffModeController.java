@@ -17,6 +17,7 @@ import com.ict.project.service.CounselService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.CourseTypeService;
 import com.ict.project.service.QcService;
+import com.ict.project.service.SubjectService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.service.TrfinalService;
@@ -28,6 +29,7 @@ import com.ict.project.vo.CounselVO;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.QcVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingDiaryVO;
 import com.ict.project.vo.TrfinalVO;
@@ -69,6 +71,8 @@ public class StaffModeController {
    HttpServletResponse response;
    @Autowired
    CounselService cc_Service;
+   @Autowired
+   SubjectService s_Service;
 
    // 훈련일지
    @RequestMapping("s_diary_ajax")
@@ -174,8 +178,49 @@ public class StaffModeController {
       mv.setViewName("redirect:staffMain?leftList=1&c_idx=" + cvo.getC_idx());
       return mv;
    }
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
+   //
 
    // 평가관리
+   @RequestMapping("diary_ajax_s")
+   public ModelAndView diary(String listSelect, String num, String cPage, String c_idx, String s_idx) {
+      ModelAndView mv = new ModelAndView();
+
+      if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
+         num = null;
+      if (cPage == null)
+         cPage = "1";
+
+      SubjectVO[] s_ar = s_Service.getList(Integer.parseInt(c_idx));
+      mv.addObject("s_ar", s_ar);
+
+      mv.setViewName("/jsp/staff/evaluate/subjectStatus_ajax");
+      return mv;
+   }
 
    // 과정별 훈련생 관리
    @RequestMapping("s_traineeEdit")

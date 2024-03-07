@@ -154,6 +154,7 @@
                 }
                 
                 $("#select_course").html(str);
+                
                 $.ajax({
                     url: "s_diary_ajax",
                     type:"post",
