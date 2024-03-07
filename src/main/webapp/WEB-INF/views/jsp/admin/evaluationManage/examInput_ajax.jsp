@@ -68,8 +68,9 @@
                         </c:if>
                        
                     </td>
-                    <td> <button type="button" class="btn blue" onclick="">시험시작</button></td>  
-
+                    <c:if test="${esvo.es_testStatus eq 0}">
+                        <td> <button type="button" class="btn blue" onclick="">시험시작</button></td>  
+                    </c:if>
                 </tr>
         </c:if>
 	</tbody>

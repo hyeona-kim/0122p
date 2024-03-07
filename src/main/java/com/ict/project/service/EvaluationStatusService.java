@@ -39,4 +39,8 @@ public class EvaluationStatusService {
         return es_Mapper.search_count(es_idx);
     }
 
+    public int on_off(String es_idx, String es_testStatus){
+        return es_Mapper.on_off(es_idx, es_testStatus);
+    }
+
 }

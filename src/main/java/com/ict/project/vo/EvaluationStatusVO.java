@@ -8,6 +8,6 @@ import lombok.Setter;
 public class EvaluationStatusVO {
     private String es_idx, es_name, es_type, es_examStatus, es_gradingStatus,
             sf_idx, es_date, es_time, es_totalScore, es_level, es_num_question,
-            sk_idx, s_idx, es_status;
+            sk_idx, s_idx, es_status, es_testStatus;
     private QuestionVO[] qt_ar;
 }

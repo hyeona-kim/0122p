@@ -45,9 +45,9 @@
 
     <insert id="add" parameterType="com.ict.project.vo.EvaluationStatusVO">
         insert INTO evaluation_status (es_name, es_type, es_examStatus, es_gradingStatus, sf_idx, 
-                                        es_date, es_time, es_totalScore, es_level, es_num_question, sk_idx, s_idx, es_status)
+                                        es_date, es_time, es_totalScore, es_level, es_num_question, sk_idx, s_idx, es_status, es_testStatus)
         VALUES (#{es_name}, #{es_type}, #{es_examStatus}, #{es_gradingStatus}, #{sf_idx}, #{es_date}, 
-        #{es_time}, #{es_totalScore}, #{es_level}, #{es_num_question}, #{sk_idx}, #{s_idx}, 0)
+        #{es_time}, #{es_totalScore}, #{es_level}, #{es_num_question}, #{sk_idx}, #{s_idx}, 0, 0)
     </insert>
 
 
@@ -76,7 +76,17 @@
 			update evaluation_status
 			set es_status = 1
 			where es_idx = #{es_idx}
-     </update>
+    </update>
+    
+    <update id="on_off" parameterType="String">
+			update evaluation_status
+			set 
+            <if test="es_testStatus == 0">es_testStatus = 1</if>
+            <if test="es_testStatus == 1">es_testStatus = 2</if>
+            <if test="es_testStatus == 2">es_testStatus = 1</if>
+			where es_idx = #{es_idx}
+    </update>
+    
     
 	
 </mapper>
