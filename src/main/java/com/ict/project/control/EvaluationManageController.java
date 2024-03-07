@@ -208,7 +208,9 @@ public class EvaluationManageController {
             cPage = "1";
 
         EvaluationStatusVO es_ar = es_Service.subone(s_idx);
-        mv.addObject("es_ar", es_ar);
+        mv.addObject("esvo", es_ar);
+
+        System.out.println(es_ar);
 
         if (listSelect.equals("1"))
             mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo_ajax");
@@ -346,7 +348,7 @@ public class EvaluationManageController {
         SubjectVO svo = s_Service.list2(s_idx);
 
         mv.addObject("svo", svo);
-        mv.addObject("es_ar", es_ar);
+        mv.addObject("esvo", es_ar);
         mv.setViewName("/jsp/admin/evaluationManage/gradeManage_ajax");
         return mv;
     }

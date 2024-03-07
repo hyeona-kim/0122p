@@ -46,7 +46,6 @@
 
                         <button type="button" class="btn blue" onclick="">평가현황</button>
                         <button type="button" class="btn blue" onclick="">시험결과오픈</button>
-                        <button type="button" class="btn blue" onclick="">평가별 시험예시</button>
                     </td>
 
                 </tr>
