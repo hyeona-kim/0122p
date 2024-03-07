@@ -41,16 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>검색</th>
-                                        <td>
-                                            <select id="numPerPage" class="select">
-                                                <option>표시개수</option>
-                                                <option>5</option>
-                                                <option>10</option>
-                                                <option>15</option>
-                                            </select>
-                                            <select id="selectYear" class="select">
-                                            </select>
-                                        </td>
+                                        
                                         <td>
                                             <select id="searchType" class="select">
                                                 <option value="1">훈련강사</option>
@@ -64,6 +55,7 @@
                                 </thead>
                             </table>                           
                             <div id="courseLog_Table">
+
                             </div>
                         </article>
                     </div>
@@ -80,19 +72,7 @@
         let numPerPage = "";
         let searchValue ="";
         let cPage = "1";
-	
-        $(".sub_manu").mouseover(function(){
-            $(this).css("display","block");
-        });
-        $(".menu1").mouseover(function(){
-            $(this).next().css("display","block");
-        });
-        $(".menu1").mouseout(function(){
-            $(this).next().css("display","none");
-        });
-        $(".sub_manu").mouseout(function(){
-            $(this).css("display","none");
-        });
+      
         
 	$(function() {
         $(".subSelect").removeClass("subClass");
@@ -100,7 +80,7 @@
         $.ajax({
 			url: "evalutationManageLog",
 			type:"post",
-			data:"listSelect=1&cPage=1&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
+			data:"listSelect=5&cPage=1"+"&select="+searchType+"&value="+searchValue,
 		}).done(function(result){
 			$("#courseLog_Table").html(result);
 		});
@@ -150,17 +130,7 @@
 		});	
 		
 	});
-	
-	function paging(str) {
-        cPage =str;
-		$.ajax({
-			url: "evalutationManageLog",
-			type:"post",
-			data:"listSelect=1&cPage="+cPage+"&num="+numPerPage+"&select="+searchType+"&value="+searchValue+"&year="+selectYear,
-		}).done(function(result){
-			$("#courseLog_Table").html(result);
-		});
-	}
+
 	function trainingDaily(c_idx){
 		location.href="trainingDiary?c_idx="+c_idx;
 	}

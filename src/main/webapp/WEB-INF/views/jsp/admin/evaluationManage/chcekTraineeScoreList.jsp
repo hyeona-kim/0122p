@@ -92,19 +92,28 @@
             });
         });
 
-        function grading(idx){
-            location.href = "grading?tr_idx="+idx+"&es_idx="+idx;
+        function scoreResultList(tr_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=6&s_idx="+s_idx+"&tr_idx="+tr_idx+"&es_idx="+es_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
         }
 
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
+        $("#dialog").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
+
+
+
+
 
     </script>
 </body>
