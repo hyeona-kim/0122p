@@ -6,12 +6,12 @@
 			<caption>과정별시간표만들기</caption>
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>과정명</th>
-					<th>과정코드</th>
-					<th>담당교수</th>
-					<th>개강일</th>
-					<th>종료일</th>
+					<th>연번</th>
+					<th>직종</th>
+					<th>평가유형</th>
+					<th>평가</th>
+					<th>능력단위요소</th>
+					<th>비고</th>
 				</tr>
 			</thead>
 						<tfoot>
@@ -20,16 +20,11 @@
 							</tr>
 						</tfoot>
 					<tbody>	
-							<c:forEach var="cvo" items="${c_ar }" varStatus="vs">
-							<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 							<tr>
-                                <td></td>
-								<td></td>
-								<td></td>
-								<td>
-									<button type="button" class="btn">훈련생별 개별 성적표</button>
+								<!-- c:if 문으로 구별-->
+                                <td colspan="6">
+									평가기본정보가 없습니다.
 								</td>
 							</tr>
-						</c:forEach>
 			</tbody>
 		</table>

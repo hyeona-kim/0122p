@@ -34,24 +34,15 @@
                         <article>
                             <div id="staffList_top" class="title">공통시험지등록 
      
+                                <input type='button' class='btn' name='btn' value='필답형샘플' style="float: Right;">
+                                <input type='button' class='btn' name='btn' value='서답형샘플' style="float: Right;">
+                                <input type='button' class='btn' name='btn' value='평가자체크리스트 샘플' style="float: Right;">
                                 <input type='button' class='btn' name='btn' value='시험지등록' style="float: Right;">
                             </div>
                             <table id="searchCourse" class="table">
                             <caption>과정검색</caption>
                                 <thead>
-                                    <tr>
-                                        <th>검색</th>
-                                        
-                                        <td>
-                                            <select id="searchType" class="select">
-                                                <option value="1">훈련강사</option>
-                                                <option value="2">과정타입</option>
-                                                <option value="3">과정명</option>
-                                            </select>
-                                            <input type="text" id="searchValue" class="text"/>
-                                            <button type="button" id="search_bt" class="btn">검색</button>
-                                        </td>
-                                    </tr>
+                                   
                                 </thead>
                             </table>                           
                             <div id="courseLog_Table">
