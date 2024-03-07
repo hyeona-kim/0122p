@@ -29,19 +29,17 @@
             </td>
         </c:if>
         <c:if test="${es_ar ne null}">
-            <c:forEach var="esvo" items="${es_ar}" varStatus="vs">
                 <tr>
-                    <td>${esvo.es_name}</td>
-                    <td>${esvo.es_date}</td>  
-                    <td>${esvo.es_type}</td>  
-                    <td>${esvo.es_examStatus}</td>  
-                    <td>${esvo.es_gradingStatus}</td>  
+                    <td>${es_ar.es_name}</td>
+                    <td>${es_ar.es_date}</td>  
+                    <td>${es_ar.es_type}</td>  
+                    <td>${es_ar.es_examStatus}</td>  
+                    <td>${es_ar.es_gradingStatus}</td>  
                     <td>
-                        <button type="button" class="btn green" onclick="chcekTraineeScoreList('${esvo.es_idx}')">훈련생별 결과보기</button>
+                        <button type="button" class="btn green" onclick="chcekTraineeScoreList('${es_ar.es_idx}')">훈련생별 결과보기</button>
                     </td>
 
                 </tr>
-            </c:forEach>
         </c:if>
 	</tbody>
 </table>
