@@ -35,4 +35,9 @@ public class QuestionService {
     public int edit(QuestionVO vo){
         return qt_mapper.edit(vo);
     }
+    public int del(String qt_idx){
+        return qt_mapper.del(qt_idx);
+    }
+    
+    
 }

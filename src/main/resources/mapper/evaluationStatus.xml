@@ -10,7 +10,7 @@
 </resultMap>
 	
      <select id="question" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
-		select * from question_t where es_idx = #{es_idx}
+		select * from question_t where es_idx = #{es_idx} and qt_status = 0
 	</select>
 
     <select id="search_count" parameterType="Map" resultType="int">

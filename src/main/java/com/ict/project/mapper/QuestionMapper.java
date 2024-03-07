@@ -10,5 +10,6 @@ public interface QuestionMapper {
     QuestionVO getOne(String qt_idx);
     int add(QuestionVO vo);
     int edit(QuestionVO vo);
+    int del(String qt_idx);
 
 }

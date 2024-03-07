@@ -38,6 +38,10 @@ public interface CourseMapper {
     List<CourseVO> search_ct(String c_idx, String ct_idx);
 
     List<CourseVO> staffCourse(String sf_idx, String begin, String end);
-
+    
     int staffCourse_count(String sf_idx);
+    
+    List<CourseVO> staffSearchCourse(String sf_idx, String select, String value, String year, String begin, String end);
+    
+    int staffSearchCourse_count(String sf_idx, String select, String value, String year);
 }
