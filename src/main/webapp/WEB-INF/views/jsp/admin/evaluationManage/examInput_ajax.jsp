@@ -37,7 +37,7 @@
 	<tbody>	
         <c:if test="${esvo eq null}">
             <td colspan="13">
-                등록된 과목이 존재하지 않습니다.
+                등록된 평가가 존재하지 않습니다.
             </td>
         </c:if>
         <c:if test="${esvo ne null}">
@@ -64,7 +64,7 @@
                     <td>
                         <c:if test="${fn:length(esvo.qt_ar) > 0}">
                             <button type="button" class="btn green" onclick="editExam('${esvo.es_idx}')">수정</button>
-                            <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
+                            <input type="button" value="삭제" onclick="delExam('${esvo.es_idx}')" class="btn red" id="delEs_btn">
                         </c:if>
                        
                     </td>

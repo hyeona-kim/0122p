@@ -26,6 +26,7 @@ import com.ict.project.vo.CheckExamFileVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.FileVO;
+import com.ict.project.vo.GradeCheckVO;
 import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
@@ -105,28 +106,19 @@ public class EvaluationManageController {
             page = new Paging();
         else
             page = new Paging(Integer.parseInt(num), 5);
-        page.setTotalRecord(c_Service.getSearchCount(select, value, year));
+        StaffVO svo = (StaffVO) session.getAttribute("vo");
+        page.setTotalRecord(c_Service.staffSearchCourse_count(svo.getSf_idx(), select, value, year));
         page.setNowPage(Integer.parseInt(cPage));
-
         mv.addObject("page", page);
-        CourseVO[] ar = c_Service.searchCourse(select, value, year, String.valueOf(page.getBegin()),
+        CourseVO[] ar = c_Service.staffSearchCourse(svo.getSf_idx(), select, value, year, String.valueOf(page.getBegin()),
                 String.valueOf(page.getEnd()));
         mv.addObject("c_ar", ar);
         if (listSelect.equals("1")) {
             mv.setViewName("/jsp/admin/evaluationManage/settingSubject_ajax");
         } else if (listSelect.equals("2")) {
+            
             mv.setViewName("/jsp/admin/evaluationManage/testSubject_ajax");
         } else if (listSelect.equals("3")) {
-            StaffVO svo = (StaffVO) session.getAttribute("vo");
-            CourseVO[] c_ar = c_Service.staffCourse(svo.getSf_idx(), String.valueOf(page.getBegin()),
-                    String.valueOf(page.getEnd()));
-            page.setTotalRecord(c_Service.staffCourse_count(svo.getSf_idx()));
-            page.setNowPage(Integer.parseInt(cPage));
-            System.out.println(
-                    page.getTotalRecord() + "/" + svo.getSf_idx() + "/" + c_Service.staffCourse_count(svo.getSf_idx())
-                            + "/" + page.getStartPage() + "/" + page.getEndPage());
-            mv.addObject("c_ar", c_ar);
-            mv.addObject("page2", page);
             mv.setViewName("/jsp/admin/evaluationManage/traineetotaltest_ajax");
         } else if (listSelect.equals("4")) {
             mv.setViewName("/jsp/admin/evaluationManage/traineeseveralty_ajax");
@@ -168,6 +160,8 @@ public class EvaluationManageController {
 
         SubjectVO svo = s_Service.list2(s_idx);
         mv.addObject("svo", svo);
+        EvaluationStatusVO esvo = es_Service.subone(s_idx);
+        mv.addObject("esvo", esvo);
 
         mv.setViewName("/jsp/admin/evaluationManage/evaluationInfo");
         return mv;
@@ -547,6 +541,23 @@ public class EvaluationManageController {
             qvo.setQt_score(qt_score[i]);
             qt_Service.add(qvo);
         }
+        SubjectVO svo = s_Service.list2(s_idx);
+        QuestionVO[] qt_ar =  qt_Service.list(es_idx);
+        if(qt_ar != null && qt_ar.length > 0){
+            GradeCheckVO gcvo = new GradeCheckVO();
+            TraineeVO[] tr_ar = tr_Service.clist(svo.getC_idx(), null, null);
+            if(tr_ar != null && tr_ar.length > 0){
+
+                for(int i = 0; i < qt_ar.length; i++){
+                    
+                    gcvo.setQt_idx(qt_ar[i].getQt_idx());
+                    for(int j = 0; j < tr_ar.length; j++){
+                        gcvo.setTr_idx(tr_ar[j].getTr_idx());
+                        gc_Service.add(gcvo);
+                    }
+                }
+            }
+        }
         EvaluationStatusVO esvo = new EvaluationStatusVO();
         esvo.setEs_idx(es_idx);
         esvo.setEs_examStatus("출제완료");
@@ -641,5 +652,18 @@ public class EvaluationManageController {
         mv.setViewName("/jsp/admin/evaluationManage/allGradeList_ajax");
         return mv;
     }
+
+    @RequestMapping("delExam")
+    public ModelAndView delExam(String es_idx, String s_idx) {
+        ModelAndView mv = new ModelAndView();
+        System.out.println(s_idx + "/" + es_idx);
+        QuestionVO[] qt_ar = qt_Service.list(es_idx);
+        for(int i = 0; i < qt_ar.length; i++){
+            qt_Service.del(qt_ar[i].getQt_idx());
+        }
+        mv.setViewName("redirect:examInput?s_idx="+s_idx);
+        return mv;
+    }
+    
 
 }

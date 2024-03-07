@@ -244,6 +244,14 @@
             } // 주관식 및 서술형의 경우 즉시 이부분으로 옴
             $("#frm").submit();
         }
+        function delExam(idx){
+            if(confirm("삭제하시겠습니까?")){
+                alert("삭제되었습니다.")
+                location.href="delExam?es_idx="+idx+"&s_idx="+s_idx;
+            } else{
+                return;
+            }
+        }
 
     </script>
 </body>
