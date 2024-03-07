@@ -13,7 +13,7 @@ Spring Boot, React, [Next.js](https://github.com/hyeona-kim/Main)를 이용한 �
 - 팀원 [이가은](https://github.com/lkeeeeeee)Lee Ga Eun  - 교강사 모드 페이지 구현, 교강사 모드 기능 구현, 관리자.교강사모드 페이지 구현, 통합관리 기능구현, 상담및접수 기능구현, 교과목.능력단위요소.파일 db구상, 로그인 기능 구현, 일정관리.주간시간표 구현 
 - 팀원 [조성훈](https://github.com/sannabie) sannabie -  
 - 팀원 [우선우](https://github.com/tanksoda) tanksoda - 상담관리 db 및 관련 페이지 구현, 평가관리 내 시험지 및 채점 db 및 관련 페이지 구현, 과정별 훈련생 현황 내 기능구현,교직원 관리 내 등록, 수정 및 전자서명 기능 구현,로그인 기능 구현,형상관리
-- 팀원 [김현아](https://github.com/hyeona-kim) hyeona-kim - 
+- 팀원 [김현아](https://github.com/hyeona-kim) hyeona-kim - 학적부 DB 설계 및 구현 , 학생들 개인정보 등록 및 수정 삭제 기능 구현, 주소 API 기능 구현, 학생들 정보 일괄 수정 및 일괄 삭제 기능 구현, 학생들의 개인적 능력들을 배열로 저장 기능 구현, 형상관리
 - 팀원 [윤상기](https://github.com/sangkiYoon) sangkiYoon - 상담관리 DB 설계상담관리 페이지구현, 파일업로드, 이미지 페이지구현,통합관리 페이지 및 기능구현,평가관리 페이지 및 기능구현,사후관리 페이지 및 기능구현
 
 ### ⚙️ 개발 환경
