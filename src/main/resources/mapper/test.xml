@@ -146,6 +146,11 @@
         values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
     </insert>
 
+    <select id="qnaall" resultType="com.ict.project.vo.QnaVO">
+        select * from qna_t
+        where status = 0 
+    </select>
+
     <insert id="qnawrite" parameterType="com.ict.project.vo.QnaVO">
         insert into qna_t (qna_title,qna_content,qna_write_date,status,m_id,qna_writer,qname)
         values (#{qna_title}, #{qna_content}, Now(),0,#{m_id},#{qna_writer},'q')

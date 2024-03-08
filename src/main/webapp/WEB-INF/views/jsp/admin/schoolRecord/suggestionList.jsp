@@ -115,6 +115,7 @@
 			$.ajax({
 				url: "suggMain",
 				type: "post",
+				data: "qname=q"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
@@ -264,44 +265,8 @@
 			}
 			frm.submit();
 		};
-		
-		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
-		function searchSugg(cPage) {
-			let tag = document.getElementById("search_tag").value;
-			let value = document.getElementById("search_value").value;
-			$.ajax({
-				url: "searchSugg",
-				type: "post",
-				data: "cPage="+encodeURIComponent(cPage)+
-					  "&tag="+encodeURIComponent(tag)+
-					  "&value="+encodeURIComponent(value)
-			}).done(function(result){
-				$("#ajaxContent").html(result);
-			});
-		};
-		
-		/* 전체공지 [숨김] 체크박스를 눌렀을때 수행 */
-		function checkNotice(cPage) {
-			let checked = $("#chk_btn").is(':checked');
-			if(checked) {
-				$.ajax({
-					url: "checkNotice_sugg",
-					type: "post",
-					data: "cPage="+encodeURIComponent(cPage),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}else if(!checked){
-				$.ajax({
-					url: "suggMain",
-					type: "post",
-					data: "cPage="+encodeURIComponent('1'),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}
-		};
 
+		
 		function download(fname) {
 			document.downForm.fname.value = fname;
 			document.downForm.submit();
