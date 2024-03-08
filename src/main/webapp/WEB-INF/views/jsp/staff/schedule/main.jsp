@@ -237,7 +237,7 @@
                                 if(data.cnt ==1){
                                     alert("변경되었습니다.다시 로그인해주세요")
                                     $("#changePassword").dialog("close");
-                                    location.href ="logout";
+                                    location.href ="logoutlll";
                                 }else{
                                     alert("변경 실패")
                                     $("#changePassword").dialog("close");
