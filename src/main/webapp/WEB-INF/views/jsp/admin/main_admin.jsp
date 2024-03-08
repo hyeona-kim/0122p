@@ -1020,9 +1020,9 @@
                     let ac_answer_date = $("#ac_answer_date").val();
                     let ac_idx = $("#ac_idx").val();
                     if(ac_answer_date.length ==0 ){
-                        alert("날짜를 입력하세요.")
-                        $("#ac_ansewer_date").focus();
-                        $("#ac_ansewer_date").val("");
+                        alert("날짜을 입력하세요.")
+                        $("#ac_answer_date").focus();
+                        $("#ac_answer_date").val("");
                         return;
                     }
 
@@ -1056,9 +1056,20 @@
                     modal:true,
                 });
                 $("#detailCI").html(res);
-                $("#c_add_btn").click(function(){
+                $("#i_add_btn").click(function(){
+                    let ac_answer = $("#ac_answer").val();
+                    let ac_idx = $("#ac_idx").val();
+                    if(ac_answer.length ==0 ){
+                        alert("날짜을 입력하세요.")
+                        $("#ac_answer").focus();
+                        $("#ac_answer").val("");
+                        return;
+                    }
+
                     $.ajax({
-                        
+                        url:"updateCI",
+                        data:"ac_answer="+ac_answer+"&ac_idx="+ac_idx,
+                        type:"post"
                     }).done(function(data){
                         if(data.cnt ==1){
                             alert("저장되었습니다.")
