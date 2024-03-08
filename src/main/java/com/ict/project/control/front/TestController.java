@@ -1,6 +1,5 @@
 package com.ict.project.control.front;
 
-
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,13 +30,17 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.SuggestionService;
 import com.ict.project.service.TestService;
+import com.ict.project.util.Paging;
 import com.ict.project.util.Paging2;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.QnaVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SuggestionVO;
+
 import jakarta.servlet.http.HttpServletRequest;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
@@ -45,6 +48,10 @@ import jakarta.servlet.http.HttpSession;
 
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CommVO;
+import com.ict.project.vo.CounselReceiptVO;
+
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/login")
@@ -55,6 +62,8 @@ public class TestController {
     private TestService t_Service;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private SuggestionService s_Service;
 
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
@@ -406,14 +415,14 @@ public class TestController {
 
     @RequestMapping("/qna/write")
     public Map<String, Object> write(QnaVO vo) {
-       Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-       int cnt = t_Service.qnawrite(vo);
-       map.put("res", cnt);
-       return map;
+        int cnt = t_Service.qnawrite(vo);
+        map.put("res", cnt);
+        return map;
     }
 
-@RequestMapping("/getmemberVO")
+    @RequestMapping("/getmemberVO")
     public Map<String, Object> getmember(String m_id) {
 
         Map<String, Object> map = new HashMap<>();

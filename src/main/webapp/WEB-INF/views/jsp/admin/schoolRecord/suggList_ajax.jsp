@@ -7,8 +7,6 @@
     		<col width="35%"/>
     		<col width="15%"/>
     		<col width="10%"/>
-    		<col width="20%"/>
-    		<col width="10%"/>
     	</colgroup>
 		<tbody>
 		<%-- ===== 출력할 건의사항 항목 ===== --%>
@@ -18,24 +16,17 @@
 				<th>작성일</th>
 				<th>작성자</th>
 			</tr>
-			<c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
-			<%-- ===== 로그인 정보가 있다면 반복문을 통해
-						건의사항 목록 출력 ===== --%>
-				<c:if test="${ar ne null}">
+		
 					<c:forEach items="${ar}" varStatus="vs" var="svo">
 						<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 						<tr>
 							<td>${num-vs.index}</td>
-							<td align="left"></td>
-							<td>${svo.sg_write_date}</td>
-							<td>${svo.sg_hit}</td>
+							<td align="left">${svo.qna_title}</td>
+							<td>${svo.qna_write_date}</td>
+							<td>${svo.qna_writer}</td>
 						</tr>
 					</c:forEach>
-				</c:if>
-				<c:if test="${ar eq null}">
-					<tr><td colspan="6">검색 결과가 없습니다</td></tr>
-				</c:if>
-			</c:if>
+			
 		</tbody>
 		<%-- 화면 하단 page 번호 출력하는 부분 --%>
 		<tfoot>

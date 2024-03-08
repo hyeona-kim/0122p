@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.project.service.SuggestionService;
+import com.ict.project.service.TestService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.QnaVO;
 import com.ict.project.vo.SuggestionVO;
 
 import jakarta.servlet.ServletContext;
@@ -29,62 +31,70 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 public class SuggestionController {
-    @Autowired
+	@Autowired
 	HttpServletResponse response;
 	@Autowired
-    HttpServletRequest request;
-    @Autowired
-    HttpSession session;
-    @Autowired
-    ServletContext application;
+	HttpServletRequest request;
+	@Autowired
+	HttpSession session;
+	@Autowired
+	ServletContext application;
 	@Autowired
 	SuggestionService s_Service;
 
-	private List<SuggestionVO> sg_r_list;
+	@Autowired
+	TestService t_Service;
 
-	// 고충 및 건의사항 메뉴 클릭시 메인페이지로 이동
-    @RequestMapping("suggestionList")
-    public String suggestionList() {
-		return "/jsp/admin/schoolRecord/suggestionList";
-    }
+	private List<SuggestionVO> sg_r_list;
 
 	// 메인페이지로 이동시 고충 및 건의사항 전체 목록을 반환하는 기능
 	@RequestMapping("suggMain")
-    public ModelAndView requestMethodName(String cPage) {
-        ModelAndView mv = new ModelAndView();
-        SuggestionVO[] ar = null;
+	public ModelAndView requestMethodName(String cPage, String qname) {
+		ModelAndView mv = new ModelAndView();
 		Paging page = null;
-		
-		Object obj_ar = request.getAttribute("ar");
-		Object obj_p = request.getAttribute("page");
-		if(obj_p == null) {
-			page = new Paging();
-			page.setTotalRecord(s_Service.getTotalRecord());
-		}else {
-			page = (Paging)obj_p;
-		}
-		
-		if(cPage == null || cPage.equals("undefined"))
+		page = new Paging();
+
+		page.setTotalRecord(t_Service.count(qname));
+		if (cPage == null || cPage.equals("undefined"))
 			page.setNowPage(1);
 		else {
 			int nowPage = Integer.parseInt(cPage);
 			page.setNowPage(nowPage);
 		}
-		
-		if(obj_ar == null) {
-			ar = s_Service.getSuggList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-		}else {
-			ar = (SuggestionVO[])obj_ar;
-		}		
-		
+
+		System.out.println(t_Service.count(qname));
+
+		QnaVO[] ar = t_Service.getList(qname,
+				String.valueOf(page.getBegin()),
+				String.valueOf(page.getEnd()));
+
+		System.out.println("qname=" + qname);
+
+		System.out.println("ar.length=" + ar.length);
+
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
 		return mv;
-    }
+	}
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	// 고충 및 건의사항 메뉴 클릭시 메인페이지로 이동
+	@RequestMapping("suggestionList")
+	public String suggestionList() {
+		return "/jsp/admin/schoolRecord/suggestionList";
+	}
 
 	// [글쓰기] 버튼을 클릭시 글쓰기 양식을 반환하는 기능
 	@RequestMapping("sugAddForm")
@@ -101,7 +111,7 @@ public class SuggestionController {
 		mv.setViewName("/jsp/admin/schoolRecord/reply_ajax");
 		return mv;
 	}
-	
+
 	// 목록에서 [제목]을 클릭 시 해당 글의 내용을 보는 기능
 	@RequestMapping("viewSugg")
 	public ModelAndView viewSugg(String sg_idx) {
@@ -109,14 +119,14 @@ public class SuggestionController {
 		SuggestionVO vo = s_Service.view(sg_idx);
 
 		Object obj = session.getAttribute("sg_r_list");
-		if(obj == null) {
+		if (obj == null) {
 			sg_r_list = new ArrayList<SuggestionVO>();
 			session.setAttribute("sg_r_list", sg_r_list);
-		}else {
+		} else {
 			sg_r_list = (ArrayList<SuggestionVO>) obj;
 		}
 		boolean read = CheckRead(vo);
-		if(!read) {
+		if (!read) {
 			sg_r_list.add(vo);
 			s_Service.addHit(vo.getSg_idx());
 		}
@@ -130,29 +140,29 @@ public class SuggestionController {
 	public boolean CheckRead(SuggestionVO vo) {
 		boolean flag = false;
 
-		for (int i=0; i<sg_r_list.size(); i++){
+		for (int i = 0; i < sg_r_list.size(); i++) {
 			SuggestionVO svo = sg_r_list.get(i);
-			if(vo.getSg_idx().equals(svo.getSg_idx())){
+			if (vo.getSg_idx().equals(svo.getSg_idx())) {
 				flag = true;
 				break;
 			}
 		}
 		return flag;
 	}
-    
+
 	// 글쓰기 - 고충 및 건의사항 작성에서 [등록]을 클릭 시
 	// DB에 해당 내용을 저장 후 목록으로 돌아가는 기능
-    @RequestMapping("addSuggestion")
-    public ModelAndView addSuggestion(SuggestionVO svo) {
+	@RequestMapping("addSuggestion")
+	public ModelAndView addSuggestion(SuggestionVO svo) {
 		ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
-		if(encType.startsWith("application")) {
+		if (encType.startsWith("application")) {
 			s_Service.addSugg(svo);
-		}else if(encType.startsWith("multipart")) {
+		} else if (encType.startsWith("multipart")) {
 			MultipartFile mf = svo.getFile();
 			String fname = null;
-			
-			if(mf != null && mf.getSize() > 0) {
+
+			if (mf != null && mf.getSize() > 0) {
 				String realPath = application.getRealPath("upload_suggFile");
 
 				String oname = mf.getOriginalFilename();
@@ -171,21 +181,21 @@ public class SuggestionController {
 		}
 		mv.setViewName("redirect:suggestionList");
 		return mv;
-    }
-   
+	}
+
 	// 글보기 - [답변] - 고충 및 건의사항 답변 작성에서 [등록] 버튼을 클릭 시
 	// 해당 내용을 DB에 저장 후 목록으로 돌아가는 기능
-    @RequestMapping("addReply")
-    public ModelAndView addReply(SuggestionVO svo) {
-        ModelAndView mv = new ModelAndView();
+	@RequestMapping("addReply")
+	public ModelAndView addReply(SuggestionVO svo) {
+		ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
-		if(encType.startsWith("application")) {
+		if (encType.startsWith("application")) {
 			s_Service.addReply(svo);
-		}else if(encType.startsWith("multipart")) {
+		} else if (encType.startsWith("multipart")) {
 			MultipartFile mf = svo.getFile();
 			String fname = null;
-			
-			if(mf != null && mf.getSize() > 0) {
+
+			if (mf != null && mf.getSize() > 0) {
 				String realPath = application.getRealPath("upload_suggFile");
 
 				String oname = mf.getOriginalFilename();
@@ -204,41 +214,41 @@ public class SuggestionController {
 		}
 		mv.setViewName("redirect:suggestionList");
 		return mv;
-    }
+	}
 
 	// 목록에서 [검색] 버튼을 클릭 시 제목으로 검색하는 기능
-    @RequestMapping("searchSugg")
-    public ModelAndView requestMethodName(String cPage,String tag,String value) {
-        ModelAndView mv = new ModelAndView();
-        SuggestionVO[] ar = null;
+	@RequestMapping("searchSugg")
+	public ModelAndView requestMethodName(String cPage, String tag, String value) {
+		ModelAndView mv = new ModelAndView();
+		SuggestionVO[] ar = null;
 		Paging page = new Paging();
 		boolean search_flag = true;
-		
+
 		// Paging을 다시 만들기 위해 totalRecord를 다시 구한다
 		int cnt = s_Service.reGetTotalRecord(value);
-		
-		if(cnt > 0) {
+
+		if (cnt > 0) {
 			page.setTotalRecord(cnt);
-			if(cPage == null || cPage.equals("undefined")) {
-				page.setNowPage(1);	
-			}else {
-				page.setNowPage(Integer.parseInt(cPage));								
+			if (cPage == null || cPage.equals("undefined")) {
+				page.setNowPage(1);
+			} else {
+				page.setNowPage(Integer.parseInt(cPage));
 			}
 			ar = s_Service.search(value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
 		}
-		
+
 		mv.addObject("search_flag", search_flag);
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
-		if(value.trim().length() > 0){
+		if (value.trim().length() > 0) {
 			mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
-		}else {
+		} else {
 			mv.setViewName("redirect:suggMain");
 		}
-		
-        return mv;
-    }
-    
+
+		return mv;
+	}
+
 	// 목록에서 전체공지 [숨김] 버튼 클릭시
 	// 공지사항이 아닌 글들만 반환하는 기능
 	@RequestMapping("checkNotice_sugg")
@@ -249,9 +259,9 @@ public class SuggestionController {
 		boolean notice_flag = true;
 		page.setTotalRecord(s_Service.cntNonNotice());
 
-		if(cPage == null || cPage.equals("undefined")){
+		if (cPage == null || cPage.equals("undefined")) {
 			page.setNowPage(1);
-		}else {
+		} else {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
 		ar = s_Service.checkNotice(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
@@ -266,11 +276,11 @@ public class SuggestionController {
 	// 목록에서 첨부파일에 [파일명]을 클릭 시 해당 파일을 다운로드 하는 기능
 	@RequestMapping("SuggDownload")
 	public ResponseEntity<Resource> fileDownload(String fname) {
-		String realPath = application.getRealPath("/upload_suggFile/"+fname);
+		String realPath = application.getRealPath("/upload_suggFile/" + fname);
 
 		File f = new File(realPath);
 
-		if(f.exists()) {
+		if (f.exists()) {
 			byte[] buf = new byte[4096];
 			int size = -1;
 
@@ -282,7 +292,8 @@ public class SuggestionController {
 
 			try {
 				response.setContentType("application/x-msdownload");
-				response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(), "8859_1"));
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + new String(fname.getBytes(), "8859_1"));
 
 				fis = new FileInputStream(f);
 				bis = new BufferedInputStream(fis);
@@ -290,7 +301,7 @@ public class SuggestionController {
 				sos = response.getOutputStream();
 				bos = new BufferedOutputStream(sos);
 
-				while((size=bis.read(buf)) != -1) {
+				while ((size = bis.read(buf)) != -1) {
 					bos.write(buf, 0, size);
 					bos.flush();
 				}
@@ -306,7 +317,8 @@ public class SuggestionController {
 						sos.close();
 					if (bos != null)
 						bos.close();
-				} catch (Exception e) { }
+				} catch (Exception e) {
+				}
 			}
 		}
 		return null;
@@ -321,7 +333,7 @@ public class SuggestionController {
 
 		// MultipartFile이 인자로 넘어오는 경우에는
 		// 무조건 생성해서 넘어오기 때문에 null과 비교하면 안된다
-		if(file.getSize() > 0) {
+		if (file.getSize() > 0) {
 			String realPath = application.getRealPath("upload_suggImage");
 
 			String oname = file.getOriginalFilename();
@@ -336,7 +348,7 @@ public class SuggestionController {
 
 			String Path = request.getContextPath();
 
-			map.put("url", Path+"/upload_suggImage");
+			map.put("url", Path + "/upload_suggImage");
 			map.put("fname", fname);
 		}
 		return map;
