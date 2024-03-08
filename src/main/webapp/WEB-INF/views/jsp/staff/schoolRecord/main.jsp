@@ -89,7 +89,7 @@
                 <span class="none">■</span>미수료
                 <span class="weeding">■</span>제적
                 <div align="right">
-                    <button type="button" class="btn" style="margin-right: 3px;">훈련생종합성적표</button> 
+                    <button type="button" class="btn" style="margin-right: 3px;" onclick="allGradeList('${param.c_idx}')">훈련생종합성적표</button> 
                 </div>
             </div>
             <div id="btn_area" class="main_item align_center">
@@ -195,15 +195,15 @@
                     type: "post",
                     data:"listSelect="+encodeURIComponent("2")+"&c_idx="+c_idx
                 }).done(function(result){
-                    let html = "<span class='man'>●</span>남자 "+
-                                "<span class='woman'>●</span>여자 "+
-                                "<span class='giveup'>■</span>수강포기"+
-                                "<span class='employ'>■</span>조기취업"+ 
-                                "<span class='finish'>■</span>조기수료"+
-                                "<span class='none'>■</span>미수료"+ 
-                                "<span class='weeding'>■</span>제적"+
-                                "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
-                                "</div>" ;
+                    let html = `<span class='man'>●</span>남자
+                                <span class='woman'>●</span>여자
+                                <span class='giveup'>■</span>수강포기
+                                <span class='employ'>■</span>조기취업
+                                <span class='finish'>■</span>조기수료
+                                <span class='none'>■</span>미수료
+                                <span class='weeding'>■</span>제적
+                                <div align='right'><button type='button' class='btn' style='margin-right: 3px;' onclick='allGradeList("${param.c_idx}")'>훈련생종합성적표</button>
+                                </div>`;
                     $("#courseLog_Table").html(html+result);
                     length = $("#t_ar_length").val();
                 });
@@ -218,15 +218,15 @@
                     type: "post",
                     data:"listSelect="+encodeURIComponent("2")+"&c_idx="+c_idx
                 }).done(function(result){
-                    let html = "<span class='man'>●</span>남자 "+
-                                "<span class='woman'>●</span>여자 "+
-                                "<span class='giveup'>■</span>수강포기"+
-                                "<span class='employ'>■</span>조기취업"+ 
-                                "<span class='finish'>■</span>조기수료"+
-                                "<span class='none'>■</span>미수료"+ 
-                                "<span class='weeding'>■</span>제적"+
-                                "<div align='right'><button type='button' class='btn' style='margin-right: 3px;'>훈련생종합성적표</button>"+ 
-                                "</div>" ;
+                    let html = `<span class='man'>●</span>남자
+                                <span class='woman'>●</span>여자
+                                <span class='giveup'>■</span>수강포기
+                                <span class='employ'>■</span>조기취업
+                                <span class='finish'>■</span>조기수료
+                                <span class='none'>■</span>미수료
+                                <span class='weeding'>■</span>제적
+                                <div align='right'><button type='button' class='btn' style='margin-right: 3px;' onclick='allGradeList("`+c_idx+`")'>훈련생종합성적표</button>
+                                </div>`;
                     $("#courseLog_Table").html(html+result);
                     length = $("#t_ar_length").val();
                 });
@@ -680,6 +680,28 @@
         frm.submit();
         
     }
+
+    function allGradeList(c_idx){
+        console.log(c_idx);
+        $("#dialog").dialog("open");
+        $.ajax({
+			url: "allGrade_ajax_s",
+			type:"post",
+			data:"c_idx="+c_idx,
+		}).done(function(result){
+			$("#dialog").html(result);
+		});
+    }
+    $("#dialog").dialog({
+        autoOpen: false,
+        maxHeight: 900,
+        width: 1200,
+        modal: true,
+    });
+
+
+
+
     </script>
 </body>
 </html>
