@@ -56,7 +56,6 @@
             <tr>
                 <td>${num-(vs.index)}</td>
                 <td>${vo2.c_name}</td>
-                <%-- 강사 코드에따른 강사를 가져오는 Bean을 만든다 --%>
                 <td>${vo2.svo.sf_name}</td>
                 <td>${vo2.start_date }</td>
                 <td>${vo2.end_date }</td>

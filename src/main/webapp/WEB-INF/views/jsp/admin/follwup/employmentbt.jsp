@@ -13,7 +13,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <article>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
+	</article>
     <article class="bottom">
         <article>
             <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -40,33 +42,28 @@
                                 <th>학생코드</th>
                                 <th>취업확인서</th>
                                 <th>파일선택</th>
+                                <th>등록</th>
                             </tr>
                         </thead>
                         <tbody>
-            <form name="fff" method="post" action="cudel">
-                <input type="hidden" name="c_idx" value="${c_idx}">
-                    <c:forEach var="vo7" items="${requestScope.ar }" varStatus="vs">
-                    	<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
-                        <tr>
-                            <td>${num-(vs.index)}</td>
-                            <td>${vo7.tr_name }</td>
-                            <td>${vo7.s_code}</td>
-                            <td>12</td>
-                            <td><input type="file"></td>
-                          
-                                <input type="hidden" id="nowstatus${vs.index}" value="${vo7.tr_nowstatus}" class="sts"/>
-                      
-                        
-                                <input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
-                            
-                         
-                            
-                            
-                        </tr>
-                    </c:forEach>
-                    </form>
-                    </tbody>
-                </table>
+                            <c:forEach var="vo7" items="${aa.tr_ar }" varStatus="vs">
+                                <c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
+                                <form id="embt${vs.index}" method="post" action="savefl_Img" enctype="multipart/form-data">
+                                    <input type="hidden" name="c_idx" value="${param.c_idx}">
+                                    <tr>
+                                        <td>${num-(vs.index)}</td>
+                                        <td>${vo7.tr_name }</td>
+                                        <td>${vo7.s_code}</td>
+                                        <td><a href="fl_Download?f_name=${vo7.f_file}">${vo7.f_file }</a></td>
+                                        <td><input type="file" name="f_file" style="border: 1px solid #ababab;" class="text"/></td>
+                                        <td><input type="button" class="btn" onclick="sendFile('${vs.index}')" value="등록"/></td>
+                                            <input type="hidden" id="nowstatus${vs.index}" value="${vo7.tr_nowstatus}" class="sts"/>                       
+                                            <input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
+                                    </tr>
+                                </form>
+                            </c:forEach>
+                        </tbody>
+                    </table>
             
                 </div>
 				</div>
@@ -100,7 +97,8 @@
         });
         $(function() {
 			$(".subSelect").removeClass("subSelect");
-			$("#l_two").addClass("subSelect");
+			$("#l_five").addClass("subSelect");
+
 			let ar = $(".sts");
 			for(let k=0; k<ar.length;k++){
 				//console.log($("#nowstatus"+k).val());
@@ -157,6 +155,10 @@
 			return false;   
         },250);
 	}
+    function sendFile(idx){
+        let frm = $("#embt"+idx);
+        frm.submit();
+    }
 
 
 

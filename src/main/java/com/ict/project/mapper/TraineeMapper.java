@@ -59,4 +59,8 @@ public interface TraineeMapper {
 
         List<TraineeVO> getEs(String es_idx);
 
+        List<TraineeVO> follwup(String begin, String end, String c_idx, String value, String select);
+
+        int follwupcount(String value, String select);
+
 }

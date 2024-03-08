@@ -13,6 +13,10 @@
 		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee"></collection>
 		<collection property="tr_ar2" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee2"></collection>
 		<collection property="tr_ar3" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee3"></collection>
+		<collection property="tr_ar4" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee4"></collection>
+		<collection property="tr_ar5" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee5"></collection>
+		<collection property="tr_ar6" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee6"></collection>
+		<collection property="tr_ar7" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="trainee7"></collection>
 		<collection property="cs_ar" column="c_idx" ofType="com.ict.project.vo.CounselVO" select="counsel"></collection>
 		<collection property="td_ar" column="c_idx" ofType="com.ict.project.vo.TrainingDiaryVO" select="trainingDiary"></collection>
 	</resultMap>
@@ -131,10 +135,22 @@
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus !=9
 	</select>
 	<select id="trainee2" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
-		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 8
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 8 <!--제적-->
 	</select>
 	<select id="trainee3" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
-		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 2 
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 2 <!--수강중-->
+	</select>
+	<select id="trainee4" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 4 <!--조기취업-->
+	</select>
+	<select id="trainee5" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 10 <!--수료후 취업-->
+	</select>
+	<select id="trainee6" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 5 <!--수료-->
+	</select>
+	<select id="trainee7" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 7 <!--미수료-->
 	</select>
 	<select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx}
@@ -255,7 +271,7 @@
 	</update>
 
 
-	<select id="search_ct" parameterType="Map" resultMap="map2">
+	<select id="search_ct" parameterType="Map" resultMap="map1">
 		select * from course_t 
 		<where>
 			<trim suffixOverrides="and">
@@ -266,5 +282,10 @@
 			</trim>
 		</where>
 	</select>
+	<update id="update_f_file" parameterType="Map">
+		update trainee_t
+		set f_file = #{f_file}
+		where tr_idx = #{tr_idx}
+	</update>
 
 </mapper>
