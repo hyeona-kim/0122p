@@ -121,7 +121,8 @@
             $(this).css("display","none");
         });
         $(function(){
-
+            $(".subSelect").removeClass("subSelect");
+            $("#l_two").addClass("subSelect");
             
 			$.ajax({
 				url: "jobsituation",

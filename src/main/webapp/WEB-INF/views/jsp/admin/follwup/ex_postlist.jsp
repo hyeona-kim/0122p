@@ -54,7 +54,6 @@
                                                     <option value="1">담당교수</option>
                                                     <option value="2">과정타입</option>
                                                     <option value="3">과정명</option>
-                                                    <option value="4">훈련생명</option>
                                             </select>
                                             <input type="text" id="searchValue" class="text"/>
                                             <button type="button" id="search" class="btn">검색</button>
@@ -125,6 +124,7 @@
 		let searchValue="";
 		let searchnum="";
 		let searchyear="";
+        let listSelect="${listSelect}";
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -140,7 +140,7 @@
         $(function() {
 			//$().removeClass("selected");
 			$(".subSelect").removeClass("subSelect");
-			$("#l_two").addClass("subSelect");
+			$("#l_four").addClass("subSelect");
 			let now = new Date();	// 현재 날짜 및 시간
 			let year = now.getFullYear();
 			let str = "<option>년도선택</option>";
@@ -158,7 +158,7 @@
 				$.ajax({
 					url: "ex_post",
 					type:"post",
-					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1&listSelect="+listSelect,
 
 				}).done(function(result){
 					$("#result").html(result);
@@ -173,7 +173,7 @@
 				$.ajax({
 					url: "ex_post",
 					type:"post",
-					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+					data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1&listSelect="+listSelect,
 
 
 				}).done(function(result){
@@ -193,7 +193,7 @@
 					$.ajax({
 						url: "ex_post",
 						type:"post",
-						data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1",
+						data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1&listSelect="+listSelect,
 					}).done(function(result){
 						$("#result").html(result);
 
@@ -204,7 +204,7 @@
             $.ajax({
                 url: "ex_post",
                 type:"post",
-                data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1"+"&listselect=4",
+                data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage=1&listSelect="+listSelect,
             }).done(function(result){
                 $("#result").html(result);
 
@@ -217,7 +217,7 @@
 			$.ajax({
 				url: "ex_post",
 				type:"post",
-				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str+"&listselect=4",
+				data: "num="+searchnum+"&select="+searchType+"&value="+searchValue+"&year="+searchyear+"&cPage="+str+"&listSelect="+listSelect,
 			}).done(function(result){
 				$("#result").html(result);
 			});
@@ -225,7 +225,7 @@
 		}
 
         function bt1(c_idx){
-			location.href="current?c_idx="+c_idx;
+			location.href="current?c_idx="+c_idx+"listSelect="+listSelect;
 		}
 		
     </script>

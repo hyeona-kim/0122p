@@ -162,7 +162,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu2">사후관리</a>
+                <a href="f_log?listSelect=1&cPage=1" class="menu2">사후관리</a>
                 <ul class="sub_manu2">
                     <li><a href="f_log?listSelect=1&cPage=1" >일일취업보고</a></li>
                     <li><a href="f_log?listSelect=2&cPage=1" >취업현황보고</a></li>

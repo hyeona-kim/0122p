@@ -139,4 +139,9 @@ public class CourseService {
         return ar;
 
     }
+
+    public int update_f_file(String f_file, String tr_idx) {
+        return c_mapper.update_f_file(f_file, tr_idx);
+
+    }
 }
