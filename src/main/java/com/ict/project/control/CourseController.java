@@ -57,8 +57,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -456,6 +454,7 @@ public class CourseController {
 	public ModelAndView course_file(FileVO fvo, String listSelect, String cPage) {
 		ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
+
 		if (encType.startsWith("application")) {
 			CourseVO cvo = c_Service.getCourse(fvo.getC_idx());
 
@@ -703,8 +702,10 @@ public class CourseController {
 		CourseVO cvo = c_Service.getCourse2(c_idx);
 		// 스태틱으로 선언한 액셀의 저장된 총 정보 가지고오기
 		List<TimeVO> list = ExelFileReader.exel(cvo, application);
+		if (list == null || list.size() == 0) {
+			return map;
+		}
 		map.put("w_list", list);
-
 		/******** 여기서부터 테이블에 표시할 정보 *********/
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 		// 내가 원하는 주차의 정보만 가지고오기
@@ -797,6 +798,7 @@ public class CourseController {
 		return map;
 	}
 
+	// 총일수 구하기
 	public List<String> day(String startDate, String endDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd"); // 년월일 표시
 
@@ -1058,9 +1060,7 @@ public class CourseController {
 
 	@RequestMapping("calendar")
 	public String calendar() {
-		// mv.setViewName("/jsp/admin/courseReg/weekTime_ajax");
 		return "/jsp/admin/etcList/schedule/calendar";
-
 	}
 
 }

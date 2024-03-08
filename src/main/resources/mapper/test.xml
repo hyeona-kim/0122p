@@ -4,7 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.TestMapper">
 
-<resultMap type="com.ict.project.vo.QnaVO" id="map1">
+
+<resultMap type="com.ict.project.vo.QnaVO" id="map3">
 <result property="qna_idx" column="qna_idx"/> <!-- 기본키 값 채워주기 -->
 <collection property="c_list" ofType="com.ict.project.vo.CommVo" select="commList" column="qna_idx"/>
 
@@ -14,6 +15,18 @@
 <result property="ct_idx" column="ct_idx"/>
 <collection property="c_ar" ofType="com.ict.project.vo.CourseVO" select="ctList" column="ct_idx"/>
 </resultMap>
+
+
+    <resultMap type="com.ict.project.vo.CourseVO" id="map1">
+		<result column="c_idx" property="c_idx" />
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+	</resultMap>
+
+    <!-- resultMap에 쓰이는 select문 (staff 테이블 가져오기) -->
+    <select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
+		select * from staff_t where sf_idx=#{str}
+	</select>
+	
 
 	<select id="login" parameterType="String" resultType="com.ict.project.vo.MemberVO">
 		select * from member_t
@@ -56,6 +69,11 @@
         where m_id = #{m_id}
     </select>
 
+    <select id="checkSameEmail" parameterType="String" resultType="int">
+        select count(*) from member_t
+        where m_email = #{m_email}
+    </select>
+
     <select id="myCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
         select d.* from 
             (select a.*, b.c_idx from (select * from member_t where m_id = #{m_id}) a, trainee_t b
@@ -63,17 +81,66 @@
         where c.c_idx = d.c_idx
     </select>
 
-    <update id="editMyInfo" parameterType="Map">
+    <update id="editMyInfo" parameterType="com.ict.project.vo.MemberVO">
         update member_t
         <trim prefix="set" suffixOverrides=",">
             m_pw = #{m_pw},
-			m_email = #{m_email},
+			      m_email = #{m_email},
             m_phone = #{m_phone},
-            m_name = #{m_name}
+            m_name = #{m_name},
+            m_addr = #{m_addr}
 		</trim>
         where m_id = #{m_id}
     </update>
 
+    <update id="editTrainee" parameterType="com.ict.project.vo.TraineeVO">
+        update trainee_t
+        <trim prefix="set" suffixOverrides=",">
+            tr_name = #{tr_name},
+			tr_phone = #{tr_phone},
+            tr_addr = #{tr_addr}
+		</trim>
+        where tr_idx = #{tr_idx}
+    </update>
+
+    <select id="getMember" parameterType="String">
+        select * from member_t
+        where m_id = #{m_id}
+    </select>
+
+    <select id="getCourseVO" parameterType="String" resultMap="map1">
+        select * from course_t
+        where c_idx = #{c_idx}
+    </select>
+
+    <insert id="enrollCourse" parameterType="com.ict.project.vo.TraineeVO">
+        insert into trainee_t (tr_name, tr_rrn, tr_phone, tr_addr, c_idx, tr_nowstatus)
+        values (#{tr_name}, #{tr_rrn}, #{tr_phone}, #{tr_addr}, #{c_idx}, 0)
+    </insert>
+
+    <select id="getTraineeVO" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+        select * from trainee_t
+        where tr_phone = #{tr_phone}
+    </select>
+
+    <update id="updateTrIdx" parameterType="Map">
+        update member_t
+            <trim prefix="set" suffixOverrides=",">
+                tr_idx = #{tr_idx},
+            </trim>
+        where m_id = #{m_id}
+    </update>
+
+    <select id="trBookList" parameterType="String" resultType="com.ict.project.vo.TrainingBookVO">
+        select * from training_book_t
+        where tb_status = 0 and c_idx = #{c_idx}
+    </select>
+
+    <select id="checkEmail" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+        select * from member_t
+        where m_email = #{m_email}
+    </select>
+  
     <insert id="addaskcounseling" parameterType="com.ict.project.vo.AskcounselingVO">
         insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content,ac_write_date,ac_type,ac_gender)
         values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
@@ -89,8 +156,9 @@
         where m_id = #{m_id}
     </select>
 
+
     <!-- 게시판 페이지에 갯수 보이게하는 select문 -->
-    <select id="qnalist" resultMap="map1" parameterType="Map">
+    <select id="qnalist" resultMap="map3" parameterType="Map">
         select * from (select @RN:=@RN+1 as rnum, a.* from(select * from qna_t
 	    where status = 0 AND qname = #{qname}
 	    ORDER BY qna_idx desc) a, (Select @RN:=0) b) c where c.rnum between #{begin} and #{end}
@@ -114,7 +182,7 @@
 	</insert>
 	
 	<!-- 원글 보기 -->
-	<select id="getqna" parameterType="String" resultMap="map1">
+	<select id="getqna" parameterType="String" resultMap="map3">
 		select * from qna_t
 		where qna_idx = #{qna_idx}
 	</select>
@@ -139,6 +207,5 @@
 		where qna_idx = #{qna_idx} 
 	</update>
 	
-
 
 </mapper>

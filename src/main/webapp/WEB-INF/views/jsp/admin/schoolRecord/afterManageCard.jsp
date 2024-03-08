@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- colgroup으로 비율 맞춰놔서 width만 100%맞추면 돼요-->
     <h2 class="title">사후관리</h2>
-    <form action="afterManage_axaj" method="post" name="qwe" encType="multipart/form-data">
+    <form action="afterManage_axaj?select=${select}" method="post" name="qwe" encType="multipart/form-data">
     <table class="table" id="makeTime">
         <colgroup>
             <col width="16%"/>
@@ -90,7 +90,7 @@
             <c:forEach var="qvo" items="${qvo}" varStatus="vs">
                 <td colspan="2">${vs.index+1}.${qvo.qc_name}</td>
             </c:forEach>
-            <c:if test="${length < 3}">
+            <c:if test="${fn:length(qvo) < 3}">
                 <c:forEach begin="${length+1}" end="3" var="i" >
                 <td colspan="2"></td>
                 </c:forEach>

@@ -11,6 +11,24 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    .time_divWrap{
+        background-color: white;
+        width: 98%;
+        height: 98%;
+        margin: auto;
+        border: 1px solid #154790;
+    }
+
+    .time_divWrap>.time_div{
+        height: 25%;
+        border-bottom: 1px solid #ababab;
+        text-align: center;
+    }
+    .time_divWrap>.time_div:nth-child(2n+1){
+        background-color: #dddddd;
+    }
+</style>
 </head>
 <body>
     <article>
@@ -217,7 +235,6 @@
             });
             
         });
-        
     }
     function paging2(c_page){
         $.ajax({
@@ -272,10 +289,45 @@
             $(".day"+i).html(week_vo.day_ar[i].day);
         }
 
-        let time_ar = week_vo.day_ar[4].time_ar;
+        
         //액셀파일에서 가져온 정보와 동일한 날짜의 시간표를 가져와서 출력해준다.
-        console.log(time_ar);
-
+        $(".class1").val("0930");
+        $(".class2").val("1030");
+        $(".class3").val("1130");
+        $(".class4").val("1230");
+        $(".class5").val("1420");
+        $(".class6").val("1520");
+        $(".class7").val("1620");
+        $(".class8").val("1720");
+        for(let i=1; i<= 8; i++ ){
+            //$(".class"+i).val()
+            for(let k=0; k<7;k++){
+                let time_ar = week_vo.day_ar[k].time_ar;
+                console.log(time_ar);
+                if(time_ar != null){
+                    for(let t=0; t<time_ar.length; t++){
+                        if(time_ar[t].start_time == $(".class"+i).val()){
+                            let t_str = "";
+                            t_str 
+                            +="<div class='time_divWrap'><div class='time_div'>"+time_ar[t].start_time.substring(0,2)+":"+time_ar[t].start_time.substring(2)+"~"
+                            +(Number(time_ar[t].start_time.substring(0,2))+1)+":"+time_ar[t].start_time.substring(2)
+                            +"</div>"
+                            +"<div class='time_div'>"+time_ar[t].sf_name+"</div>"
+                            +"<div class='time_div'>"+time_ar[t].s_name+"</div>"
+                            +"<div class='time_div'>"+time_ar[t].r_name+"</div></div>"
+                            $("#id"+i+k).html(t_str);
+                        }
+                        //$("#id"+i+k).html(time_ar[t].s_name+"<br/>"+time_ar[t].start_time);
+                    }
+                }else{
+                    $("#id"+i+k).html("");
+                }
+                // 만약 시간표가 비어있다면 그 전 시간표의 정보를 가져와서 띄어준다
+                if( $("#id"+i+k).html().length<1){
+                    $("#id"+i+k).html($("#id"+(i-1)+k).html());
+                }
+            }
+        }
     }
     function select2(tt){
         let idx =Number(tt.value)+1;

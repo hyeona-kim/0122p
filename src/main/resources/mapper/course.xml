@@ -20,6 +20,8 @@
 		<result column="c_idx" property="c_idx" />
 		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
 		<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
+		<collection property="sb_ar" column="c_idx" ofType="com.ict.project.vo.SubjectVO" select="subject"></collection>
+		<collection property="tr_ar" column="c_idx" ofType="com.ict.project.vo.TraineeVO" select="tlist"></collection>
 	</resultMap>
 
 	<select id="search" parameterType="Map" resultMap="map1">
@@ -56,6 +58,24 @@
 			)a ,(select @RN:=0) b) c 
 			where c.rnum between ${begin} and ${end} 
 	</select>
+	<select id="staffSearchCourse" parameterType="Map" resultMap="map1">
+		select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct 
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and c.sf_idx =#{sf_idx} and
+							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
+							<if test="year !=null">c.start_date like concat(#{year},'%') and</if>
+					</trim>
+				</where>
+				order by c_idx desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end} 
+	</select>
 
 	<select id="staffCourse_count" parameterType="String" resultType="int">
 		select count(*) 
@@ -66,6 +86,24 @@
 					<trim suffixOverrides="and">
 							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
 							c.sf_idx =#{sf_idx} and
+					</trim>
+				</where>
+			)a ,(select @RN:=0) b) c 
+	</select>
+
+	<select id="staffSearchCourse_count" parameterType="String" resultType="int">
+		select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select c.*,r.r_name,s.sf_name,ct.ct_name from course_t c,room_t r,staff_t s,course_type_t ct
+				<where>
+					<trim suffixOverrides="and">
+							c_status = 0 and c.ct_idx= ct.ct_idx and c.r_idx=r.r_idx and s.sf_idx = c.sf_idx and
+							c.sf_idx =#{sf_idx} and
+							<if test="select !=null and select == 1">s.sf_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 2">ct.ct_name like concat('%',#{value},'%') and</if>
+							<if test="select !=null and select == 3">c.c_name like concat('%',#{value},'%') and</if>
+							<if test="year !=null">c.start_date like concat(#{year},'%') and</if>
 					</trim>
 				</where>
 			)a ,(select @RN:=0) b) c 
@@ -87,9 +125,8 @@
 		select * from subject_t where c_idx=#{c_idx}
 	</select>
 	<select id="trainingDiary" resultType="com.ict.project.vo.TrainingDiaryVO" parameterType="String">
-		select * from trainingdiary_t where c_idx=#{c_idx} order by write_date desc
+		select * from trainingdiary_t where c_idx=#{c_idx} and td_status=0 order by write_date desc
 	</select>
-
 	<select id="trainee" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus !=9
 	</select>
@@ -98,6 +135,9 @@
 	</select>
 	<select id="trainee3" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 		select * from trainee_t where c_idx=#{c_idx} and tr_nowstatus = 2 
+	</select>
+	<select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
+		select * from trainee_t where c_idx=#{c_idx}
 	</select>
 	<select id="list" parameterType="Map" resultMap="map1">
 		select * 
@@ -117,6 +157,10 @@
   </select>
 
   <select id="getCourse2" parameterType="String" resultMap="map1">
+    SELECT * FROM course_t WHERE c_idx = #{c_idx}
+  </select>
+  
+  <select id="getCourse3" parameterType="String" resultMap="map2">
     SELECT * FROM course_t WHERE c_idx = #{c_idx}
   </select>
   
@@ -211,13 +255,14 @@
 	</update>
 
 
-	<select id="search_ct" parameterType="String" resultMap="map2">
+	<select id="search_ct" parameterType="Map" resultMap="map2">
 		select * from course_t 
 		<where>
 			<trim suffixOverrides="and">
 					c_status = 0 and
 					<if test="c_idx != 0">c_idx = #{c_idx} and</if>
 					<if test="ct_idx != 0">ct_idx = #{ct_idx} and</if>
+			
 			</trim>
 		</where>
 	</select>

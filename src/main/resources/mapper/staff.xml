@@ -15,7 +15,7 @@
 	<!-- 관리자 모드로 로그인하는 기능 -->
 	<select id="login_admin" parameterType="Map" resultType="com.ict.project.vo.StaffVO">
 		select * from staff_t 
-		where sf_id=#{u_id} and sf_pwd =#{u_pw} and sf_mgr=1 and sf_link=0
+		where sf_id=#{u_id} and sf_pwd =#{u_pw} and (sf_mgr=1 or sf_tmgr =1) and sf_link=0 
 	</select>
 	
 	<update id="login_block" parameterType="String">

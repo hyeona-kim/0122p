@@ -34,6 +34,7 @@
 <update id="trainedit" parameterType="String">
 	update trainee_t
 	<set>
+		tr_nowstatus = #{tr_nowstatus},
 		tr_name = #{tr_name},
 		tr_rrn = #{tr_rrn},
 		tr_phone = #{tr_phone},
@@ -48,12 +49,13 @@
 		<if test="tr_card != null">tr_card = #{tr_card},</if>
 		<if test="tr_pos_code !=null">tr_pos_code = #{tr_pos_code},</if>
 		<if test="tr_addr != null">tr_addr = #{tr_addr},</if>
-		t_path = #{t_path},
-		file_name = #{file_name},
-		ori_name = #{ori_name}
+		<if test="file_name != null">file_name = #{file_name},</if>
+		<if test="ori_name != null">ori_name = #{ori_name},</if>
+		t_path = #{t_path}
 	</set>
 	where tr_idx = #{tr_idx}
 </update>
+
 
 <select id="getcard" resultType="com.ict.project.vo.TraineeVO">
 	select * from trainee_t order by tr_idx
@@ -69,7 +71,7 @@
 
 <select id="clist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
 	select * from trainee_t
-	where status = 0 and c_idx = #{c_idx}
+	where status = 0 and c_idx = #{c_idx} order by tr_idx
 </select>
 
 <select id="tlist" resultType="com.ict.project.vo.TraineeVO" parameterType="String">
@@ -227,5 +229,12 @@
      (#{vo.tr_name}, #{vo.tr_rrn}, #{vo.tr_hp}, #{vo.tr_phone}, #{vo.tr_pos_code},#{vo.tr_addr} ,#{vo.c_idx}, #{vo.tr_nowstatus}, #{vo.tr_total_fee}, #{vo.tr_memo}, #{vo.tr_card},0)
     </foreach>
 </insert>
+
+ <select id="getEs" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+		select * from trainee_t
+		where status = 0 and es_idx = #{es_idx}
+</select>
+
+
 
 </mapper>

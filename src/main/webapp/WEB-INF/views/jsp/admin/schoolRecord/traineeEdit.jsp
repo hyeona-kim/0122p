@@ -15,14 +15,14 @@
 
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <article class="logo"><jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include></article>
     <article class="bottom">
         <article>
             <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;상담관리</header>
+                <header>&nbsp;&nbsp;학적부관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -91,16 +91,20 @@
                                         <th><label>수료일</label></th>
                                         <td><input type="text" class="text" value="${vo2.end_date}"></td>
                                     <tr>
-                                        <th><label>수강포기(제적,취소)일</label></th>
-                                        <td><input type="text" class="text" name="tr_cancel_date" vaule="${vo9.tr_cancel_date}"></td>
-                                        <th><label>수강포기(제적,취소)사유</label></th>
+                                        <th><label>수강포기<br/>(제적,취소)일</label></th>
+                                        <td><input type="date" class="text" name="tr_cancel_date" value="${vo9.tr_cancel_date}" id="cancel_date"></td>
+                                        <th><label>수강포기<br/>(제적,취소)사유</label></th>
                                         <td><input type="text" class="text" name="tr_cancel_text" value="${vo9.tr_cancel_text}"></td>
                                     </tr>
                                     
                                     <tr>
                                         <th><label>사진(210*210)</label></th>
                                         <td>
-											<img id="preview" width="210" height="210" />
+											<div style="border:1px solid #ababab; width: 180px; height: 200px; margin:3px auto;">
+                                                <c:if test="${vo9.file_name ne null}">
+                                                    <img src="${pageContext.request.contextPath }/upload_file/${vo9.file_name}" alt="" style="display: inline-block; width: 180px; height: 200px;" />
+                                                </c:if>
+                                            </div>
                                             <input type="file" onchange="readURL(this);" name="file" class="text"> 
                                         </td>
                                         <th><label>환불금액</label></th>
@@ -145,21 +149,76 @@
                                     <tr>
                                         <th><label>지원경로</label></th>
                                         <td colspan="3">
-                                            <input type="checkbox" name="t_path" value="인터넷">인터넷
-                                            <input type="checkbox" name="t_path" value="전단지">전단지
-                                            <input type="checkbox" name="t_path" value="현수막">현수막
-                                            <input type="checkbox" name="t_path" value="생활정보지">생활정보지
-                                            <input type="checkbox" name="t_path" value="고용지원센터">고용지원센터
-                                            <input type="checkbox" name="t_path" value="직접내방">직접내방
-                                            <input type="checkbox" name="t_path" value="지인소개">지인소개
-                                            <input type="checkbox" name="t_path" value="HRD">HRD
-                                            <input type="checkbox" name="t_path" value="기타">기타
+                                           <c:if test="${t_path1 eq 1}">
+                                <input type="checkbox" name="t_path" value="인터넷" checked>인터넷
+                            </c:if>
+                            
+                            <c:if test="${t_path1 ne 1}">
+                                <input type="checkbox" name="t_path" value="인터넷" >인터넷
+                            </c:if>
+
+                            <c:if test="${t_path2 eq 2}">
+                                <input type="checkbox" name="t_path" value="전단지" checked>전단지
+                            </c:if>
+                            <c:if test="${t_path2 ne 2}">
+                                <input type="checkbox" name="t_path" value="전단지" >전단지
+                            </c:if>
+
+                            <c:if test="${t_path3 eq 3}">
+                                <input type="checkbox" name="t_path" value="현수막" checked>현수막
+                            </c:if>
+                            <c:if test="${t_path3 ne 3}">
+                                <input type="checkbox" name="t_path" value="현수막" >현수막
+                            </c:if>
+
+                            <c:if test="${t_path4 eq 4}">
+                                <input type="checkbox" name="t_path" value="생활정보지" checked>생활정보지
+                            </c:if>
+                            <c:if test="${t_path4 ne 4}">
+                                <input type="checkbox" name="t_path" value="생활정보지" >생활정보지
+                            </c:if>
+
+                            <c:if test="${t_path5 eq 5}">
+                                <input type="checkbox" name="t_path" value="고용지원센터" checked>고용지원센터
+                            </c:if>
+                            <c:if test="${t_path5 ne 5}">
+                                <input type="checkbox" name="t_path" value="고용지원센터" >고용지원센터
+                            </c:if>
+
+                            <c:if test="${t_path6 eq 6}">
+                                <input type="checkbox" name="t_path" value="직접내방" checked>직접내방
+                            </c:if>
+                            <c:if test="${t_path6 ne 6}">
+                                <input type="checkbox" name="t_path" value="직접내방" >직접내방
+                            </c:if>
+
+                            <c:if test="${t_path7 eq 7}">
+                                <input type="checkbox" name="t_path" value="지인소개" checked>지인소개
+                            </c:if>
+                            <c:if test="${t_path7 ne 7}">
+                                <input type="checkbox" name="t_path" value="지인소개">지인소개
+                            </c:if>
+
+                            <c:if test="${t_path8 eq 8}">
+                                <input type="checkbox" name="t_path" value="HRD" checked>HRD
+                            </c:if>
+                            <c:if test="${t_path8 ne 8}">
+                                <input type="checkbox" name="t_path" value="HRD">HRD
+                            </c:if>
+
+                            <c:if test="${t_path9 eq 9}">
+                                <input type="checkbox" name="t_path" value="기타"checked>기타
+                            </c:if>
+                            <c:if test="${t_path9 ne 9}">
+                                <input type="checkbox" name="t_path" value="기타">기타
+                            </c:if>
                                         </td>
                                     </tr>
                                     
                                     <tr>
                                         <th><label>주소</label></th>
                                         <td colspan="3" style="text-align: left;">
+                                            <input type="text" value="원래주소 : ${vo9.tr_addr}" style="width: 98%; margin: auto;" disabled/>
                                             <input type="text" class="text" name="tr_pos_code" id="sample6_postcode" placeholder="우편번호" style="width: 10%; margin-bottom: 5px; margin-left: 10px;">
                                             <input type="button" onclick="checkPost()" value="우편번호 찾기" class="btn"><br>
                                             <input type="text" class="text" name="tr_addr" id="sample6_address" placeholder="주소" style="width: 20%; margin-bottom: 5px;margin-left: 10px;"><br>
@@ -233,46 +292,59 @@
                 }
                 
             }
-    
+            $("#cancel_date").change(function(){
+                alert("제적/취소일을 등록하시면 상태가 변경됩니다.");
+          
+                let date1 = new Date($("#start_date").val()); //개강일
+                let date2 = new Date($(this).val()); //취소일
+                if(date1>date2){    
+                    //취소
+                    //op10
+                    $("#op10").attr("selected",true);
+                }else{
+                    //제적
+                    //op9
+                    $("#op9").attr("selected",true);
+                }
+                
             });
+        });
     
     
-             function sendData(fff){
-    
-                    fff.submit();
-                    
-                }	
+        function sendData(fff){
+            fff.submit();
+        }	
     
                 
             
-                function readURL(input) {
-                    if (input.files && input.files[0]) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                        document.getElementById('preview').src = e.target.result;
-                        };
-                        reader.readAsDataURL(input.files[0]);
-                    } else {
-                        document.getElementById('preview').src = "";
-                    }
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').src = "";
+            }
+        }
+
+        function checkPost() {
+            new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
                 }
-    
-            function checkPost() {
-                new daum.Postcode({
-                oncomplete: function(data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-    
-                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var addr = ''; // 주소 변수
-                    var extraAddr = ''; // 참고항목 변수
-    
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                        addr = data.roadAddress;
-                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                        addr = data.jibunAddress;
-                    }
     
                     // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
                     if(data.userSelectedType === 'R'){

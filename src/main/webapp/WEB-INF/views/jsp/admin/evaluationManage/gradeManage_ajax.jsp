@@ -29,27 +29,27 @@
     </thead>
 
 	<tbody>	
-        <c:if test="${qt_ar eq null}">
+        <c:if test="${esvo eq null}">
             <td colspan="13">
-                등록된 시험이 존재하지 않습니다.
+                등록된 성적이 존재하지 않습니다.
             </td>
         </c:if>
-        <c:if test="${qt_ar ne null}">
-            <c:forEach var="qtvo" items="${qt_ar}" varStatus="vs">
+        <c:if test="${esvo ne null}">
+            
                 <tr>
-                    <td>${qtvo.es_name}</td>
-                    <td>${qtvo.es_date}</td>  
-                    <td>${qtvo.es_time}</td>  
-                    <td>${qtvo.es_totalScore}</td>  
-                    <td>${qtvo.es_type}</td>  
-                    <td>${qtvo.es_level}</td>  
-                    <td>${qtvo.es_num_question}</td>  
-                    <td>${qtvo.sk_idx}</td>
+                    <td>${esvo.es_name}</td>
+                    <td>${esvo.es_date}</td>  
+                    <td>${esvo.es_time}</td>  
+                    <td>${esvo.es_totalScore}</td>  
+                    <td>${esvo.es_type}</td>  
+                    <td>${esvo.es_level}</td>  
+                    <td>${esvo.es_num_question}</td>  
+                    <td>${esvo.sk_idx}</td>
                     <td>
-                        <button type="button" class="btn green" onclick="grading('${qtvo.qt_idx}')">시험 채점</button>
+                        <button type="button" class="btn green" onclick="scoreList('${esvo.es_idx}')">평가별 학생 리스트</button>
                     </td>
                 </tr>
-            </c:forEach>
+            
         </c:if>
 	</tbody>
 </table>

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
@@ -43,9 +44,13 @@
 
                         <button type="button" class="btn blue" onclick="gradeManage('${svo.s_idx}')">성적관리</button>
 
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가현황</button>
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">시험결과오픈</button>
-                        <button type="button" class="btn blue" onclick="editTraining('${tdvo.td_idx}')">평가별 시험예시</button>
+                        <button type="button" class="btn blue" onclick="">평가현황</button>
+                        <c:if test="${svo.esvo.es_testStatus eq 1}">
+                            <button type="button" class="btn blue" onclick="">시험결과창 on</button>
+                        </c:if>
+                        <c:if test="${svo.esvo.es_testStatus eq 2}">
+                            <button type="button" class="btn blue" onclick="">시험결과창 off</button>
+                        </c:if>
                     </td>
 
                 </tr>

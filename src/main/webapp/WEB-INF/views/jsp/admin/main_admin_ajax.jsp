@@ -37,8 +37,9 @@
             </tr>
             <%-- ===== 교직원 목록 출력 ===== --%>
                 <c:forEach items="${requestScope.ar}" varStatus="vs" var="vo2">
+                    <c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
                     <tr>
-                        <td>${vs.index+1}</td>
+                        <td>${num-vs.index}</td>
                         <td>${vo2.sf_name}</td>
 
                         <%-- 사용권한이 1(교수)인 사람만
@@ -75,7 +76,8 @@
                             <td></td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '1'}"> <%-- 권한을 여러개 갖을 수 있으므로, 가장 높은 권한부터 순차적으로 확인하여 출력 --%>
-                            <td><span id="director">최고 관리자</span></td>
+                            <td><span id="director">최고
+                                <br/>관리자</span></td>
                         </c:if>
                         <c:if test="${vo2.sf_tmgr eq '0'}">
                             <c:if test="${vo2.sf_mgr eq '1'}">
@@ -139,7 +141,7 @@
                     <li><a href="traincurrent">과정별 훈련생 현황</a></li>
                     <li><a href="trainupload">훈련생확인서류등록</a></li>
                     <li><a href="trainconfirm">훈련생확인서류관리</a></li>
-                    <li><a href="suggestionList?cPage=1">고충 및 건의사항</a></li>
+                    <li><a href="suggestionList?cPage=1">Q&A</a></li>
                     <li><a href="boardMainList">게시판</a></li>
                 </ul>
             </li>
@@ -155,29 +157,21 @@
                 <a href="em_log?listSelect=1&cPage=1" class="menu2">평가관리</a>
                 <ul class="sub_manu2">
                     <li><a href="em_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;과목별 평가설정</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;과목별 채점결과보기</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;훈련생 종합 성적표</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;능력단위 분석표</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;훈련생 개별 성적표</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;능력단위별 분석표</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;능력단위별 종합평가서</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;편차 비교표</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;평가결과분석</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;평가결과회의록</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;능력단위별평가지</a></li>
-                    <li><a href="">&nbsp;&nbsp;&nbsp;시험지파일등록</a></li>
+                    <li><a href="em_log?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;과목별 채점결과보기</a></li>
+                    <li><a href="em_log?listSelect=3&cPage=1">&nbsp;&nbsp;&nbsp;훈련생 종합 성적표</a></li>
+                    <li><a href="em_log?listSelect=4&cPage=1">&nbsp;&nbsp;&nbsp;훈련생 개별 성적표</a></li>
+                    <li><a href="em_log?listSelect=5&cPage=1">&nbsp;&nbsp;&nbsp;시험지파일등록</a></li>
                 </ul>
             </li>
-           
             <li>
                 <a href="" class="menu2">사후관리</a>
                 <ul class="sub_manu2">
-                    <li><a href="f_log?listSelect=1&cPage=1" id="l_one">일일취업보고</a></li>
-                    <li><a href="f_log?listSelect=2&cPage=1" id="l_two">취업현황보고</a></li>
-                    <li><a href="f_log?listSelect=3&cPage=1" id="l_three">사후관리현황</a></li>
-                    <li><a href="f_log?listSelect=4&cPage=1" id="l_four">사후관리현황표</a></li>
-                    <li><a href="f_log?listSelect=5&cPage=1" id="l_five">취업확인서</a></li>
-                    <li><a href="f_log?listSelect=6&cPage=1" id="l_six">전체취업생현황</a></li>
+                    <li><a href="f_log?listSelect=1&cPage=1" >일일취업보고</a></li>
+                    <li><a href="f_log?listSelect=2&cPage=1" >취업현황보고</a></li>
+                    <li><a href="f_log?listSelect=3&cPage=1" >사후관리현황</a></li>
+                    <li><a href="f_log?listSelect=4&cPage=1" >사후관리현황표</a></li>
+                    <li><a href="f_log?listSelect=5&cPage=1" >취업확인서</a></li>
+                    <li><a href="f_log?listSelect=6&cPage=1" >전체취업생현황</a></li>
 
                     
                 </ul>
@@ -196,4 +190,112 @@
         </ul>
     </div>
   
+</c:if>
+<c:if test="${admin_menu eq 'counseling'}">
+    <div id="counseling_div">
+        <div>
+            <h2 class="title">문의내역</h2>
+            <div class="main_item align_right">
+                <button type="button" class="btn" id="allinquiry">전체 문의내역 보기</button>
+            </div>
+            <c:if test="${fn:length(ar1) < 5}">
+                <c:forEach begin="0" end="${fn:length(ar1)-1}" varStatus="vs">
+                    <article onclick="inquiry('${ar1[vs.index].ac_idx}')">${ar1[vs.index].ac_title}(${fn:substring(ar1[vs.index].ac_write_date, 0, 10)})
+                        <span>
+                            <c:if test="${ar1[vs.index].ac_answer_date ne null}">
+                                답변<input type="checkbox" checked readonly disabled/>
+                            </c:if>
+                            <c:if test="${ar1[vs.index].ac_answer_date eq null}">
+                                답변:<input type="checkbox" readonly disabled/>
+                            </c:if>
+                        </span>
+                    </article>
+                </c:forEach>
+            </c:if>
+            <c:if test="${fn:length(ar1) >= 5}">
+                <c:forEach begin="0" end="4" varStatus="vs">
+                    <article onclick="inquiry('${ar1[vs.index].ac_idx}')" >${ar1[vs.index].ac_title}(${fn:substring(ar1[vs.index].ac_write_date, 0, 10)})
+                        <span>
+                            <c:if test="${ar1[vs.index].ac_answer_date ne null}">
+                                답변<input type="checkbox" checked readonly disabled/>
+                            </c:if>
+                            <c:if test="${ar1[vs.index].ac_answer_date eq null}">
+                                답변:<input type="checkbox" readonly disabled/>
+                            </c:if>
+                        </span>
+                    </article>
+                </c:forEach>
+            </c:if>
+        </div>
+
+        <div>
+            <h2 class="title">상담내역</h2>
+            <div class="main_item align_right">
+                <button type="button" class="btn" id="allconsult">전체 상담내역 보기</button>
+            </div>
+
+            <c:if test="${fn:length(ar2) < 5}">
+                <c:forEach begin="0" end="${fn:length(ar2)-1}" varStatus="vs">
+                    <article onclick="consult('${ar2[vs.index].ac_idx}')">${ar2[vs.index].ac_name} / ${ar2[vs.index].ac_phone} / ${ar2[vs.index].ac_email}
+                        <span>
+                            <c:if test="${ar2[vs.index].ac_answer_date ne null}">
+                                연락:<input type="checkbox" checked disabled/>
+                            </c:if>
+                            <c:if test="${ar2[vs.index].ac_answer_date eq null}">
+                                연락:<input type="checkbox" readonly disabled/>
+                            </c:if>
+                        </span>
+                    </article>
+                </c:forEach>
+            </c:if>
+            <c:if test="${fn:length(ar2) >= 5}">
+                <c:forEach begin="0" end="4" varStatus="vs">
+                    <article onclick="consult('${ar2[vs.index].ac_idx}')">${ar2[vs.index].ac_name} / ${ar2[vs.index].ac_phone} / ${ar2[vs.index].ac_email}
+                        <span>
+                            <c:if test="${ar2[vs.index].ac_answer_date ne null}">
+                                연락:<input type="checkbox" checked disabled/>
+                            </c:if>
+                            <c:if test="${ar2[vs.index].ac_answer_date eq null}">
+                                연락:<input type="checkbox" readonly disabled/>
+                            </c:if>
+                        </span>
+                    </article>
+                </c:forEach>
+            </c:if>
+        </div>
+    </div>
+    <div id="inquiry_ajax" hidden>
+        <h2 class="title">문의 리스트</h2>
+        <div style="text-align: center; font-size: 12px;">문의가 답변되지 않은 경우 꼭 문의 답변을 남겨주세요.</div>
+        <c:forEach var="inquiryVO" items="${ar1}" varStatus="vs">
+            <article onclick="inquiry('${inquiryVO.ac_idx}')" >${inquiryVO.ac_title}(${fn:substring(inquiryVO.ac_write_date, 0, 10)})
+                <span>
+                    <c:if test="${consultVO.ac_answer_date ne null}">
+                        답변<input type="checkbox" checked readonly disabled/>
+                    </c:if>
+                    <c:if test="${consultVO.ac_answer_date eq null}">
+                        답변:<input type="checkbox" readonly disabled/>
+                    </c:if>
+                </span>
+            </article>
+            
+        </c:forEach>
+    </div>
+    <div id="consult_ajax" hidden>
+        <h2 class="title">상담 리스트</h2>
+        <div style="text-align: center; font-size: 12px;">예비 훈련생과 연락후 상담일정을 잡으신경우 등록해주세요.</div>
+        <c:forEach var="consultVO" items="${ar2}" varStatus="vs">
+            <article onclick="consult('${consultVO.ac_idx}')">${consultVO.ac_name} / ${consultVO.ac_phone} / ${consultVO.ac_email}
+                <span>
+                    <c:if test="${consultVO.ac_answer_date ne null}">
+                        연락:<input type="checkbox" checked disabled/>
+                    </c:if>
+                    <c:if test="${consultVO.ac_answer_date eq null}">
+                        연락:<input type="checkbox" readonly disabled/>
+                    </c:if>
+                </span>
+            </article>
+            
+        </c:forEach>
+    </div>
 </c:if>
