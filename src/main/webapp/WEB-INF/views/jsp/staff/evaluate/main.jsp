@@ -307,7 +307,6 @@
             }
         }
         function evaInfo(s_idx) {
-            console.log("1213");
             $.ajax({
                 url: "diary_ajax_ss",
                 type:"post",
@@ -317,12 +316,22 @@
             });
         }
 
+        function examInput(s_idx) {
+            $.ajax({
+                url: "diary_ajax_ss",
+                type:"post",
+                data:"listSelect=2&cPage=1&c_idx="+c_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#courseLog_Table").html(result);
+            });
+        }
+
         function editEI(idx){
             $("#dialog").dialog("open");
             $.ajax({
-                url: "es_dialog",
+                url: "es_dialog_s",
                 type:"post",
-                data:"es_idx="+idx+"&s_idx="+s_idx,
+                data:"es_idx="+idx+"&s_idx="+s_idx+"&c_idx="+c_idx,
             }).done(function(result){
                 $("#dialog").html(result);
                 $("#cc_cancle").click(function(){
@@ -378,7 +387,7 @@
             
 			if( confirm("삭제하시겠습니까?")){
 			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
+                location.href = "delEvaluationStatus_s?es_idx="+es_idx+"&s_idx="+s_idx+"&c_idx="+c_idx;
 			}else{
                 return;
             }
@@ -401,6 +410,82 @@
 			width: 1200,
 			modal: true,
         });
+
+        function addEvidence(){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=1",
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
+        }
+        function viewExam(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2",
+                type:"post",
+                data:"listSelect=2&es_idx="+es_idx+"&s_idx="+s_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
+        }
+
+        function editExam(es_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "es_dialog2_s",
+                type:"post",
+                data:"listSelect=5&es_idx="+es_idx+"&s_idx="+s_idx+"&c_idx="+c_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+                
+            });
+        }
+
+        function edit(idx, t, score, num){
+            let v = 0;
+            let id = "qt_score";
+            for(let i=0;i < num; i++){
+                v += Number($("input[name='"+ id +"']").eq(i).val()); // ... 정수로 변환해서 계산...
+                console.log(v + "캥");
+            }
+            if(score != v){
+                alert("총점:" + score + " 배분값:" + v);
+                alert("총점보다 값이 크거나 작습니다. 점수를 다시 배분해주세요!");
+                return ;
+            }
+            if(t == "2"){ // 객관식이 있을 경우에만 병합 실행
+
+                id = "qt_select";
+                let box = $("#box").html();
+                let k ="";
+                for(let i=1; i<=idx; i++ ){
+                    let a = "";
+                    for(let j = 0;j < $("input[name='" + id + i + "']").length;){
+                        a += $("input[name='" + id + i + "']").eq(j).val();
+                        if(++j < $("input[name='" + id + i + "']").length){
+                            a += "│"; // 객관식 문항을 구분하기 위한 구분자이므로 잘 쓰지않는 특수기호를 골라서 사용함
+                        }
+                    }
+                    k += "<input type='hidden' value='" + a + "' name='qt_select' />";
+                }
+                $("#box").html(box + k);
+            } // 주관식 및 서술형의 경우 즉시 이부분으로 옴
+            $("#frm").submit();
+        }
+        
+        function delExam(idx){
+            if(confirm("삭제하시겠습니까?")){
+                alert("삭제되었습니다.")
+                location.href="delExam_s?es_idx="+idx+"&s_idx="+s_idx+"&c_idx="+c_idx;
+            } else{
+                return;
+            }
+        }
 
        
         
