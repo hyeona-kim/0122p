@@ -3,7 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="title">
-    문의 - ${asvo.ac_title}
+    
+    문의 - ${asvo.ac_title}(${cvo.c_name})
 </div>
 <div class="main_item" >
     <textarea class="textarea" style="width: 100%;" rows="12" disabled>${asvo.ac_content}</textarea>

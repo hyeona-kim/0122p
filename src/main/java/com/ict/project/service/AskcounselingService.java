@@ -30,5 +30,14 @@ public class AskcounselingService {
     public int updateASK(String ac_idx,String ac_answer_date,String ac_answer){
         return as_mapper.updateASK(ac_idx, ac_answer_date, ac_answer);
     }
+    public AskcounselingVO[] todayconsult(String today){
+        AskcounselingVO[] ar = null;
 
+        List<AskcounselingVO> list = as_mapper.todayconsult(today);
+        if(list != null && !list.isEmpty()){
+            ar = new AskcounselingVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
 }

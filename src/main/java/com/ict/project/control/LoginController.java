@@ -259,7 +259,7 @@ public class LoginController {
     }
     @RequestMapping("getCountast")
     @ResponseBody
-    public Map<String,Object> getCountast(String select,String list,String c_idx) {
+    public Map<String,Object> getCountast(String select,String list,String c_idx,String today) {
         Map<String,Object> map = new HashMap<>();
         //System.out.println(select);
         AskcounselingVO[] ar1 = null;
@@ -319,20 +319,42 @@ public class LoginController {
             if(c_idx == null || c_idx.trim().length() ==0){
                 c_idx = null;
             }
-            ar1 = as_Service.getASK(null, null, "0",c_idx);
-            ar2 = as_Service.getASK(null, null, "1",c_idx);
+            if(today == null){
+                ar1 = as_Service.getASK(null, null, "0",c_idx);
+                ar2 = as_Service.getASK(null, null, "1",c_idx);
+            }else{
+                DecimalFormat df = new DecimalFormat("00");
+                Calendar currentCalendar = Calendar.getInstance();
+                String strYear = Integer.toString(currentCalendar.get(Calendar.YEAR));
+                String strMonth = df.format(currentCalendar.get(Calendar.MONTH) + 1);
+                String strDay = df.format(currentCalendar.get(Calendar.DATE));
+                String strDate = strYear + "-"+strMonth + "-"+strDay;
+
+                ar1 =  as_Service.getASK(strDate, strDate, "0",c_idx);
+                ar2 = as_Service.getASK(strDate, strDate, "1",c_idx);
+            }
 
             map.put("inquiry", ar1);
             map.put("consult", ar2);
             return map;
         }
     }
+
+    @RequestMapping("getconsult")
+    @ResponseBody
+    public Map<String,Object> getconsult(String today) {
+        Map<String,Object> map = new HashMap<>();
+        //System.out.println(select);
+        AskcounselingVO[] ar2 = as_Service.todayconsult(today);
+        map.put("consult", ar2);
+        return map ;
+    }
     @RequestMapping("selectASK")
     public ModelAndView selectASK(String ac_idx) {
         ModelAndView mv = new ModelAndView();
         AskcounselingVO asvo = as_Service.selectASK(ac_idx);
         String viewPath = "";
-       
+        
         if(asvo.getAc_type().equals("0")){
             //문의인경우
             viewPath = "/jsp/admin/inquiry_ajax";
@@ -340,8 +362,10 @@ public class LoginController {
             //상담인경우
             viewPath= "/jsp/admin/consult_ajax";
         }
+        CourseVO cvo = c_Service.getCourse2(asvo.getC_idx());
        
         mv.setViewName(viewPath);
+        mv.addObject("cvo", cvo);
         mv.addObject("asvo", asvo);
 
         return mv;

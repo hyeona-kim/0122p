@@ -4,7 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-- 상담-->
 <!--ac_idx, ac_name, ac_phone, ac_email, ac_title, ac_content, ac_write_date, ac_type, ac_gender, m_id, ac_answer, ac_answer_date-->
-<h2 class="title">상담내역</h2>
+<h2 class="title">
+    
+    상담내역(${cvo.c_name}과정)
+</h2>
 <table class="table">
     
     <tr>

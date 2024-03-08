@@ -28,5 +28,8 @@
 		</trim>
 		where ac_idx = #{ac_idx}
 	</update>
-
+	<select id="todayconsult" parameterType='String' resultType='com.ict.project.vo.AskcounselingVO'>
+		select * from askcounseling_t 
+		where ac_answer_date = #{today} and ac_type = 1
+	</select>
 </mapper>

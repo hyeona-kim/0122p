@@ -8,4 +8,5 @@ public interface AskcounselingMapper {
     List<AskcounselingVO> getASK(String beforedate,String enddate,String type,String c_idx);
     AskcounselingVO selectASK(String ac_idx);
     int updateASK(String ac_idx,String ac_answer_date,String ac_answer);
+    List<AskcounselingVO> todayconsult(String today);
 }

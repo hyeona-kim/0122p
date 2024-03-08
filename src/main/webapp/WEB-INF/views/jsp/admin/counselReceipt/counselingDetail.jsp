@@ -42,7 +42,7 @@
                         <div id="cd_div" class="main_item data" style="display: none;">
                             <h3>${now} 금일 상담 예정자</h3>
                             <div id="cd_div2">
-                                <h4>금일 처리할 데이터가 없습니다</h4>
+                                
                             </div>
                         </div>
                         <p id="hd_btn" class="main_item align_right">
@@ -169,6 +169,30 @@
                 data:"listSelect="+encodeURIComponent('${param.listSelect}')+"&cPage="+encodeURIComponent('${param.cPage}'),
             }).done(function(result){
                 $("#counselReceipt_Table").html(result);
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = ("0" + (1 + date.getMonth())).slice(-2);
+                var day = ("0" + date.getDate()).slice(-2);
+                
+                var today = year + "-" + month + "-" + day;
+                $.ajax({
+                    url:"getconsult",
+                    type:"post",
+                    data:"today="+today,
+                    dataType:"json"
+                }).done(function(res){
+                    let consult_ar = res.consult; //일일상담
+                    let str = "";
+                    if(consult_ar == null){
+                        str+="<div class='data'>금일 상담 예정자가 없습니다.</div>"
+                    }else{
+                        for(let i =0; i<consult_ar.length;i++){
+                            str+="<div class='data'>"+(i+1)+". "+consult_ar[i].ac_name+"("+consult_ar[i].ac_phone+")"+"</div>"
+                        }
+                    }
+                    $("#cd_div2").html(str);
+                });
+
             });
 
             let now = new Date();	// 현재 날짜 및 시간
