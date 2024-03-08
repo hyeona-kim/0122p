@@ -10,8 +10,10 @@ import com.ict.project.mapper.TestMapper;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.MemberVO;
+import com.ict.project.vo.QnaVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.AskcounselingVO;
+import com.ict.project.vo.CommVO;
 
 @Service
 public class TestService {
@@ -115,7 +117,7 @@ public class TestService {
         return t_Mapper.addaskcounseling(vo);
     }
 
-    public int qnawrite(MemberVO vo){
+    public int qnawrite(QnaVO vo){
         return t_Mapper.qnawrite(vo);
     }
 
@@ -128,5 +130,56 @@ public class TestService {
         }
         return ar;
     }
+
+    public int count(String qname){
+        return t_Mapper.count(qname);
+    }
+
+    public QnaVO[] getList(String qname,String begin, String end){
+        QnaVO[] ar = null;
+
+        List<QnaVO> list = t_Mapper.qnalist(qname,begin, end);
+
+        if(list != null && !list.isEmpty()){
+            ar = new QnaVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+   
+     // 기본키로 검색하는 기능
+    public QnaVO getqna(String qna_idx){
+        return t_Mapper.getqna(qna_idx);
+    }
+
+    // 게시물 추가 
+    public int addqna(QnaVO vo){
+        return t_Mapper.addqna(vo);
+    }
+
+    public int addComm(CommVO vo){
+        return t_Mapper.addComm(vo);
+    }
+
+    public int del(String qna_idx){
+        return t_Mapper.del(qna_idx);
+    }
+
+    public int edit(QnaVO vo){
+        return t_Mapper.edit(vo);
+    }
+
+    public CommVO[] cList(String qna_idx){
+        CommVO[] ar = null;
+
+        List<CommVO> list = t_Mapper.commList(qna_idx);
+        if(list != null && !list.isEmpty()){
+            ar = new CommVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
 
 }

@@ -3,13 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.project.mapper.TestMapper">
-	
+
+<resultMap type="com.ict.project.vo.QnaVO" id="map1">
+<result property="qna_idx" column="qna_idx"/> <!-- 기본키 값 채워주기 -->
+<collection property="c_list" ofType="com.ict.project.vo.CommVo" select="commList" column="qna_idx"/>
+
+</resultMap>
+
+<resultMap type="com.ict.project.vo.CourseTypeVO" id="Map2">
+<result property="ct_idx" column="ct_idx"/>
+<collection property="c_ar" ofType="com.ict.project.vo.CourseVO" select="ctList" column="ct_idx"/>
+</resultMap>
+
 	<select id="login" parameterType="String" resultType="com.ict.project.vo.MemberVO">
 		select * from member_t
 		where m_id = #{m_id}
 	</select>
 
-    <select id="getCtList" resultType="com.ict.project.vo.CourseTypeVO">
+    <select id="getCtList" resultMap="Map2">
         select * from course_type_t
     </select>
 
@@ -68,9 +79,9 @@
         values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
     </insert>
 
-    <insert id="qnawrite" parameterType="com.ict.project.vo.MemberVO">
-        insert into member_t (m_title,m_content,m_write_date,m_qstatus)
-        values (#{m_title}, #{m_content}, Now(),1)
+    <insert id="qnawrite" parameterType="com.ict.project.vo.QnaVO">
+        insert into qna_t (qna_title,qna_content,qna_write_date,status,m_id,qna_writer,qname)
+        values (#{qna_title}, #{qna_content}, Now(),0,#{m_id},#{qna_writer},'q')
     </insert>
 
     <select id="getmember" parameterType="String" resultType="com.ict.project.vo.MemberVO">
@@ -78,6 +89,56 @@
         where m_id = #{m_id}
     </select>
 
-    
+    <!-- 게시판 페이지에 갯수 보이게하는 select문 -->
+    <select id="qnalist" resultMap="map1" parameterType="Map">
+        select * from (select @RN:=@RN+1 as rnum, a.* from(select * from qna_t
+	    where status = 0 AND qname = #{qname}
+	    ORDER BY qna_idx desc) a, (Select @RN:=0) b) c where c.rnum between #{begin} and #{end}
+    </select>
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+	<select id="count" resultType="int" parameterType="String">
+		select count(*) from qna_t
+		where status = 0 AND qname = #{qname}
+	</select>
+	
+	<!-- qna_idx를 인자로 받아서 해당 qna_idx를 참조하는 댓글들을 반환하는 select -->
+	<select id="commList" resultType="com.ict.project.vo.CommVO" parameterType="String">
+		select * from comm_t where qna_idx = #{qna_idx} and status = 0
+	</select>
+	
+	<!-- 원글 저장 -->
+	<insert id="addqna" parameterType="com.ict.project.vo.QnaVO">
+		insert into qna_t(qna_title, qna_writer, qna_content, qna_write_date,status)
+		values(#{qna_title}, #{qna_writer}, #{qna_content}, now(),0)
+	</insert>
+	
+	<!-- 원글 보기 -->
+	<select id="getqna" parameterType="String" resultMap="map1">
+		select * from qna_t
+		where qna_idx = #{qna_idx}
+	</select>
+	<!-- 댓글 저장 -->
+	<insert id="addComm" parameterType="com.ict.project.vo.CommVO">
+		INSERT INTO comm_t(cm_writer, cm_content, cm_write_date, qna_idx, status)
+		VALUES(#{qna_writer}, #{qna_content}, NOW(), #{qna_idx}, 0)
+	</insert>
+	<!-- 수정 -->
+	<update id="edit" parameterType="com.ict.project.vo.QnaVO">
+		update qna_t 
+		<trim prefix="SET" suffixOverrides=",">
+		qna_content =#{qna_content},
+		</trim>
+		where qna_idx = #{qna_idx}
+	</update>
+	
+	<!-- 원글 삭제 status값을 1로 변경 -->
+	<update id="del" parameterType="String">
+		update qna_t
+		set status = 1
+		where qna_idx = #{qna_idx} 
+	</update>
+	
+
 
 </mapper>
