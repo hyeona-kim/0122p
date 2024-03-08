@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.TestMapper">
+
+
+<resultMap type="com.ict.project.vo.QnaVO" id="map3">
+<result property="qna_idx" column="qna_idx"/> <!-- 기본키 값 채워주기 -->
+<collection property="c_list" ofType="com.ict.project.vo.CommVo" select="commList" column="qna_idx"/>
+
+</resultMap>
+
+<resultMap type="com.ict.project.vo.CourseTypeVO" id="Map2">
+<result property="ct_idx" column="ct_idx"/>
+<collection property="c_ar" ofType="com.ict.project.vo.CourseVO" select="ctList" column="ct_idx"/>
+</resultMap>
+
+
+    <resultMap type="com.ict.project.vo.CourseVO" id="map1">
+		<result column="c_idx" property="c_idx" />
+		<association property="svo" column="sf_idx" javaType="com.ict.project.vo.StaffVO" select="staff"></association>
+	</resultMap>
+
+    <!-- resultMap에 쓰이는 select문 (staff 테이블 가져오기) -->
+    <select id="staff" resultType="com.ict.project.vo.StaffVO" parameterType="String">
+		select * from staff_t where sf_idx=#{str}
+	</select>
+	
+
+	<select id="login" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+		select * from member_t
+		where m_id = #{m_id}
+	</select>
+
+    <select id="getCtList" resultMap="Map2">
+        select * from course_type_t
+    </select>
+
+    <select id="getSfList" resultType="com.ict.project.vo.StaffVO">
+        select * from staff_t
+        where status = 0 and sf_link = 0
+    </select>
+
+    <select id="ctList" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+        select * from course_t
+        where c_status = 0 and ct_idx = #{ct_idx}
+        order by start_date desc
+    </select>
+
+    <select id="searchCourse" parameterType="Map" resultType="com.ict.project.vo.CourseVO">
+        select * from course_t
+        where c_status = 0 and c_name like concat('%', #{c_name}, '%') and ct_idx = #{ct_idx}
+        order by start_date desc
+    </select>
+
+    <insert id="addAsk" parameterType="com.ict.project.vo.AskcounselingVO">
+		insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content, ac_write_date, ac_type, ac_title)
+		values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, now(), 0, #{ac_title})
+    </insert>
+
+    <insert id="regMember" parameterType="com.ict.project.vo.MemberVO">
+        insert into member_t (m_id, m_pw, m_email, m_phone, m_name)
+        values (#{m_id}, #{m_pw}, #{m_email}, #{m_phone}, #{m_name})
+    </insert>
+
+    <select id="checkSameId" parameterType="String" resultType="int">
+        select count(*) from member_t
+        where m_id = #{m_id}
+    </select>
+
+    <select id="checkSameEmail" parameterType="String" resultType="int">
+        select count(*) from member_t
+        where m_email = #{m_email}
+    </select>
+
+    <select id="myCourse" parameterType="String" resultType="com.ict.project.vo.CourseVO">
+        select d.* from 
+            (select a.*, b.c_idx from (select * from member_t where m_id = #{m_id}) a, trainee_t b
+            where b.tr_idx = a.tr_idx) c, course_t d
+        where c.c_idx = d.c_idx
+    </select>
+
+    <update id="editMyInfo" parameterType="com.ict.project.vo.MemberVO">
+        update member_t
+        <trim prefix="set" suffixOverrides=",">
+            m_pw = #{m_pw},
+			      m_email = #{m_email},
+            m_phone = #{m_phone},
+            m_name = #{m_name},
+            m_addr = #{m_addr}
+		</trim>
+        where m_id = #{m_id}
+    </update>
+
+    <update id="editTrainee" parameterType="com.ict.project.vo.TraineeVO">
+        update trainee_t
+        <trim prefix="set" suffixOverrides=",">
+            tr_name = #{tr_name},
+			tr_phone = #{tr_phone},
+            tr_addr = #{tr_addr}
+		</trim>
+        where tr_idx = #{tr_idx}
+    </update>
+
+    <select id="getMember" parameterType="String">
+        select * from member_t
+        where m_id = #{m_id}
+    </select>
+
+    <select id="getCourseVO" parameterType="String" resultMap="map1">
+        select * from course_t
+        where c_idx = #{c_idx}
+    </select>
+
+    <insert id="enrollCourse" parameterType="com.ict.project.vo.TraineeVO">
+        insert into trainee_t (tr_name, tr_rrn, tr_phone, tr_addr, c_idx, tr_nowstatus)
+        values (#{tr_name}, #{tr_rrn}, #{tr_phone}, #{tr_addr}, #{c_idx}, 0)
+    </insert>
+
+    <select id="getTraineeVO" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+        select * from trainee_t
+        where tr_phone = #{tr_phone}
+    </select>
+
+    <update id="updateTrIdx" parameterType="Map">
+        update member_t
+            <trim prefix="set" suffixOverrides=",">
+                tr_idx = #{tr_idx},
+            </trim>
+        where m_id = #{m_id}
+    </update>
+
+    <select id="trBookList" parameterType="String" resultType="com.ict.project.vo.TrainingBookVO">
+        select * from training_book_t
+        where tb_status = 0 and c_idx = #{c_idx}
+    </select>
+
+    <select id="checkEmail" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+        select * from member_t
+        where m_email = #{m_email}
+    </select>
+  
+    <insert id="addaskcounseling" parameterType="com.ict.project.vo.AskcounselingVO">
+        insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content,ac_write_date,ac_type,ac_gender)
+        values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
+    </insert>
+
+    <insert id="qnawrite" parameterType="com.ict.project.vo.QnaVO">
+        insert into qna_t (qna_title,qna_content,qna_write_date,status,m_id,qna_writer,qname)
+        values (#{qna_title}, #{qna_content}, Now(),0,#{m_id},#{qna_writer},'q')
+    </insert>
+
+    <select id="getmember" parameterType="String" resultType="com.ict.project.vo.MemberVO">
+        select * from member_t
+        where m_id = #{m_id}
+    </select>
+
+
+    <!-- 게시판 페이지에 갯수 보이게하는 select문 -->
+    <select id="qnalist" resultMap="map3" parameterType="Map">
+        select * from (select @RN:=@RN+1 as rnum, a.* from(select * from qna_t
+	    where status = 0 AND qname = #{qname}
+	    ORDER BY qna_idx desc) a, (Select @RN:=0) b) c where c.rnum between #{begin} and #{end}
+    </select>
+
+    <!-- 총 게시물 수를 반환하는 기능 -->
+	<select id="count" resultType="int" parameterType="String">
+		select count(*) from qna_t
+		where status = 0 AND qname = #{qname}
+	</select>
+	
+	<!-- qna_idx를 인자로 받아서 해당 qna_idx를 참조하는 댓글들을 반환하는 select -->
+	<select id="commList" resultType="com.ict.project.vo.CommVO" parameterType="String">
+		select * from comm_t where qna_idx = #{qna_idx} and status = 0
+	</select>
+	
+	<!-- 원글 저장 -->
+	<insert id="addqna" parameterType="com.ict.project.vo.QnaVO">
+		insert into qna_t(qna_title, qna_writer, qna_content, qna_write_date,status)
+		values(#{qna_title}, #{qna_writer}, #{qna_content}, now(),0)
+	</insert>
+	
+	<!-- 원글 보기 -->
+	<select id="getqna" parameterType="String" resultMap="map3">
+		select * from qna_t
+		where qna_idx = #{qna_idx}
+	</select>
+	<!-- 댓글 저장 -->
+	<insert id="addComm" parameterType="com.ict.project.vo.CommVO">
+		INSERT INTO comm_t(cm_writer, cm_content, cm_write_date, qna_idx, status)
+		VALUES(#{qna_writer}, #{qna_content}, NOW(), #{qna_idx}, 0)
+	</insert>
+	<!-- 수정 -->
+	<update id="edit" parameterType="com.ict.project.vo.QnaVO">
+		update qna_t 
+		<trim prefix="SET" suffixOverrides=",">
+		qna_content =#{qna_content},
+		</trim>
+		where qna_idx = #{qna_idx}
+	</update>
+	
+	<!-- 원글 삭제 status값을 1로 변경 -->
+	<update id="del" parameterType="String">
+		update qna_t
+		set status = 1
+		where qna_idx = #{qna_idx} 
+	</update>
+	
+
+</mapper>

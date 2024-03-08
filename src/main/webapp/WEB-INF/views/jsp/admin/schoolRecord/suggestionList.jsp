@@ -54,21 +54,7 @@
                             <caption>고충 및 건의사항 검색 테이블</caption>
                             <%-- ===== 검색하는 부분 ===== --%>
                             <thead>
-                                <tr>
-                                    <th>검색</th>
-                                    <td>
-                                        <select id="search_tag" class="select">
-                                            <option value="subject">제목</option>
-                                            <option>작성자</option>
-                                        </select>
-                                        <input type="text" id="search_value" name="search_value" class="text"/>
-                                        <button type="button" id="search_btn" onclick="searchSugg()" class="btn">검색</button>
-                                    </td>
-                                    <th colspan="2">전체공지</th>
-                                    <td colspan="2">
-                                        <input type="checkbox" id="chk_btn" onchange="checkNotice()" class="btn"/>숨김
-                                    </td>
-                                </tr>
+                             
                             </thead>
                         </table>
 						<div class="main_item align_right"><button type="button" id="sug_add_btn" class="btn">글쓰기</button></div>

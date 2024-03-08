@@ -5,18 +5,18 @@
 <table class="table">
     <colgroup>
         <col width="5%"/>
-        <col width="5%"/>
+        <col width="8%"/>
+        <col width="7%"/>
+        <col width="7%"/>
+        <col width="7%"/>
         <col width="5%"/>
         <col width="7%"/>
-        <col width="3%"/>
-        <col width="5%"/>
-        <col width="5%"/>
         <col width="5%"/>
         <col width="5%"/>
         <col width="10%"/>
         <col width="7%"/>
-        <col width="8%"/>
-        <col width="30%"/>
+        <col width="7%"/>
+        <col width="20%"/>
     </colgroup>
     <thead>
         <tr>
@@ -37,13 +37,12 @@
     </thead>
 
 	<tbody>	
-        <c:if test="${es_ar eq null}">
+        <c:if test="${esvo eq null}">
             <td colspan="13">
-                등록된 과목이 존재하지 않습니다.
+                등록된 평가가 존재하지않습니다.
             </td>
         </c:if>
-        <c:if test="${es_ar ne null}">
-            <c:forEach var="esvo" items="${es_ar}" varStatus="vs">
+        <c:if test="${esvo ne null}">
                 <tr>
                     <td>${esvo.es_name}</td>
                     <td>능력단위명</td>
@@ -60,11 +59,11 @@
                     <td>
                         <button type="button" class="btn green" onclick="editEI('${esvo.es_idx}')">수정</button>
                         <input type="button" value="삭제" onclick="delEs('${esvo.es_idx}')" class="btn red" id="delEs_btn">
-                        <button type="button" class="btn blue" onclick="">응시확인</button>
+                        <button type="button" class="btn blue" onclick="checkExam2('${esvo.es_idx}')">응시확인</button>
                     </td>
 
                 </tr>
-            </c:forEach>
+
         </c:if>
 	</tbody>
 </table>

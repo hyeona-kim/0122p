@@ -9,8 +9,6 @@
 						<th><label>시험증빙 이미지</label></th>
 						<td>
 							<input type="file" name="" class="text" />
-							<input type="file" name="" class="text" />
-							<input type="file" name="" class="text" />
 						</td>
 					</tr>
 					<tr>

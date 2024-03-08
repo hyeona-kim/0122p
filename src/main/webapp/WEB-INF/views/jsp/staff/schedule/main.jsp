@@ -33,12 +33,12 @@
             <ul id="menu_list">
                 <li id='l_one'><a onclick="list(1)">훈련일지</a></li>
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
-                <li id='l_three'><a onclick="list(3)">상담관리</a></li>
-                <li id='l_four'><a onclick="list(4)">학적부</a></li>
+                <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
             </ul>
         </div>
         <div class="right">
+            <div class="main_item">**일정 수정 및 등록은 관리자만 가능합니다.(관리자권한이 있는경우 관리자모드로 전환 후 이용해주세요.)** </div>
             <div id="calendar2" class="main_item"></div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->
@@ -162,7 +162,7 @@
                 }
                 calendarEl = document.getElementById('calendar2');    
             calendar = new FullCalendar.Calendar(calendarEl,{  
-                height:"98%",  
+                height:"94%",  
                 headerToolbar:{
                     right:'today,prev,next',
                     center:'title',
@@ -177,7 +177,7 @@
                 {             
                     googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",        
                     className: 'korea_holiday',             
-                    color: 'white',
+                    color: '#dedede',
                     textColor:'red',           
                     editable: false,
                     eventClick:false,
@@ -237,7 +237,7 @@
                                 if(data.cnt ==1){
                                     alert("변경되었습니다.다시 로그인해주세요")
                                     $("#changePassword").dialog("close");
-                                    location.href ="logout";
+                                    location.href ="logoutlll";
                                 }else{
                                     alert("변경 실패")
                                     $("#changePassword").dialog("close");

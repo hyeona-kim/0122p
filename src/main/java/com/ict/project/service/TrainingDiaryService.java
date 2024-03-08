@@ -38,4 +38,31 @@ public class TrainingDiaryService {
     public int list_count(String c_idx){
         return td_mapper.list_count(c_idx);
     }
+    public int td_add(TrainingDiaryVO tdvo){
+        return td_mapper.add_td(tdvo);
+    }
+    public int del_td(String td_idx){
+        return td_mapper.del_td(td_idx);
+    }
+    public TrainingDiaryVO get_td(String td_idx){
+        return td_mapper.get_td(td_idx);
+    }
+    public int edit_td(TrainingDiaryVO tdvo){
+        return td_mapper.edit_td(tdvo);
+    }
+    public int sign_td(String td_idx,String td_sign,String sf_tmgr){
+        return td_mapper.sign_td(td_idx, td_sign,sf_tmgr);
+    }
+    public int main_td_count(){
+        return td_mapper.main_td_count();
+    }
+    public TrainingDiaryVO[] main_td(String begin,String end){
+        TrainingDiaryVO[] ar = null;
+        List<TrainingDiaryVO> list = td_mapper.main_td( begin, end);
+        if(list != null && !list.isEmpty()){
+            ar = new TrainingDiaryVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.AskcounselingService;
 import com.ict.project.service.CounselReceiptService;
 import com.ict.project.service.CounselingdetailService;
 import com.ict.project.service.CourseService;
@@ -34,6 +35,7 @@ import com.ict.project.service.StaffService;
 import com.ict.project.service.TraineeService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CounselReceiptVO;
 import com.ict.project.vo.EvaluationFactorVO;
 import com.ict.project.vo.InflowPathVO;
@@ -49,6 +51,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CounselReciptController {
@@ -86,7 +91,8 @@ public class CounselReciptController {
 
     @Autowired
     TraineeService tn_Service;
-
+    @Autowired
+    AskcounselingService as_Service;
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect, String year, String select) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -530,6 +536,7 @@ public class CounselReciptController {
                         tvo.setTr_nowstatus("취소");
                         break;
                     default:
+                        tvo.setTr_nowstatus("");
                         break;
                 }
 
@@ -733,5 +740,21 @@ public class CounselReciptController {
             mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
         return mv;
     }
-
+    @RequestMapping("counseling_main")
+    public ModelAndView counseling_main(String main,String c_idx) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("admin_menu", "counseling");
+        if(c_idx == null || c_idx.trim().length() ==0){
+            c_idx = null;
+        }
+         
+        AskcounselingVO[] ar1 = as_Service.getASK(null, null, "0",c_idx);
+        AskcounselingVO[] ar2 = as_Service.getASK(null, null, "1",c_idx);
+        
+        mv.addObject("ar1", ar1);
+        mv.addObject("ar2", ar2);
+        mv.setViewName("/jsp/admin/main_admin_ajax");
+        return mv;
+    }
+    
 }

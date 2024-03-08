@@ -63,9 +63,7 @@
         </article>
     </article>
     
-    <div id="dialog" hidden>
-        
-    </div>
+    <div id="dialog" hidden></div>
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -74,6 +72,7 @@
         let s_idx = "${svo.s_idx}";
         let es_idx = "${esvo.es_idx}";
         let c_idx = "${svo.c_idx}";
+        let listSelect = "";
         
         
         $(function() { 
@@ -84,27 +83,14 @@
             $.ajax({
                 url: "list_ajax",
                 type:"post",
-                data:"c_idx="+c_idx + "&es_idx="+es_idx,
+                data:"c_idx="+c_idx + "&es_idx="+es_idx + "&listSelect=1",
             }).done(function(result){
                 $("#courseLog_Table").html(result);
 
             });
         });
 
-        function grading(idx){
-            location.href = "TraineeScoreList?s_idx="+s_idx+"&es_idx="+idx;
-        }
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
-
+      
     </script>
 </body>
 </html>

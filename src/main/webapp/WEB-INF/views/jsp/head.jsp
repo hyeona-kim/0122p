@@ -43,7 +43,7 @@
                     <li><a href="traincurrent">&nbsp;&nbsp;&nbsp;과정별 훈련생 현황</a></li>
                     <li><a href="trainupload">&nbsp;&nbsp;&nbsp;훈련생확인서류등록</a></li>
                     <li><a href="trainconfirm">&nbsp;&nbsp;&nbsp;훈련생확인서류관리</a></li>
-                    <li><a href="suggestionList?cPage=1">&nbsp;&nbsp;&nbsp;고충 및 건의사항</a></li>
+                    <li><a href="suggestionList?cPage=1">&nbsp;&nbsp;&nbsp;Q&A</a></li>
                     <li><a href="boardMainList">&nbsp;&nbsp;&nbsp;게시판</a></li>
                 </ul>
             </li>
@@ -87,15 +87,16 @@
                 </a>
                 <ul class="sub_manu">
                     <li>사후관리</li>
-                    <li><a href="f_log?listSelect=1&cPage=1" >일일취업보고</a></li>
-                    <li><a href="f_log?listSelect=2&cPage=1" >취업현황보고</a></li>
-                    <li><a href="f_log?listSelect=3&cPage=1">사후관리현황</a></li>
-                    <li><a href="f_log?listSelect=4&cPage=1" >사후관리현황표</a></li>
-                    <li><a href="f_log?listSelect=5&cPage=1" >취업확인서</a></li>
-                    <li><a href="f_log?listSelect=6&cPage=1">전체취업생현황</a></li>
+                    <li><a href="f_log?listSelect=1&cPage=1" >&nbsp;&nbsp;&nbsp;일일취업보고</a></li>
+                    <li><a href="f_log?listSelect=2&cPage=1" >&nbsp;&nbsp;&nbsp;취업현황보고</a></li>
+                    <li><a href="f_log?listSelect=3&cPage=1">&nbsp;&nbsp;&nbsp;사후관리현황</a></li>
+                    <li><a href="f_log?listSelect=4&cPage=1" >&nbsp;&nbsp;&nbsp;사후관리현황표</a></li>
+                    <li><a href="f_log?listSelect=5&cPage=1" >&nbsp;&nbsp;&nbsp;취업확인서</a></li>
+                    <li><a href="f_log?listSelect=6&cPage=1">&nbsp;&nbsp;&nbsp;전체취업생현황</a></li>
 
                 </ul>
             </li>
+            <!--
             <li>
                 <a href="total?listSelect=1&cPage=1" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/totalManage_icon.png" alt="이미지"/>통합관리
@@ -106,6 +107,7 @@
                     <li><a href="total?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;과정별 학생관리</a></li>
                 </ul>
             </li>
+            -->
             <li>
                 <a href="staffList" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/etc_icon.png" alt="이미지"/>기타관리

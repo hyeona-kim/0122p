@@ -13,17 +13,10 @@ public class EvaluationStatusService {
     @Autowired
     private EvaluationStatusMapper es_Mapper;
 
-    public EvaluationStatusVO[] list(String s_idx) {
+    public EvaluationStatusVO subone(String s_idx) {
 
-        EvaluationStatusVO[] ar = null;
+        return es_Mapper.subone(s_idx);
 
-        List<EvaluationStatusVO> list = es_Mapper.list(s_idx);
-        if (list != null && list.size() > 0) {
-            ar = new EvaluationStatusVO[list.size()];
-            list.toArray(ar);
-        }
-
-        return ar;
     }
 
     public int edit(EvaluationStatusVO bvo) {
@@ -44,6 +37,10 @@ public class EvaluationStatusService {
 
     public int getSearchCount(String es_idx) {
         return es_Mapper.search_count(es_idx);
+    }
+
+    public int on_off(String es_idx, String es_testStatus){
+        return es_Mapper.on_off(es_idx, es_testStatus);
     }
 
 }

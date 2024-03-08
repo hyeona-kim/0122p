@@ -11,7 +11,7 @@
 	</resultMap>
 
     <select id="list" parameterType="String" resultType="com.ict.project.vo.GradeCheckVO">
-        select * from gradeCheck_t where tr_idx = #{tr_idx}
+        select * from (select g.*, q.es_idx from gradeCheck_t g, question_t q where g.qt_idx = q.qt_idx) as a where tr_idx = #{tr_idx} and es_idx = #{es_idx}
     </select>
 
     <select id="getOne" parameterType="String" resultMap="map1">
@@ -24,7 +24,7 @@
     <!-- 점수 및 답안에는 기본적으로 0, 'NONE'이 들어가니 주의 -->
     <!-- 응시여부는 답안에 'NONE'이 아닌 값이 들어갔을 경우임 -->
         INSERT INTO gradeCheck_t(qt_idx, gc_score, tr_idx, gc_answer, gc_status)
-			values(#{qt_idx}, 0, , #{tr_idx}, 'NONE', 0)
+			values(#{qt_idx}, 0, #{tr_idx}, 'NONE', 0)
     </insert>
 
     <select id="qtOne" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
@@ -73,7 +73,7 @@
 
 
     <select id="all_grade" parameterType="String" resultType="int"> <!-- 최종 성적. 답안 비교시 공백 제거를 위해 correct도 파라미터로 받음 -->
-        select sum(gc_score) from (select g.*, q.es_idx from gradeCheck_t g, question_t q where g.qt_idx = q.qt_idx) as a where tr_idx = #{tr_idx} and es_idx = #{es_idx}
+        select sum(gc_score) from (select g.*, q.es_idx from gradeCheck_t g, question_t q where g.qt_idx = q.qt_idx and q.qt_status = 0) as a where tr_idx = #{tr_idx} and es_idx = #{es_idx}
     </select>
 
 </mapper>

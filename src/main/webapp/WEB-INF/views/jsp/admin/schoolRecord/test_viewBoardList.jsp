@@ -32,10 +32,7 @@
 </head>
 <body>
 	<article>
-		<!-- <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include> -->
-		<div id="center">
-			<!-- <jsp:include page="./leftList.jsp"></jsp:include> -->
-			<div class="right">
+
 				<!--  여기서 표시될 테이블들 가지고오기 -->
 				<div id="staffWrap">
 					<!-- <div id="boList_top">과정별 게시판</div> -->

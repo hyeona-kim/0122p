@@ -68,6 +68,9 @@
             </div> 
         </article>
     </article>
+    <div id="dialog" hidden>
+
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -93,7 +96,7 @@
         
 	$(function() {
         $(".subSelect").removeClass("subClass");
-		$("#l_one").addClass("subSelect")
+		$("#l_three").addClass("subSelect")
         $.ajax({
 			url: "evalutationManageLog",
 			type:"post",
@@ -158,9 +161,23 @@
 			$("#courseLog_Table").html(result);
 		});
 	}
-	function trainingDaily(c_idx){
-		location.href="trainingDiary?c_idx="+c_idx;
-	}
+    function allGradeList(c_idx){
+        console.log(c_idx);
+        $("#dialog").dialog("open");
+        $.ajax({
+			url: "allGrade_ajax",
+			type:"post",
+			data:"c_idx="+c_idx,
+		}).done(function(result){
+			$("#dialog").html(result);
+		});
+    }
+    $("#dialog").dialog({
+        autoOpen: false,
+        maxHeight: 900,
+        width: 1200,
+        modal: true,
+    });
     </script>
 </body>
 </html>
