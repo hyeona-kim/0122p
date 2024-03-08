@@ -138,7 +138,7 @@
                 },                   
                 ],
                 events: events_ar,
-                editable: true,
+                editable: false,
                 //droppable을 사용할때 droppable true 드롭이벤트
                 droppable: true,
                 dateClick: function(info) { 
