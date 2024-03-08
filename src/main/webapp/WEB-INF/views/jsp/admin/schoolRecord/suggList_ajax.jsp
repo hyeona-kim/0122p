@@ -15,10 +15,8 @@
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
-				<th>첨부파일</th>
+				<th>작성일</th>
 				<th>작성자</th>
-				<th>등록일</th>
-				<th>조회수</th>
 			</tr>
 			<c:if test="${vo ne null}"> <%-- vo는 로그인 정보 --%>
 			<%-- ===== 로그인 정보가 있다면 반복문을 통해
@@ -28,22 +26,7 @@
 						<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 						<tr>
 							<td>${num-vs.index}</td>
-							<td align="left">
-								<%-- 전체공지로 클릭되었다면(notice가 1일때)
-								공지 마크가 추가되어야함 --%>
-								<c:if test="${svo.notice eq '1'}">
-									<span id="notice" class="btn red2 hover_none">공지</span>
-								</c:if>
-								<a href="javascript:viewContent(${svo.sg_idx})">
-									${svo.sg_subject}
-								</a>
-							</td>
-							<td>
-								<a href="javascript:download('${svo.sg_file_name}')">
-									${svo.sg_file_name}
-								</a>
-							</td>
-							<td>***</td>
+							<td align="left"></td>
 							<td>${svo.sg_write_date}</td>
 							<td>${svo.sg_hit}</td>
 						</tr>
