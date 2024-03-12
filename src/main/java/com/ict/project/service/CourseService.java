@@ -143,10 +143,13 @@ public class CourseService {
         return ar;
 
     }
+
     public int update_f_file(String f_file, String tr_idx) {
         return c_mapper.update_f_file(f_file, tr_idx);
     }
+
     public CourseVO[] staffSearchCourse(String sf_idx, String select, String value, String year, String begin, String end){
+
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.staffSearchCourse(sf_idx, select, value, year, begin, end);
@@ -157,8 +160,8 @@ public class CourseService {
 
         return ar;
     }
-    
-    public int staffSearchCourse_count(String sf_idx, String select, String value, String year){
+
+    public int staffSearchCourse_count(String sf_idx, String select, String value, String year) {
         return c_mapper.staffSearchCourse_count(sf_idx, select, value, year);
     }
 }

@@ -22,6 +22,7 @@ import com.ict.project.service.SuggestionService;
 import com.ict.project.service.TestService;
 import com.ict.project.util.FileRenameUtil;
 import com.ict.project.util.Paging;
+import com.ict.project.vo.CommVO;
 import com.ict.project.vo.QnaVO;
 import com.ict.project.vo.SuggestionVO;
 
@@ -69,16 +70,25 @@ public class SuggestionController {
 		QnaVO[] ar = t_Service.getList(qname,
 				String.valueOf(page.getBegin()),
 				String.valueOf(page.getEnd()));
-
-		System.out.println("qname=" + qname);
-
-		System.out.println("ar.length=" + ar.length);
-
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		mv.setViewName("/jsp/admin/schoolRecord/suggList_ajax");
 		return mv;
 	}
+
+	@RequestMapping("viewSugg_s")
+	public ModelAndView viewSugg_s(String qna_idx) {
+		ModelAndView mv = new ModelAndView();
+		QnaVO vo = t_Service.getqna(qna_idx);
+		mv.addObject("vo", vo);
+
+		CommVO[] cvo = t_Service.cList(qna_idx);
+		mv.addObject("cvo", cvo);
+
+		mv.setViewName("/jsp/admin/schoolRecord/view_ajax");
+		return mv;
+	}
+
 	//
 	//
 	//
