@@ -62,6 +62,16 @@ public class TestService {
         return ar;
     }
 
+    public QnaVO[] qnaall() {
+        QnaVO[] ar = null;
+        List<QnaVO> list = t_Mapper.qnaall();
+        if (list != null && !list.isEmpty()) {
+            ar = new QnaVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
     public CourseVO[] ctList(String ct_idx) {
         CourseVO[] ar = null;
 
@@ -178,13 +188,13 @@ public class TestService {
         }
         return ar;
     }
-    public int askcounseling(AskcounselingVO vo){
+
+    public int askcounseling(AskcounselingVO vo) {
 
         return t_Mapper.addaskcounseling(vo);
     }
 
-
-    public int qnawrite(QnaVO vo){
+    public int qnawrite(QnaVO vo) {
         return t_Mapper.qnawrite(vo);
     }
 
@@ -198,58 +208,55 @@ public class TestService {
         return ar;
     }
 
-
-    public int count(String qname){
+    public int count(String qname) {
         return t_Mapper.count(qname);
     }
 
-    public QnaVO[] getList(String qname,String begin, String end){
+    public QnaVO[] getList(String qname, String begin, String end) {
         QnaVO[] ar = null;
 
-        List<QnaVO> list = t_Mapper.qnalist(qname,begin, end);
+        List<QnaVO> list = t_Mapper.qnalist(qname, begin, end);
 
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             ar = new QnaVO[list.size()];
             list.toArray(ar);
         }
 
         return ar;
     }
-   
-     // 기본키로 검색하는 기능
-    public QnaVO getqna(String qna_idx){
+
+    // 기본키로 검색하는 기능
+    public QnaVO getqna(String qna_idx) {
         return t_Mapper.getqna(qna_idx);
     }
 
-    // 게시물 추가 
-    public int addqna(QnaVO vo){
+    // 게시물 추가
+    public int addqna(QnaVO vo) {
         return t_Mapper.addqna(vo);
     }
 
-    public int addComm(CommVO vo){
+    public int addComm(CommVO vo) {
         return t_Mapper.addComm(vo);
     }
 
-    public int del(String qna_idx){
+    public int del(String qna_idx) {
         return t_Mapper.del(qna_idx);
     }
 
-    public int edit(QnaVO vo){
+    public int edit(QnaVO vo) {
         return t_Mapper.edit(vo);
     }
 
-    public CommVO[] cList(String qna_idx){
+    public CommVO[] cList(String qna_idx) {
         CommVO[] ar = null;
 
         List<CommVO> list = t_Mapper.commList(qna_idx);
-        if(list != null && !list.isEmpty()){
+        if (list != null && !list.isEmpty()) {
             ar = new CommVO[list.size()];
             list.toArray(ar);
         }
         return ar;
     }
-
-
 
     public MemberVO checkEmail(String m_email) {
         return t_Mapper.checkEmail(m_email);

@@ -148,8 +148,8 @@ public class CourseService {
         return c_mapper.update_f_file(f_file, tr_idx);
     }
 
-    public CourseVO[] staffSearchCourse(String sf_idx, String select, String value, String year, String begin,
-            String end) {
+    public CourseVO[] staffSearchCourse(String sf_idx, String select, String value, String year, String begin, String end){
+
         CourseVO[] ar = null;
 
         List<CourseVO> list = c_mapper.staffSearchCourse(sf_idx, select, value, year, begin, end);
