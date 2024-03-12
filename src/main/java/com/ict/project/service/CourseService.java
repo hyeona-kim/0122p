@@ -145,7 +145,7 @@ public class CourseService {
     }
     public int update_f_file(String f_file, String tr_idx) {
         return c_mapper.update_f_file(f_file, tr_idx);
-
+    }
     public CourseVO[] staffSearchCourse(String sf_idx, String select, String value, String year, String begin, String end){
         CourseVO[] ar = null;
 
