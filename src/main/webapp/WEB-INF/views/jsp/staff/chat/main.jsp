@@ -3,13 +3,92 @@
 <!DOCTYPE html>
 <html>
 <head>
+ 
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main_staff.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/fullcalendar2.css"/>
 </head>
+<style>
+  #chat{
+    width: 800px;
+    height: 98%;
+    display: flex;
+    margin: auto;
+    margin-top: 5px;
+  }
+
+
+  #chat> div{
+    display: inline-block;
+    height: 100%;
+  }
+  #chat>div:first-child{
+    width: 150px;
+    background-color:#154790 ;
+    text-align: center;
+
+  }
+
+  #chat>div:first-child>#trainees{
+    overflow-y: scroll;
+    display: inline-block;
+    width: 100%;
+    height: 85%;
+  }
+  #chat>div:last-child{
+    width: 650px;
+    background-color: #dedede;
+  }
+  #chat>div:last-child>article{
+    width: 100%;
+    height: 7%;
+  
+    
+  }
+  #chat>div:last-child>article:first-child{
+    font-size: 30px;
+    line-height: 6.3vh;
+    text-align: center;
+    color: #154790;
+    font-weight: bold;
+  }
+  #chat>div:last-child>article:last-child{
+    display: flex;
+    height: 93%;
+  }
+  #chat>div:last-child>article:last-child>div{
+    display: inline-block;
+    height: 100%;
+    width: 50%;
+    border: 1px solid red;
+  }
+  #chat>div:first-child span{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 100px;
+    margin-top: 10px;
+  }
+    #chat>div:first-child>#trainees>.tr_name{
+        color: white;
+        font-weight: bold;
+        height: 30px;
+        line-height: 30px;
+    }
+  #chat>div:first-child>h2{
+    width: 100%;
+    border: 1px solid white;
+    margin: 0%;
+
+  }
+</style>
 <body bgcolor="#eeeeee"> 
     <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
     <div id="course_wrap">
@@ -38,14 +117,25 @@
             </ul>
         </div>
         <div class="right">
-        <hr/>
-            <div id="courseLog_Table">
-                <!--비동기 통신으로 가져올 내용 -->
+            <div><button type="button" onclick="location.href='ffffff'">채팅방이동</button></div>
+            <div id ="chat">
+                <div id="mem">
+                    <span>${vo.sf_name}</span>
+                    <h2></h2>
+                    <h4 id="trainees"></h4>
+                </div>
+                <div id="chat_content">
+                    <article id="c_name"></article>
+                    <article>
+                        <div id="your"></div>
+                        <div id="me"></div>
+                    </article>
+                </div>   
             </div>
         </div>
         
-          <!-- 비밀번호 변경을 위한 div -->
-          <div hidden id="checkPassword">
+        <!-- 비밀번호 변경을 위한 div -->
+        <div hidden id="checkPassword">
             <div class="title">
                 비밀번호 확인
             </div>
@@ -87,13 +177,15 @@
                     </tr>
                 </tfoot>
             </table>
-        </div>
+        </div>+
     </article>
     <div id="dialog" hidden></div>
     <div id="dialog2" hidden></div>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
+    <script src="${pageContext.request.contextPath }/js/lang/ko.js"></script>
+ 
     <script>
         //로그인된 강사 정보 가져오기
         let s_idx = "${vo.sf_idx}";
@@ -102,8 +194,16 @@
         $(function(){	
             c_idx = "${param.c_idx}";
             $(".selected").removeClass("selected")
-            $("#l_two").addClass("selected")
-            console.log(s_idx);
+            $("#l_six").addClass("selected")
+            
+            $.ajax({
+                url:"traineeList",
+                type: "post",
+                data: "c_idx="+c_idx,
+                dataType: "json",
+            }).done(function(res){
+                console.log(res);//trainees
+            });
             $.ajax({
                 url:"staffCourse",
                 type:"post",
@@ -112,16 +212,15 @@
             }).done(function(data){
                 let str = "";
                 if(data.c_ar != null){
-                    
                     for(let i =0; i<data.c_ar.length; i++){
-                        if(c_idx == data.c_ar[i].c_idx){
+                        if(c_idx ==data.c_ar[i].c_idx){
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"' selected>"+data.c_ar[i].c_name+"</option>";
+                            $("#c_name").html(data.c_ar[i].c_name)
                         }else{
                             str += "<option value ='"+data.c_ar[i].c_idx+"' class='op"+data.c_ar[i].c_idx+"'>"+data.c_ar[i].c_name+"</option>";
-
+                            
                         }
                     }
-                    
                 }else{
                     str = "<option>:::존재하는 과정이 없습니다:::</option>";
                     $("#menu_list").html("<li id='l_five'><a onclick='list(5)'>일정보기</a></li>");
@@ -129,29 +228,7 @@
                 }
             
                 $("#select_course").html(str);
-
-                $.ajax({
-                    url: "diary_ajax_s",
-                    type:"post",
-                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
-                }).done(function(result){
-                    $("#courseLog_Table").html(result);
-                    //체크박스
-                });
             });
-            $("#select_course").change(function(){
-                c_idx = this.value;
-                $.ajax({
-                    url: "diary_ajax_s",
-                    type:"post",
-                    data:"listSelect=1&cPage=1&c_idx="+c_idx,
-                }).done(function(result){
-                    $("#courseLog_Table").html(result);
-                });
-            });
-
-           
-
             /* 마이페이지 ul 띄우기 숨기기 */
             $("#my_page").mouseover(function(){
                 $("#mypage_ul").css("display","block")
@@ -167,8 +244,27 @@
             });
             $("#select_course").change(function(){
                 c_idx = this.value;
+                $("#c_name").html($(".op"+c_idx).html())
+                console.log(c_idx);
+                $.ajax({
+                    url:"traineeList",
+                    type: "post",
+                    data: "c_idx="+c_idx,
+                    dataType: "json",
+                }).done(function(res){
+                    console.log(res);//trainees
+                    let str="";
+                    if(res.tr_ar !=null){
+                        for(let i=0; i <res.tr_ar.length;i++){
+                            str+= "<div class='tr_name'>"+res.tr_ar[i].tr_name+"</div>"
+                        }
+                    }
+                    $("#trainees").html(str);
+                    
+                });
             }); 
         });
+   
         function changePass(){
             /*패스워드 바꾸기*/
             $("#checkPassword").dialog({
@@ -285,6 +381,7 @@
                     }
                 });
             });
+        
             
         }
         function cancle(str){
@@ -307,190 +404,7 @@
                 location.href = "staffMain?leftList=5&c_idx="+c_idx;
             }
         }
-        function evaInfo(s_idx) {
-            $.ajax({
-                url: "diary_ajax_ss",
-                type:"post",
-                data:"listSelect=1&cPage=1&c_idx="+c_idx+"&s_idx="+s_idx,
-            }).done(function(result){
-                $("#courseLog_Table").html(result);
-            });
-        }
 
-        function examInput(s_idx) {
-            $.ajax({
-                url: "diary_ajax_ss",
-                type:"post",
-                data:"listSelect=2&cPage=1&c_idx="+c_idx+"&s_idx="+s_idx,
-            }).done(function(result){
-                $("#courseLog_Table").html(result);
-            });
-        }
-
-        function editEI(idx){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "es_dialog_s",
-                type:"post",
-                data:"es_idx="+idx+"&s_idx="+s_idx+"&c_idx="+c_idx,
-            }).done(function(result){
-                $("#dialog").html(result);
-                $("#cc_cancle").click(function(){
-                    $("#dialog").dialog("close");
-                });
-                type = $("#selectType").val();
-                if(type == '1')
-                    $('#totalQuestions').val($("#q1").val());
-                else
-                    $("#totalQuestions").val($('#q2').val() + "/" + $('#q3').val());
-                console.log($("#totalQuestions").val());
-                $("#selectType").on("change", function(){
-                    type = $("#selectType").val();
-                    switch(type){
-                        case "1" :{
-                            $("#selectType1").show();
-                            $("#selectType2").hide();
-                            break;
-                        }
-                        case "2" :{
-                            $("#selectType1").hide();
-                            $("#selectType2").show();
-                            break;
-                        }
-            
-                    }
-                });
-                $("#q1, #q2, #q3").change(function() {
-                        console.log("type+"+type);
-                        // 필답형과 단답형 값이 변경될 때마다 합산하여 총 문항수 필드에 넣기
-                        if(type == "1"){
-                            $('#totalQuestions').val($("#q1").val());
-                        }
-                        else{
-                            $('#totalQuestions').val( $('#q2').val() + "/" + $('#q3').val()); // 합산된 값을 총 문항수 필드에 넣기
-                            console.log($('#totalQuestions').val());
-
-                        }
-                    });
-            });
-        }
-
-        $("#dialog").dialog({
-			autoOpen: false,
-			maxHeight: 900,
-			width: 1200,
-			modal: true,
-        });
-
-       
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus_s?es_idx="+es_idx+"&s_idx="+s_idx+"&c_idx="+c_idx;
-			}else{
-                return;
-            }
-		}
-
-        function traineeEvaList(es_idx){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "list_ajax_s",
-                type:"post",
-                data:"listSelect=1&es_idx="+es_idx+"&c_idx="+c_idx,
-            }).done(function(result){
-                $("#dialog").html(result);
-                
-            });
-        }
-        $("#dialog").dialog({
-			autoOpen: false,
-			maxHeight: 900,
-			width: 1200,
-			modal: true,
-        });
-
-        function addEvidence(){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "es_dialog2",
-                type:"post",
-                data:"listSelect=1",
-            }).done(function(result){
-                $("#dialog").html(result);
-             
-            });
-        }
-        function viewExam(es_idx){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "es_dialog2",
-                type:"post",
-                data:"listSelect=2&es_idx="+es_idx+"&s_idx="+s_idx,
-            }).done(function(result){
-                $("#dialog").html(result);
-             
-            });
-        }
-
-        function editExam(es_idx){
-            $("#dialog").dialog("open");
-            $.ajax({
-                url: "es_dialog2_s",
-                type:"post",
-                data:"listSelect=5&es_idx="+es_idx+"&s_idx="+s_idx+"&c_idx="+c_idx,
-            }).done(function(result){
-                $("#dialog").html(result);
-                
-            });
-        }
-
-        function edit(idx, t, score, num){
-            let v = 0;
-            let id = "qt_score";
-            for(let i=0;i < num; i++){
-                v += Number($("input[name='"+ id +"']").eq(i).val()); // ... 정수로 변환해서 계산...
-                console.log(v + "캥");
-            }
-            if(score != v){
-                alert("총점:" + score + " 배분값:" + v);
-                alert("총점보다 값이 크거나 작습니다. 점수를 다시 배분해주세요!");
-                return ;
-            }
-            if(t == "2"){ // 객관식이 있을 경우에만 병합 실행
-
-                id = "qt_select";
-                let box = $("#box").html();
-                let k ="";
-                for(let i=1; i<=idx; i++ ){
-                    let a = "";
-                    for(let j = 0;j < $("input[name='" + id + i + "']").length;){
-                        a += $("input[name='" + id + i + "']").eq(j).val();
-                        if(++j < $("input[name='" + id + i + "']").length){
-                            a += "│"; // 객관식 문항을 구분하기 위한 구분자이므로 잘 쓰지않는 특수기호를 골라서 사용함
-                        }
-                    }
-                    k += "<input type='hidden' value='" + a + "' name='qt_select' />";
-                }
-                $("#box").html(box + k);
-            } // 주관식 및 서술형의 경우 즉시 이부분으로 옴
-            $("#frm").submit();
-        }
-        
-        function delExam(idx){
-            if(confirm("삭제하시겠습니까?")){
-                alert("삭제되었습니다.")
-                location.href="delExam_s?es_idx="+idx+"&s_idx="+s_idx+"&c_idx="+c_idx;
-            } else{
-                return;
-            }
-        }
-
-       
-        
-        
     </script>
 </body>
 </html>
