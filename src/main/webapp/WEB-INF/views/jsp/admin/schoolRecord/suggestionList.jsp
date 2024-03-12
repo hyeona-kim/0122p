@@ -88,6 +88,9 @@
 	<div id="replyForm" hidden>
 	
 	</div>
+	<div id="dialog" hidden></div>
+
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="js/summernote-lite.js"></script>
@@ -271,6 +274,25 @@
 			document.downForm.fname.value = fname;
 			document.downForm.submit();
 		};
+
+		function openSugg(qna_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "viewSugg_s",
+                type:"post",
+                data:"qna_idx="+qna_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
+        }
+
+        $("#dialog").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
     </script>
 </body>
 </html>
