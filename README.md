@@ -24,5 +24,3 @@ Spring Boot, React, [Next.js](https://github.com/hyeona-kim/Main)를 이용한 �
 - **Database : Mysql 8.0 CE**
 - **ORM : Mybatis**
 
-## 📌 주요 기능 
-- 
