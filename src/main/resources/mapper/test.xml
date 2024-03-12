@@ -21,7 +21,7 @@
 
     <resultMap type="com.ict.project.vo.SubjectVO" id="map4">
 		<result column="s_idx" property="s_idx" />
-		<association property="evo" column="s_idx" javaType="com.ict.project.vo.EvaluationStatusVO" select="search_es"></association>
+		<association property="esvo" column="s_idx" javaType="com.ict.project.vo.EvaluationStatusVO" select="search_es"></association>
 	</resultMap>
 
     <select id="search_es" parameterType="String" resultType="com.ict.project.vo.EvaluationStatusVO">

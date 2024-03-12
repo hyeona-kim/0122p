@@ -74,6 +74,7 @@ public class TestController {
     private GradeCheckService g_Service;
     @Autowired
     private QuestionService q_Service;
+    @Autowired
     private SuggestionService s_Service;
 
     @RequestMapping("/login")
@@ -453,106 +454,6 @@ public class TestController {
         return map;
     }
 
-    @RequestMapping("/qna/getqnaList")
-    public Map<String, Object> list(String qname, String cPage) {
-        Map<String, Object> map = new HashMap<>();
-        int nowPage = 1;
-
-        if (qname == null)
-            qname = "q";
-
-        if (cPage != null)
-            nowPage = Integer.parseInt(cPage);
-
-        int totalRecord = t_Service.count(qname);
-
-        Paging2 page = new Paging2(
-                nowPage, totalRecord, 7, 5);
-
-        nowPage = page.getNowPage();
-        // 페이징에 필요한 HTML코드를 받아낸다.
-        String pageCode = page.getSb().toString();
-        // ---------------------------------------------------
-
-        // 뷰페이지에서 표현할 목록 가져오기
-        String begin = String.valueOf(page.getBegin());
-        String end = String.valueOf(page.getEnd());
-        QnaVO[] ar = t_Service.getList(qname, begin, end);
-
-        // ModelAndView에 뷰페이지에서 필요한 정보들을 저장한다.
-        map.put("ar", ar);
-        map.put("page", page);
-        map.put("pageCode", pageCode);
-        map.put("totalRecord", totalRecord);
-        map.put("nowPage", nowPage);
-        map.put("qname", qname);
-        map.put("blockList", page.getBlockList());
-
-        return map;
-    }
-
-    @RequestMapping("/qna/view")
-    public Map<String, Object> view(String qna_idx, String cPage, String qname) {
-        Map<String, Object> map = new HashMap<>();
-
-        HttpSession session = request.getSession(true);
-
-        // 세션에 read_list라는 이름으로 등록된 ArrayList<BbsVO>를 얻어낸다.
-        Object obj = session.getAttribute("read_list");
-        ArrayList<QnaVO> list = null;
-        if (obj != null)
-            list = (ArrayList<QnaVO>) obj;
-        else
-            list = new ArrayList<>();
-
-        // 받은 인자들 중 b_idx가 기본키이므로 게시물 얻어내는
-        // 조건으로 사용하자!
-        QnaVO vo = t_Service.getqna(qna_idx);
-
-        // 이미 읽었던 게시물인지? 확인하자!
-        boolean chk = false;
-        for (QnaVO qvo : list) {
-            if (qvo.getQna_idx().equals(qna_idx)) {
-                chk = true;
-                break;// 탈출
-            }
-        } // for의 끝
-
-        // chk가 true이면 이미 읽었던 게시물이다. 즉 할일이 없다.
-        // if (!chk) {
-        // int hit = Integer.parseInt(vo.getHit()) + 1;
-        // vo.setHit(String.valueOf(hit));
-
-        // // b_Service.updateHit(vo); //DB수정
-        // }
-
-        map.put("vo", vo);
-
-        return map;
-    }
-
-    @RequestMapping("/qna/del")
-    public Map<String, Object> del(String qna_idx) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.del(qna_idx);
-        map.put("res", cnt);
-        System.out.println(qna_idx);
-        return map;
-    }
-
-    @RequestMapping("/qna/edit")
-    public Map<String, Object> edit(QnaVO vo) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.edit(vo);
-        map.put("res", cnt);
-        System.out.println(cnt);
-        return map;
-    }
-
     @RequestMapping("/qna/comm")
     public Map<String, Object> comm(CommVO vo) {
 
@@ -633,6 +534,7 @@ public class TestController {
 
         // 채점이 끝난 후 총 점수를 반환한다
         int totalScore = g_Service.all_grade(es_idx, tr_idx);
+        map.put("totalScroe", totalScore);
         return map;
     }
 
@@ -783,30 +685,6 @@ public class TestController {
         map.put("res", cnt);
         System.out.println(cnt);
         return map;
-    }
-
-    @RequestMapping("/qna/comm")
-    public Map<String, Object> comm(CommVO vo) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.addComm(vo);
-        map.put("res", cnt);
-
-        return map;
-    }
-
-    @RequestMapping("/qna/commList")
-    public Map<String, Object> commList(String qna_idx) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        CommVO[] ar = t_Service.cList(qna_idx);
-
-        map.put("ar", ar);
-
-        return map;
-
     }
 
 }
