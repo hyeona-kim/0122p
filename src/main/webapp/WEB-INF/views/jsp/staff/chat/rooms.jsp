@@ -38,7 +38,6 @@
 
         if(roomName != null && roomName.trim().length)
             alert(roomName + "방이 개설되었습니다.");
-
         
     });
 </script>
