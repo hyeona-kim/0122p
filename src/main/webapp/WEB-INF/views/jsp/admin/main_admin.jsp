@@ -82,15 +82,15 @@
                             <tr>
                                 <th>문의</th>
                                 <th>상담</th>
-                                <th>등록</th>
+                                <th>교재결제</th>
                             </tr>
                             <tr>
-                                <td>(0)건</td>
-                                <td>(0)건</td>
-                                <td>(0)건</td>
+                                <td id="inquiry">(0)건</td>
+                                <td id="consult">(0)건</td>
+                                <td id="bookpay">(0)건</td>
                             </tr>
                             <tr>
-                                <th colspan="3">결제 총액 (0)원</th>
+                                <th colspan="3" id="total_pay">결제 총액 (0)원</th>
                             </tr>
                         </table>
                     </article>
@@ -125,7 +125,6 @@
             <article>
                 <div class="select" id="1">교직원 관리</div>
                 <div class="select" id="2">입학상담관리</div>
-                <div class="select" id="3">사후관리</div>
                 <div class="select" id="4">전체메뉴보기</div>
             </article>
         </div>    
@@ -154,6 +153,9 @@
             <input type="button" class="btn i_btn" value="취소" onclick="closeC()"/>
         </div>
     </div>
+    <div id="detailCI" hidden>
+
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="${pageContext.request.contextPath }/js/fullcalendar.js"></script>
@@ -163,6 +165,7 @@
         let i = '${sessionScope.vo.sf_idx}';
         let t = '${sessionScope.vo.sf_tmgr}';
         let m = '${sessionScope.vo.sf_mgr}'; 
+        let day_select = 0;
         let calendarEl =null;
         let calendar = null;
         let ar = [];
@@ -181,11 +184,12 @@
     
             // [이벤트 등록 함수 호출]
             init2();
-    
+            
             // [화면 조절 함수 호출]
             canvasResize();
 
             init();
+            init3();
             $.ajax({
                 url :"http://localhost:5000/list",
                 type:"get",
@@ -260,7 +264,25 @@
             clock();
             setInterval(clock, 1000);
         }
-
+        function init3() {
+            getInfo();
+            setInterval(getInfo, 60000);
+        }
+        function getInfo(){
+            console.log(day_select);
+            $.ajax({
+                url:"getCountast",
+                type:"post",
+                data:"select="+day_select,
+                dataType:"json"
+            }).done(function(res){
+                console.log(res);
+                $("#inquiry").html(res.inquiry+"건");
+                $("#consult").html(res.consult+"건");
+                $("#bookpay").html(res.bookpay+"건");
+                $("#total_pay").html("총 결제금액 "+res.total_pay+"원")
+            });
+        }
         $(function(){
             
             $.ajax({
@@ -393,7 +415,33 @@
                         $("#menu").html(res);
                     });
                 }else if(select =="2"){
-                    $("#menu").html("입학상담관리");
+                    //$("#menu").html("입학상담관리");
+                    $.ajax({
+                        url :"counseling_main",
+                        type:"post",
+                        data:"main=counseling&cPage=1"
+                    }).done(function(res){
+                        $("#menu").html(res);
+                        //inquiry_ajax consult_ajax (->목록뽑기)
+                        $("#allinquiry").click(function(){
+                            $("#inquiry_ajax").dialog({
+                                width: 680,
+                                maxHeight:900,
+                                position: { my: "center top", at: "center top" },
+                                modal:true,
+                            })
+                            
+                        });
+                        $("#allconsult").click(function(){
+                            $("#consult_ajax").dialog({
+                                width: 680,
+                                maxHeight:900,
+                                position: { my: "center top", at: "center top" },
+                                modal:true,
+                            })
+                            
+                        });
+                    });
                 }else if( select =="3"){
                     $("#menu").html("사후관리");
                 }else if( select =="4"){
@@ -408,8 +456,8 @@
                 }
             });
             $("#day_select").change(function(){
-                console.log("날짜가 바뀌는 영역"+this.value)
-                ///////////////////////////수정 예정
+                day_select = this.value;
+                getInfo();
             });
         });
         function paging(cPage){
@@ -953,7 +1001,86 @@
             // 컨텍스트 리셋
             ctx.beginPath();
         }
-     
+        function consult(str){
+            //기본키를 가져온다 상담을 가져와서 띄어준다.
+            console.log("상담"+str);
+            $.ajax({
+                url:"selectASK",
+                type:"post",
+                data:"ac_idx="+str,
+            }).done(function(res){
+                $("#detailCI").dialog({
+                    width:700,
+                    maxHeight:900,
+                    position: { my: "center top", at: "center top" },
+                    modal:true,
+                });
+                $("#detailCI").html(res);
+                $("#c_add_btn").click(function(){
+                    let ac_answer_date = $("#ac_answer_date").val();
+                    let ac_idx = $("#ac_idx").val();
+                    if(ac_answer_date.length ==0 ){
+                        alert("날짜을 입력하세요.")
+                        $("#ac_answer_date").focus();
+                        $("#ac_answer_date").val("");
+                        return;
+                    }
+
+                    $.ajax({
+                        url:"updateCI",
+                        data:"ac_answer_date="+ac_answer_date+"&ac_idx="+ac_idx,
+                        type:"post"
+                    }).done(function(data){
+                        if(data.cnt ==1){
+                            alert("저장되었습니다.")
+                        }else{
+                            alert("저장실패")
+                        }
+                        location.reload(true);
+                    });
+                })
+            }); 
+        }
+        function inquiry(str){
+            console.log("문의"+str);
+            // 기본키를 가져온다 문의를 가져와서 띄어준다.
+            $.ajax({
+                url:"selectASK",
+                type:"post",
+                data:"ac_idx="+str,
+            }).done(function(res){
+                $("#detailCI").dialog({
+                    width:700,
+                    maxHeight:900,
+                    position: { my: "center top", at: "center top" },
+                    modal:true,
+                });
+                $("#detailCI").html(res);
+                $("#i_add_btn").click(function(){
+                    let ac_answer = $("#ac_answer").val();
+                    let ac_idx = $("#ac_idx").val();
+                    if(ac_answer.length ==0 ){
+                        alert("날짜을 입력하세요.")
+                        $("#ac_answer").focus();
+                        $("#ac_answer").val("");
+                        return;
+                    }
+
+                    $.ajax({
+                        url:"updateCI",
+                        data:"ac_answer="+ac_answer+"&ac_idx="+ac_idx,
+                        type:"post"
+                    }).done(function(data){
+                        if(data.cnt ==1){
+                            alert("저장되었습니다.")
+                        }else{
+                            alert("저장실패")
+                        }
+                        location.reload(true);
+                    });
+                })
+            }); 
+        }
     </script>
 </body>
 </html>

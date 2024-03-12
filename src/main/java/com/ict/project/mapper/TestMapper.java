@@ -60,6 +60,8 @@ public interface TestMapper {
 
     List<MemberVO> getmember(String m_id);
 
+    List<QnaVO> qnaall();
+    //
     int count(String qname);
 
     List<QnaVO> qnalist(String qname, String begin, String end);

@@ -12,7 +12,7 @@
 	<association property="ctvo" column="ct_idx" javaType="com.ict.project.vo.CourseTypeVO" select="courseType"></association>
 </resultMap>
 
-<select id="all" resultType="com.ict.project.vo.TraineeVO">
+<select id="all" resultMap="map1">
 	select * from trainee_t
 </select>
 
@@ -34,6 +34,7 @@
 <update id="trainedit" parameterType="String">
 	update trainee_t
 	<set>
+		tr_nowstatus = #{tr_nowstatus},
 		tr_name = #{tr_name},
 		tr_rrn = #{tr_rrn},
 		tr_phone = #{tr_phone},
@@ -48,12 +49,13 @@
 		<if test="tr_card != null">tr_card = #{tr_card},</if>
 		<if test="tr_pos_code !=null">tr_pos_code = #{tr_pos_code},</if>
 		<if test="tr_addr != null">tr_addr = #{tr_addr},</if>
-		t_path = #{t_path},
-		file_name = #{file_name},
-		ori_name = #{ori_name}
+		<if test="file_name != null">file_name = #{file_name},</if>
+		<if test="ori_name != null">ori_name = #{ori_name},</if>
+		t_path = #{t_path}
 	</set>
 	where tr_idx = #{tr_idx}
 </update>
+
 
 <select id="getcard" resultType="com.ict.project.vo.TraineeVO">
 	select * from trainee_t order by tr_idx
@@ -231,6 +233,40 @@
  <select id="getEs" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
 		select * from trainee_t
 		where status = 0 and es_idx = #{es_idx}
+</select>
+
+<select id="follwup" parameterType="Map" resultMap="map1">
+	select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select t.* from trainee_t t, course_t c
+				<where>
+					<trim suffixOverrides="and">
+						    t.status = 0 and t.c_idx = c.c_idx and
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
+					</trim>
+				</where>
+				order by tr_idx desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between #{begin} and #{end}
+</select>
+
+
+<select id="follwupcount" parameterType="Map" resultType="int">
+	select count(*) 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select t.* from trainee_t t, course_t c
+				<where>
+					<trim suffixOverrides="and">
+						    t.status = 0 and t.c_idx = c.c_idx and
+							<if test="select !=null and select == 3">c_name like concat('%', #{value}, '%') and</if>
+							<if test="select !=null and select == 4">tr_name like concat('%', #{value}, '%') and</if>
+					</trim>
+				</where>
+				order by tr_idx desc
+			)a ,(select @RN:=0) b) c 
 </select>
 
 

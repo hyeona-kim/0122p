@@ -36,7 +36,7 @@
 					</tr>
 					<tr>
 						<th><label>능력단위명/수준</label></th>
-						<td>${esvo.sk_idx} / ${esvo.es_level}</td>
+						<td>${svo.us_name} / ${esvo.es_level}</td>
 						<th><label>평가시간</label></th>
 						<td>${esvo.es_time}</td>
 					</tr>

@@ -66,6 +66,10 @@ public class CourseService {
         return c_mapper.getCourse2(c_idx);
     }
 
+    public CourseVO getCourse3(String c_idx) {
+        return c_mapper.getCourse3(c_idx);
+    }
+
     // 과정 삭제하는 기능
     public int deleteCourse(String c_idx) {
         return c_mapper.del(c_idx);
@@ -138,5 +142,26 @@ public class CourseService {
         }
         return ar;
 
+    }
+
+    public int update_f_file(String f_file, String tr_idx) {
+        return c_mapper.update_f_file(f_file, tr_idx);
+    }
+
+    public CourseVO[] staffSearchCourse(String sf_idx, String select, String value, String year, String begin, String end){
+
+        CourseVO[] ar = null;
+
+        List<CourseVO> list = c_mapper.staffSearchCourse(sf_idx, select, value, year, begin, end);
+        if (list != null && list.size() > 0) {
+            ar = new CourseVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public int staffSearchCourse_count(String sf_idx, String select, String value, String year) {
+        return c_mapper.staffSearchCourse_count(sf_idx, select, value, year);
     }
 }

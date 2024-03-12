@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.project.mapper.AskcounselingMapper">
+	<select id="getASK" parameterType='Map' resultType='com.ict.project.vo.AskcounselingVO'>
+		select * from askcounseling_t 
+		<trim suffixOverrides="and">
+		where 
+			ac_type = #{type} and 
+			<if test ="beforedate != null">Date(ac_write_date) between #{beforedate} and #{enddate} and </if>
+			<if test="c_idx != null">and c_idx = #{c_idx}</if>
+		</trim>
+		order by ac_write_date desc
+	</select>
+	<select id="selectASK" parameterType='String' resultType='com.ict.project.vo.AskcounselingVO'>
+		select * from askcounseling_t 
+		where ac_idx = #{ac_idx}
+	</select>
+	<update id="updateASK" parameterType="Map">
+		update askcounseling_t
+		<trim suffixOverrides=",">
+			set 
+			ac_answer_date = #{ac_answer_date},
+			<if test="ac_answer != null">
+				ac_answer = #{ac_answer},
+			</if>
+		</trim>
+		where ac_idx = #{ac_idx}
+	</update>
+	<select id="todayconsult" parameterType='String' resultType='com.ict.project.vo.AskcounselingVO'>
+		select * from askcounseling_t 
+		where ac_answer_date = #{today} and ac_type = 1
+	</select>
+</mapper>

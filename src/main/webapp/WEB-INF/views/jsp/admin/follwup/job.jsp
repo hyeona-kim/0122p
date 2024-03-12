@@ -171,6 +171,8 @@
             $(this).css("display","none");
         });
         $(function(){
+            $(".subSelect").removeClass("subSelect");
+            $("#l_one").addClass("subSelect");
             $.ajax({
 				url: "job",
 				type: "post",

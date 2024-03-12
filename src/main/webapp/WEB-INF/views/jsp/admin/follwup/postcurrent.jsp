@@ -13,7 +13,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 <body>
-    <article class="logo"><img alt="로고" src="${pageContext.request.contextPath }/image/ict_logo.png" /></article>
+    <article>
+		<jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/top_head.jsp"></jsp:include>
+	</article>
     <article class="bottom">
         <article>
             <jsp:include page="${pageContext.request.contextPath }/WEB-INF/views/jsp/head.jsp"></jsp:include>
@@ -48,11 +50,15 @@
                         <tbody>
             <form name="fff" method="post" action="cudel">
                 <input type="hidden" name="c_idx" value="${c_idx}">
-                    <c:forEach var="vo7" items="${requestScope.ar }" varStatus="vs">
+                    <c:forEach var="vo7" items="${aa.tr_ar}" varStatus="vs">
                     	<c:set var="num" value="${page.totalRecord - ((page.nowPage-1) * page.numPerPage) }"/>
                         <tr>
                             <c:if test="${vo7.file_name eq null}">
-                                <td></td>
+                                <td>
+                                    <div style="width: 100px;height: 100px; border:1px solid #ababab;line-height: 100px;margin: auto;">
+                                        NO-IMAGE
+                                    </div>
+                                </td>
                             </c:if>
                             <c:if test="${vo7.file_name ne null}">
                             <td><img src="${pageContext.request.contextPath }/upload_file/${vo7.file_name}" width="100" height="100"></td>
@@ -69,7 +75,7 @@
                                 <input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
                             
                             <input type="button" id="fset" onclick="mange('${vo7.tr_idx}','${aa.c_idx}')" value="사후관리" class="btn">
-                            <input type="button" id="fset" value="사후취업지원" class="btn">
+                            <input type="button" id="fset2" value="사후취업지원" class="btn">
                             
                             </td>
                         </tr>
@@ -110,7 +116,7 @@
         });
         $(function() {
 			$(".subSelect").removeClass("subSelect");
-			$("#l_two").addClass("subSelect");
+			$("#l_three").addClass("subSelect");
 			let ar = $(".sts");
 			for(let k=0; k<ar.length;k++){
 				//console.log($("#nowstatus"+k).val());
@@ -165,13 +171,16 @@
 			height:600
 		});
 	}
+    function editform(fl_form){
+        fl_form.submit();
+    }
 
 	
 	function mange(tt,tt1){
 		$.ajax({
-            url: "mangecard",
+            url: "fl_mangecard",
             type: "post",
-            data:"tr_idx="+tt+"&c_idx="+tt1+"&select="+select,
+            data:"tr_idx="+tt+"&c_idx="+tt1
          }).done(function(result){
             $("#m1").html(result);
          });

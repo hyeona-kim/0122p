@@ -6,7 +6,7 @@ import com.ict.project.vo.EvaluationStatusVO;
 
 public interface EvaluationStatusMapper {
 
-    List<EvaluationStatusVO> list(String s_idx);
+    EvaluationStatusVO subone(String s_idx);
 
     int edit(EvaluationStatusVO esvo);
 
@@ -18,4 +18,5 @@ public interface EvaluationStatusMapper {
 
     int search_count(String es_idx);
 
+    int on_off(String es_idx, String es_testStatus);
 }

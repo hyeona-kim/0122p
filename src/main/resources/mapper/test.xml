@@ -34,6 +34,7 @@
 		select * from staff_t where sf_idx=#{str}
 	</select>
 	
+
 	<select id="login" parameterType="String" resultType="com.ict.project.vo.MemberVO">
 		select * from member_t
 		where m_id = #{m_id}
@@ -151,7 +152,12 @@
         insert into askcounseling_t (ac_name, ac_phone, ac_email, ac_content,ac_write_date,ac_type,ac_gender)
         values (#{ac_name}, #{ac_phone}, #{ac_email}, #{ac_content}, Now(), 1,#{ac_gender})
     </insert>
-
+  
+    <select id="qnaall" resultType="com.ict.project.vo.QnaVO">
+        select * from qna_t
+        where status = 0 
+    </select>
+  
     <insert id="qnawrite" parameterType="com.ict.project.vo.QnaVO">
         insert into qna_t (qna_title,qna_content,qna_write_date,status,m_id,qna_writer,qname)
         values (#{qna_title}, #{qna_content}, Now(),0,#{m_id},#{qna_writer},'q')
@@ -211,7 +217,7 @@
 		set status = 1
 		where qna_idx = #{qna_idx} 
 	</update>
-
+  
     <select id="mySubject" parameterType="String" resultMap="map4">
         select * from subject_t
         where c_idx = #{c_idx} and s_status = 0

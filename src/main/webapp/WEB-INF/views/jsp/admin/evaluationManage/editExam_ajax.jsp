@@ -10,7 +10,12 @@
 			<thead>
 				<h2>총점: ${esvo.es_totalScore}</h2>
 			</thead >
-            <c:set var="num" value="${n1+n2}"/>
+            <c:if test="${esvo.es_type ne 2}">
+				<c:set var="num" value="${esvo.es_num_question}"/>
+            </c:if>
+            <c:if test="${esvo.es_type eq 2}">
+				<c:set var="num" value="${n1+n2}"/>
+            </c:if>
             <c:forEach var="qvo" items="${esvo.qt_ar}" varStatus="vs">
             <input type="hidden" value="${qvo.qt_idx}" name="qt_idx"/>
             <tbody>

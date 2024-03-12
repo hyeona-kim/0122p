@@ -35,6 +35,7 @@
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
                 <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
+                <li id='l_six'><a onclick="list(6)">채팅방</a></li>
             </ul>
         </div>
         <div class="right">
@@ -237,7 +238,7 @@
                                 if(data.cnt ==1){
                                     alert("변경되었습니다.다시 로그인해주세요")
                                     $("#changePassword").dialog("close");
-                                    location.href ="logout";
+                                    location.href ="logoutlll";
                                 }else{
                                     alert("변경 실패")
                                     $("#changePassword").dialog("close");
@@ -327,8 +328,8 @@
                 location.href = "staffMain?leftList=1&c_idx="+c_idx;
             }else if(num =="2"){
                 location.href = "staffMain?leftList=2&c_idx="+c_idx;
-            }else if(num =="3"){
-                location.href = "staffMain?leftList=3&c_idx="+c_idx;
+            }else if(num =="6"){
+                location.href = "staffMain?leftList=6&c_idx="+c_idx;
             }else if(num =="4"){
                 location.href = "staffMain?leftList=4&c_idx="+c_idx;
             }else if(num =="5"){

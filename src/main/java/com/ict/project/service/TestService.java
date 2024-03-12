@@ -64,6 +64,16 @@ public class TestService {
         return ar;
     }
 
+    public QnaVO[] qnaall() {
+        QnaVO[] ar = null;
+        List<QnaVO> list = t_Mapper.qnaall();
+        if (list != null && !list.isEmpty()) {
+            ar = new QnaVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
     public CourseVO[] ctList(String ct_idx) {
         CourseVO[] ar = null;
 

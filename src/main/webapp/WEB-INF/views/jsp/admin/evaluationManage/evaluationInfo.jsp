@@ -46,7 +46,9 @@
                             <div id="staffList_top" class="title">"${svo.s_title}"평가기본정보</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
-                                    <button id="add_btn" type="button" class="btn" onclick="">평가기본정보등록</button>
+                                    <c:if test="${esvo eq null}">
+                                        <button id="add_btn" type="button" class="btn" onclick="">평가기본정보등록</button>
+                                    </c:if>
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
                                 </div>
                             </div>

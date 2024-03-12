@@ -477,25 +477,29 @@ public class TraineeController {
          mv.addObject("c_idx", c_idx);
          mv.addObject("vo2", vo2);
          mv.addObject("vo9", vo);
-         if (tvo.getT_path() != null) {
-            if (tvo.getT_path().contains("인터넷"))
-               mv.addObject("ch1", true);
-            if (tvo.getT_path().contains("전단지"))
-               mv.addObject("ch2", true);
-            if (tvo.getT_path().contains("현수막"))
-               mv.addObject("ch3", true);
-            if (tvo.getT_path().contains("생활정보지"))
-               mv.addObject("ch4", true);
-            if (tvo.getT_path().contains("고용지원센터"))
-               mv.addObject("ch5", true);
-            if (tvo.getT_path().contains("직접내방"))
-               mv.addObject("ch6", true);
-            if (tvo.getT_path().contains("지인소개"))
-               mv.addObject("ch7", true);
-            if (tvo.getT_path().contains("HRD"))
-               mv.addObject("ch8", true);
-            if (tvo.getT_path().contains("기타"))
-               mv.addObject("ch9", true);
+         if (vo.getT_path() != null) {
+            if (vo.getT_path().contains("인터넷"))
+               mv.addObject("t_path1", 1);
+            if (vo.getT_path().contains("전단지"))
+               mv.addObject("t_path2", 2);
+            if (vo.getT_path().contains("현수막")){
+               mv.addObject("t_path3", 3);
+            }
+            if (vo.getT_path().contains("생활정보지")){
+               mv.addObject("t_path4", 4);
+            }
+            if (vo.getT_path().contains("고용지원센터")){
+               mv.addObject("t_path5", 5);
+            }
+            if (vo.getT_path().contains("직접내방")){
+               mv.addObject("t_path6", 6);
+            }
+            if (vo.getT_path().contains("지인소개"))
+               mv.addObject("t_path7", 7);
+            if (vo.getT_path().contains("HRD"))
+               mv.addObject("t_path8", 8);
+            if (vo.getT_path().contains("기타"))
+               mv.addObject("t_path9", 9);
          }
          viewPath = "jsp/admin/schoolRecord/traineeEdit";
       } else if (enc_type != null && enc_type.startsWith("multipart")) {
@@ -521,15 +525,23 @@ public class TraineeController {
             } catch (Exception e) {
                e.printStackTrace();
             }
+         }else{
+            tvo.setOri_name(null);
+            tvo.setFile_name(null);
          }
 
          String str = tvo.getTr_addr();
+         
          String[] aa = str.split(",");
          str = "";
-         for (String bb : aa) {
-            str += bb;
+         if(aa.length == 0){
+            tvo.setTr_addr(null);
+         }else{
+            for (String bb : aa) {
+               str += bb+" ";
+            }
+            tvo.setTr_addr(str);
          }
-         tvo.setTr_addr(str);
 
          int cnt = t_Service.trainedit(tvo);
          viewPath = ("redirect:traineecurrentbt1?c_idx=" + c_idx);
@@ -726,7 +738,10 @@ public class TraineeController {
 
       mv.addObject("wvo", wvo);
       mv.addObject("qvo", qvo);
-      mv.addObject("length", qvo.length);
+      if (qvo != null)
+         mv.addObject("length", qvo.length);
+      else
+         mv.addObject("length", 0);
       mv.addObject("tfvo", tfvo);
       mv.addObject("tr_idx", tr_idx);
       mv.addObject("c_idx", c_idx);

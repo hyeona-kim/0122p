@@ -54,21 +54,7 @@
                             <caption>고충 및 건의사항 검색 테이블</caption>
                             <%-- ===== 검색하는 부분 ===== --%>
                             <thead>
-                                <tr>
-                                    <th>검색</th>
-                                    <td>
-                                        <select id="search_tag" class="select">
-                                            <option value="subject">제목</option>
-                                            <option>작성자</option>
-                                        </select>
-                                        <input type="text" id="search_value" name="search_value" class="text"/>
-                                        <button type="button" id="search_btn" onclick="searchSugg()" class="btn">검색</button>
-                                    </td>
-                                    <th colspan="2">전체공지</th>
-                                    <td colspan="2">
-                                        <input type="checkbox" id="chk_btn" onchange="checkNotice()" class="btn"/>숨김
-                                    </td>
-                                </tr>
+                             
                             </thead>
                         </table>
 						<div class="main_item align_right"><button type="button" id="sug_add_btn" class="btn">글쓰기</button></div>
@@ -102,6 +88,9 @@
 	<div id="replyForm" hidden>
 	
 	</div>
+	<div id="dialog" hidden></div>
+
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="js/summernote-lite.js"></script>
@@ -129,6 +118,7 @@
 			$.ajax({
 				url: "suggMain",
 				type: "post",
+				data: "qname=q"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
@@ -278,48 +268,31 @@
 			}
 			frm.submit();
 		};
-		
-		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
-		function searchSugg(cPage) {
-			let tag = document.getElementById("search_tag").value;
-			let value = document.getElementById("search_value").value;
-			$.ajax({
-				url: "searchSugg",
-				type: "post",
-				data: "cPage="+encodeURIComponent(cPage)+
-					  "&tag="+encodeURIComponent(tag)+
-					  "&value="+encodeURIComponent(value)
-			}).done(function(result){
-				$("#ajaxContent").html(result);
-			});
-		};
-		
-		/* 전체공지 [숨김] 체크박스를 눌렀을때 수행 */
-		function checkNotice(cPage) {
-			let checked = $("#chk_btn").is(':checked');
-			if(checked) {
-				$.ajax({
-					url: "checkNotice_sugg",
-					type: "post",
-					data: "cPage="+encodeURIComponent(cPage),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}else if(!checked){
-				$.ajax({
-					url: "suggMain",
-					type: "post",
-					data: "cPage="+encodeURIComponent('1'),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}
-		};
 
+		
 		function download(fname) {
 			document.downForm.fname.value = fname;
 			document.downForm.submit();
 		};
+
+		function openSugg(qna_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "viewSugg_s",
+                type:"post",
+                data:"qna_idx="+qna_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+             
+            });
+        }
+
+        $("#dialog").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
     </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
 <mapper namespace="com.ict.project.mapper.SubjectMapper">
   	<resultMap type="com.ict.project.vo.SubjectVO" id="map1">
       <result property="s_idx" column="s_idx"/>
+      <association property="esvo" column="s_idx" javaType="com.ict.project.vo.EvaluationStatusVO" select="esOne"></association>
 		  <collection property="sk_ar" column="s_idx" ofType="com.ict.project.vo.SkillVO" select="getSkill"/>
 	  </resultMap>
   
@@ -45,5 +46,8 @@
 		where s_idx = #{s_idx}
   </update>
 
+  <select id="esOne" parameterType="String" resultType="com.ict.project.vo.EvaluationStatusVO">
+    select * from evaluation_status where s_idx = #{s_idx} and es_status = 0
+  </select>
 
 </mapper>

@@ -82,7 +82,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">
+                <a href="f_log?listSelect=1&cPage=1" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/afterManage_icon.png" alt="이미지"/>사후관리
                 </a>
                 <ul class="sub_manu">

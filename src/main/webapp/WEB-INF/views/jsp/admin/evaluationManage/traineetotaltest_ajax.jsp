@@ -31,26 +31,26 @@
 					<tr>
 						<td colspan="10">
 							<ol class="page">
-								<c:if test="${requestScope.page2.startPage < requestScope.page2.pagePerBlock }">
+								<c:if test="${requestScope.page.startPage < requestScope.page.pagePerBlock }">
 									<li class="disable">&lt;</li>
 								</c:if>	
-								<c:if test="${requestScope.page2.startPage >= requestScope.page2.pagePerBlock }">
+								<c:if test="${requestScope.page.startPage >= requestScope.page.pagePerBlock }">
 									<c:if test="${param.select != null}">
-										<li><a href="javascript:paging('${page2.startPage-page2.pagePerBlock }')">&lt;</a></li>
+										<li><a href="javascript:paging('${page.startPage-page.pagePerBlock }')">&lt;</a></li>
 									</c:if>
 								</c:if>
-								<c:forEach begin="${page2.startPage }" end="${page2.endPage }" varStatus="vs">
-									<c:if test="${vs.index eq page2.nowPage }">
+								<c:forEach begin="${page.startPage }" end="${page.endPage }" varStatus="vs">
+									<c:if test="${vs.index eq page.nowPage }">
 										<li class="now">${vs.index }</li>
 									</c:if>
-									<c:if test="${vs.index ne page2.nowPage }">
+									<c:if test="${vs.index ne page.nowPage }">
 										<li><a href="javascript:paging('${vs.index}')">${vs.index}</a></li>
 									</c:if>
 								</c:forEach>
-								<c:if test="${page2.endPage < page2.totalPage }">
-									<li><a href="javascript:paging('${page2.startPage + page2.pagePerBlock }')">&gt;</a></li>
+								<c:if test="${page.endPage < page.totalPage }">
+									<li><a href="javascript:paging('${page.startPage + page.pagePerBlock }')">&gt;</a></li>
 								</c:if>
-								<c:if test="${page2.endPage >= page2.totalPage }">
+								<c:if test="${page.endPage >= page.totalPage }">
 									<li class="disable">&gt;</li>	
 								</c:if>
 							</ol>
@@ -59,7 +59,7 @@
 				</tfoot>
 				<tbody>	
 					<c:forEach var="cvo" items="${c_ar }" varStatus="vs">
-						<c:set var="num" value="${page2.totalRecord - (page2.numPerPage*(page2.nowPage-1))}"/>
+						<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 						<tr>
 							<td>${num-vs.index}</td>
 							<td>${cvo.c_name}</td>
@@ -72,7 +72,6 @@
 							<td>${cvo.c_peo_num}</td>
 							<td>
 								<button type="button" class="btn" onclick="allGradeList('${cvo.c_idx}')">종합성적표</button>
-								
 							</td>
 						</tr>
 					</c:forEach>

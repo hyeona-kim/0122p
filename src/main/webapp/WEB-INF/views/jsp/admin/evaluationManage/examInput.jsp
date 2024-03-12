@@ -218,7 +218,7 @@
             let id = "qt_score";
             for(let i=0;i < num; i++){
                 v += Number($("input[name='"+ id +"']").eq(i).val()); // ... 정수로 변환해서 계산...
-                console.log(v);
+                console.log(v + "캥");
             }
             if(score != v){
                 alert("총점:" + score + " 배분값:" + v);
@@ -243,6 +243,14 @@
                 $("#box").html(box + k);
             } // 주관식 및 서술형의 경우 즉시 이부분으로 옴
             $("#frm").submit();
+        }
+        function delExam(idx){
+            if(confirm("삭제하시겠습니까?")){
+                alert("삭제되었습니다.")
+                location.href="delExam?es_idx="+idx+"&s_idx="+s_idx;
+            } else{
+                return;
+            }
         }
 
     </script>

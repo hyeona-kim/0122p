@@ -63,9 +63,7 @@
         </article>
     </article>
     
-    <div id="dialog" hidden>
-        
-    </div>
+    <div id="dialog" hidden></div>
     
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -92,20 +90,7 @@
             });
         });
 
-        function grading(idx){
-            location.href = "grading?tr_idx="+idx+"&es_idx="+idx;
-        }
-
-        function delEs(es_idx){
-            
-			if( confirm("삭제하시겠습니까?")){
-			
-                location.href = "delEvaluationStatus?es_idx="+es_idx+"&s_idx="+s_idx;
-			}else{
-                return;
-            }
-		}
-
+      
     </script>
 </body>
 </html>
