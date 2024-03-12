@@ -10,10 +10,14 @@ import com.ict.project.mapper.TestMapper;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.MemberVO;
+import com.ict.project.vo.QnaVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
 import com.ict.project.vo.AskcounselingVO;
+import com.ict.project.vo.CommVO;
 
 @Service
 public class TestService {
@@ -181,7 +185,7 @@ public class TestService {
         return t_Mapper.addaskcounseling(vo);
     }
 
-    public int qnawrite(MemberVO vo) {
+    public int qnawrite(QnaVO vo) {
         return t_Mapper.qnawrite(vo);
     }
 
@@ -195,7 +199,109 @@ public class TestService {
         return ar;
     }
 
+    public int count(String qname) {
+        return t_Mapper.count(qname);
+    }
+
+    public QnaVO[] getList(String qname, String begin, String end) {
+        QnaVO[] ar = null;
+
+        List<QnaVO> list = t_Mapper.qnalist(qname, begin, end);
+
+        if (list != null && !list.isEmpty()) {
+            ar = new QnaVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    // 기본키로 검색하는 기능
+    public QnaVO getqna(String qna_idx) {
+        return t_Mapper.getqna(qna_idx);
+    }
+
+    // 게시물 추가
+    public int addqna(QnaVO vo) {
+        return t_Mapper.addqna(vo);
+    }
+
+    public int addComm(CommVO vo) {
+        return t_Mapper.addComm(vo);
+    }
+
+    public int del(String qna_idx) {
+        return t_Mapper.del(qna_idx);
+    }
+
+    public int edit(QnaVO vo) {
+        return t_Mapper.edit(vo);
+    }
+
+    public CommVO[] cList(String qna_idx) {
+        CommVO[] ar = null;
+
+        List<CommVO> list = t_Mapper.commList(qna_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new CommVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }
+
     public MemberVO checkEmail(String m_email) {
         return t_Mapper.checkEmail(m_email);
+    }
+
+    public SubjectVO[] mySubject(String c_idx) {
+        SubjectVO[] ar = null;
+
+        List<SubjectVO> list = t_Mapper.mySubject(c_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new SubjectVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public QuestionVO[] myExam(String s_idx) {
+        QuestionVO[] ar = null;
+
+        List<QuestionVO> list = t_Mapper.myExam(s_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new QuestionVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public int countMyExam(String c_idx) {
+        return t_Mapper.countMyExam(c_idx);
+    }
+
+    public AskcounselingVO[] myReply(String m_id) {
+        AskcounselingVO[] ar = null;
+
+        List<AskcounselingVO> list = t_Mapper.myReply(m_id);
+        if (list != null && !list.isEmpty()) {
+            ar = new AskcounselingVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public AskcounselingVO[] getReply(String ac_idx) {
+        AskcounselingVO[] ar = null;
+
+        List<AskcounselingVO> list = t_Mapper.getReply(ac_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new AskcounselingVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
     }
 }

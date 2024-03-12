@@ -70,20 +70,20 @@ public class StraffController {
         svo.setSf_mgr("0");
         svo.setSf_tmgr("0");
         String realPath = application.getRealPath("upload_sign");
-        
-        if(ifile != null && ifile.getSize() > 0){
+
+        if (ifile != null && ifile.getSize() > 0) {
             System.out.println("ifile 호출");
-            String f_name = FileRenameUtil.checkSameFileName(ifile.getOriginalFilename(), realPath); 
-            try {//파일업로드 
-                ifile.transferTo(new File(realPath,f_name));
-    
+            String f_name = FileRenameUtil.checkSameFileName(ifile.getOriginalFilename(), realPath);
+            try {// 파일업로드
+                ifile.transferTo(new File(realPath, f_name));
+
             } catch (Exception e) {
-                    e.printStackTrace();
+                e.printStackTrace();
             }
             svo.setSf_fname(f_name);
         } else {
             System.out.println("서명쪽 호출");
-            if(svo.getSf_fname() == null || svo.getSf_fname().trim().length() < 7){
+            if (svo.getSf_fname() == null || svo.getSf_fname().trim().length() < 7) {
                 System.out.println("서명값 없음");
                 svo.setSf_fname(null);
             }
@@ -178,20 +178,20 @@ public class StraffController {
         vo.setSf_mgr("0");
         vo.setSf_tmgr("0");
         String realPath = application.getRealPath("upload_sign");
-        if(ifile != null && ifile.getSize() > 0){
+        if (ifile != null && ifile.getSize() > 0) {
             System.out.println("ifile");
-            String f_name = FileRenameUtil.checkSameFileName(ifile.getOriginalFilename(), realPath); 
-            try {//파일업로드 
-                ifile.transferTo(new File(realPath,f_name));
-    
+            String f_name = FileRenameUtil.checkSameFileName(ifile.getOriginalFilename(), realPath);
+            try {// 파일업로드
+                ifile.transferTo(new File(realPath, f_name));
+
             } catch (Exception e) {
-                    e.printStackTrace();
+                e.printStackTrace();
             }
             vo.setSf_fname(f_name);
 
         } else {
 
-            if(vo.getSf_fname() == null || vo.getSf_fname().trim().length() < 7)
+            if (vo.getSf_fname() == null || vo.getSf_fname().trim().length() < 7)
                 vo.setSf_fname(null);
 
         }
@@ -215,15 +215,15 @@ public class StraffController {
                 code = String.valueOf(num);
             }
         } else if (authority.equals("1")) {
-           vo.setSf_mgr("1");
-        } else if (authority.equals("2")){
+            vo.setSf_mgr("1");
+        } else if (authority.equals("2")) {
             vo.setSf_tcr("1");
             vo.setSf_mgr("1");
         } else { // 최고 관리자일 경우
             vo.setSf_tmgr("1");
             vo.setSf_mgr("1");
             vo.setSf_tcr("1");
-            if(!log_idx.equals(vo.getSf_idx())){ // 본인 계정을 수정할 경우 권한변경 및 로그아웃 할 필요가 없음
+            if (!log_idx.equals(vo.getSf_idx())) { // 본인 계정을 수정할 경우 권한변경 및 로그아웃 할 필요가 없음
                 StaffVO svo2 = s_Service.getStaff(log_idx); // 권한을 양도하였으므로 기존 로그인한 인원의 권한을 관리자로 변경해야함
                 svo2.setSf_tmgr("0");
                 s_Service.editStaff(svo2);
@@ -245,7 +245,7 @@ public class StraffController {
         if (authority.equals("3") && !vo.getSf_idx().equals(log_idx)) { // 자신을 수정한 것이 아닐 경우에는 로그아웃 시켜야 함
             session.removeAttribute("vo");
             return "redirect:index";
-        } else if (place != null && place.trim().length() > 0){
+        } else if (place != null && place.trim().length() > 0) {
             return "redirect:clickLogo";
         } else {
             return "redirect:staffList";
@@ -263,22 +263,64 @@ public class StraffController {
 
     @ResponseBody
     @RequestMapping("addSign")
-    public Map<String, String> addSign(MultipartFile s_file){
+    public Map<String, String> addSign(MultipartFile s_file) {
         String realPath = application.getRealPath("upload_sign");
         Map<String, String> map = new HashMap<>();
-        
-        if(s_file != null && s_file.getSize() > 0){
+
+        if (s_file != null && s_file.getSize() > 0) {
             System.out.println("파일이 있는데?");
-            String f_name = FileRenameUtil.checkSameFileName("sign.png", realPath); 
-            try {//파일업로드 
-                s_file.transferTo(new File(realPath,f_name));
-    
+            String f_name = FileRenameUtil.checkSameFileName("sign.png", realPath);
+            try {// 파일업로드
+                s_file.transferTo(new File(realPath, f_name));
+
             } catch (Exception e) {
-                 e.printStackTrace();
+                e.printStackTrace();
             }
             map.put("f_name", f_name);
         }
         return map;
+    }
+
+    @RequestMapping("addCareerForm")
+    public ModelAndView addCareerForm(String sf_idx) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("sf_idx", sf_idx);
+        mv.setViewName("/jsp/admin/etcList/addCareer_ajax");
+        return mv;
+    }
+
+    @RequestMapping("addCareer")
+    public ModelAndView addCareer(StaffVO svo) {
+        ModelAndView mv = new ModelAndView();
+        String encType = request.getContentType();
+
+        if (encType.startsWith("application")) {
+
+        } else if (encType.startsWith("multipart")) {
+            MultipartFile mf = svo.getFile();
+            String fname = null;
+
+            if (mf != null && mf.getSize() > 0) {
+                String realPath = application.getRealPath("upload_staffImage");
+
+                String oname = mf.getOriginalFilename();
+
+                fname = FileRenameUtil.checkSameFileName(oname, realPath);
+
+                try {
+                    mf.transferTo(new File(realPath, fname));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // String filePath = application.getRealPath("/upload_staffImage/" + fname);
+                svo.setImg_path("/upload_staffImage/" + fname);
+            }
+        }
+
+        s_Service.editCareer(svo.getSf_idx(), svo.getSf_career(), svo.getImg_path());
+        mv.setViewName("redirect:staffList");
+
+        return mv;
     }
 
 }

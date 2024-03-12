@@ -64,16 +64,20 @@
         <set>
             <trim suffixOverrides=",">
                 gc_score = (select qt_score from question_t where gradeCheck_t.gc_answer = question_t.qt_correct),
-                <if test="qt_type == '0' || qt_type == '1'" >gc_status = 1,</if>
+                gc_status = 1,
             </trim>
         </set>
         where gc_idx = #{gc_idx}
     </update>
 
-
-
     <select id="all_grade" parameterType="String" resultType="int"> <!-- 최종 성적. 답안 비교시 공백 제거를 위해 correct도 파라미터로 받음 -->
         select sum(gc_score) from (select g.*, q.es_idx from gradeCheck_t g, question_t q where g.qt_idx = q.qt_idx) as a where tr_idx = #{tr_idx} and es_idx = #{es_idx}
     </select>
+
+    <update id="set_answer" parameterType="com.ict.project.vo.GradeCheckVO">
+        update gradeCheck_t
+            set gc_answer = #{gc_answer}
+        where gc_idx = #{gc_idx}
+    </update>
 
 </mapper>
