@@ -14,12 +14,11 @@ public class GradeCheckService {
     @Autowired
     private GradeCheckMapper gc_mapper;
 
-
-    public GradeCheckVO[] list(String es_idx, String tr_idx){
+    public GradeCheckVO[] list(String es_idx, String tr_idx) {
         GradeCheckVO[] ar = null;
 
         List<GradeCheckVO> list = gc_mapper.list(es_idx, tr_idx);
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
 
             ar = new GradeCheckVO[list.size()];
             list.toArray(ar);
@@ -48,8 +47,12 @@ public class GradeCheckService {
         return gc_mapper.set_grade(gc_idx);
     }
 
-    public Integer all_grade(String es_idx, String tr_idx){
+    public Integer all_grade(String es_idx, String tr_idx) {
 
         return gc_mapper.all_grade(es_idx, tr_idx);
+    }
+
+    public int set_answer(GradeCheckVO vo) {
+        return gc_mapper.set_answer(vo);
     }
 }

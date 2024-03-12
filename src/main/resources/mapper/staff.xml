@@ -46,9 +46,9 @@
 	
 	<!-- 교직원 추가하는 기능 -->
 	<insert id="add" parameterType="com.ict.project.vo.StaffVO"> <!-- 기본적으로 sf_tmgr은 0이 들어간다. (1개만 존재가능, 현 최고관리자가 직접 양도해야함) -->
-		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, sf_tcr, status, sf_code, sf_mgr,sf_link, sf_tmgr, sf_fname)
+		insert into staff_t (sf_name, sf_job, sf_id, sf_pwd, sf_hire_date, sf_phone, sf_tcr, status, sf_code, sf_mgr,sf_link, sf_tmgr, sf_fname, img_path)
 		values (#{sf_name}, #{sf_job}, #{sf_id}, #{sf_pwd}, #{sf_hire_date}, #{sf_phone}, #{sf_tcr}, 0, #{sf_code}, #{sf_mgr},0,
-		<if test="sf_tmgr != null">#{sf_tmgr}</if><if test="sf_tmgr == null">0</if>, #{sf_fname})
+		<if test="sf_tmgr != null">#{sf_tmgr}</if><if test="sf_tmgr == null">0</if>, #{sf_fname}, '/image/total_trainee.png')
 	</insert>
 
 	 <select id="search" resultType="com.ict.project.vo.StaffVO" parameterType="String">
@@ -111,6 +111,15 @@
 		sf_id = #{sf_id},
 		sf_phone = #{sf_phone},
 		sf_email =#{sf_email}
+		where sf_idx = #{sf_idx}
+	</update>
+
+	<update id="editCareer" parameterType="Map">
+		update staff_t
+		<trim prefix="set" suffixOverrides=",">
+			sf_career = #{sf_career},
+			img_path = #{img_path}
+		</trim>
 		where sf_idx = #{sf_idx}
 	</update>
 </mapper>

@@ -11,7 +11,9 @@ import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
 import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.QnaVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
 import com.ict.project.vo.AskcounselingVO;
@@ -190,7 +192,6 @@ public class TestService {
     }
 
     public int askcounseling(AskcounselingVO vo) {
-
         return t_Mapper.addaskcounseling(vo);
     }
 
@@ -262,4 +263,55 @@ public class TestService {
         return t_Mapper.checkEmail(m_email);
     }
 
+    public SubjectVO[] mySubject(String c_idx) {
+        SubjectVO[] ar = null;
+
+        List<SubjectVO> list = t_Mapper.mySubject(c_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new SubjectVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public QuestionVO[] myExam(String s_idx) {
+        QuestionVO[] ar = null;
+
+        List<QuestionVO> list = t_Mapper.myExam(s_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new QuestionVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public int countMyExam(String c_idx) {
+        return t_Mapper.countMyExam(c_idx);
+    }
+
+    public AskcounselingVO[] myReply(String m_id) {
+        AskcounselingVO[] ar = null;
+
+        List<AskcounselingVO> list = t_Mapper.myReply(m_id);
+        if (list != null && !list.isEmpty()) {
+            ar = new AskcounselingVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public AskcounselingVO[] getReply(String ac_idx) {
+        AskcounselingVO[] ar = null;
+
+        List<AskcounselingVO> list = t_Mapper.getReply(ac_idx);
+        if (list != null && !list.isEmpty()) {
+            ar = new AskcounselingVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
 }

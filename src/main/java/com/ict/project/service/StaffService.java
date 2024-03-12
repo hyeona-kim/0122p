@@ -101,4 +101,8 @@ public class StaffService {
     public int unblockStaff(String sf_idx) {
         return s_mapper.unblockStaff(sf_idx);
     }
+
+    public int editCareer(String sf_idx, String sf_career, String img_path) {
+        return s_mapper.editCareer(sf_idx, sf_career, img_path);
+    }
 }

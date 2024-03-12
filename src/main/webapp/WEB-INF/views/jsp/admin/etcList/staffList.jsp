@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/right.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/paging.css"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/summernote-lite.css">
 <style>
 	#faculty{
 		display: inline-block;
@@ -140,7 +141,8 @@
 													</sf:if>
 												</sf:if>
                                                 <td colspan="2">
-												<sf:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
+													<sf:if test="${sessionScope.vo.sf_mgr eq '1' or sessionScope.vo.sf_tmgr eq '1'}">
+													<a href="javascript:addCareerForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">소개추가</a>
 													<a href="javascript:editStaffForm('${vo2.sf_idx}')" class="btn" style="text-decoration: none;">수정</a>
                                                     <a href="javascript:delStaff('${vo2.sf_idx}', '${vo2.sf_tcr}', '${vo2.sf_mgr}', '${vo2.sf_tmgr}')" class="btn red" style="text-decoration: none;">삭제</a>
 												</sf:if>
@@ -162,6 +164,8 @@
     <%-- ========== 교직원 등록,수정 폼 끝 ========== --%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script src="js/summernote-lite.js"></script>
+	<script src="js/lang/summernote-ko-KR.js"></script>
     <script>
 		let f = "";
 		let i = '${sessionScope.vo.sf_idx}';
@@ -430,6 +434,41 @@
 				});
 			}
 			
+		}
+
+		// 교직원현황 - [소개추가]를 눌렀을 때 dialog 띄우는 곳
+		function addCareerForm(idx) {
+			// 여기서 dialog를 띄우고 [등록] 버튼을 누르면 그때 DB에 접근
+			$.ajax({
+				url: "addCareerForm",
+				type: "get",
+				data: "sf_idx="+idx,
+			}).done(function(result) {
+				$("#addForm").dialog({
+					title : '강사 소개 등록',
+					modal : true,
+					width : 1000,
+					maxHeight : 800
+				});
+				$("#addForm").dialog("open");
+				$("#addForm").html(result);
+				$("#sf_career").summernote({
+					height: 200,
+					focus: true,
+					lang: "ko-KR",
+					dialogsInBody: true,
+				});
+				$("#sf_career").summernote("lineHeight", 0.7);
+
+				$("#cc_btn").click(function(){
+					$("#addForm").dialog("close");
+				});
+
+			});
+		}
+
+		function addCareer(form) {
+			form.submit();
 		}
     </script>
 </body>
