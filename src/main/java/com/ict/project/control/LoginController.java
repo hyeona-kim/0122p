@@ -16,11 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.project.service.AskcounselingService;
 import com.ict.project.service.CourseService;
 import com.ict.project.service.LoginService;
+import com.ict.project.service.PaymentService;
 import com.ict.project.service.StaffService;
 import com.ict.project.service.TrainingDiaryService;
 import com.ict.project.util.Paging;
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.PaymentDTO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.TrainingDiaryVO;
 
@@ -49,6 +51,8 @@ public class LoginController {
     int cnt = 0;
     @Autowired
     AskcounselingService as_Service;
+    @Autowired
+    PaymentService py_Service;
 
     @RequestMapping("index")
     public String requestMethodName() {
@@ -273,6 +277,7 @@ public class LoginController {
 
         AskcounselingVO[] ar1 = null;
         AskcounselingVO[] ar2 = null;
+        PaymentDTO[] ar3 = null;
         if (list == null) {
             DecimalFormat df = new DecimalFormat("00");
             Calendar currentCalendar = Calendar.getInstance();
@@ -300,26 +305,37 @@ public class LoginController {
             if (select.equals("0")) {
                 ar1 = as_Service.getASK(strDate, strDate, "0", null);
                 ar2 = as_Service.getASK(strDate, strDate, "1", null);
+                ar3 = py_Service.getTotalPay(strDate, strDate);
             } else if (select.equals("1")) {
                 ar1 = as_Service.getASK(strDate7, strDate, "0", null);
                 ar2 = as_Service.getASK(strDate7, strDate, "1", null);
+                ar3 = py_Service.getTotalPay(strDate7, strDate);
             } else if (select.equals("2")) {
                 ar1 = as_Service.getASK(strDate31, strDate, "0", null);
                 ar2 = as_Service.getASK(strDate31, strDate, "1", null);
+                ar3 = py_Service.getTotalPay(strDate31, strDate);
             }
 
             int inquiry = 0;
             int consult = 0;
             int bookpay = 0;
+            int total_pay = 0;
             if (ar1 != null)
                 inquiry = ar1.length;
             if (ar2 != null)
                 consult = ar2.length;
-
+            if(ar3 != null){
+                bookpay = ar3.length;
+                for(int i=0; i<ar3.length; i++){
+                    total_pay += Integer.parseInt(ar3[i].getTbvo().getTb_price());
+                }
+            }
+            
+            System.out.println(ar3[0].getTbvo().getTb_price());
             map.put("inquiry", inquiry);
             map.put("consult", consult);
             map.put("bookpay", bookpay);
-            map.put("total_pay", 0);
+            map.put("total_pay", total_pay);
             return map;
         } else {
             // list 인 경우

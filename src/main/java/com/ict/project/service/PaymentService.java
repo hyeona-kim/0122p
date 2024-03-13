@@ -25,6 +25,18 @@ public class PaymentService {
 
         return ar;
     }   
+
+    public PaymentDTO[] getTotalPay(String beforedate,String enddate) {
+        PaymentDTO[] ar = null;
+
+        List<PaymentDTO> list = p_mapper.getTotalPay(beforedate, enddate);
+        if (list != null && list.size() > 0) {
+            ar = new PaymentDTO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }   
     
     public int add(PaymentDTO dto){
         return p_mapper.add(dto);
