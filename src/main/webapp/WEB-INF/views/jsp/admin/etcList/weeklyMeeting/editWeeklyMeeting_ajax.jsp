@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<h2 id="table_h2" class="title">주간회의록등록</h2>
+	<h2 id="table_h2" class="title">주간회의록수정</h2>
 	<form action="editWeeklyMeeting" method="post" name="frm">
 			<table class="table">
 				<colgroup>

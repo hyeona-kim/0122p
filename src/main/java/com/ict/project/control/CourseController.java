@@ -375,25 +375,29 @@ public class CourseController {
 	public ModelAndView skillAdd(String c_idx, String s_idx, String[] sk_idx, String[] sk_name, String upskill) {
 		ModelAndView mv = new ModelAndView();
 		SkillVO[] ar = new SkillVO[sk_idx.length];
+		if(ar.length == 0){
+			ar = new SkillVO[sk_name.length];
+		}
 		for (int i = 0; i < ar.length; i++) {
 			ar[i] = new SkillVO();
 			ar[i].setS_idx(s_idx);
-			ar[i].setSk_idx(sk_idx[i]);
+			if(sk_idx.length>0)
+				ar[i].setSk_idx(sk_idx[i]);
 			ar[i].setSk_name(sk_name[i]);
 		}
 		// 1. sk_idx가 있는경우는 edit// 2.sk_name이 있는데 sk_idx가 없는 경우는 add// 3.sk_name도없고,idx도
 		// 없다면pass
 		for (SkillVO skvo : ar) {
-			if (skvo.getSk_idx() != null && skvo.getSk_idx().length() > 0) {
-
+			if (skvo.getSk_idx() != null && skvo.getSk_idx().length() > 0) {	
 				sk_Service.editSkill(skvo);
-			} else {
+			}else {
 				// sk_name이 있다면 수정하기
 				if (skvo.getSk_name() != null && skvo.getSk_name().length() != 0) {
 					int cnt = sk_Service.addSkill(skvo);
 				}
 			}
 		}
+	
 		mv.setViewName("redirect:course?listSelect=1&cPage=1&upskill=" + upskill + "&c_idx=" + c_idx);
 		// 사실상 능력 단위요소 페이지로 갈 수 있게 해주어야 한다.아니면 비동기 통신으로 추가만해주고 결과는 없는데 대신 다이얼로그를 종료 해주는
 		// 방식으로 해야한다.

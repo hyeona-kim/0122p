@@ -177,7 +177,7 @@
                 data:"cPage="+encodeURIComponent(cPage)+"&listSelect=2&c_idx="+c_idx
             }).done(function(result){
                 $("#dialog").html(result);
-                $("#cc_cancle").click(function(){
+                $("#cc_cancle2").click(function(){
                     $("#dialog").dialog("close");
                 });
             });

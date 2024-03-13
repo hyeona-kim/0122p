@@ -60,7 +60,6 @@
                                 </div>
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='t_log?listSelect=1'">목록</button>
-                                    <button type="button" class="btn blue" id="print_btn">훈련일지 일괄출력</button>
                                     <button type="button" class="btn" id="write_btn">훈련일지 등록</button>
                                 </div>
                             </div>

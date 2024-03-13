@@ -6,6 +6,12 @@
 <form action="s_addDiary" method="post" >
 
     <div id="staffList_top" class="title">"${cvo.c_name}"과정 훈련일지</div> 
+    <c:if test="${tdvo.td_sign ne null}">
+        <div id="view_sign"><img src="${pageContext.request.contextPath }/trainingLog_sign/${tdvo.td_sign}"/></div>
+    </c:if>
+    <c:if test="${tdvo.td_sign eq null}">
+        <div id="view_sign">결제 대기중</div>
+    </c:if>
     <input type="hidden" name="c_idx" value="${cvo.c_idx}"/>
     <div>
         <div class="main_item align_right">

@@ -37,7 +37,7 @@
 						<div id="counselReceipt_Table">
                             <!--과정에 대한 정보 가져오기 -->
 							<article class="main_item align_right">
-								<button class="btn" id="exelDown_btn" >수강생데이터입력샘플EXCEL</button>
+								
 							</article>
 							<article>
 								<div id="exel_d">

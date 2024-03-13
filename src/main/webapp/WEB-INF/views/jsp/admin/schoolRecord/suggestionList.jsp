@@ -49,15 +49,13 @@
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
                     <div id="staffWrap">
-                        <div id="sugList_top" class="title">고충 및 건의사항</div>
-                        <table class="sugList table">
-                            <caption>고충 및 건의사항 검색 테이블</caption>
-                            <%-- ===== 검색하는 부분 ===== --%>
-                            <thead>
-                             
-                            </thead>
-                        </table>
-						<div class="main_item align_right"><button type="button" id="sug_add_btn" class="btn">글쓰기</button></div>
+                        <div id="sugList_top" class="title">Q&A</div>
+						<div class="main_item">
+							<select id="c_check" class="select">
+								<option value="1">미답변</option>
+								<option value="2">전체</option>
+							</select>
+						</div>
                         <%-- ===== 비동기식 통신으로 출력할 테이블 시작 ===== --%>
                         <form action="SuggDownload" name="downForm" method="get">
                             <input type="hidden" name="fname"/>
@@ -118,69 +116,25 @@
 			$.ajax({
 				url: "suggMain",
 				type: "post",
-				data: "qname=q"
+				data: "qname=q&cPage=1&c_check=1"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 			
-			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-			$("#sug_add_btn").bind("click", function(){
+			$("#c_check").change(function(){
 				$.ajax({
-					url: "sugAddForm",
+					url: "suggMain",
 					type: "post",
+					data: "qname=q&cPage=1&c_check="+this.value
 				}).done(function(result){
-					$("#addForm").html(result);
-					// 글쓰기에 [에디터] 추가
-					$("#sg_content").summernote({
-						height: 200,
-						focus: true,
-						lang: "ko-KR",
-						dialogsInBody: true,
-						callbacks: {
-							onImageUpload: function(files, editor) {
-								for (let i=0; i<files.length; i++) {
-									sendImage(files[i], editor);
-								}
-							}
-						}
-					});
-					$("#sg_content").summernote("lineHeight", 0.7);
+					$("#ajaxContent").html(result);
 				});
-
-				$("#addForm").dialog({
-					title : '고충 및 건의사항 작성',
-					modal : true,
-					width : 1000,
-					maxHeight : 800
-				});
-			});
+			});	
+			
 			
 		});
 
-		// [글쓰기] 또는 [답변]을 할 때
-		// 에디터에 이미지가 업로드되면 내용에 추가하는 기능
-		function sendImage(file, editor, reply){
-			let frm = new FormData();
-
-			frm.append("file", file);
-
-			$.ajax({
-				url: "saveSuggImg",
-				type: "post",
-				data: frm,
-				contentType: false,
-				processData: false,
-				cache: false,
-				dataType: "json",
-			}).done(function(data) {
-				if(reply != null){
-					$("#reply_content").summernote("editor.insertImage", data.url+"/"+data.fname);
-				}else {
-					$("#sg_content").summernote("editor.insertImage", data.url+"/"+data.fname);
-				}
-			});
-		};
-		
+	
 		/* 목록 아래 [page번호]를 클릭할 때 수행
 			 cPage를 변수로 가지고 새롭게 비동기통신을 해서
 			 테이블을 표현한다 */
@@ -188,24 +142,11 @@
 			$.ajax({
 				url: "suggMain",
 				type: "post",
-				data: "cPage="+cPage
+				data: "qname=q&cPage="+cPage+"&c_check=2"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 		}
-		
-		/* 건의사항 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
-		function addSuggestion() {
-			// 제목만 유효성 검사
-			let subject = document.getElementById("sg_subject").value;
-
-			if(!subject.trim().length > 0) {
-				alert("제목을 입력하세요");
-				return;
-			}
-			
-			document.addForm.submit();
-		};
 		
 		/* 글의 제목을 클릭했을 때 내용 보기 */
 		function viewContent(sg_idx) {
@@ -224,57 +165,8 @@
 			});
 		};
 		
-		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
-		function reply(sg_idx) {
-			let reply = "reply";
-			$.ajax({
-				url: "reply",
-				type: "post",
-				data: "sg_idx="+sg_idx
-			}).done(function(result){
-				$("#replyForm").html(result);
-				$("#reply_content").summernote({
-						height: 200,
-						focus: true,
-						lang: "ko-KR",
-						dialogsInBody: true,
-						callbacks: {
-							onImageUpload: function(files, editor) {
-								for (let i=0; i<files.length; i++) {
-									sendImage(files[i], editor, reply);
-								}
-							}
-						}
-				});
-				$("#reply_content").summernote("lineHeight", 0.7);
-			});
-			
-			$("#replyForm").dialog({
-				title : '고충 및 건의사항 답변 작성',
-				modal : true,
-				width : 1000,
-				maxHeight:  800,
-			});
-		};
+	
 		
-		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
-		function addReply(frm) {
-			// 제목만 유효성 검사
-			let subject = document.getElementById("reply_subject").value;
-
-			if(!subject.trim().length > 0) {
-				alert("제목을 입력하세요");
-				return;
-			}
-			frm.submit();
-		};
-
-		
-		function download(fname) {
-			document.downForm.fname.value = fname;
-			document.downForm.submit();
-		};
-
 		function openSugg(qna_idx){
             $("#dialog").dialog("open");
             $.ajax({

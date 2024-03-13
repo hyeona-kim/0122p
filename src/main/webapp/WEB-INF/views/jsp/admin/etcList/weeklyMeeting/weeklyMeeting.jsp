@@ -192,6 +192,9 @@
 					width : 900,
 					maxHeight : 900
 				});
+				$("#cc_cancle").click(function(){
+					$("#dialog2").dialog("close")
+				})
 			});
 			
 		};
