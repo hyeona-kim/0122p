@@ -10,6 +10,7 @@ import lombok.Setter;
 public class TrainuploadVO {
 	private String tn_idx, subject, content, file_name, ori_name, status,ip;
 	private MultipartFile file;
+	private boolean flag;
 	
 
 }

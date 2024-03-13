@@ -148,23 +148,30 @@
             <li>
                 <a href="t_log?listSelect=1&cPage=1" class="menu2">훈련일지</a>
                 <ul class="sub_manu2">
-                    <li><a href="t_log?listSelect=1&cPage=1">훈련일지</a></li>
-                    <li><a href="t_log?listSelect=2&cPage=1">보강훈련일지</a></li>                    
+                    <li><a href="t_log?listSelect=1&cPage=1">훈련일지</a></li>            
                 </ul>
             </li>
-            
+            <li>
+                <a href="counsel?listSelect=1&cPage=1" class="menu2">상담관리</a>
+                <ul class="sub_manu2">
+                    <li><a href="counsel?listSelect=1&cPage=1">과정별 상담관리</a></li>
+                    <li><a href="counsel?listSelect=2&cPage=1">일자별 상담관리</a></li>
+                    <li><a href="counsel?listSelect=3&cPage=1">교육생별 상담관리</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a href="em_log?listSelect=1&cPage=1" class="menu2">평가관리</a>
                 <ul class="sub_manu2">
-                    <li><a href="em_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;과목별 평가설정</a></li>
-                    <li><a href="em_log?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;과목별 채점결과보기</a></li>
-                    <li><a href="em_log?listSelect=3&cPage=1">&nbsp;&nbsp;&nbsp;훈련생 종합 성적표</a></li>
-                    <li><a href="em_log?listSelect=4&cPage=1">&nbsp;&nbsp;&nbsp;훈련생 개별 성적표</a></li>
-                    <li><a href="em_log?listSelect=5&cPage=1">&nbsp;&nbsp;&nbsp;시험지파일등록</a></li>
+                    <li><a href="em_log?listSelect=1&cPage=1">과목별 평가설정</a></li>
+                    <li><a href="em_log?listSelect=2&cPage=1">과목별 채점결과보기</a></li>
+                    <li><a href="em_log?listSelect=3&cPage=1">훈련생 종합 성적표</a></li>
+                    <li><a href="em_log?listSelect=4&cPage=1">훈련생 개별 성적표</a></li>
+                    <li><a href="em_log?listSelect=5&cPage=1">시험지파일등록</a></li>
                 </ul>
             </li>
             <li>
-                <a href="" class="menu2">사후관리</a>
+                <a href="f_log?listSelect=1&cPage=1" class="menu2">사후관리</a>
                 <ul class="sub_manu2">
                     <li><a href="f_log?listSelect=1&cPage=1" >일일취업보고</a></li>
                     <li><a href="f_log?listSelect=2&cPage=1" >취업현황보고</a></li>
@@ -180,10 +187,11 @@
             <li>
                 <a href="staffList" class="menu2">기타관리</a>
                 <ul class="sub_manu2">
-                    <li><a href="staffList">&nbsp;교직원현황</a></li>
-                    <li><a href="weeklyMeeting">&nbsp;주간회의록</a></li>	
-                    <li><a href="formDownload">&nbsp;서식자료실</a></li>	
-                    <li><a href="calendar">&nbsp;일정관리</a></li>	
+                    <li><a href="staffList">교직원현황</a></li>
+                    <li><a href="weeklyMeeting">주간회의록</a></li>	
+                    <li><a href="formDownload">서식자료실</a></li>	
+                    <li><a href="calendar">일정관리</a></li>	
+                    <li><a href="bookList" >교재결재내역</a></li>	
                 </ul>
             </li>
            
@@ -270,10 +278,10 @@
         <c:forEach var="inquiryVO" items="${ar1}" varStatus="vs">
             <article onclick="inquiry('${inquiryVO.ac_idx}')" >${inquiryVO.ac_title}(${fn:substring(inquiryVO.ac_write_date, 0, 10)})
                 <span>
-                    <c:if test="${consultVO.ac_answer_date ne null}">
+                    <c:if test="${ar1[vs.index].ac_answer_date ne null}">
                         답변<input type="checkbox" checked readonly disabled/>
                     </c:if>
-                    <c:if test="${consultVO.ac_answer_date eq null}">
+                    <c:if test="${ar1[vs.index].ac_answer_date eq null}">
                         답변:<input type="checkbox" readonly disabled/>
                     </c:if>
                 </span>
@@ -285,12 +293,12 @@
         <h2 class="title">상담 리스트</h2>
         <div style="text-align: center; font-size: 12px;">예비 훈련생과 연락후 상담일정을 잡으신경우 등록해주세요.</div>
         <c:forEach var="consultVO" items="${ar2}" varStatus="vs">
-            <article onclick="consult('${consultVO.ac_idx}')">${consultVO.ac_name} / ${consultVO.ac_phone} / ${consultVO.ac_email}
+            <article onclick="consult('${ar2[vs.index].ac_idx}')">${consultVO.ac_name} / ${consultVO.ac_phone} / ${consultVO.ac_email}
                 <span>
-                    <c:if test="${consultVO.ac_answer_date ne null}">
+                    <c:if test="${ar2[vs.index].ac_answer_date ne null}">
                         연락:<input type="checkbox" checked disabled/>
                     </c:if>
-                    <c:if test="${consultVO.ac_answer_date eq null}">
+                    <c:if test="${ar2[vs.index].ac_answer_date eq null}">
                         연락:<input type="checkbox" readonly disabled/>
                     </c:if>
                 </span>

@@ -53,8 +53,8 @@
                 </c:if>
                 <td>${cvo.rvo.r_name}</td>
                 <td>승인된 인원</td>
-                <td>0</td>
-                <td>0</td>
+                <td class="receipt${cvo.c_idx}">0</td> <!--신청-->
+                <td class="inquiry${cvo.c_idx}">0</td> <!--문의-->
                 <td>HRD등록</td>
                 
                 <td>${fn:length(cvo.tr_ar)}</td><!--모집인원말고 과정별 trainee의 수를 가져오기.-->

@@ -418,7 +418,8 @@
 				data:"c_idx="+encodeURIComponent(c_idx)+"&listSelect=1&cPage="+cPage
 			}).done(function(result){
 				$("#dialog6").html(result);
-				$("#cc_cancle").click(function(){
+				
+				$("#cc_cancle2").click(function(){
 					$("#dialog6").dialog("close");
 				});
 			});
@@ -432,7 +433,7 @@
 			}).done(function(result){
 				$("#dialog").html(result);
 				
-				$("#cancel3").click(function(){
+				$("#cancel4").click(function(){
 					$("#dialog").dialog( "close" );
 				});
 			});

@@ -64,8 +64,7 @@
                 </a>
                 <ul class="sub_manu">
                     <li>훈련일지</li>
-                    <li><a href="t_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;훈련일지</a></li>
-                    <li><a href="t_log?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;보강훈련일지</a></li>                    
+                    <li><a href="t_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;훈련일지</a></li>                   
                 </ul>
             </li>
             <li>
@@ -82,7 +81,7 @@
                 </ul>
             </li>
             <li>
-                <a href="" class="menu1">
+                <a href="f_log?listSelect=1&cPage=1" class="menu1">
                     <img src="${pageContext.request.contextPath }/image/ict_icon/afterManage_icon.png" alt="이미지"/>사후관리
                 </a>
                 <ul class="sub_manu">
@@ -118,6 +117,7 @@
                     <li><a href="weeklyMeeting">&nbsp;&nbsp;&nbsp;&nbsp;주간회의록</a></li>	
                     <li><a href="formDownload">&nbsp;&nbsp;&nbsp;&nbsp;서식자료실</a></li>		
                     <li><a href="calendar">&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>	
+                    <li><a href="bookList">&nbsp;&nbsp;&nbsp;&nbsp;교재결재내역</a></li>	
                 </ul>
             </li>
         </ul>

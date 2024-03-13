@@ -50,11 +50,13 @@
                                             <option>20</option>
                                             <option>30</option>
                                         </select>
+										<!--
                                         <select class="select">
                                             <option>제목</option>
                                         </select>
                                         <input type="text" id="search_value" class="text"/>
                                         <button type="button" id="search_btn" onclick="changeViewNum()" class="btn">검색</button>
+										-->
                                     </td>
                                     <td align="right"><button type="button" id="form_add_btn" class="btn">서식파일 등록</button></td>
                                 </tr>

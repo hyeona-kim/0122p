@@ -41,7 +41,7 @@
         top:52px;
     }
     #t2 table#top_table{
-        width: 60%;
+        width: 40%;
         position: absolute;
         left: 0;
         bottom: 0;
@@ -98,38 +98,17 @@
                                     <span>접수기준일: 당일0시~ 당일 24시까지</span>
                                     <table id="top_table" class="table">
                                         <tr>
-                                            <th rowspan="4">접수현황</th>
-                                            <th colspan="5">일일 접수 현황</th>
-                                            <th colspan="5">일일 문의 현황</th>
+                                            <th rowspan="2">접수현황</th>
+                                            <th>일일 접수 현황</th>
+                                            <th>일일 문의 현황</th>
                                         </tr>
                                         <tr>
-                                            <th>총계</th>
-                                            <th>국가기간</th>
-                                            <th>국민내일배움카드</th>
-                                            <th>일반과정</th>
-                                            <th>KDT</th>
-                                            <th>총계</th>
-                                            <th>국가기간</th>
-                                            <th>국민내일배움카드</th>
-                                            <th>일반과정</th>
-                                            <th>KDT</th>
-                                        </tr>
-                                        <tr>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
-                                            <td>0</td>
+                                            <td id="reciept">0</td>
+                                            <td id="inquiry">0</td>
                                         </tr>
                                     </table>
                                     <span id="t3">
-                                        <a href=""><img alt="인쇄" src=""/></a>
-                                        <a href=""><img alt="액셀다운" src=""/></a>
+                                       
                                     </span>
                                     <span id="nowDate"></span>
                                     <table id="right_table" class="table">
@@ -185,8 +164,34 @@
 				data:"year="+year+"&selectList=3"
 			}).done(function(result){
 				$("#counselReceipt_Table").html(result);
+                //과정별 일일 접수,문의내역구하기
+                $.ajax({
+                    url:"getCountast",
+                    type:"post",
+                    data:"select=0&list=list&today=today",
+                    dataType:"json"
+                }).done(function(res){
+                    let inquiry_ar = res.inquiry; //일일문의
+                    let consult_ar = res.consult; //일일상담
+                    let receipt_ar = res.receipt; //일일 접수
+                    
+                    if(inquiry_ar != null){
+                        for(let i =0; i<inquiry_ar.length;i++){
+                            let num = Number($(".inquiry"+inquiry_ar[i].c_idx).html())+1;
+                            $(".inquiry"+inquiry_ar[i].c_idx).html(num);
+                        }                        
+                    }
+                });
 			});
-			
+			//일일 문의,접수 내역구하기
+            $.ajax({
+                url:"getCountast",
+                type:"post",
+                data:"select=0",
+                dataType:"json"
+            }).done(function(res){
+                $("#inquiry").html(res.inquiry);
+            });
 			
 
             $("#select").change(function(){
@@ -197,6 +202,24 @@
                     data:"year="+year+"&selectList=3&select="+select,
                 }).done(function(result){
                     $("#counselReceipt_Table").html(result);
+                    //과정별 일일 접수 내역 구하기
+                    $.ajax({
+                        url:"getCountast",
+                        type:"post",
+                        data:"select=0&list=list&today=today",
+                        dataType:"json"
+                    }).done(function(res){
+                        let inquiry_ar = res.inquiry; //일일문의
+                        let consult_ar = res.consult; //일일상담
+                        let receipt_ar = res.receipt; //일일 접수
+
+                        if(inquiry_ar != null){
+                            for(let i =0; i<inquiry_ar.length;i++){
+                                let num = Number($(".inquiry"+inquiry_ar[i].c_idx).html())+1;
+                                $(".inquiry"+inquiry_ar[i].c_idx).html(num);
+                            }                        
+                        }
+                    });
                 });
             });
 		});

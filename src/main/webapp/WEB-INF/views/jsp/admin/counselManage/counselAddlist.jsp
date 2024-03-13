@@ -82,7 +82,6 @@
 			<tfoot>
                 <tr>
                     <td colspan="4">
-                        <button type="button" class="btn">인쇄</button>
                         <button type="button" class="btn">수정</button>
                         <button type="button" class="btn">삭제</button>
                         <button type="button" class="btn">목록</button>

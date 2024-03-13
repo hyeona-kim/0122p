@@ -86,16 +86,6 @@
                                 <!--자바스크립트 -->
                                 <h1>취업 현황 보고서</h1>
                             </div>
-                            <div id="ttop">
-                                <article id="t2" class="main_item">
-                                    <span id="t3">
-                                        <a href=""><img alt="인쇄" src=""/></a>
-                                        <a href=""><img alt="액셀다운" src=""/></a>
-                                    </span>
-                                    <span id="nowDate"></span>
-                                    
-                                </article>
-                            </div>
                             <div id="counselReceipt_Table">
                                 <!--과정에 대한 정보 가져오기 -->
                             </div>
@@ -121,7 +111,8 @@
             $(this).css("display","none");
         });
         $(function(){
-
+            $(".subSelect").removeClass("subSelect");
+            $("#l_two").addClass("subSelect");
             
 			$.ajax({
 				url: "jobsituation",

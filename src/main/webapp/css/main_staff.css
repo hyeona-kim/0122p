@@ -166,4 +166,21 @@
     color: rgb(21, 71, 144);
     font-weight: bolder;
 }
+#view_sign{
+    border: 1px solid #ababab;
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    width: 100px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 11px;
+}
+#view_sign>img{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
 

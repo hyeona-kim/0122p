@@ -30,13 +30,22 @@
                 <td>${cvo.start_date}</td>
                 <td>${cvo.end_date}</td>
                 <td>${fn:length(cvo.tr_ar)}</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
+                <td>${fn:length(cvo.tr_ar6)}</td>
+                <td>${fn:length(cvo.tr_ar2)}</td>
+                <td>${fn:length(cvo.tr_ar7)}</td>
+                <td>X</td>
+                <td>X</td>
+                <c:set var="all" value="${fn:length(cvo.tr_ar)}"/>
+                <c:set var="a" value="${fn:length(cvo.tr_ar2)}"/>
+                <c:set var="c" value="${fn:length(cvo.tr_ar7)}"/>
+                <c:if test="${all eq 0}">
+                    <td>0</td>
+                    <td>0</td>
+                </c:if>
+                <c:if test="${all ne 0}">
+                    <td>X</td>
+                    <td>${(a+c)/all*100}%</td>
+                </c:if>
             </tr>                
         </c:forEach>
     </c:if>

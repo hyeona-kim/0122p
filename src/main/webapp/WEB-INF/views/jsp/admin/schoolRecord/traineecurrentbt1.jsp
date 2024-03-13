@@ -35,7 +35,6 @@
                         <div id="staffList_top" class="title">훈련생현황</div>
                             <div class="main_item align_center main_color bold">｜${aa.c_name} (교육기간: ${aa.start_date} ~ ${aa.end_date})</div>
                       		<div class="main_item">
-								<input type="button" value="면접평가표등록" class="btn">
 								<input type="button" value="교육생일괄삭제" onclick="javascript:cudel()" class="btn">
 								<input type="button" value="교육생상태 일괄수정" onclick="alledit()" class="btn">
                          	 </div>
@@ -101,11 +100,9 @@
                             <td>
                                 <input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
                             <input type="button" id="fset"  onclick="javascript:location.href='traineeEdit?tr_idx=${vo7.tr_idx}&c_idx=${aa.c_idx}'" value="정보수정" class="btn"/>
-                            <input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx}','${aa.c_idx}')" value="신상기록부" class="btn">
-                            <input type="button" id="fset"  onclick="" value="서류관리" class="btn"><br/>
+                            <input type="button" id="fset"  onclick="traineewrite('${vo7.tr_idx}','${aa.c_idx}')" value="신상기록부" class="btn"><br/>
                             <input type="button" id="fset"  onclick="counseling('${vo7.tr_idx}','${aa.c_idx}')" value="상담일지" class="btn">
                             <input type="button" id="fset"  onclick="mange('${vo7.tr_idx}','${aa.c_idx}')" value="사후관리" class="btn">
-                            <input type="button" id="fset"  onclick="" value="면접평가표" class="btn">
                             </td>
                         </tr>
                     </c:forEach>

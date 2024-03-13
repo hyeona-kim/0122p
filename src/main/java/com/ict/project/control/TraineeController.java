@@ -82,7 +82,8 @@ public class TraineeController {
 
    /* 과정별 훈련생 현황 메뉴 */
    @RequestMapping("traincurrent")
-   public ModelAndView traincurrent(String cPage, String value, String select, String year, String num) {
+   public ModelAndView traincurrent(String cPage, String value, String select,
+         String year, String num) {
       ModelAndView mv = new ModelAndView();
       if (cPage == null)
          cPage = "1";
@@ -296,7 +297,28 @@ public class TraineeController {
 
       if (ar != null)
          mv.addObject("ar", ar);
-
+      CourseVO cvo = c_Service.getCourse2(c_idx);
+      mv.addObject("cvo", cvo);
+      
+      
+      String tn_idx2 = cvo.getTn_idx();
+      if(tn_idx2!=null && tn_idx2.length() >0){
+         String[] tn_ar = tn_idx2.split(",");
+         
+         if(ar != null){
+            for (int i=0; i<ar.length; i++){
+               boolean b = false;
+               for(int k =0; k<tn_ar.length; k++){
+                  if(tn_ar[k].equals(ar[i].getTn_idx())){
+                     b = true;
+                     break;
+                  }
+               }
+               
+               ar[i].setFlag(b);
+            }
+         }
+      }
       mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax");
       return mv;
    }
@@ -482,16 +504,16 @@ public class TraineeController {
                mv.addObject("t_path1", 1);
             if (vo.getT_path().contains("전단지"))
                mv.addObject("t_path2", 2);
-            if (vo.getT_path().contains("현수막")){
+            if (vo.getT_path().contains("현수막")) {
                mv.addObject("t_path3", 3);
             }
-            if (vo.getT_path().contains("생활정보지")){
+            if (vo.getT_path().contains("생활정보지")) {
                mv.addObject("t_path4", 4);
             }
-            if (vo.getT_path().contains("고용지원센터")){
+            if (vo.getT_path().contains("고용지원센터")) {
                mv.addObject("t_path5", 5);
             }
-            if (vo.getT_path().contains("직접내방")){
+            if (vo.getT_path().contains("직접내방")) {
                mv.addObject("t_path6", 6);
             }
             if (vo.getT_path().contains("지인소개"))
@@ -525,20 +547,20 @@ public class TraineeController {
             } catch (Exception e) {
                e.printStackTrace();
             }
-         }else{
+         } else {
             tvo.setOri_name(null);
             tvo.setFile_name(null);
          }
 
          String str = tvo.getTr_addr();
-         
+
          String[] aa = str.split(",");
          str = "";
-         if(aa.length == 0){
+         if (aa.length == 0) {
             tvo.setTr_addr(null);
-         }else{
+         } else {
             for (String bb : aa) {
-               str += bb+" ";
+               str += bb + " ";
             }
             tvo.setTr_addr(str);
          }
@@ -738,7 +760,10 @@ public class TraineeController {
 
       mv.addObject("wvo", wvo);
       mv.addObject("qvo", qvo);
-      mv.addObject("length", qvo.length);
+      if (qvo != null)
+         mv.addObject("length", qvo.length);
+      else
+         mv.addObject("length", 0);
       mv.addObject("tfvo", tfvo);
       mv.addObject("tr_idx", tr_idx);
       mv.addObject("c_idx", c_idx);
@@ -835,13 +860,12 @@ public class TraineeController {
    public ModelAndView confirmAdd(String c_idx, String cPage, String chk) {
       ModelAndView mv = new ModelAndView();
 
+      
       int cnt = c_Service.tnadd(chk, c_idx);
-      ;
-
+      
       mv.setViewName("redirect:trainconfirm");
 
       return mv;
-
    }
 
 }

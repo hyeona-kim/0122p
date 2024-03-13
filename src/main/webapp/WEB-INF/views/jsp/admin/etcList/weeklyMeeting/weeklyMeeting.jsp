@@ -45,6 +45,7 @@
 											<option>10</option>
 											<option>15</option>
 										</select>
+										<!--
 										<select id="searchType" class="select">
 											<option value="1">제목</option>
 											<option value="2">논의내용</option>
@@ -52,6 +53,7 @@
 										</select>
 										<input type="text" id="searchValue" class="text"/>
 										<button type="button" id="search_bt" class="btn">검색</button>
+										-->
 									</td>
 									<td>
 										<button type="button" id="weeklyMeeting_add_btn" onclick="setWk()" class="btn">회의록 등록</button>
@@ -192,6 +194,9 @@
 					width : 900,
 					maxHeight : 900
 				});
+				$("#cc_cancle").click(function(){
+					$("#dialog2").dialog("close")
+				})
 			});
 			
 		};

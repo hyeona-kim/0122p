@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.ict.project.mapper.TraineeMapper;
 import com.ict.project.vo.TraineeVO;
 
+import lombok.val;
+
 @Service
 public class TraineeService {
     @Autowired
@@ -165,5 +167,26 @@ public class TraineeService {
         }
 
         return ar;
+    }
+
+    public TraineeVO[] follup(String begin, String end, String c_idx, String value, String select) {
+
+        TraineeVO[] ar = null;
+
+        List<TraineeVO> list = t_mapper.follwup(begin, end, c_idx, value, select);
+        if (list != null && list.size() > 0) {
+            ar = new TraineeVO[list.size()];
+            list.toArray(ar);
+        }
+
+        return ar;
+    }
+
+    public int follwupcount(String value, String select) {
+
+        int cnt = t_mapper.follwupcount(value, select);
+
+        return cnt;
+
     }
 }

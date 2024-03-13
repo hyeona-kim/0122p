@@ -84,7 +84,7 @@
         <tr>
             <td colspan="3">
                 <button type="submit" class="btn" >저장</button>
-                <button type="button" id="cc_cancle" class="btn">목록</button>
+                <button type="button" id="cc_cancle2" class="btn">목록</button>
             </td>
         </tr>
     </tfoot>

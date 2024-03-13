@@ -17,7 +17,14 @@
 					<tbody>
 					<c:forEach items="${requestScope.ar }" var="va">
 					<tr>
-						<td><label class="checkbox-inline"><input type="checkbox" name="chk" class="chk" onclick="chkClicked('${va.tn_idx}')"  value="${va.tn_idx}"></td>
+						<td><label class="checkbox-inline">
+							<c:if test="${va.flag == true}">
+								<input type="checkbox" name="chk" class="chk" onclick="chkClicked('${va.tn_idx}')"  value="${va.tn_idx}" checked>
+							</c:if>
+							<c:if test="${va.flag == false}">
+								<input type="checkbox" name="chk" class="chk" onclick="chkClicked('${va.tn_idx}')"  value="${va.tn_idx}">
+							</c:if>
+						</td>
 						<td>${va.subject}</td>
 					</tr>
 					</c:forEach>

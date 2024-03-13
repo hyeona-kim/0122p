@@ -49,29 +49,13 @@
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
                     <div id="staffWrap">
-                        <div id="sugList_top" class="title">고충 및 건의사항</div>
-                        <table class="sugList table">
-                            <caption>고충 및 건의사항 검색 테이블</caption>
-                            <%-- ===== 검색하는 부분 ===== --%>
-                            <thead>
-                                <tr>
-                                    <th>검색</th>
-                                    <td>
-                                        <select id="search_tag" class="select">
-                                            <option value="subject">제목</option>
-                                            <option>작성자</option>
-                                        </select>
-                                        <input type="text" id="search_value" name="search_value" class="text"/>
-                                        <button type="button" id="search_btn" onclick="searchSugg()" class="btn">검색</button>
-                                    </td>
-                                    <th colspan="2">전체공지</th>
-                                    <td colspan="2">
-                                        <input type="checkbox" id="chk_btn" onchange="checkNotice()" class="btn"/>숨김
-                                    </td>
-                                </tr>
-                            </thead>
-                        </table>
-						<div class="main_item align_right"><button type="button" id="sug_add_btn" class="btn">글쓰기</button></div>
+                        <div id="sugList_top" class="title">Q&A</div>
+						<div class="main_item">
+							<select id="c_check" class="select">
+								<option value="1">미답변</option>
+								<option value="2">전체</option>
+							</select>
+						</div>
                         <%-- ===== 비동기식 통신으로 출력할 테이블 시작 ===== --%>
                         <form action="SuggDownload" name="downForm" method="get">
                             <input type="hidden" name="fname"/>
@@ -102,6 +86,9 @@
 	<div id="replyForm" hidden>
 	
 	</div>
+	<div id="dialog" hidden></div>
+
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="js/summernote-lite.js"></script>
@@ -124,73 +111,29 @@
 			$(".subSelect").removeClass("subSelect");
 			$("#l_one").addClass("subSelect");
 			
-			/* 처음 고충 및 건의사항을 클릭했을 때
-				 비동기식통신을 수행해 전체 목록을 가져온다 */
+
 			$.ajax({
 				url: "suggMain",
 				type: "post",
+				data: "qname=q&cPage=1&c_check=1"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 			
-			/* 목록에서 [글쓰기]버튼을 클릭했을 때 수행 */
-			$("#sug_add_btn").bind("click", function(){
+			$("#c_check").change(function(){
 				$.ajax({
-					url: "sugAddForm",
+					url: "suggMain",
 					type: "post",
+					data: "qname=q&cPage=1&c_check="+this.value
 				}).done(function(result){
-					$("#addForm").html(result);
-					// 글쓰기에 [에디터] 추가
-					$("#sg_content").summernote({
-						height: 200,
-						focus: true,
-						lang: "ko-KR",
-						dialogsInBody: true,
-						callbacks: {
-							onImageUpload: function(files, editor) {
-								for (let i=0; i<files.length; i++) {
-									sendImage(files[i], editor);
-								}
-							}
-						}
-					});
-					$("#sg_content").summernote("lineHeight", 0.7);
+					$("#ajaxContent").html(result);
 				});
-
-				$("#addForm").dialog({
-					title : '고충 및 건의사항 작성',
-					modal : true,
-					width : 1000,
-					maxHeight : 800
-				});
-			});
+			});	
+			
 			
 		});
 
-		// [글쓰기] 또는 [답변]을 할 때
-		// 에디터에 이미지가 업로드되면 내용에 추가하는 기능
-		function sendImage(file, editor, reply){
-			let frm = new FormData();
-
-			frm.append("file", file);
-
-			$.ajax({
-				url: "saveSuggImg",
-				type: "post",
-				data: frm,
-				contentType: false,
-				processData: false,
-				cache: false,
-				dataType: "json",
-			}).done(function(data) {
-				if(reply != null){
-					$("#reply_content").summernote("editor.insertImage", data.url+"/"+data.fname);
-				}else {
-					$("#sg_content").summernote("editor.insertImage", data.url+"/"+data.fname);
-				}
-			});
-		};
-		
+	
 		/* 목록 아래 [page번호]를 클릭할 때 수행
 			 cPage를 변수로 가지고 새롭게 비동기통신을 해서
 			 테이블을 표현한다 */
@@ -198,128 +141,57 @@
 			$.ajax({
 				url: "suggMain",
 				type: "post",
-				data: "cPage="+cPage
+				data: "qname=q&cPage="+cPage+"&c_check=2"
 			}).done(function(result){
 				$("#ajaxContent").html(result);
 			});
 		}
 		
-		/* 건의사항 작성 폼에서 [등록] 버튼을 눌렀을때 수행 */
-		function addSuggestion() {
-			// 제목만 유효성 검사
-			let subject = document.getElementById("sg_subject").value;
-
-			if(!subject.trim().length > 0) {
-				alert("제목을 입력하세요");
-				return;
-			}
-			
-			document.addForm.submit();
-		};
 		
-		/* 글의 제목을 클릭했을 때 내용 보기 */
-		function viewContent(sg_idx) {
-			$.ajax({
-				url: "viewSugg",
-				type: "post",
-				data: "sg_idx="+sg_idx
-			}).done(function(result){
-				$("#sugContent").html(result);
-			});
-			$("#sugContent").dialog({
-				title : '고충 및 건의사항',
-				modal : true,
-				width : 1000,
-				maxHeight : 800
-			});
-		};
-		
-		/* 건의사항 보기화면에서 [답변]을 눌렀을때 수행 */
-		function reply(sg_idx) {
-			let reply = "reply";
-			$.ajax({
-				url: "reply",
-				type: "post",
-				data: "sg_idx="+sg_idx
-			}).done(function(result){
-				$("#replyForm").html(result);
-				$("#reply_content").summernote({
-						height: 200,
-						focus: true,
-						lang: "ko-KR",
-						dialogsInBody: true,
-						callbacks: {
-							onImageUpload: function(files, editor) {
-								for (let i=0; i<files.length; i++) {
-									sendImage(files[i], editor, reply);
-								}
-							}
+		function openSugg(qna_idx){
+            $("#dialog").dialog("open");
+            $.ajax({
+                url: "viewSugg_s",
+                type:"post",
+                data:"qna_idx="+qna_idx,
+            }).done(function(result){
+                $("#dialog").html(result);
+				$("#cc_cancle").click(function(){
+					$("#dialog").dialog("close")
+				});
+				$("#add_comm").click(function(){
+					//cm_idx, cm_writer, cm_content, cm_write_date, qna_idx, status
+					let cm_writer=$("#cm_writer").val();
+					let cm_content=$("#cm_content").val();
+					let qna_idx=$("#qna_idx").val();
+					
+					let today = new Date();   
+					let year = today.getFullYear(); // 년도
+					let month = today.getMonth() + 1;  // 월
+					let date = today.getDate();  // 날짜
+					let cm_write_date= year + '-' + month + '-' + date;//현재날짜
+					$.ajax({
+						url:"addComm",
+						type:"post",
+						data:"cm_writer="+cm_writer+"&cm_content"+cm_content+"&qna_idx"+qna_idx+"&cm_write_date="+cm_write_date,
+						dataType:"json"
+					}).done(function(res){
+						if(res.cnt == 1){
+							alert("저장되었습니다")
+						}else{
+							alert("저장실패")
 						}
-				});
-				$("#reply_content").summernote("lineHeight", 0.7);
-			});
-			
-			$("#replyForm").dialog({
-				title : '고충 및 건의사항 답변 작성',
-				modal : true,
-				width : 1000,
-				maxHeight:  800,
-			});
-		};
-		
-		/* 답변 작성에서 [등록]을 눌렀을때 수행 */
-		function addReply(frm) {
-			// 제목만 유효성 검사
-			let subject = document.getElementById("reply_subject").value;
+					});
+				})
+            });
+        }
 
-			if(!subject.trim().length > 0) {
-				alert("제목을 입력하세요");
-				return;
-			}
-			frm.submit();
-		};
-		
-		/* 건의사항 목록에서 [검색]을 눌렀을때 수행 */
-		function searchSugg(cPage) {
-			let tag = document.getElementById("search_tag").value;
-			let value = document.getElementById("search_value").value;
-			$.ajax({
-				url: "searchSugg",
-				type: "post",
-				data: "cPage="+encodeURIComponent(cPage)+
-					  "&tag="+encodeURIComponent(tag)+
-					  "&value="+encodeURIComponent(value)
-			}).done(function(result){
-				$("#ajaxContent").html(result);
-			});
-		};
-		
-		/* 전체공지 [숨김] 체크박스를 눌렀을때 수행 */
-		function checkNotice(cPage) {
-			let checked = $("#chk_btn").is(':checked');
-			if(checked) {
-				$.ajax({
-					url: "checkNotice_sugg",
-					type: "post",
-					data: "cPage="+encodeURIComponent(cPage),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}else if(!checked){
-				$.ajax({
-					url: "suggMain",
-					type: "post",
-					data: "cPage="+encodeURIComponent('1'),
-				}).done(function(result){
-					$("#ajaxContent").html(result);
-				});
-			}
-		};
-
-		function download(fname) {
-			document.downForm.fname.value = fname;
-			document.downForm.submit();
-		};
+        $("#dialog").dialog({
+			autoOpen: false,
+			maxHeight: 900,
+			width: 1200,
+			modal: true,
+        });
     </script>
 </body>
 </html>

@@ -1,20 +1,25 @@
 package com.ict.project.control.front;
 
-
 import java.util.ArrayList;
+import java.util.Base64;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -25,28 +30,41 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ict.project.service.GradeCheckService;
+import com.ict.project.service.QuestionService;
+import com.ict.project.service.SuggestionService;
 import com.ict.project.service.TestService;
+import com.ict.project.util.Paging;
 import com.ict.project.util.Paging2;
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.EvaluationStatusVO;
+import com.ict.project.vo.GradeCheckVO;
 import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.QnaVO;
+import com.ict.project.vo.QuestionVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SuggestionVO;
 import jakarta.servlet.http.HttpServletRequest;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
 import com.ict.project.vo.WorkplusVO;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
-
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CommVO;
+import com.ict.project.vo.CounselReceiptVO;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/login")
@@ -57,6 +75,14 @@ public class TestController {
     private TestService t_Service;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private GradeCheckService g_Service;
+    @Autowired
+    private QuestionService q_Service;
+    @Autowired
+    private SuggestionService s_Service;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
@@ -67,6 +93,7 @@ public class TestController {
             map.put("memberVo", vo);
             session.setAttribute("memberVo", vo);
             map.put("m_id", vo.getM_id());
+            map.put("m_name", vo.getM_name());
             if (vo.getTr_idx() != null) {
                 map.put("tr_idx", vo.getTr_idx());
             }
@@ -128,6 +155,9 @@ public class TestController {
         boolean checkFlag = false;
         if (mvo != null) {
             map.put("memberVo", mvo);
+            map.put("m_id", mvo.getM_id());
+            map.put("m_name", mvo.getM_name());
+            map.put("tr_idx", mvo.getTr_idx());
             session.setAttribute("memberVo", mvo);
             checkFlag = true;
         }
@@ -211,6 +241,9 @@ public class TestController {
         boolean checkFlag = false;
         if (mvo != null) {
             map.put("memberVo", mvo);
+            map.put("m_id", mvo.getM_id());
+            map.put("m_name", mvo.getM_name());
+            map.put("tr_idx", mvo.getTr_idx());
             session.setAttribute("memberVo", mvo);
             checkFlag = true;
         }
@@ -318,6 +351,9 @@ public class TestController {
         Map<String, Object> map = new HashMap<>();
         CourseVO[] ar = t_Service.myCourse(m_id);
         map.put("ar", ar);
+        // 여기서 문의, 답변 관련 목록 찾아서 반환해야됨
+        AskcounselingVO[] replyAr = t_Service.myReply(m_id);
+        map.put("replyAr", replyAr);
         return map;
     }
 
@@ -408,11 +444,11 @@ public class TestController {
 
     @RequestMapping("/qna/write")
     public Map<String, Object> write(QnaVO vo) {
-       Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
-       int cnt = t_Service.qnawrite(vo);
-       map.put("res", cnt);
-       return map;
+        int cnt = t_Service.qnawrite(vo);
+        map.put("res", cnt);
+        return map;
     }
 
     @RequestMapping("/getmemberVO")
@@ -422,9 +458,140 @@ public class TestController {
 
         MemberVO[] ar = t_Service.getmember(m_id);
         map.put("ar", ar);
+        return map;
+    }
+
+    @RequestMapping("/qna/comm")
+    public Map<String, Object> comm(CommVO vo) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        int cnt = t_Service.addComm(vo);
+        map.put("res", cnt);
 
         return map;
+    }
 
+    @RequestMapping("/qna/commList")
+    public Map<String, Object> commList(String qna_idx) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        CommVO[] ar = t_Service.cList(qna_idx);
+
+        map.put("ar", ar);
+
+        return map;
+    }
+
+    @RequestMapping("/mySubject")
+    public Map<String, Object> mySubject(String c_idx) {
+        Map<String, Object> map = new HashMap<>();
+        SubjectVO[] ar = t_Service.mySubject(c_idx);
+        map.put("ar", ar);
+
+        return map;
+    }
+
+    @RequestMapping("/getReply")
+    public Map<String, Object> getReply(String ac_idx) {
+        Map<String, Object> map = new HashMap<>();
+
+        // 여기서 내가 클릭한 문의의 내용을 가져온다.
+        AskcounselingVO[] ar = t_Service.getReply(ac_idx);
+        map.put("replyAr", ar);
+
+        return map;
+    }
+
+    @RequestMapping("/answerSubmit")
+    public Map<String, Object> answerSubmit(String[] mc_ar, String[] sa_ar, String tr_idx, String es_idx) {
+        Map<String, Object> map = new HashMap<>();
+
+        // 제출한 답안을 DB에 저장한다.
+        // 제출을 한 수강생과 시험의 정보로 채점해야할 목록을 가져온다
+        GradeCheckVO[] gc_ar = g_Service.list(es_idx, tr_idx);
+        QuestionVO[] q_ar = q_Service.list(es_idx);
+        List<GradeCheckVO> ar1 = new ArrayList<>(); // 객관식 문제 배열
+        List<GradeCheckVO> ar2 = new ArrayList<>(); // 주관식 문제 배열
+
+        for (int i = 0; i < gc_ar.length; i++) {
+            if (q_ar[i].getQt_type().equals("0")) { // 이게 객관식
+                ar1.add(gc_ar[i]);
+            } else { // 이게 주관식
+                ar2.add(gc_ar[i]);
+            }
+        }
+
+        // 가져온 채점 목록을 for문을 이용해서 하나씩 채점을 한다
+        // 제출한 정답과 qt_correct를 비교하고 같을때만
+        // set_grade를 한다
+        for (int i = 0; i < ar1.size(); i++) {
+            ar1.get(i).setGc_answer(mc_ar[i]);
+            g_Service.set_answer(ar1.get(i));
+            g_Service.set_grade(ar1.get(i).getGc_idx());
+        }
+
+        for (int i = 0; i < ar2.size(); i++) {
+            ar2.get(i).setGc_answer(sa_ar[i]);
+            g_Service.set_answer(ar2.get(i));
+            g_Service.set_grade(ar2.get(i).getGc_idx());
+        }
+
+        // 채점이 끝난 후 총 점수를 반환한다
+        int totalScore = g_Service.all_grade(es_idx, tr_idx);
+        map.put("totalScroe", totalScore);
+        return map;
+    }
+
+    @RequestMapping("/myExam")
+    public Map<String, Object> myExam(String s_idx) {
+        Map<String, Object> map = new HashMap<>();
+
+        // list로 해당 문제들을 가져와서 객관식, 주관식으로 나눠서
+        // 각각 배열로 저장해야한다.
+        QuestionVO[] ar = t_Service.myExam(s_idx);
+
+        // 해당 문제가 있을때(ar이 null이 아닐때)만 각각 배열에 저장한다.
+        if (ar != null && ar.length > 0) {
+            map.put("es_idx", ar[0].getEs_idx());
+            List<QuestionVO> shortAnswer_list = new ArrayList<>();
+            List<QuestionVO> multipleChoice_list = new ArrayList<>();
+
+            for (int i = 0; i < ar.length; i++) {
+                // Qt_type이 0이면 객관식, 1이면 주관식이므로 각각 list에 저장한다.
+                if (ar[i].getQt_type().equals("0")) {
+                    multipleChoice_list.add(ar[i]);
+                }
+                if (ar[i].getQt_type().equals("1")) {
+                    shortAnswer_list.add(ar[i]);
+                }
+            }
+
+            // 객관식 문제의 list가 비어있지 않다면 배열로 변환
+            if (!multipleChoice_list.isEmpty()) {
+                QuestionVO[] mc_ar = new QuestionVO[multipleChoice_list.size()];
+                multipleChoice_list.toArray(mc_ar);
+                map.put("mc_ar", mc_ar);
+                // 객관식 보기를 따로 배열로 저장
+                // 이 부분은 현재 미구현(다시 알아봐야함)
+                int option_cnt = 0;
+                for (int i = 0; i < mc_ar.length; i++) {
+                    String[] option_ar = new String[mc_ar[i].getQt_select().split("│").length];
+                    option_ar = mc_ar[i].getQt_select().split("│");
+                    map.put("option_ar" + i, option_ar);
+                    option_cnt++;
+                }
+                map.put("option_cnt", option_cnt);
+            }
+            // 주관식 문제의 list가 비어있지 않다면 배열로 변환
+            if (!shortAnswer_list.isEmpty()) {
+                QuestionVO[] sa_ar = new QuestionVO[shortAnswer_list.size()];
+                shortAnswer_list.toArray(sa_ar);
+                map.put("sa_ar", sa_ar);
+            }
+        }
+        return map;
     }
 
     @RequestMapping("/qna/getqnaList")
@@ -526,31 +693,7 @@ public class TestController {
         System.out.println(cnt);
         return map;
     }
-
-    @RequestMapping("/qna/comm")
-    public Map<String, Object> comm(CommVO vo) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.addComm(vo);
-        map.put("res", cnt);
-
-        return map;
-    }
-
-    @RequestMapping("/qna/commList")
-    public Map<String, Object> commList(String qna_idx) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        CommVO[] ar = t_Service.cList(qna_idx);
-
-        map.put("ar", ar);
-
-        return map;
-
-    }
-    
+  
     @RequestMapping("/after/list")
     public Map<String, Object> afterlist(){
 

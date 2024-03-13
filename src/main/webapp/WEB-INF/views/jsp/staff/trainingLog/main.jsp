@@ -49,12 +49,12 @@
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
                 <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
+                 <!--<li id='l_six'><a onclick="list(6)">채팅방</a></li>-->
             </ul>
         </div>
         <div class="right">
             <div class="main_item">
                 <div class="align_right">
-                    <button type="button" class="btn blue" id="print_btn">훈련일지 일괄출력</button>
                     <button type="button" class="btn" id="write_btn">훈련일지 등록</button>
                 </div>
             </div>
@@ -367,8 +367,8 @@
                 location.href = "staffMain?leftList=1&c_idx="+c_idx;
             }else if(num =="2"){
                 location.href = "staffMain?leftList=2&c_idx="+c_idx;
-            }else if(num =="3"){
-                location.href = "staffMain?leftList=3&c_idx="+c_idx;
+            }else if(num =="6"){
+                location.href = "staffMain?leftList=6&c_idx="+c_idx;
             }else if(num =="4"){
                 location.href = "staffMain?leftList=4&c_idx="+c_idx;
             }else if(num =="5"){
