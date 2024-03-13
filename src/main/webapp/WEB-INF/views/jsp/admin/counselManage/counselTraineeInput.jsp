@@ -106,7 +106,7 @@
             $("#dialog").dialog("open");
             $("#dialog").html(result);
             
-            $("#cc_cancle").click(function(){
+            $("#cl").click(function(){
                 $("#dialog").dialog("close");
             });
          });
