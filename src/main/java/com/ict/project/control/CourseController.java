@@ -124,10 +124,11 @@ public class CourseController {
 	}
 
 	@RequestMapping("addCourse")
-	public String addCourse(CourseVO cvo, String cPage, String select, String num, String year, String value) {
+	public String addCourse(CourseVO cvo, String cPage, String select,
+			String num, String year, String value) {
 		c_Service.addCourse(cvo);
-		// System.out.println(cPage+"/"+select+"/"+num+"/"+year+"/"+value);
-		return "redirect:course?listSelect=1&cPage=" + cPage + "&select=" + select + "&num=" + num + "&year=" + year
+		return "redirect:course?listSelect=1&cPage=" + cPage + "&select=" +
+				select + "&num=" + num + "&year=" + year
 				+ "&value=" + value;
 	}
 
