@@ -82,7 +82,8 @@ public class TraineeController {
 
    /* 과정별 훈련생 현황 메뉴 */
    @RequestMapping("traincurrent")
-   public ModelAndView traincurrent(String cPage, String value, String select, String year, String num) {
+   public ModelAndView traincurrent(String cPage, String value, String select,
+         String year, String num) {
       ModelAndView mv = new ModelAndView();
       if (cPage == null)
          cPage = "1";
@@ -503,16 +504,16 @@ public class TraineeController {
                mv.addObject("t_path1", 1);
             if (vo.getT_path().contains("전단지"))
                mv.addObject("t_path2", 2);
-            if (vo.getT_path().contains("현수막")){
+            if (vo.getT_path().contains("현수막")) {
                mv.addObject("t_path3", 3);
             }
-            if (vo.getT_path().contains("생활정보지")){
+            if (vo.getT_path().contains("생활정보지")) {
                mv.addObject("t_path4", 4);
             }
-            if (vo.getT_path().contains("고용지원센터")){
+            if (vo.getT_path().contains("고용지원센터")) {
                mv.addObject("t_path5", 5);
             }
-            if (vo.getT_path().contains("직접내방")){
+            if (vo.getT_path().contains("직접내방")) {
                mv.addObject("t_path6", 6);
             }
             if (vo.getT_path().contains("지인소개"))
@@ -546,20 +547,20 @@ public class TraineeController {
             } catch (Exception e) {
                e.printStackTrace();
             }
-         }else{
+         } else {
             tvo.setOri_name(null);
             tvo.setFile_name(null);
          }
 
          String str = tvo.getTr_addr();
-         
+
          String[] aa = str.split(",");
          str = "";
-         if(aa.length == 0){
+         if (aa.length == 0) {
             tvo.setTr_addr(null);
-         }else{
+         } else {
             for (String bb : aa) {
-               str += bb+" ";
+               str += bb + " ";
             }
             tvo.setTr_addr(str);
          }

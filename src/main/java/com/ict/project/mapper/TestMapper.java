@@ -12,6 +12,7 @@ import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
+import com.ict.project.vo.WorkplusVO;
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CommVO;
 
@@ -79,6 +80,11 @@ public interface TestMapper {
 
     int del(String qna_idx);
 
+
+    List<TraineeVO> tr_name();
+
+    List<WorkplusVO> afterlist();
+  
     List<SubjectVO> mySubject(String c_idx);
 
     List<QuestionVO> myExam(String s_idx);

@@ -65,7 +65,6 @@
 				<tr>
 					<td colspan="5">
 						<button type="button" onclick="counselA('${cvo.c_idx}')" class="btn">보고서등록</button>
-						<button type="button" onclick="" class="btn">인쇄</button>
 						<button type="button" id="cc_cancle" class="btn">취소</button>
 					</td>
 				</tr>

@@ -90,7 +90,8 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("evalutationManageLog")
-    public ModelAndView trainingLog(String listSelect, String select, String value, String year, String num,
+    public ModelAndView trainingLog(String listSelect, String select, String value, String year,
+            String num,
             String cPage) {
         ModelAndView mv = new ModelAndView();
         if (value == null || value.trim().length() < 1)
@@ -193,7 +194,8 @@ public class EvaluationManageController {
     }
 
     @RequestMapping("diary_ajax3")
-    public ModelAndView diary_ajax3(String listSelect, String num, String cPage, String s_idx, String c_idx) {
+    public ModelAndView diary_ajax3(String listSelect, String num, String cPage,
+            String s_idx, String c_idx) {
         ModelAndView mv = new ModelAndView();
         if (num == null || num.trim().length() < 1 || num.equals("표시개수"))
             num = null;
@@ -523,6 +525,9 @@ public class EvaluationManageController {
     @RequestMapping("addExam")
     public ModelAndView addExam(String[] sk_idx, String[] qt_name, String[] qt_content, String[] qt_select,
             String[] qt_correct, String[] qt_type, String[] qt_score, String es_idx, String s_idx) {
+
+        System.out.println("s_idx=" + s_idx);
+
         ModelAndView mv = new ModelAndView();
         QuestionVO qvo = new QuestionVO();
         for (int i = 0; i < qt_name.length; i++) {
@@ -618,7 +623,8 @@ public class EvaluationManageController {
                         total[i] = 0;
                     for (int j = 0; j < sbvo.length; j++) {
                         if (esvo[j] != null) {
-                            totalScore[j] = gc_Service.all_grade(esvo[j].getEs_idx(), cvo.getTr_ar()[i].getTr_idx());
+                            totalScore[j] = gc_Service.all_grade(esvo[j].getEs_idx(),
+                                    cvo.getTr_ar()[i].getTr_idx());
                             if (totalScore[j] == null)
                                 totalScore[j] = 0;
                             total[i] += totalScore[j];
