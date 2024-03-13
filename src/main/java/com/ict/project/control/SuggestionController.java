@@ -128,7 +128,9 @@ public class SuggestionController {
 	@ResponseBody
 	public Map<String,Integer> addComm(CommVO cvo) {
 		Map<String,Integer> map = new HashMap<>();
-		
+		System.out.println(cvo.getCm_write_date());
+		int cnt = t_Service.addcomm(cvo);
+		map.put("cnt", cnt);
 		return map;
 	}
 	

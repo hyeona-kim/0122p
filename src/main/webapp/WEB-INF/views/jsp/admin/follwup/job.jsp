@@ -123,10 +123,6 @@
                                             <td>0</td>
                                         </tr>
                                     </table>
-                                    <span id="t3">
-                                        <a href=""><img alt="인쇄" src=""/></a>
-                                        <a href=""><img alt="액셀다운" src=""/></a>
-                                    </span>
                                     <span id="nowDate"></span>
                                     <table id="right_table" class="table">
                                         <tr>

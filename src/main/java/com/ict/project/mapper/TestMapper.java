@@ -67,12 +67,13 @@ public interface TestMapper {
     List<QnaVO> qnalist(String qname, String begin, String end);
 
     List<CommVO> commList(String qna_idx);
+    
+    int addcomm(CommVO cmvo);
 
     int addqna(QnaVO vo);
 
     QnaVO getqna(String qna_idx);
 
-    int addComm(CommVO vo);
 
     int edit(QnaVO vo);
 
@@ -87,4 +88,5 @@ public interface TestMapper {
     List<AskcounselingVO> myReply(String m_id);
 
     List<AskcounselingVO> getReply(String ac_idx);
+
 }

@@ -466,16 +466,6 @@ public class TestController {
         return map;
     }
 
-    @RequestMapping("/qna/comm")
-    public Map<String, Object> comm(CommVO vo) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.addComm(vo);
-        map.put("res", cnt);
-
-        return map;
-    }
 
     @RequestMapping("/qna/commList")
     public Map<String, Object> commList(String qna_idx) {

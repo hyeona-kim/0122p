@@ -13,8 +13,7 @@
             <th>실시인원</th>   
             <th>수료</th> 
             <th>미수료중도탈락</th>
-            <th>조기취업</th>
-            <th>수료후 취업</th>
+            <th>취업</th>
             <th>취업률</th>
             <th>수료율</th>
         </tr>
@@ -32,19 +31,19 @@
                 <td>${fn:length(cvo.tr_ar)}</td> <!--실시인원-->
                 <td>${fn:length(cvo.tr_ar6)}</td><!--수료-->
                 <td>${fn:length(cvo.tr_ar2)}</td><!--제적-->
-                <td>X</td><!--조기취업-->
-                <td>X</td><!--수료후 취업 -->
+                <td>${cvo.workplus_mem}</td><!--수료후 취업 -->
                 <c:set var="all" value="${fn:length(cvo.tr_ar)}"/>
                 <c:set var="a" value="${fn:length(cvo.tr_ar6)}"/>
                 <c:set var="c" value="${fn:length(cvo.tr_ar4)}"/>
                 <c:set var="d" value="${fn:length(cvo.tr_ar6)}"/>
+                <c:set var="e" value="${cvo.workplus_mem}"/>
                 <c:if test="${all eq 0}">
                     <td>0</td>
                     <td>0</td>
                 </c:if>
                 <c:if test="${all ne 0}">
-                    <td>X</td>
-                    <td>${(c+d)/all*100}%</td>
+                    <td>${e/all*100}%</td>
+                    <td>${a/all*100}%</td>
                 </c:if>
             </tr>                
         </c:forEach>

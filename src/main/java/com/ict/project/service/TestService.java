@@ -236,10 +236,6 @@ public class TestService {
         return t_Mapper.addqna(vo);
     }
 
-    public int addComm(CommVO vo) {
-        return t_Mapper.addComm(vo);
-    }
-
     public int del(String qna_idx) {
         return t_Mapper.del(qna_idx);
     }
@@ -313,5 +309,8 @@ public class TestService {
         }
 
         return ar;
+    }
+    public int addcomm(CommVO cmvo){
+        return t_Mapper.addcomm(cmvo);
     }
 }

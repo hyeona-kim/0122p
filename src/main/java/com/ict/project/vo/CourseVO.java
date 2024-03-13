@@ -24,5 +24,6 @@ public class CourseVO {
 	private TraineeVO[] tr_ar7;
 	private CounselVO[] cs_ar;
 	private TrainingDiaryVO[] td_ar;
+	private int workplus_mem=0;
 
 }
