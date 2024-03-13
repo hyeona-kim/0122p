@@ -111,8 +111,7 @@
 			$(".subSelect").removeClass("subSelect");
 			$("#l_one").addClass("subSelect");
 			
-			/* 처음 고충 및 건의사항을 클릭했을 때
-				 비동기식통신을 수행해 전체 목록을 가져온다 */
+
 			$.ajax({
 				url: "suggMain",
 				type: "post",
@@ -148,24 +147,6 @@
 			});
 		}
 		
-		/* 글의 제목을 클릭했을 때 내용 보기 */
-		function viewContent(sg_idx) {
-			$.ajax({
-				url: "viewSugg",
-				type: "post",
-				data: "sg_idx="+sg_idx
-			}).done(function(result){
-				$("#sugContent").html(result);
-			});
-			$("#sugContent").dialog({
-				title : '고충 및 건의사항',
-				modal : true,
-				width : 1000,
-				maxHeight : 800
-			});
-		};
-		
-	
 		
 		function openSugg(qna_idx){
             $("#dialog").dialog("open");
@@ -175,7 +156,33 @@
                 data:"qna_idx="+qna_idx,
             }).done(function(result){
                 $("#dialog").html(result);
-             
+				$("#cc_cancle").click(function(){
+					$("#dialog").dialog("close")
+				});
+				$("#add_comm").click(function(){
+					//cm_idx, cm_writer, cm_content, cm_write_date, qna_idx, status
+					let cm_writer=$("#cm_writer").val();
+					let cm_content=$("#cm_content").val();
+					let qna_idx=$("#qna_idx").val();
+					
+					let today = new Date();   
+					let year = today.getFullYear(); // 년도
+					let month = today.getMonth() + 1;  // 월
+					let date = today.getDate();  // 날짜
+					let cm_write_date= year + '-' + month + '-' + date;//현재날짜
+					$.ajax({
+						url:"addComm",
+						type:"post",
+						data:"cm_writer="+cm_writer+"&cm_content"+cm_content+"&qna_idx"+qna_idx+"&cm_write_date="+cm_write_date,
+						dataType:"json"
+					}).done(function(res){
+						if(res.cnt == 1){
+							alert("저장되었습니다")
+						}else{
+							alert("저장실패")
+						}
+					});
+				})
             });
         }
 

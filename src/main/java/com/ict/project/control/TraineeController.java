@@ -296,7 +296,28 @@ public class TraineeController {
 
       if (ar != null)
          mv.addObject("ar", ar);
-
+      CourseVO cvo = c_Service.getCourse2(c_idx);
+      mv.addObject("cvo", cvo);
+      
+      
+      String tn_idx2 = cvo.getTn_idx();
+      if(tn_idx2!=null && tn_idx2.length() >0){
+         String[] tn_ar = tn_idx2.split(",");
+         
+         if(ar != null){
+            for (int i=0; i<ar.length; i++){
+               boolean b = false;
+               for(int k =0; k<tn_ar.length; k++){
+                  if(tn_ar[k].equals(ar[i].getTn_idx())){
+                     b = true;
+                     break;
+                  }
+               }
+               
+               ar[i].setFlag(b);
+            }
+         }
+      }
       mv.setViewName("/jsp/admin/schoolRecord/confirm_ajax");
       return mv;
    }
@@ -838,13 +859,12 @@ public class TraineeController {
    public ModelAndView confirmAdd(String c_idx, String cPage, String chk) {
       ModelAndView mv = new ModelAndView();
 
+      
       int cnt = c_Service.tnadd(chk, c_idx);
-      ;
-
+      
       mv.setViewName("redirect:trainconfirm");
 
       return mv;
-
    }
 
 }

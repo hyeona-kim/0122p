@@ -35,7 +35,7 @@
                 <li id='l_two'><a onclick="list(2)">평가관리</a></li>
                 <li id='l_four'><a onclick="list(4)">과정별 훈련생 관리</a></li>
                 <li id='l_five'><a onclick="list(5)">일정보기</a></li>
-                <li id='l_six'><a onclick="list(6)">채팅방</a></li>
+                <!--<li id='l_six'><a onclick="list(6)">채팅방</a></li>-->
             </ul>
         </div>
         <div class="right">
