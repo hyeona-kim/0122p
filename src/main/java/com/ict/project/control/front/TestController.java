@@ -53,21 +53,16 @@ import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SuggestionVO;
-
 import jakarta.servlet.http.HttpServletRequest;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
-
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.ict.project.vo.WorkplusVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
-
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CommVO;
 import com.ict.project.vo.CounselReceiptVO;
-
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -684,6 +679,7 @@ public class TestController {
 
         int cnt = t_Service.del(qna_idx);
         map.put("res", cnt);
+        System.out.println(qna_idx);
         return map;
     }
 
@@ -695,6 +691,20 @@ public class TestController {
         int cnt = t_Service.edit(vo);
         map.put("res", cnt);
         System.out.println(cnt);
+        return map;
+    }
+  
+    @RequestMapping("/after/list")
+    public Map<String, Object> afterlist(){
+
+        Map<String,Object> map = new HashMap<>();
+
+        TraineeVO[] ar = t_Service.tlist();
+        WorkplusVO[] aa = t_Service.wlist();
+        System.out.println(ar.length+"/"+aa.length+"/");
+        map.put("ar", ar);
+        map.put("aa", aa);
+
         return map;
     }
 

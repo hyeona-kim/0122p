@@ -16,6 +16,7 @@ import com.ict.project.vo.StaffVO;
 import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
+import com.ict.project.vo.WorkplusVO;
 import com.ict.project.vo.AskcounselingVO;
 import com.ict.project.vo.CommVO;
 
@@ -263,6 +264,30 @@ public class TestService {
         return t_Mapper.checkEmail(m_email);
     }
 
+
+    public WorkplusVO[] wlist(){
+        WorkplusVO[] ar = null;
+
+        List<WorkplusVO> list = t_Mapper.afterlist();
+        if(list != null && !list.isEmpty()){
+            ar = new WorkplusVO[list.size()];
+                list.toArray(ar);
+            
+        }
+        return ar;
+    }
+
+    public TraineeVO[] tlist(){
+        TraineeVO[] ar = null;
+
+        List<TraineeVO> list = t_Mapper.tr_name();
+        if(list !=null && !list.isEmpty()){
+            ar = new TraineeVO[list.size()];
+            list.toArray(ar);
+        }
+        return ar;
+    }   
+
     public SubjectVO[] mySubject(String c_idx) {
         SubjectVO[] ar = null;
 
@@ -314,4 +339,5 @@ public class TestService {
 
         return ar;
     }
+
 }
