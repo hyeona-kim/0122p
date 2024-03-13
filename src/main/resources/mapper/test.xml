@@ -206,6 +206,14 @@
 		set status = 1
 		where qna_idx = #{qna_idx} 
 	</update>
+
+    <select id="afterlist" parameterType="String" resultType="com.ict.project.vo.WorkplusVO">
+        select * from workplus_t
+    </select>
+
+    <select id="tr_name" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+        select * from trainee_t
+    </select>
 	
 
 </mapper>

@@ -41,6 +41,8 @@ import com.ict.project.vo.StaffVO;
 import jakarta.servlet.http.HttpServletRequest;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
+import com.ict.project.vo.WorkplusVO;
+
 import jakarta.servlet.http.HttpSession;
 
 import com.ict.project.vo.AskcounselingVO;
@@ -413,7 +415,7 @@ public class TestController {
        return map;
     }
 
-@RequestMapping("/getmemberVO")
+    @RequestMapping("/getmemberVO")
     public Map<String, Object> getmember(String m_id) {
 
         Map<String, Object> map = new HashMap<>();
@@ -510,6 +512,7 @@ public class TestController {
 
         int cnt = t_Service.del(qna_idx);
         map.put("res", cnt);
+        System.out.println(qna_idx);
         return map;
     }
 
@@ -547,5 +550,20 @@ public class TestController {
         return map;
 
     }
+    
+    @RequestMapping("/after/list")
+    public Map<String, Object> afterlist(){
+
+        Map<String,Object> map = new HashMap<>();
+
+        TraineeVO[] ar = t_Service.tlist();
+        WorkplusVO[] aa = t_Service.wlist();
+        System.out.println(ar.length+"/"+aa.length+"/");
+        map.put("ar", ar);
+        map.put("aa", aa);
+
+        return map;
+    }
+
 
 }
