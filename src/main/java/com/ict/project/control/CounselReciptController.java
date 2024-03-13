@@ -54,7 +54,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class CounselReciptController {
     @Autowired
@@ -93,6 +92,7 @@ public class CounselReciptController {
     TraineeService tn_Service;
     @Autowired
     AskcounselingService as_Service;
+
     @RequestMapping("counselReceipt")
     public ModelAndView counselReceipt(String listSelect, String year, String select) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -287,16 +287,16 @@ public class CounselReciptController {
         return "redirect:counselReceipt?listSelect=1&cPage=1";
     }
 
-    @RequestMapping("delInflowPath")
-    public String delInflowPath(String id_idx) {
-        int cnt = id_Service.deleteInflowPath(id_idx);
+    @RequestMapping("delNextscheduled")
+    public String delNextscheduled(String ns_idx) {
+        int cnt = ns_Service.deleteNS(ns_idx);
 
         return "redirect:counselReceipt?listSelect=2&cPage=1";
     }
 
-    @RequestMapping("delNextscheduled")
-    public String delNextscheduled(String ns_idx) {
-        int cnt = ns_Service.deleteNS(ns_idx);
+    @RequestMapping("delInflowPath")
+    public String delInflowPath(String id_idx) {
+        int cnt = id_Service.deleteInflowPath(id_idx);
 
         return "redirect:counselReceipt?listSelect=2&cPage=1";
     }
@@ -740,21 +740,22 @@ public class CounselReciptController {
             mv.setViewName("/jsp/admin/counselReceipt/counselingDetail_ajax");
         return mv;
     }
+
     @RequestMapping("counseling_main")
-    public ModelAndView counseling_main(String main,String c_idx) {
+    public ModelAndView counseling_main(String main, String c_idx) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("admin_menu", "counseling");
-        if(c_idx == null || c_idx.trim().length() ==0){
+        if (c_idx == null || c_idx.trim().length() == 0) {
             c_idx = null;
         }
-         
-        AskcounselingVO[] ar1 = as_Service.getASK(null, null, "0",c_idx);
-        AskcounselingVO[] ar2 = as_Service.getASK(null, null, "1",c_idx);
-        
+
+        AskcounselingVO[] ar1 = as_Service.getASK(null, null, "0", c_idx);
+        AskcounselingVO[] ar2 = as_Service.getASK(null, null, "1", c_idx);
+
         mv.addObject("ar1", ar1);
         mv.addObject("ar2", ar2);
         mv.setViewName("/jsp/admin/main_admin_ajax");
         return mv;
     }
-    
+
 }

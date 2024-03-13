@@ -1,4 +1,5 @@
 package com.ict.project.control;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -32,29 +33,29 @@ import com.ict.project.vo.CourseVO;
 
 @Controller
 public class BoardController {
-    @Autowired
-    HttpServletRequest request;
+	@Autowired
+	HttpServletRequest request;
 	@Autowired
 	HttpServletResponse response;
-    @Autowired
-    HttpSession session;
-    @Autowired
-    ServletContext application;
+	@Autowired
+	HttpSession session;
+	@Autowired
+	ServletContext application;
 	@Autowired
 	BoardService b_Service;
 	@Autowired
 	CourseService c_Service;
-	
+
 	private List<BoardVO> bd_r_list;
 
 	// 조회수 증가를 위해 읽었던 게시물인지 확인하는 기능
 	public boolean CheckRead(BoardVO vo) {
 		boolean flag = false;
 
-		for(int i=0; i<bd_r_list.size(); i++) {
+		for (int i = 0; i < bd_r_list.size(); i++) {
 			BoardVO bvo = bd_r_list.get(i);
 
-			if(vo.getBd_idx().equals(bvo.getBd_idx())) {
+			if (vo.getBd_idx().equals(bvo.getBd_idx())) {
 				flag = true;
 				break;
 			}
@@ -81,23 +82,24 @@ public class BoardController {
 		Paging page = new Paging();
 		page.setTotalRecord(c_Service.getCount());
 
-		if(cPage == null || cPage.equalsIgnoreCase("undefined")){
+		if (cPage == null || cPage.equalsIgnoreCase("undefined")) {
 			page.setNowPage(1);
-		}else {
+		} else {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
-		
-		CourseVO[] ar = c_Service.getCourseList(String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
-	
+
+		CourseVO[] ar = c_Service.getCourseList(String.valueOf(page.getBegin()),
+				String.valueOf(page.getEnd()));
+
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
 		mv.setViewName("/jsp/admin/schoolRecord/boardCourse_ajax");
-		
+
 		return mv;
 	}
-    
+
 	@RequestMapping("test_viewBoardList")
-	public ModelAndView test_viewBoardList(String c_idx, String cPage){
+	public ModelAndView test_viewBoardList(String c_idx, String cPage) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("cPage", cPage);
 		mv.addObject("c_idx", c_idx);
@@ -111,19 +113,19 @@ public class BoardController {
 		BoardVO[] ar = null;
 		Paging page = null;
 		Object obj_p = request.getAttribute("page");
-		if(obj_p == null) {
+		if (obj_p == null) {
 			page = new Paging();
 			page.setNowPage(1);
-		}else {
+		} else {
 			page = (Paging) obj_p;
 		}
 		boolean viewList_flag = true;
 
 		page.setTotalRecord(b_Service.cntBoardList(c_idx));
 
-		if(cPage == null || cPage.equals("undefined") || cPage.trim().length() == 0){
+		if (cPage == null || cPage.equals("undefined") || cPage.trim().length() == 0) {
 			page.setNowPage(1);
-		}else {
+		} else {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
 		ar = b_Service.viewBoardList(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
@@ -145,15 +147,15 @@ public class BoardController {
 		BoardVO bvo = b_Service.getBoard(bd_idx);
 
 		Object obj = session.getAttribute("bd_r_list");
-		if(obj == null) {
+		if (obj == null) {
 			bd_r_list = new ArrayList<BoardVO>();
 			session.setAttribute("bd_r_list", bd_r_list);
-		}else {
+		} else {
 			bd_r_list = (ArrayList<BoardVO>) obj;
 		}
 
 		boolean read = CheckRead(bvo);
-		if(!read) {
+		if (!read) {
 			bd_r_list.add(bvo);
 			b_Service.addHit(bd_idx);
 		}
@@ -176,20 +178,20 @@ public class BoardController {
 	}
 
 	// 게시글 등록 테이블에서 [등록] 버튼을 클릭했을 때 수행하는 곳
-    @RequestMapping("test_addBoard")
-    public ModelAndView test_addBoard(BoardVO bvo) {
+	@RequestMapping("test_addBoard")
+	public ModelAndView test_addBoard(BoardVO bvo) {
 		ModelAndView mv = new ModelAndView();
 		String encType = request.getContentType();
 
-		if(encType.startsWith("application")) {
-			
-		}else if(encType.startsWith("multipart")) {
+		if (encType.startsWith("application")) {
+
+		} else if (encType.startsWith("multipart")) {
 			MultipartFile mf = bvo.getFile();
 			String fname = null;
 
-			if(mf != null && mf.getSize() > 0) {
+			if (mf != null && mf.getSize() > 0) {
 				String realPath = application.getRealPath("upload_boardFile");
-	
+
 				String oname = mf.getOriginalFilename();
 
 				fname = FileRenameUtil.checkSameFileName(oname, realPath);
@@ -203,11 +205,11 @@ public class BoardController {
 				bvo.setBd_oname(oname);
 			}
 		}
-		
+
 		b_Service.addBoard(bvo);
 		mv.setViewName("/jsp/admin/schoolRecord/boardMain");
 		return mv;
-    }
+	}
 
 	// 게시글 목록에서 [숨김] 체크박스를 클릭했을 때 수행하는 곳
 	@RequestMapping("test_checkNotice_board")
@@ -218,9 +220,9 @@ public class BoardController {
 		boolean notice_flag = true;
 		page.setTotalRecord(b_Service.cntNonNotice(c_idx));
 
-		if(cPage == null || cPage.equals("undefined")) {
+		if (cPage == null || cPage.equals("undefined")) {
 			page.setNowPage(1);
-		}else {
+		} else {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
 		ar = b_Service.checkNotice(c_idx, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
@@ -233,9 +235,9 @@ public class BoardController {
 
 		return mv;
 	}
-	
+
 	@RequestMapping("test_replyBoardAjax")
-	public ModelAndView test_replyBoardAjax(String bd_idx, String cPage, String c_idx){
+	public ModelAndView test_replyBoardAjax(String bd_idx, String cPage, String c_idx) {
 		ModelAndView mv = new ModelAndView();
 
 		BoardVO bvo = b_Service.getBoard(bd_idx);
@@ -261,13 +263,14 @@ public class BoardController {
 
 		page.setTotalRecord(b_Service.search_both_count(tag, value, year));
 
-		if(cPage == null || cPage.equalsIgnoreCase("undefined")){
+		if (cPage == null || cPage.equalsIgnoreCase("undefined")) {
 			page.setNowPage(1);
-		}else {
+		} else {
 			page.setNowPage(Integer.parseInt(cPage));
 		}
 
-		ar = b_Service.searchBothBoard(year, tag, value, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+		ar = b_Service.searchBothBoard(year, tag, value, String.valueOf(page.getBegin()),
+				String.valueOf(page.getEnd()));
 
 		mv.addObject("ar", ar);
 		mv.addObject("page", page);
@@ -279,11 +282,11 @@ public class BoardController {
 
 	@RequestMapping("boardDownload")
 	public ResponseEntity<Resource> fileDownload(String fname) {
-		String realPath = application.getRealPath("/upload_boardFile/"+fname);
+		String realPath = application.getRealPath("/upload_boardFile/" + fname);
 
 		File f = new File(realPath);
 
-		if(f.exists()) {
+		if (f.exists()) {
 			byte[] buf = new byte[4096];
 			int size = -1;
 
@@ -295,7 +298,8 @@ public class BoardController {
 
 			try {
 				response.setContentType("application/x-msdownload");
-				response.setHeader("Content-Disposition", "attachment;filename="+new String(fname.getBytes(), "8859_1"));
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + new String(fname.getBytes(), "8859_1"));
 
 				fis = new FileInputStream(f);
 				bis = new BufferedInputStream(fis);
@@ -303,7 +307,7 @@ public class BoardController {
 				sos = response.getOutputStream();
 				bos = new BufferedOutputStream(sos);
 
-				while((size=bis.read(buf)) != -1) {
+				while ((size = bis.read(buf)) != -1) {
 					bos.write(buf, 0, size);
 					bos.flush();
 				}
@@ -319,7 +323,8 @@ public class BoardController {
 						sos.close();
 					if (bos != null)
 						bos.close();
-				} catch (Exception e) { }
+				} catch (Exception e) {
+				}
 			}
 		}
 		return null;
@@ -334,7 +339,7 @@ public class BoardController {
 
 		// MultipartFile이 인자로 넘어오는 경우에는
 		// 무조건 생성해서 넘어오기 때문에 null과 비교하면 안된다
-		if(file.getSize() > 0) {
+		if (file.getSize() > 0) {
 			String realPath = application.getRealPath("upload_boardImage");
 
 			String oname = file.getOriginalFilename();
@@ -349,7 +354,7 @@ public class BoardController {
 
 			String Path = request.getContextPath();
 
-			map.put("url", Path+"/upload_boardImage");
+			map.put("url", Path + "/upload_boardImage");
 			map.put("fname", fname);
 		}
 		return map;
@@ -363,14 +368,15 @@ public class BoardController {
 		boolean search_flag = true;
 
 		int cnt = b_Service.reCount(c_idx, bd_subject);
-		if(cnt > 0) {
+		if (cnt > 0) {
 			page.setTotalRecord(cnt);
-			if(cPage == null || cPage.equals("undefined")) {
+			if (cPage == null || cPage.equals("undefined")) {
 				page.setNowPage(1);
-			}else {
+			} else {
 				page.setNowPage(Integer.parseInt(cPage));
 			}
-			ar = b_Service.searchBoard(c_idx, bd_subject, String.valueOf(page.getBegin()), String.valueOf(page.getEnd()));
+			ar = b_Service.searchBoard(c_idx, bd_subject, String.valueOf(page.getBegin()),
+					String.valueOf(page.getEnd()));
 		}
 
 		mv.addObject("cPage", cPage);
@@ -378,12 +384,12 @@ public class BoardController {
 		mv.addObject("page", page);
 		mv.addObject("ar", ar);
 		mv.addObject("search_flag", search_flag);
-		if(bd_subject.trim().length() > 0) {
+		if (bd_subject.trim().length() > 0) {
 			mv.setViewName("/jsp/admin/schoolRecord/test_boardList_ajax");
-		}else {
-			mv.setViewName("redirect:test_viewBoardList?c_idx="+c_idx);
+		} else {
+			mv.setViewName("redirect:test_viewBoardList?c_idx=" + c_idx);
 		}
-		
+
 		return mv;
-	}	
+	}
 }
