@@ -117,8 +117,7 @@
                                     <td>${vo4.c_round_num }</td>
                                     <td>${vo4.c_peo_num}</td>
                                     <td>
-                                    <input type="button" id="fset"  onclick="set('${vo4.tn_idx}')" value="확인서류설정" class="btn">
-                                    <input type="button" value="확인서류보기" class="btn"/>
+                                    <input type="button" id="fset"  onclick="set('${vo4.c_idx}')" value="확인서류설정" class="btn">
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -203,12 +202,12 @@
 
 
 		
-        function set(str,str1){
-            console.log(str+"/"+str1);
+        function set(str1){
+            console.log(str1);
             $.ajax({
                 url: "confirm",
                 type: "post",
-                data:"tn_idx="+str+"&c_idx="+str1
+                data:"c_idx="+str1
             }).done(function(result){
                 $("#m1").html(result);
             });

@@ -31,6 +31,9 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class SuggestionController {
@@ -108,8 +111,8 @@ public class SuggestionController {
 	public ModelAndView viewSugg_s(String qna_idx) {
 		ModelAndView mv = new ModelAndView();
 		QnaVO vo = t_Service.getqna(qna_idx);
-		mv.addObject("vo", vo);
-
+		mv.addObject("svo", vo);
+		//System.out.println(vo.getC_list().size());
 		mv.setViewName("/jsp/admin/schoolRecord/view_ajax");
 		return mv;
 	}
@@ -121,17 +124,12 @@ public class SuggestionController {
 		return "/jsp/admin/schoolRecord/suggestionList";
 	}
 
-	// 목록에서 [제목]을 클릭 시 해당 글의 내용을 보는 기능
-	@RequestMapping("viewSugg")
-	public ModelAndView viewSugg(String sg_idx) {
-		ModelAndView mv = new ModelAndView();
-		SuggestionVO vo = s_Service.view(sg_idx);
-
-	
-		mv.addObject("vo", vo);
-		mv.setViewName("/jsp/admin/schoolRecord/view_ajax");
-		return mv;
+	@RequestMapping("addComm")
+	@ResponseBody
+	public Map<String,Integer> addComm(CommVO cvo) {
+		Map<String,Integer> map = new HashMap<>();
+		
+		return map;
 	}
-
-
+	
 }

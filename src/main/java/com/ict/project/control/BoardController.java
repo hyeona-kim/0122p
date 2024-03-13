@@ -47,6 +47,12 @@ public class BoardController {
 	
 	private List<BoardVO> bd_r_list;
 
+	@RequestMapping("/bookList")
+    public String book() {
+        return "jsp/admin/etcList/book/bookList";
+    }
+    
+
 	// 조회수 증가를 위해 읽었던 게시물인지 확인하는 기능
 	public boolean CheckRead(BoardVO vo) {
 		boolean flag = false;
