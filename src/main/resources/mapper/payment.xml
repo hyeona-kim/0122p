@@ -22,6 +22,10 @@
         select count(*) from payment_t where p_date = #{p_date} order by p_date desc
     </select>
     
+    <select id="getTotalPay" parameterType="Map" resultMap="map1"> 
+        select * from payment_t where p_date between #{beforedate} and #{enddate} order by p_date desc
+    </select> 
+
     <insert id="add" parameterType="com.ict.project.vo.PaymentDTO">
         INSERT INTO payment_t(p_id, p_date, tr_idx, tb_idx)
 			values(#{p_id}, #{p_date}, #{tr_idx}, #{tb_idx})

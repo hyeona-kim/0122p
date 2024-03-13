@@ -9,6 +9,7 @@ public interface PaymentMapper {
     int add(PaymentDTO dto);
     List<PaymentDTO> todayPayment(String p_date, String begin, String end);
     List<PaymentDTO> paymentList(String begin, String end);
+    List<PaymentDTO> getTotalPay(String beforedate, String enddate);
     int todayCount(String p_date);
     int allCount();
 }
