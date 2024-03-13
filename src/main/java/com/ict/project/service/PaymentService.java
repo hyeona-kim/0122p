@@ -14,10 +14,10 @@ public class PaymentService {
     private PaymentMapper p_mapper;
 
     // 과정 검색하는 기능
-    public PaymentDTO[] todayPayments(String p_date) {
+    public PaymentDTO[] todayPayments(String p_date, String begin, String end) {
         PaymentDTO[] ar = null;
 
-        List<PaymentDTO> list = p_mapper.todayPayment(p_date);
+        List<PaymentDTO> list = p_mapper.todayPayment(p_date, begin, end);
         if (list != null && list.size() > 0) {
             ar = new PaymentDTO[list.size()];
             list.toArray(ar);
@@ -25,8 +25,25 @@ public class PaymentService {
 
         return ar;
     }   
-
+    
     public int add(PaymentDTO dto){
         return p_mapper.add(dto);
+    }
+    public PaymentDTO[] paymentsList(String begin, String end) {
+        PaymentDTO[] ar = null;
+        
+        List<PaymentDTO> list = p_mapper.paymentList(begin, end);
+        if (list != null && list.size() > 0) {
+            ar = new PaymentDTO[list.size()];
+            list.toArray(ar);
+        }
+        
+        return ar;
+    }   
+    public int todayCount(String p_date){
+        return p_mapper.todayCount(p_date);
+    }
+    public int allCount(){
+        return p_mapper.allCount();
     }
 }
