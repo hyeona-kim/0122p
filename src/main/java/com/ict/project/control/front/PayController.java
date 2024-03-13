@@ -12,23 +12,35 @@ import java.util.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.project.service.PaymentService;
+import com.ict.project.vo.MemberVO;
+import com.ict.project.vo.PaymentDTO;
+
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/toss")
 public class PayController {
-    
+
+    @Autowired
+    private HttpSession session;
+
+    @Autowired
+    private PaymentService p_service;
+
     @RequestMapping("/confirm")
-    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
+    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody, String tr_idx) throws Exception {
       
       JSONParser parser = new JSONParser();
       String orderId;
       String amount;
       String paymentKey;
-      String orderName;
       try {
         // 클라이언트에서 받은 JSON 요청 바디입니다.
         JSONObject requestData = (JSONObject) parser.parse(jsonBody);
@@ -70,7 +82,15 @@ public class PayController {
       Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
       JSONObject jsonObject = (JSONObject) parser.parse(reader);
       responseStream.close();
-      
+      PaymentDTO pto = new PaymentDTO();
+      pto.setP_date(jsonObject.get("requestedAt").toString().substring(0, 10));
+      String[] str = jsonObject.get("orderId").toString().split("_");
+      pto.setTb_idx(str[0]);
+      pto.setP_id(jsonObject.get("orderId").toString());
+      pto.setTr_idx(tr_idx);
+
+      p_service.add(pto);
+
       return ResponseEntity.status(code).body(jsonObject);
     }
 }

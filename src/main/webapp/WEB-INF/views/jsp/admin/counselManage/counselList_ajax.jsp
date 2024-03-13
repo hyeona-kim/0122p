@@ -92,7 +92,6 @@
 				<tr>
 					<td colspan="5">
 						<button type="button" onclick="counselListAdd('${tvo.tr_idx}', '${tvo.c_idx}')" class="btn">상담등록</button>
-						<button type="button" class="btn">인쇄</button>
 						<button type="button" id="cc_cancle" class="btn">취소</button>
 					</td>
 				</tr>
