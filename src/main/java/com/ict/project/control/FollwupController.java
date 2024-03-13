@@ -70,6 +70,8 @@ public class FollwupController {
             CourseTypeVO[] ct_ar = ct_Service.getList();
             mv.addObject("c_ar", ar);
             mv.addObject("ct_ar", ct_ar);
+         
+            
             mv.setViewName("/jsp/admin/follwup/job");
 
         } else if (listSelect.equals("2")) {
@@ -92,7 +94,18 @@ public class FollwupController {
         ModelAndView mv = new ModelAndView();
 
         CourseVO[] ar = c_Service.search_ct(c_idx, ct_idx);
+        for(int i=0; i<ar.length; i++){
+            if(ar[i].getTr_ar() == null)
+                break;
 
+            int cnt = ar[i].getWorkplus_mem();
+            for(int k=0; k<ar[i].getTr_ar().length; k++){
+                if(ar[i].getTr_ar()[k].getWp_wday() != null && ar[i].getTr_ar()[k].getWp_wday().length() >0){
+                   cnt ++;
+                }
+            }
+            ar[i].setWorkplus_mem(cnt);
+        }
         mv.addObject("ar", ar);
 
         mv.setViewName("/jsp/admin/follwup/job_ajax");
@@ -105,7 +118,18 @@ public class FollwupController {
 
         ModelAndView mv = new ModelAndView();
         CourseVO[] ar = c_Service.search_ct(c_idx, ct_idx);
+        for(int i=0; i<ar.length; i++){
+            if(ar[i].getTr_ar() == null)
+                break;
 
+            int cnt = ar[i].getWorkplus_mem();
+            for(int k=0; k<ar[i].getTr_ar().length; k++){
+                if(ar[i].getTr_ar()[k].getWp_wday() != null && ar[i].getTr_ar()[k].getWp_wday().length() >0){
+                   cnt ++;
+                }
+            }
+            ar[i].setWorkplus_mem(cnt);
+        }
         mv.addObject("ar", ar);
         mv.setViewName("/jsp/admin/follwup/jobsituation_ajax");
 

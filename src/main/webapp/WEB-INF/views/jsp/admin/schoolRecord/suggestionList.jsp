@@ -168,12 +168,13 @@
 					let today = new Date();   
 					let year = today.getFullYear(); // 년도
 					let month = today.getMonth() + 1;  // 월
+					month = Number(month)<10 ? "0"+month:month;
 					let date = today.getDate();  // 날짜
 					let cm_write_date= year + '-' + month + '-' + date;//현재날짜
 					$.ajax({
 						url:"addComm",
 						type:"post",
-						data:"cm_writer="+cm_writer+"&cm_content"+cm_content+"&qna_idx"+qna_idx+"&cm_write_date="+cm_write_date,
+						data:"cm_writer="+cm_writer+"&cm_content="+cm_content+"&qna_idx="+qna_idx+"&cm_write_date="+cm_write_date,
 						dataType:"json"
 					}).done(function(res){
 						if(res.cnt == 1){

@@ -185,7 +185,7 @@
 	<select id="commList" resultType="com.ict.project.vo.CommVO" parameterType="String">
 		select * from comm_t where qna_idx = #{qna_idx} and status = 0
 	</select>
-	<insert id="addcomm">
+	<insert id="addcomm" parameterType="com.ict.project.vo.CommVO">
         insert into comm_t( cm_writer, cm_content, cm_write_date, qna_idx, status) 
         values( #{cm_writer}, #{cm_content}, #{cm_write_date}, #{qna_idx}, 0)
     </insert>
@@ -201,10 +201,7 @@
 		where qna_idx = #{qna_idx}
 	</select>
 	<!-- 댓글 저장 -->
-	<insert id="addComm" parameterType="com.ict.project.vo.CommVO">
-		INSERT INTO comm_t(cm_writer, cm_content, cm_write_date, qna_idx, status)
-		VALUES(#{qna_writer}, #{qna_content}, NOW(), #{qna_idx}, 0)
-	</insert>
+
 	<!-- 수정 -->
 	<update id="edit" parameterType="com.ict.project.vo.QnaVO">
 		update qna_t 
