@@ -8,4 +8,6 @@ import lombok.Setter;
 public class PaymentDTO {
     
     private String p_idx, p_id, p_date, tr_idx, tb_idx;
+    private TraineeVO tvo;
+    private TrainingBookVO tbvo;
 }

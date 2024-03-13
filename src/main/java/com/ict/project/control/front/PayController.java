@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ict.project.service.PaymentService;
-import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.PaymentDTO;
 
 import jakarta.servlet.http.HttpSession;
@@ -93,4 +92,5 @@ public class PayController {
 
       return ResponseEntity.status(code).body(jsonObject);
     }
+
 }

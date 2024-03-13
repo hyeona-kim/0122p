@@ -30,14 +30,14 @@
                 <!-- 메인 컨텐츠가 들어오는 영역-->
                 <div class="right">
 					<div id="staffWrap">
-                        교재 결재 내역
-                        교재 목록 
+                        <div id="bookList" style="margin-top: 20px;">
+                            
+                        </div>
                     </div>
                 </div>
             </div> 
         </article>
     </article>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
@@ -45,7 +45,27 @@
         $(function(){
             $(".subSelect").removeClass("subSelect");
 			$("#l_five").addClass("subSelect");
+
+			// 처음 메인 페이지로 왔을때
+			// 비동기식 통신을 이용해 전체목록을 출력한다
+			$.ajax({
+				url: "bookList_ajax",
+				type: "post",
+			}).done(function(result) {
+				$("#bookList").html(result);
+			});
+
         });
+
+        function paging(cPage) {
+			$.ajax({
+				url: "bookList_ajax",
+				type: "post",
+				data: "cPage="+cPage
+			}).done(function(result){
+				$("#bookList").html(result);
+			});
+		};
     </script>
 </body>
 </html>

@@ -4,12 +4,47 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ict.project.mapper.PaymentMapper">
+    <resultMap type="com.ict.project.vo.PaymentDTO" id="map1">
+		<result column="p_idx" property="p_idx" />
+		<association property="tvo" column="tr_idx" javaType="com.ict.project.vo.TraineeVO" select="trainee"></association>
+		<association property="tbvo" column="tb_idx" javaType="com.ict.project.vo.TrainingBookVO" select="tbook"></association>
+    </resultMap>
     <select id="todayPayment" parameterType="String" resultType="com.ict.project.vo.PaymentDTO">
-        select * from payment_t where p_date = #{p_date}
+        select * 
+			from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select * from payment_t where p_date = #{p_date} order by p_date desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end} 
+    </select>
+
+    <select id="todayCount" parameterType="String" resultType="int"> 
+        select count(*) from payment_t where p_date = #{p_date} order by p_date desc
     </select>
     
     <insert id="add" parameterType="com.ict.project.vo.PaymentDTO">
         INSERT INTO payment_t(p_id, p_date, tr_idx, tb_idx)
 			values(#{p_id}, #{p_date}, #{tr_idx}, #{tb_idx})
     </insert>
+
+    <select id="trainee" parameterType="String" resultType="com.ict.project.vo.TraineeVO">
+        select * from trainee_t where tr_idx = #{tr_idx}
+    </select>
+    <select id="tbook" parameterType="String" resultType="com.ict.project.vo.TrainingBookVO">
+        select * from training_book_t where tb_idx = #{tb_idx}
+    </select>
+
+    <select id="paymentList" parameterType="String" resultMap="map1">
+        select * from 
+			(select @RN:=@RN+1 as rnum, a.* 
+			from (select * from payment_t order by p_date desc
+			)a ,(select @RN:=0) b) c 
+			where c.rnum between ${begin} and ${end}
+    </select>
+
+    <select id="allCount" resultType="int">
+        select count(*) from payment_t 
+    </select>
+
+    
 </mapper>  
