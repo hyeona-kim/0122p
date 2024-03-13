@@ -54,7 +54,6 @@
         <div class="right">
             <div class="main_item">
                 <div class="align_right">
-                    <button type="button" class="btn blue" id="print_btn">훈련일지 일괄출력</button>
                     <button type="button" class="btn" id="write_btn">훈련일지 등록</button>
                 </div>
             </div>

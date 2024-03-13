@@ -3,5 +3,4 @@
 <!DOCTYPE html>
 
 <li><a href="t_log?listSelect=1&cPage=1" id="l_one">훈련일지</a></li>
-<li><a href="t_log?listSelect=2&cPage=1" id="l_two">보강훈련일지</a></li>
 

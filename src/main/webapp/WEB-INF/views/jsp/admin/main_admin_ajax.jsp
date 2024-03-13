@@ -148,8 +148,7 @@
             <li>
                 <a href="t_log?listSelect=1&cPage=1" class="menu2">훈련일지</a>
                 <ul class="sub_manu2">
-                    <li><a href="t_log?listSelect=1&cPage=1">훈련일지</a></li>
-                    <li><a href="t_log?listSelect=2&cPage=1">보강훈련일지</a></li>                    
+                    <li><a href="t_log?listSelect=1&cPage=1">훈련일지</a></li>            
                 </ul>
             </li>
             

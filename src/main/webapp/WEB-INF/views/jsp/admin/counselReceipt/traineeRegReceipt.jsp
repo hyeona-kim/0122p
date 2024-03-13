@@ -92,7 +92,7 @@
                                 </select>
                                 <input type="text" style="width: 120px;" id="searchValue" class="text"/>
                                 <input type="button" class="btn" value="검색" id="search_btn" class="btn"/>
-                                <a href="" id="icon"><img src="${pageContext.request.contextPath }/image/doc_icon.png" alt="문서이미지"/></a>
+                                
                             </article>
                         </div>
 						<div id="select_top">

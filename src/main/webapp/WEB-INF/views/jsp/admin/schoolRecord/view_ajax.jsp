@@ -11,56 +11,18 @@
 		<col width="10%"/>
 	</colgroup>
 	<thead>
+		<!-- 문의 글 qna_title/qna_writer/qna_write_date-->
 		<tr>
-			<th>
-				제목
-			</th>
-			<td colspan="1">
-				${vo.qna_title}
-			</td>
+			<th>제목:</th>
 		</tr>
-		<tr>
-			<th>
-				작성자
-			</th>
-			<td>
-				${vo.qna_writer}
-			</td>
-		</tr>
-		<tr>
-		<th>
-			작성일
-		</th>
-		<td>
-			${vo.qna_write_date}
-		</td>
-	</tr>
 	</thead>
 </table>
-<div class="main_item">
-	<textarea rows="20" cols="150" readonly class="textarea">
-		${vo.qna_content}
-	</textarea>
-</div>
 <table id="t1">
-	<tbody>
-		<!--답변 반복문처리-->
-		<c:forEach items="${cvo}" varStatus="vs" var="cvo">
-			<tr>
-				<td>${vs.index+1}</td>
-				<th>작성자</th>
-				<td>${cvo.cm_writer}</td>
-				<th>내용</th>
-				<td>${cvo.cm_content}</td>
-			</tr>
-		</c:forEach>                                                                                                                                                                                                                                                                                                                                                                                                                              
-	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="3">
 				<button onclick="javascript:location.href='suggestionList'" class="btn">목록</button>
 				<button onclick="reply('${vo.qna_idx}')" class="btn">답변</button>
-				<button class="btn red">삭제</button>
 			</td>
 		</tr>
 	</tfoot>

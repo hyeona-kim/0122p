@@ -75,7 +75,6 @@
                                 <input type="hidden" name="tr_idx" value="${vo7.tr_idx}">
                             
                             <input type="button" id="fset" onclick="mange('${vo7.tr_idx}','${aa.c_idx}')" value="사후관리" class="btn">
-                            <input type="button" id="fset2" value="사후취업지원" class="btn">
                             
                             </td>
                         </tr>

@@ -64,8 +64,7 @@
                 </a>
                 <ul class="sub_manu">
                     <li>훈련일지</li>
-                    <li><a href="t_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;훈련일지</a></li>
-                    <li><a href="t_log?listSelect=2&cPage=1">&nbsp;&nbsp;&nbsp;보강훈련일지</a></li>                    
+                    <li><a href="t_log?listSelect=1&cPage=1">&nbsp;&nbsp;&nbsp;훈련일지</a></li>                   
                 </ul>
             </li>
             <li>
