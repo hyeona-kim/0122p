@@ -1,19 +1,23 @@
 package com.ict.project.control.front;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -24,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -44,6 +49,11 @@ import com.ict.project.vo.SuggestionVO;
 import jakarta.servlet.http.HttpServletRequest;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
+
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpSession;
 
 import com.ict.project.vo.AskcounselingVO;
@@ -64,6 +74,8 @@ public class TestController {
     private HttpServletRequest request;
     @Autowired
     private SuggestionService s_Service;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("/login")
     public Map<String, Object> test(String m_id, String m_pw) {
@@ -556,5 +568,18 @@ public class TestController {
         return map;
 
     }
+
+
+    @RequestMapping("/buyBook")
+    public Map<String, Object> buyBookList(String td_idx) {
+        Map<String, Object> map = new HashMap<>();
+        TrainingBookVO[] ar = t_Service.trBookList(td_idx);
+        map.put("ar", ar);
+        return map;
+    }
+
+    
+    
+  
 
 }
