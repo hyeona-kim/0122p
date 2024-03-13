@@ -487,7 +487,6 @@ public class TestController {
         map.put("ar", ar);
 
         return map;
-
     }
 
     @RequestMapping("/mySubject")
@@ -697,30 +696,6 @@ public class TestController {
         map.put("res", cnt);
         System.out.println(cnt);
         return map;
-    }
-
-    @RequestMapping("/qna/comm")
-    public Map<String, Object> comm(CommVO vo) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        int cnt = t_Service.addComm(vo);
-        map.put("res", cnt);
-
-        return map;
-    }
-
-    @RequestMapping("/qna/commList")
-    public Map<String, Object> commList(String qna_idx) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        CommVO[] ar = t_Service.cList(qna_idx);
-
-        map.put("ar", ar);
-
-        return map;
-
     }
 
 
