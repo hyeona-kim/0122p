@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.ict.project.vo.CourseTypeVO;
 import com.ict.project.vo.CourseVO;
+import com.ict.project.vo.EvaluationStatusVO;
 import com.ict.project.vo.MemberVO;
 import com.ict.project.vo.QnaVO;
+import com.ict.project.vo.QuestionVO;
 import com.ict.project.vo.StaffVO;
+import com.ict.project.vo.SubjectVO;
 import com.ict.project.vo.TraineeVO;
 import com.ict.project.vo.TrainingBookVO;
 import com.ict.project.vo.AskcounselingVO;
@@ -59,7 +62,6 @@ public interface TestMapper {
 
     List<QnaVO> qnaall();
     //
-
     int count(String qname);
 
     List<QnaVO> qnalist(String qname, String begin, String end);
@@ -76,4 +78,13 @@ public interface TestMapper {
 
     int del(String qna_idx);
 
+    List<SubjectVO> mySubject(String c_idx);
+
+    List<QuestionVO> myExam(String s_idx);
+
+    int countMyExam(String c_idx);
+
+    List<AskcounselingVO> myReply(String m_id);
+
+    List<AskcounselingVO> getReply(String ac_idx);
 }

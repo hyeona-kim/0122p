@@ -36,4 +36,6 @@ public interface StaffMapper {
     int editPass(String sf_idx, String sf_pwd);
 
     int editMe(String sf_idx, String sf_id, String sf_email, String sf_phone);
+
+    int editCareer(String sf_idx, String sf_career, String img_path);
 }

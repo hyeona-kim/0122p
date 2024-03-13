@@ -21,7 +21,7 @@
 						<c:set var="num" value="${page.totalRecord - (page.numPerPage*(page.nowPage-1))}"/>
 						<tr>
 							<td>${num-vs.index}</td>
-							<td align="left">${svo.qna_title}</td>
+							<td align="left"><a href="#" onclick="openSugg('${svo.qna_idx}')">${svo.qna_title}</a></td>
 							<td>${svo.qna_write_date}</td>
 							<td>${svo.qna_writer}</td>
 						</tr>

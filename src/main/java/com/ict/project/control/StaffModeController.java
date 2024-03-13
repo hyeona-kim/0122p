@@ -911,4 +911,22 @@ public class StaffModeController {
 
       return mv;
    }
+
+   // 채팅방
+   @RequestMapping("traineeList")
+   @ResponseBody
+   public Map<String, Object> traineeList(String c_idx) {
+      Map<String, Object> map = new HashMap<String, Object>();
+      TraineeVO[] ar = t_Service.getCourseTraineeList(c_idx, "0",
+            String.valueOf(t_Service.getCourseTraineeCount(c_idx)));
+      map.put("tr_ar", ar);
+
+      return map;
+   }
+
+   @RequestMapping("ffffff")
+   public String ffffff() {
+      return "/jsp/staff/chat/rooms";
+   }
+
 }
