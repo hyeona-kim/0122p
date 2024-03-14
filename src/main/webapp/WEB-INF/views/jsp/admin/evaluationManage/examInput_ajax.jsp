@@ -49,8 +49,13 @@
                     <td>${esvo.es_type}</td>  
                     <td>${esvo.es_level}</td>  
                     <td>${esvo.es_num_question}</td>  
-                    <td>${esvo.sk_idx}</td>  
-                    <td>${esvo.es_examStatus}</td>  
+                    <td>${esvo.sk_idx}</td>
+                    <c:if test="${esvo.es_examStatus eq 0}">
+                        <td>출제완료</td>  
+                    </c:if>  
+                    <c:if test="${esvo.es_examStatus eq 1}">
+                        <td>미출제</td>  
+                    </c:if>  
                     <td>
                     <c:if test="${fn:length(esvo.qt_ar) > 0}">
                         <button type="button" class="btn green" onclick="viewExam('${esvo.es_idx}')">시험지보기</button>
@@ -69,7 +74,7 @@
                        
                     </td>
                         <td>
-                            <c:if test="${esvo.es_testStatus eq 0}">
+                            <c:if test="${esvo.es_testStatus eq 0 && esvo.es_examStatus eq '출제완료'}">
                                     <button type="button" class="btn blue" onclick="">시험시작</button>
                             </c:if>
                         </td>  

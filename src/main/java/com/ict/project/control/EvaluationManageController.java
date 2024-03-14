@@ -563,7 +563,7 @@ public class EvaluationManageController {
         }
         EvaluationStatusVO esvo = new EvaluationStatusVO();
         esvo.setEs_idx(es_idx);
-        esvo.setEs_examStatus("출제완료");
+        esvo.setEs_examStatus("0");
         es_Service.edit(esvo);
         mv.setViewName("redirect:examInput?s_idx=" + s_idx);
         return mv;
@@ -665,6 +665,10 @@ public class EvaluationManageController {
         for (int i = 0; i < qt_ar.length; i++) {
             qt_Service.del(qt_ar[i].getQt_idx());
         }
+        EvaluationStatusVO esvo = new EvaluationStatusVO();
+        esvo.setEs_idx(es_idx);
+        esvo.setEs_examStatus("1");
+        es_Service.edit(esvo);
         mv.setViewName("redirect:examInput?s_idx=" + s_idx);
         return mv;
     }
