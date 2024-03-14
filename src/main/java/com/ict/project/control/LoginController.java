@@ -331,7 +331,6 @@ public class LoginController {
                 }
             }
             
-            System.out.println(ar3[0].getTbvo().getTb_price());
             map.put("inquiry", inquiry);
             map.put("consult", consult);
             map.put("bookpay", bookpay);
