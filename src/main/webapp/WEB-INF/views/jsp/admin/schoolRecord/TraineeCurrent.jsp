@@ -124,8 +124,7 @@
                             <td>${vo2.c_round_num }</td>
                             <td>${vo2.c_peo_num}</td>
                             <td>
-                            <input type="button" onclick="bt1('${vo2.c_idx}')" value="과정별 훈련생 현황" class="btn">
-                            <input type="button" value="면접평가 결과표" class="btn">
+                                <input type="button" onclick="bt1('${vo2.c_idx}')" value="과정별 훈련생 현황" class="btn">
                             </td>
                         </tr>
                     </c:forEach>
