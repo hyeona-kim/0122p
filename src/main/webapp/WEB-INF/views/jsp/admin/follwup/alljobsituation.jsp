@@ -22,7 +22,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;전체 취업생 현황</header>
+                <header>&nbsp;&nbsp;사후관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>

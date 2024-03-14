@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;사후관리현황</header>
+                <header>&nbsp;&nbsp;사후관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>
@@ -47,7 +48,7 @@
                                 <th>관리</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="data_tb">
             <form name="fff" method="post" action="cudel">
                 <input type="hidden" name="c_idx" value="${c_idx}">
                     <c:forEach var="vo7" items="${aa.tr_ar}" varStatus="vs">
@@ -101,6 +102,7 @@
         let tr_idx = "";
         let c_idx = "";
         let select ="3";
+        let length = '${fn:length(aa.tr_ar)}' 
         $(".sub_manu").mouseover(function(){
             $(this).css("display","block");
         });
@@ -114,8 +116,12 @@
             $(this).css("display","none");
         });
         $(function() {
+            if(length == 0){
+                $("#data_tb").html("<tr><td colspan='8'>등록된 훈련생이 없습니다.</td></tr>")
+            }
 			$(".subSelect").removeClass("subSelect");
 			$("#l_three").addClass("subSelect");
+            
 			let ar = $(".sts");
 			for(let k=0; k<ar.length;k++){
 				//console.log($("#nowstatus"+k).val());
@@ -163,6 +169,9 @@
             data:"tr_idx="+tr+"&c_idx="+tr1+"&ss_num="+num+"&so_idx="+so
          }).done(function(result){
             $("#m1").html(result);
+            $("#cc_cancle").click(function(){
+                $( "#m1" ).dialog("close");
+            })
          });
          
 		$( "#m1" ).dialog({

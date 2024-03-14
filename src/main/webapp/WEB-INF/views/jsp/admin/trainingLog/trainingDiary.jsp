@@ -33,7 +33,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;통합관리</header>
+                <header>&nbsp;&nbsp;훈련일지</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>

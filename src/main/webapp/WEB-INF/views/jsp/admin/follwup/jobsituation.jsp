@@ -71,7 +71,7 @@
         </article>
         <article class="center">
             <div>
-                <header>&nbsp;&nbsp;취업 현황 보고서</header>
+                <header>&nbsp;&nbsp;사후관리</header>
                 <div> 
                     <ul>
                         <jsp:include page="./leftList.jsp"></jsp:include>

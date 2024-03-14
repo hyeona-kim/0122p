@@ -498,8 +498,7 @@
     </table>
     <div class="main_item align_center">
         <input type="button" value="수정" onclick="editform(this.form)" class="btn"/>
-        <input type="button" value="인쇄" class="btn"/>
-        <input type="button" value="취소" class="btn"/>
+        <input type="button" id="cc_cancle" value="취소" class="btn"/>
         <input type="hidden" name="c_idx" value="${c_idx}">
         <input type="hidden" name="tr_idx" value="${tr_idx}">
         <input type="hidden" name="wp_idx" value="${wvo.wp_idx}">
