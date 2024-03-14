@@ -235,6 +235,7 @@
     <select id="myReply" parameterType="String" resultType="com.ict.project.vo.AskcounselingVO">
         select * from askcounseling_t
         where ac_type = 0 and m_id = #{m_id}
+        order by ac_write_date desc
     </select>
 
     <select id="myExam" parameterType="String" resultType="com.ict.project.vo.QuestionVO">
