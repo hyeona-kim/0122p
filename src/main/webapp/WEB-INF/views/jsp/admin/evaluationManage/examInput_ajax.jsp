@@ -74,7 +74,7 @@
                        
                     </td>
                         <td>
-                            <c:if test="${esvo.es_testStatus eq 0 && esvo.es_examStatus eq '출제완료'}">
+                            <c:if test="${esvo.es_testStatus eq 0 && esvo.es_examStatus eq 0}">
                                     <button type="button" class="btn blue" onclick="">시험시작</button>
                             </c:if>
                         </td>  

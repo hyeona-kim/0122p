@@ -31,7 +31,7 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article>
-                            <div id="staffList_top" class="title">과정별시간표만들기</div>
+                            <div id="staffList_top" class="title">과정별 훈련일지</div>
                             <table id="searchCourse" class="table">
                             <caption>과정검색</caption>
                                 <thead>

@@ -43,7 +43,7 @@
                 <div class="right">
                     <div id="staffWrap">
                         <article> 
-                            <div id="staffList_top" class="title">"${cvo.c_name}"과목현황</div>
+                            <div id="staffList_top" class="title">"${cvo.c_name}"채점결과</div>
                             <div id="search_area" class="main_item">
                                 <div class="align_right">
                                     <button type="button" class="btn" onclick="javascript:location.href='em_log?listSelect=1'">목록</button>
@@ -77,7 +77,7 @@
       
 	$(function() { 
         $(".subSelect").removeClass("subSelect");
-        $("#l_one").addClass("subSelect");
+        $("#l_two").addClass("subSelect");
 
        
 

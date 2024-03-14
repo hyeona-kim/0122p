@@ -82,7 +82,7 @@
         
         $(function() { 
             $(".subSelect").removeClass("subSelect");
-            $("#l_one").addClass("subSelect");
+            $("#l_two").addClass("subSelect");
             
            
             $.ajax({

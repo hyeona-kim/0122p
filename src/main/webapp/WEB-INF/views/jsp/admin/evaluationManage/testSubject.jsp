@@ -93,7 +93,7 @@
         
 	$(function() {
         $(".subSelect").removeClass("subClass");
-		$("#l_one").addClass("subSelect")
+		$("#l_two").addClass("subSelect")
         $.ajax({
 			url: "evalutationManageLog",
 			type:"post",
