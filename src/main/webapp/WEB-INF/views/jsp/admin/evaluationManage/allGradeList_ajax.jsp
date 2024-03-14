@@ -8,18 +8,20 @@
         <col width="5%"/>
         <col width="5%"/>
         <c:if test="${sb_ar ne null}">
-            <h1>${fn:length(sb_ar)}!</h1>
             <c:forEach begin="1" end="${fn:length(sb_ar)}">
                 <col width="*"/>
             </c:forEach>
         </c:if>
         <c:if test="${sb_ar eq null}">
-            <h1>null</h1><col width="*"/>
+            <col width="*"/>
         </c:if>
         <col width="5%"/>
         <col width="5%"/>
         <col width="10%"/>
     </colgroup>
+    <header>
+        <h2 style="text-align: center;">"${cvo.c_name}"과정 종합 성적표</h2>
+    </header>
     <thead>
         <tr>
             <th rowspan="3">번호</th>

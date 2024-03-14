@@ -31,22 +31,28 @@
                     <td>
                     <c:set var="v" value="0"/>
                     <c:set var="s" value="0"/>
-                    <c:forEach var="gcvo" items="${tvo.gc_ar}" varStatus="vs2">
-                        <c:if test="${gcvo.gc_answer eq NONE and v eq 0}">  <%-- 값이 하나라도 들어있지 않을 경우에는 더이상 set할 이유가 없음 --%>
-                            <c:set var="v" value="1"/>
-                            <c:if test="${gcvo.gc_status ne 0 and s eq 0}"> <%-- 하나라도 채점이 안되어 있을 경우에는 더이상 set할 이유가 없음 --%>
-                                <c:set var="s" value="1"/>
+                    <c:if test="${tvo.gc_ar ne null}">
+                        <c:forEach var="gcvo" items="${tvo.gc_ar}" varStatus="vs2">
+                            <c:if test="${gcvo.gc_answer eq NONE and v eq 0}">  <%-- 값이 하나라도 들어있지 않을 경우에는 더이상 set할 이유가 없음 --%>
+                                <c:set var="v" value="1"/>
+                                <c:if test="${gcvo.gc_status ne 0 and s eq 0}"> <%-- 하나라도 채점이 안되어 있을 경우에는 더이상 set할 이유가 없음 --%>
+                                    <c:set var="s" value="1"/>
+                                </c:if>
                             </c:if>
+                        </c:forEach>
+
+                        <c:if test="${v eq 1}">
+                            미응시
                         </c:if>
-                    </c:forEach>
-                    <c:if test="${v eq 1}">
+                        <c:if test="${v eq 0 and s eq 0}">
+                            채점완료
+                        </c:if>
+                        <c:if test="${v eq 0 and s eq 1}">
+                            미채점
+                        </c:if>
+                    </c:if>
+                    <c:if test="${tvo.gc_ar eq null}">
                         미응시
-                    </c:if>
-                    <c:if test="${v eq 0 and s eq 0}">
-                        채점완료
-                    </c:if>
-                    <c:if test="${v eq 0 and s eq 1}">
-                        미채점
                     </c:if>
                     </td>  
                     <td>
