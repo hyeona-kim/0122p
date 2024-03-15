@@ -190,7 +190,7 @@
                     <li><a href="weeklyMeeting">주간회의록</a></li>	
                     <li><a href="formDownload">서식자료실</a></li>	
                     <li><a href="calendar">일정관리</a></li>	
-                    <li><a href="bookList" >교재결재내역</a></li>	
+                    <li><a href="bookList" >교재결제내역</a></li>	
                 </ul>
             </li>
            

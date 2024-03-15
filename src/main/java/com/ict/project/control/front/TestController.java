@@ -204,6 +204,7 @@ public class TestController {
         // 원래는 얻어낸 json데이터에서 email을 가지고 DB로 가서
         // 해당 객체가 있는지 비교해야함
         // 그런데 kakao는 email을 이제는 안던져줌
+        map.put("nickname", profile_json2.getString("nickname"));
         return map;
     }
 
@@ -565,20 +566,24 @@ public class TestController {
                 map.put("mc_ar", mc_ar);
                 // 객관식 보기를 따로 배열로 저장
                 // 이 부분은 현재 미구현(다시 알아봐야함)
-                int option_cnt = 0;
-                for (int i = 0; i < mc_ar.length; i++) {
-                    String[] option_ar = new String[mc_ar[i].getQt_select().split("│").length];
-                    option_ar = mc_ar[i].getQt_select().split("│");
-                    map.put("option_ar" + i, option_ar);
-                    option_cnt++;
-                }
-                map.put("option_cnt", option_cnt);
+                // int option_cnt = 0;
+                //     for (int i = 0; i < mc_ar.length; i++) {
+                //         String[] option_ar = new String[mc_ar[i].getQt_select().split("│").length];
+                //         option_ar = mc_ar[i].getQt_select().split("│");
+                //         map.put("option_ar" + i, option_ar);
+                //         option_cnt++;
+                //     }
+                // map.put("option_cnt", option_cnt);
+            }else{
+                map.put("mc_ar", null);
             }
             // 주관식 문제의 list가 비어있지 않다면 배열로 변환
             if (!shortAnswer_list.isEmpty()) {
                 QuestionVO[] sa_ar = new QuestionVO[shortAnswer_list.size()];
                 shortAnswer_list.toArray(sa_ar);
                 map.put("sa_ar", sa_ar);
+            }else{
+                map.put("sa_ar", null);
             }
         }
         return map;

@@ -98,7 +98,6 @@
                 <button type="button" class="btn" onclick="btn1(2)">신상기록부</button> 
                 <button type="button" class="btn" onclick="btn1(3)">사후관리카드</button> 
                 <button type="button" class="btn" onclick="btn1(5)">상담관리</button> 
-                <button type="button" class="btn" onclick="btn1(6)">성적표</button> 
             </div>
         </div>
         <!-- 비밀번호 변경을 위한 div -->

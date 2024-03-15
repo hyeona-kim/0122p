@@ -116,7 +116,7 @@
                     <li><a href="weeklyMeeting">&nbsp;&nbsp;&nbsp;&nbsp;주간회의록</a></li>	
                     <li><a href="formDownload">&nbsp;&nbsp;&nbsp;&nbsp;서식자료실</a></li>		
                     <li><a href="calendar">&nbsp;&nbsp;&nbsp;&nbsp;일정관리</a></li>	
-                    <li><a href="bookList">&nbsp;&nbsp;&nbsp;&nbsp;교재결재내역</a></li>	
+                    <li><a href="bookList">&nbsp;&nbsp;&nbsp;&nbsp;교재결제내역</a></li>	
                 </ul>
             </li>
         </ul>
