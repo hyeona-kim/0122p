@@ -497,7 +497,7 @@ public class TestController {
     @RequestMapping("/answerSubmit")
     public Map<String, Object> answerSubmit(String[] mc_ar, String[] sa_ar, String tr_idx, String es_idx) {
         Map<String, Object> map = new HashMap<>();
-
+        System.out.println(tr_idx+ "/"+ es_idx);
         // 제출한 답안을 DB에 저장한다.
         // 제출을 한 수강생과 시험의 정보로 채점해야할 목록을 가져온다
         GradeCheckVO[] gc_ar = g_Service.list(es_idx, tr_idx);
