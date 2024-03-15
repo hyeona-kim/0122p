@@ -121,8 +121,8 @@
     </select>
 
     <insert id="enrollCourse" parameterType="com.ict.project.vo.TraineeVO">
-        insert into trainee_t (tr_name, tr_rrn, tr_phone, tr_addr, c_idx, tr_nowstatus)
-        values (#{tr_name}, #{tr_rrn}, #{tr_phone}, #{tr_addr}, #{c_idx}, 0)
+        insert into trainee_t (tr_name, tr_rrn, tr_phone, tr_addr, c_idx, tr_nowstatus,status)
+        values (#{tr_name}, #{tr_rrn}, #{tr_phone}, #{tr_addr}, #{c_idx}, 0,0)
     </insert>
 
     <select id="getTraineeVO" parameterType="String" resultType="com.ict.project.vo.TraineeVO">

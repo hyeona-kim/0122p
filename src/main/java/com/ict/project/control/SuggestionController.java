@@ -82,6 +82,8 @@ public class SuggestionController {
 			if(list != null && !list.isEmpty()){
 				ar = new QnaVO[list.size()];
 				list.toArray(ar);
+			}else{
+				ar = null;
 			}
 			mv.addObject("ar", ar);
 		}else{

@@ -458,7 +458,7 @@
 					lang: "ko-KR",
 					dialogsInBody: true,
 				});
-				$("#sf_career").summernote("lineHeight", 0.7);
+				$("#sf_career").summernote("lineHeight", 1.5);
 
 				$("#cc_btn").click(function(){
 					$("#addForm").dialog("close");

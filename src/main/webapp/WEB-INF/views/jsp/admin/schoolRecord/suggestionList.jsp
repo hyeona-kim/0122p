@@ -179,8 +179,10 @@
 					}).done(function(res){
 						if(res.cnt == 1){
 							alert("저장되었습니다")
+							location.reload(true);
 						}else{
 							alert("저장실패")
+							location.reload(true);
 						}
 					});
 				})
