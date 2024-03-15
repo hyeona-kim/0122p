@@ -63,7 +63,8 @@
         update gradeCheck_t
         <set>
             <trim suffixOverrides=",">
-                gc_score = ifnull((select qt_score from question_t where gradeCheck_t.gc_answer = question_t.qt_correct), 0),
+                gc_score = 
+                    IFNULL((select qt_score from question_t where gradeCheck_t.gc_answer = question_t.qt_correct),0),
                 gc_status = 1,
             </trim>
         </set>
