@@ -258,7 +258,7 @@ public class StraffController {
         if (main == null)
             return "redirect:staffList";
         else
-            return null;
+            return "redirect:clickLogo";
     }
 
     @ResponseBody

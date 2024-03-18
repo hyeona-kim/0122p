@@ -46,7 +46,7 @@
     <insert id="add" parameterType="com.ict.project.vo.EvaluationStatusVO">
         insert INTO evaluation_status (es_name, es_type, es_examStatus, es_gradingStatus, sf_idx, 
                                         es_date, es_time, es_totalScore, es_level, es_num_question, sk_idx, s_idx, es_status, es_testStatus)
-        VALUES (#{es_name}, #{es_type}, 0, #{es_gradingStatus}, #{sf_idx}, #{es_date}, 
+        VALUES (#{es_name}, #{es_type}, 1, #{es_gradingStatus}, #{sf_idx}, #{es_date}, 
         #{es_time}, #{es_totalScore}, #{es_level}, #{es_num_question}, #{sk_idx}, #{s_idx}, 0, 0)
     </insert>
 

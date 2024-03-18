@@ -29,6 +29,7 @@
 		set sf_link = 0
 		where sf_id = #{sf_id}
 	</update>
+	
 	<select id="sf_link" parameterType="String" resultType="String">
 		select sf_link from staff_t where sf_id=#{sf_id}
 	</select>
